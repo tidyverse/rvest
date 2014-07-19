@@ -35,8 +35,11 @@ parse_form <- function(form, base_url) {
   action <- attr$action
   enctype <- attr$enctype %||% "application/x-www-form-urlencoded"
 
-  inputs <- form[xpath("input")]
-  inputs <- lapply(inputs, parse_input)
+  fields <- c(
+    lapply(form[sel("input")], parse_input),
+    lapply(form[sel("select")], parse_select)
+  )
+  names(fields) <- vpluck(fields, "name")
 
   structure(
     list(
@@ -44,17 +47,16 @@ parse_form <- function(form, base_url) {
       method = method,
       action = action,
       enctype = enctype,
-      inputs = inputs
+      fields = fields
     ),
     class = "form")
 }
 
 #' @export
-print.form <- function(x, ...) {
+print.form <- function(x, indent = 0, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
 
-  inputs <- paste0("  ", vapply(x$inputs, format, character(1)), collapse = "\n")
-  cat(inputs, "\n", sep = "")
+  cat(format_list(x$fields, indent = indent + 1), "\n", sep = "")
 }
 
 #' @export
@@ -63,6 +65,20 @@ format.input <- function(x, ...) {
 }
 
 # <input>: type, name, value, checked, maxlength, id, disabled, readonly, required
+# Input types:
+# * text/email/url/search
+# * password: don't print
+# * checkbox:
+# * radio:
+# * submit:
+# * image: not supported
+# * reset: ignored (client side only)
+# * button: ignored (client side only)
+# * hidden
+# * file
+# * number/range (min, max, step)
+# * date/datetime/month/week/time
+# * (if unknown treat as text)
 parse_input <- function(input) {
   stopifnot(inherits(input, "XMLAbstractNode"), xmlName(input) == "input")
 
@@ -82,25 +98,52 @@ parse_input <- function(input) {
   )
 }
 
-# Input types:
-# * text/email/url/search
-# * password: don't print
-# * checkbox:
-# * radio:
-# * submit:
-# * image: not supported
-# * reset: ignored (client side only)
-# * button: ignored (client side only)
-# * hidden
-# * file
-# * number/range (min, max, step)
-# * date/datetime/month/week/time
-# * (if unknown treat as text)
+# <select>: name, multiple, id
+# <option>: selected, value, label
+parse_select <- function(select) {
+  stopifnot(inherits(select, "XMLAbstractNode"), xmlName(select) == "select")
+
+  attr <- as.list(XML::xmlAttrs(select))
+  options <- parse_options(select[sel("option")])
+
+  structure(
+    list(
+      name = attr$name,
+      value = options$value,
+      options = options$options
+    ),
+    class = "select"
+  )
+}
+
+#' @export
+format.select <- function(x, ...) {
+  paste0("<select> '", x$name, "' [", length(x$value), "/", length(x$options), "]")
+}
+
+parse_options <- function(options) {
+  parse_option <- function(option) {
+    attr <- as.list(xmlAttrs(option))
+    list(
+      value = attr$value,
+      name = xmlValue(option),
+      selected = !is.null(attr$selected)
+    )
+  }
+
+  parsed <- lapply(options, parse_option)
+  value <- vpluck(parsed, "value", character(1))
+  name <- vpluck(parsed, "name", character(1))
+  selected <- vpluck(parsed, "selected", logical(1))
+
+  list(
+    value = value[selected],
+    options = setNames(value, name)
+  )
+}
 
 # *
 # <button>: ignored (client side only)
-# <select>: name, multiple, id
-# <option>: selected, value, label
 # <textarea>: name, id, value (contents, not property)
 # <label>: currently ignored? (but eventually should modify)
 
