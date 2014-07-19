@@ -36,8 +36,8 @@ parse_form <- function(form, base_url) {
   enctype <- attr$enctype %||% "application/x-www-form-urlencoded"
 
   fields <- c(
-    lapply(form[sel("input")], parse_input),
-    lapply(form[sel("select")], parse_select)
+    parse_form_inputs(form),
+    parse_form_selects(form)
   )
   names(fields) <- vpluck(fields, "name")
 
@@ -79,9 +79,13 @@ format.input <- function(x, ...) {
 # * number/range (min, max, step)
 # * date/datetime/month/week/time
 # * (if unknown treat as text)
+parse_form_inputs <- function(form) {
+  inputs <- form[sel("input")]
+  lapply(inputs, parse_input)
+}
+
 parse_input <- function(input) {
   stopifnot(inherits(input, "XMLAbstractNode"), xmlName(input) == "input")
-
   attr <- as.list(XML::xmlAttrs(input))
 
   structure(
@@ -100,6 +104,12 @@ parse_input <- function(input) {
 
 # <select>: name, multiple, id
 # <option>: selected, value, label
+
+parse_form_selects <- function(form) {
+  select <- form[sel("select")]
+  lapply(select, parse_select)
+}
+
 parse_select <- function(select) {
   stopifnot(inherits(select, "XMLAbstractNode"), xmlName(select) == "select")
 
@@ -142,8 +152,6 @@ parse_options <- function(options) {
   )
 }
 
-# *
-# <button>: ignored (client side only)
 # <textarea>: name, id, value (contents, not property)
 # <label>: currently ignored? (but eventually should modify)
 
