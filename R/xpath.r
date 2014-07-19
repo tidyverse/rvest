@@ -1,4 +1,3 @@
-
 #' Xpath & css selector helpers
 #'
 #' @examples
@@ -29,7 +28,7 @@ sel <- function(x) structure(x, class = "sel")
 #' @export
 `[.XMLInternalElementNode` <- function(x, i, ...) {
   if (inherits(i, "sel")) {
-    i <- xpath(selectr::css_to_xpath(i))
+    i <- selectr::css_to_xpath(i)
     XML::getNodeSet(x, i)
   } else if (inherits(i, "xpath")) {
     XML::getNodeSet(x, i)
@@ -37,7 +36,6 @@ sel <- function(x) structure(x, class = "sel")
     NextMethod()
   }
 }
-
 
 #' @export
 `[.XMLNodeSet` <- function(x, i, ...) {
