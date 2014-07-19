@@ -38,12 +38,7 @@ parse_form <- function(form, base_url) {
   action <- attr$action
   enctype <- attr$enctype %||% "application/x-www-form-urlencoded"
 
-  fields <- c(
-    parse_form_inputs(form),
-    parse_form_selects(form),
-    parse_form_textareas(form)
-  )
-  names(fields) <- vpluck(fields, "name")
+  fields <- parse_fields(form)
 
   structure(
     list(
@@ -59,13 +54,32 @@ parse_form <- function(form, base_url) {
 #' @export
 print.form <- function(x, indent = 0, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
-
-  cat(format_list(x$fields, indent = indent + 1), "\n", sep = "")
+  print(x$fields, indent = indent + 1)
 }
 
 #' @export
 format.input <- function(x, ...) {
   paste0("<input ", x$type, "> '", x$name, "': ", x$value)
+}
+
+parse_fields <- function(form) {
+  raw <- form[sel("input, select, textarea")]
+
+  fields <- lapply(raw, function(x) {
+    switch(xmlName(x),
+      textarea = parse_textarea(x),
+      input = parse_input(x),
+      select = parse_select(x)
+    )
+  })
+  names(fields) <- vpluck(fields, "name")
+  class(fields) <- "fields"
+  fields
+}
+
+#' @export
+print.fields <- function(x, ..., indent = 0) {
+  cat(format_list(x, indent = indent), "\n", sep = "")
 }
 
 # <input>: type, name, value, checked, maxlength, id, disabled, readonly, required
@@ -83,11 +97,6 @@ format.input <- function(x, ...) {
 # * number/range (min, max, step)
 # * date/datetime/month/week/time
 # * (if unknown treat as text)
-parse_form_inputs <- function(form) {
-  inputs <- form[sel("input")]
-  lapply(inputs, parse_input)
-}
-
 parse_input <- function(input) {
   stopifnot(inherits(input, "XMLAbstractNode"), xmlName(input) == "input")
   attr <- as.list(XML::xmlAttrs(input))
@@ -104,14 +113,6 @@ parse_input <- function(input) {
     ),
     class = "input"
   )
-}
-
-# <select>: name, multiple, id
-# <option>: selected, value, label
-
-parse_form_selects <- function(form) {
-  select <- form[sel("select")]
-  lapply(select, parse_select)
 }
 
 parse_select <- function(select) {
@@ -156,14 +157,6 @@ parse_options <- function(options) {
   )
 }
 
-# <textarea>: name, value (contents, not property)
-# <label>: currently ignored? (but eventually should modify)
-
-parse_form_textareas <- function(form) {
-  select <- form[sel("textarea")]
-  lapply(select, parse_textarea)
-}
-
 parse_textarea <- function(textarea) {
   attr <- as.list(xmlAttrs(textarea))
 
@@ -180,7 +173,6 @@ parse_textarea <- function(textarea) {
 format.textarea <- function(x, ...) {
   paste0("<textarea> '", x$name, "' [", nchar(x$value), " char]")
 }
-
 
 submit_form <- function(form) {
   if (!(method %in% c("POST", "GET"))) {
