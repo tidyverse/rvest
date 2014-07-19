@@ -1,12 +1,26 @@
 #' @examples
 #' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
-#' forms <- parse_forms(url)
-parse_forms <- function(url, ...) {
-  r <- httr::GET(url, ...)
-  httr::stop_for_status(r)
+#' html <- content(GET(url), "parsed")
+#' forms <- parse_forms(html)
+parse_forms <- function(src, ...) UseMethod("parse_forms")
 
-  forms <- html[sel("form")]
+#' @export
+parse_forms.XMLAbstractDocument <- function(src, ...) {
+  forms <- src[sel("form")]
   lapply(forms, parse_form, base_url = r$url)
+}
+
+#' @export
+parse_forms.character <- function(src, ...) {
+  if (grepl(src, "<|>")) {
+    html <- XML::htmlParse(src, ...)
+  } else {
+    r <- httr::GET(src, ...)
+    httr::stop_for_status(r)
+    html <- httr::content(r, "parsed")
+  }
+
+  parse_forms(html)
 }
 
 # http://www.w3.org/TR/html401/interact/forms.html
@@ -21,12 +35,16 @@ parse_form <- function(form, base_url) {
   action <- attr$action
   enctype <- attr$enctype %||% "application/x-www-form-urlencoded"
 
+  inputs <- form[xpath("input")]
+  inputs <- lapply(inputs, parse_input)
+
   structure(
     list(
       name = name,
       method = method,
       action = action,
-      enctype = enctype
+      enctype = enctype,
+      inputs = inputs
     ),
     class = "form")
 }
@@ -34,11 +52,36 @@ parse_form <- function(form, base_url) {
 #' @export
 print.form <- function(x, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
+
+  inputs <- paste0("  ", vapply(x$inputs, format, character(1)), collapse = "\n")
+  cat(inputs, "\n", sep = "")
 }
 
-
+#' @export
+format.input <- function(x, ...) {
+  paste0("<input ", x$type, "> '", x$name, "': ", x$value)
+}
 
 # <input>: type, name, value, checked, maxlength, id, disabled, readonly, required
+parse_input <- function(input) {
+  stopifnot(inherits(input, "XMLAbstractNode"), xmlName(input) == "input")
+
+  attr <- as.list(XML::xmlAttrs(input))
+
+  structure(
+    list(
+      name = attr$name,
+      type = attr$type %||% "text",
+      value = attr$value,
+      checked = attr$checked,
+      disabled = attr$disabled,
+      readonly = attr$readonly,
+      required = attr$required %||% FALSE
+    ),
+    class = "input"
+  )
+}
+
 # Input types:
 # * text/email/url/search
 # * password: don't print
