@@ -12,20 +12,38 @@ xpath <- function(x) structure(x, class = "xpath")
 
 #' @rdname xpath
 #' @export
-sel <- function(x) xpath(selectr::css_to_xpath(x, prefix = "//"))
+sel <- function(x) structure(x, class = "sel")
 
 #' @export
-"[.HTMLInternalDocument" <- function(x, i, ...) {
-  if (!inherits(i, "xpath")) NextMethod()
-
-  XML::xpathApply(x, i)
+`[.HTMLInternalDocument` <- function(x, i, ...) {
+  if (inherits(i, "sel")) {
+    i <- selectr::css_to_xpath(i, prefix = "//")
+    XML::getNodeSet(x, i)
+  } else if (inherits(i, "xpath")) {
+    XML::getNodeSet(x, i)
+  } else {
+    NextMethod()
+  }
 }
 
 #' @export
-"[.XMLNodeSet" <- function(x, i, ...) {
+`[.XMLInternalElementNode` <- function(x, i, ...) {
+  if (inherits(i, "sel")) {
+    i <- xpath(selectr::css_to_xpath(i))
+    XML::getNodeSet(x, i)
+  } else if (inherits(i, "xpath")) {
+    XML::getNodeSet(x, i)
+  } else {
+    NextMethod()
+  }
+}
+
+
+#' @export
+`[.XMLNodeSet` <- function(x, i, ...) {
   if (!inherits(i, "xpath")) NextMethod()
 
-  l <- unlist(lapply(x, XML::xpathApply, path = i), recursive = FALSE)
+  l <- unlist(lapply(x, XML::getNodeSet, path = i), recursive = FALSE)
   class(l) <- "XMLNodeSet"
   l
 }
