@@ -26,3 +26,13 @@ test_that("css class selects from current value", {
   b <- p[sel("b")]
   expect_equal(length(b), 2)
 })
+
+test_that("css selects don't select themselves", {
+  p <- test[sel("p")][sel("p")]
+  expect_equal(length(p), 0)
+
+  p <- test[sel("p")][[1]][sel("p")]
+  expect_equal(length(p), 0)
+})
+
+

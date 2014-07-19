@@ -3,11 +3,12 @@ Title: What the package does (short line)
 Version: 0.1
 Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
 Description: What the package does (paragraph)
-Depends: 
+Depends:
     R (>= 3.1.0),
     httr,
     XML,
     selectr
 License: GPL-3
 LazyData: true
-Suggests: testthat
+Suggests:
+    testthat

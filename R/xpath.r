@@ -7,42 +7,47 @@
 #' html[sel("center font")]
 #' html[sel("center font b")]
 #' @export
-xpath <- function(x) structure(x, class = "xpath")
+xpath <- function(x) structure(x, class = c("xpath_selector", "selector"))
 
 #' @rdname xpath
 #' @export
-sel <- function(x) structure(x, class = "sel")
+sel <- function(x) structure(x, class = c("css_selector", "selector"))
+
+#' @export
+print.selector <- function(x, ...) {
+  cat("<", class(x)[1], "> ", x, "\n", sep = "")
+}
 
 #' @export
 `[.HTMLInternalDocument` <- function(x, i, ...) {
-  if (inherits(i, "sel")) {
+  if (!inherits(i, "selector")) NextMethod()
+
+  if (inherits(i, "css_selector")) {
     i <- selectr::css_to_xpath(i, prefix = "//")
-    XML::getNodeSet(x, i)
-  } else if (inherits(i, "xpath")) {
-    XML::getNodeSet(x, i)
-  } else {
-    NextMethod()
   }
+  XML::getNodeSet(x, i)
 }
 
 #' @export
 `[.XMLInternalElementNode` <- function(x, i, ...) {
-  if (inherits(i, "sel")) {
-    i <- selectr::css_to_xpath(i)
-    XML::getNodeSet(x, i)
-  } else if (inherits(i, "xpath")) {
-    XML::getNodeSet(x, i)
-  } else {
-    NextMethod()
+  if (!inherits(i, "selector")) NextMethod()
+
+  if (inherits(i, "css_selector")) {
+    i <- selectr::css_to_xpath(i, prefix = "")
   }
+  XML::getNodeSet(x, i)
 }
 
 #' @export
 `[.XMLNodeSet` <- function(x, i, ...) {
-  if (!inherits(i, "xpath")) NextMethod()
+  if (!inherits(i, "selector")) NextMethod()
 
-  l <- unlist(lapply(x, XML::getNodeSet, path = i), recursive = FALSE)
-  class(l) <- "XMLNodeSet"
-  l
+  if (inherits(i, "css_selector")) {
+    i <- selectr::css_to_xpath(i, prefix = "")
+  }
+
+  nodes <- unlist(lapply(x, XML::getNodeSet, path = i), recursive = FALSE)
+  class(nodes) <- "XMLNodeSet"
+  nodes
 }
 
