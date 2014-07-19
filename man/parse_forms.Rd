@@ -8,5 +8,8 @@ parse_forms(src, ...)
 url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
 html <- content(GET(url), "parsed")
 forms <- parse_forms(html)
+
+parse_forms("https://hadley.wufoo.com/forms/libraryrequire-quiz/")
+parse_forms("https://hadley.wufoo.com/forms/r-journal-submission/")
 }
 

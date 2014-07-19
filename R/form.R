@@ -2,6 +2,9 @@
 #' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
 #' html <- content(GET(url), "parsed")
 #' forms <- parse_forms(html)
+#'
+#' parse_forms("https://hadley.wufoo.com/forms/libraryrequire-quiz/")
+#' parse_forms("https://hadley.wufoo.com/forms/r-journal-submission/")
 parse_forms <- function(src, ...) UseMethod("parse_forms")
 
 #' @export
@@ -37,7 +40,8 @@ parse_form <- function(form, base_url) {
 
   fields <- c(
     parse_form_inputs(form),
-    parse_form_selects(form)
+    parse_form_selects(form),
+    parse_form_textareas(form)
   )
   names(fields) <- vpluck(fields, "name")
 
@@ -152,8 +156,30 @@ parse_options <- function(options) {
   )
 }
 
-# <textarea>: name, id, value (contents, not property)
+# <textarea>: name, value (contents, not property)
 # <label>: currently ignored? (but eventually should modify)
+
+parse_form_textareas <- function(form) {
+  select <- form[sel("textarea")]
+  lapply(select, parse_textarea)
+}
+
+parse_textarea <- function(textarea) {
+  attr <- as.list(xmlAttrs(textarea))
+
+  structure(
+    list(
+      name = attr$name,
+      value = xmlValue(textarea)
+    ),
+    class = "textarea"
+  )
+}
+
+#' @export
+format.textarea <- function(x, ...) {
+  paste0("<textarea> '", x$name, "' [", nchar(x$value), " char]")
+}
 
 
 submit_form <- function(form) {
