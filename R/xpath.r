@@ -33,7 +33,7 @@ print.selector <- function(x, ...) {
   if (!inherits(i, "selector")) NextMethod()
 
   if (inherits(i, "css_selector")) {
-    i <- selectr::css_to_xpath(i, prefix = "")
+    i <- selectr::css_to_xpath(i, prefix = "descendant::")
   }
   XML::getNodeSet(x, i)
 }
@@ -43,7 +43,7 @@ print.selector <- function(x, ...) {
   if (!inherits(i, "selector")) NextMethod()
 
   if (inherits(i, "css_selector")) {
-    i <- selectr::css_to_xpath(i, prefix = "")
+    i <- selectr::css_to_xpath(i, prefix = "descendant::")
   }
 
   nodes <- unlist(lapply(x, XML::getNodeSet, path = i), recursive = FALSE)

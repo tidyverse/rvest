@@ -35,4 +35,9 @@ test_that("css selects don't select themselves", {
   expect_equal(length(p), 0)
 })
 
+test_that("css selects find all children", {
+  b <- test[sel("body")][sel("b")]
+  expect_equal(length(b), 3)
+})
+
 
