@@ -8,13 +8,13 @@
 parse_forms <- function(src, ...) UseMethod("parse_forms")
 
 #' @export
-parse_forms.XMLAbstractDocument <- function(src, ...) {
+parse_forms.XMLAbstractDocument <- function(src, base_url, ...) {
   forms <- src[sel("form")]
-  lapply(forms, parse_form, base_url = r$url)
+  lapply(forms, parse_form, base_url = base_url)
 }
 
 #' @export
-parse_forms.character <- function(src, ...) {
+parse_forms.character <- function(src, base_url, ...) {
   if (grepl(src, "<|>")) {
     html <- XML::htmlParse(src, ...)
   } else {
@@ -23,7 +23,7 @@ parse_forms.character <- function(src, ...) {
     html <- httr::content(r, "parsed")
   }
 
-  parse_forms(html)
+  parse_forms(html, base_url = r$url)
 }
 
 # http://www.w3.org/TR/html401/interact/forms.html
@@ -35,8 +35,9 @@ parse_form <- function(form, base_url) {
   attr <- as.list(XML::xmlAttrs(form))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
   method <- toupper(attr$method) %||% "GET"
-  action <- attr$action
-  enctype <- attr$enctype %||% "application/x-www-form-urlencoded"
+  enctype <- convert_enctype(attr$enctype)
+
+  url <- XML::getRelativeURL(attr$action, base_url)
 
   fields <- parse_fields(form)
 
@@ -44,16 +45,26 @@ parse_form <- function(form, base_url) {
     list(
       name = name,
       method = method,
-      action = action,
+      url = url,
       enctype = enctype,
       fields = fields
     ),
     class = "form")
 }
 
+convert_enctype <- function(x) {
+  if (is.null(x)) return("form")
+  if (x == "application/x-www-form-urlencoded") return("form")
+  if (x == "multipart/form-data") return("multipart")
+
+  warning("Unknown enctype (", x, "). Defaulting to form encoded.",
+    call. = FALSE)
+  "form"
+}
+
 #' @export
 print.form <- function(x, indent = 0, ...) {
-  cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
+  cat("<form> '", x$name, "' (", x$method, " ", x$url, ")\n", sep = "")
   print(x$fields, indent = indent + 1)
 }
 
@@ -197,7 +208,7 @@ set_values <- function(form, ...) {
   }
 
   for(field in names(new_values)) {
-    type <- form$fields[[field]]$type
+    type <- form$fields[[field]]$type %||% "non-input"
     if (type == "hidden") {
       warning("Setting value of hidden field '", field, "'.", call. = FALSE)
     } else if (type == "submit") {
@@ -211,12 +222,82 @@ set_values <- function(form, ...) {
 
 }
 
-submit_form <- function(form) {
+#' Submit a form back to the server.
+#'
+#' @param form Form to submit
+#' @param submit Name of submit button to use. If not supplied, defaults to
+#'   first submission button on the form (with a message).
+#' @return If successful, the parsed html response. Throws an error if http
+#'   request fails. To access other elements of response, construct it yourself
+#'   using the elements returned by \code{submit_request}.
+#' @export
+#' @examples
+#' url <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
+#' f0 <- parse_forms(url)[[1]]
+#' f1 <- set_values(f0, entry.564397473 = "abc")
+#' r <- submit_form(f1)
+#' r[sel(".ss-resp-message")]
+submit_form <- function(form, submit = NULL) {
+  request <- submit_request(form, submit)
+
+  # Make request
+  if (request$method == "GET") {
+    r <- GET(request$url, params = request$values)
+  } else if (request$method == "POST") {
+    r <- POST(request$url, body = request$values, encode = request$encode)
+  } else {
+    stop("Unknown method: ", request$method, call. = FALSE)
+  }
+
+  stop_for_status(r)
+  content(r, "parsed")
+}
+
+submit_request <- function(form, submit = NULL) {
+  submits <- Filter(function(x) identical(x$type, "submit"), form$fields)
+  if (is.null(submit)) {
+    submit <- names(submits)[[1]]
+    message("Submitting with '", submit, "'")
+  }
+  if (!(submit %in% names(submits))) {
+    stop(
+      "Unknown submission name '", submit, "'.\n",
+      "Possible values: ", paste0(names(submits), collapse = ", "),
+      call. = FALSE
+    )
+  }
+  other_submits <- setdiff(names(submits), submit)
+
+  # Parameters needed for http request -----------------------------------------
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
     warning("Invalid method (", method, "), defaulting to GET", call. = FALSE)
     method <- "GET"
   }
-  method <- getExportedValue("httr", method)
 
+  url <- form$url
+
+  fields <- form$fields
+  fields <- Filter(function(x) !is.null(x$value), fields)
+  fields <- fields[setdiff(names(fields), other_submits)]
+
+  values <- vpluck(fields, "value")
+  names(values) <- names(fields)
+
+  list(
+    method = method,
+    encode = form$encode,
+    url = url,
+    values = values
+  )
+}
+
+#' Make link to google form given id
+#'
+#' @param x Unique identifier for form
+#' @export
+#' @examples
+#' google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
+google_form <- function(x) {
+  paste0("https://docs.google.com/forms/d/", x, "/viewform")
 }
