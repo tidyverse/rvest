@@ -174,9 +174,49 @@ format.textarea <- function(x, ...) {
   paste0("<textarea> '", x$name, "' [", nchar(x$value), " char]")
 }
 
+
+#' Set values in a form.
+#'
+#' @param form Form to modify
+#' @param ... Name-value pairs giving fields to modify
+#' @return An updated form object
+#' @export
+#' @examples
+#' search <- parse_forms("https://www.google.com")[[1]]
+#' set_values(search, q = "My little pony")
+#' set_values(search, hl = "fr")
+#' set_values(search, btnI = "blah")
+set_values <- function(form, ...) {
+  new_values <- list(...)
+
+  # check for valid names
+  no_match <- setdiff(names(new_values), names(form$fields))
+  if (length(no_match) > 0) {
+    stop("Unknown field names: ", paste(no_match, collapse = ", "),
+      call. = FALSE)
+  }
+
+  for(field in names(new_values)) {
+    type <- form$fields[[field]]$type
+    if (type == "hidden") {
+      warning("Setting value of hidden field '", field, "'.", call. = FALSE)
+    } else if (type == "submit") {
+      stop("Can't change value of submit input '", field, "'.", call. = FALSE)
+    }
+
+    form$fields[[field]]$value <- new_values[[field]]
+  }
+
+  form
+
+}
+
 submit_form <- function(form) {
+  method <- form$method
   if (!(method %in% c("POST", "GET"))) {
     warning("Invalid method (", method, "), defaulting to GET", call. = FALSE)
     method <- "GET"
   }
+  method <- getExportedValue("httr", method)
+
 }
