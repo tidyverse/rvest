@@ -20,6 +20,9 @@
 #' html[sel("center")][sel("font")]
 #' html[sel("table")][[1]][sel("img")]
 #'
+#' # Find all images contained in the first two tables
+#' html[sel("table")][1:2][sel("img")]
+#'
 #' # XPath selectors ---------------------------------------------
 #' # chaining with XPath is a little trickier - you may need to vary
 #' # the prefix you're using - // always selects from the root noot
@@ -40,7 +43,7 @@ print.selector <- function(x, ...) {
 
 #' @export
 `[.HTMLInternalDocument` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) NextMethod()
+  if (!inherits(i, "selector")) return(NextMethod())
 
   if (inherits(i, "css_selector")) {
     i <- selectr::css_to_xpath(i, prefix = "//")
@@ -50,7 +53,7 @@ print.selector <- function(x, ...) {
 
 #' @export
 `[.XMLInternalElementNode` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) NextMethod()
+  if (!inherits(i, "selector")) return(NextMethod())
 
   if (inherits(i, "css_selector")) {
     i <- selectr::css_to_xpath(i, prefix = "descendant::")
@@ -60,7 +63,9 @@ print.selector <- function(x, ...) {
 
 #' @export
 `[.XMLNodeSet` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) NextMethod()
+  if (!inherits(i, "selector")) {
+    return(structure(NextMethod(), class = "XMLNodeSet"))
+  }
 
   if (inherits(i, "css_selector")) {
     i <- selectr::css_to_xpath(i, prefix = "descendant::")
