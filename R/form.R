@@ -1,3 +1,5 @@
+#' Parse forms in a page.
+#'
 #' @examples
 #' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
 #' html <- content(GET(url), "parsed")
