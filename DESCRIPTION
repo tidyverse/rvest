@@ -1,4 +1,4 @@
-Package: scrape
+Package: rvest
 Title: What the package does (short line)
 Version: 0.1
 Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
