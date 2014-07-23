@@ -27,7 +27,7 @@
 #' # chaining with XPath is a little trickier - you may need to vary
 #' # the prefix you're using - // always selects from the root noot
 #' # regardless of where you currently are in the doc
-#' boxoffice <- html[sel("center font b")]
+#' boxoffice <- html[xpath("//center//font//b")]
 #' boxoffice[xpath("//b")]
 #' @export
 xpath <- function(x) structure(x, class = c("xpath_selector", "selector"))

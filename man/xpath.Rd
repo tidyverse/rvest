@@ -38,7 +38,7 @@ html[sel("table")][1:2][sel("img")]
 # chaining with XPath is a little trickier - you may need to vary
 # the prefix you're using - // always selects from the root noot
 # regardless of where you currently are in the doc
-boxoffice <- html[sel("center font b")]
+boxoffice <- html[xpath("//center//font//b")]
 boxoffice[xpath("//b")]
 }
 
