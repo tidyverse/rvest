@@ -5,6 +5,13 @@
 \usage{
 parse_forms(src, ...)
 }
+\arguments{
+\item{src}{A string containing xml, a url or a parsed XML document.
+If parsed XML document, also provide the \code{base_url} so relative
+actions can be correctly constructed.}
+
+\item{...}{Other arguments used by methods.}
+}
 \description{
 Parse forms in a page.
 }

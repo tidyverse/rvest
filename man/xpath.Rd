@@ -2,14 +2,17 @@
 \name{xpath}
 \alias{sel}
 \alias{xpath}
-\title{Xpath & css selector helpers}
+\title{XPath & css selector helpers}
 \usage{
 xpath(x)
 
 sel(x)
 }
+\arguments{
+\item{x}{XPath or css selector.}
+}
 \description{
-Xpath & css selector helpers
+XPath & css selector helpers
 }
 \examples{
 library(httr)

@@ -1,6 +1,10 @@
 #' Parse forms in a page.
 #'
 #' @export
+#' @param src A string containing xml, a url or a parsed XML document.
+#'   If parsed XML document, also provide the \code{base_url} so relative
+#'   actions can be correctly constructed.
+#' @param ... Other arguments used by methods.
 #' @examples
 #' parse_forms("https://hadley.wufoo.com/forms/libraryrequire-quiz/")
 #' parse_forms("https://hadley.wufoo.com/forms/r-journal-submission/")

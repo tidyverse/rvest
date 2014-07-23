@@ -1,5 +1,6 @@
-#' Xpath & css selector helpers
+#' XPath & css selector helpers
 #'
+#' @param x XPath or css selector.
 #' @examples
 #' library(httr)
 #' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm"
