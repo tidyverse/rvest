@@ -12,6 +12,7 @@ sel(x)
 Xpath & css selector helpers
 }
 \examples{
+library(httr)
 url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm"
 html <- content(GET(url), "parsed")
 html[sel("center")]

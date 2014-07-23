@@ -1,12 +1,14 @@
 #' Parse forms in a page.
 #'
+#' @export
 #' @examples
-#' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
-#' html <- content(GET(url), "parsed")
-#' forms <- parse_forms(html)
-#'
 #' parse_forms("https://hadley.wufoo.com/forms/libraryrequire-quiz/")
 #' parse_forms("https://hadley.wufoo.com/forms/r-journal-submission/")
+#'
+#' library(httr)
+#' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
+#' html <- content(GET(url), "parsed")
+#' forms <- parse_forms(html, base_ur = url)
 parse_forms <- function(src, ...) UseMethod("parse_forms")
 
 #' @export
@@ -32,7 +34,7 @@ parse_forms.character <- function(src, base_url, ...) {
 #
 # <form>: action (url), type (GET/POST), enctype (form/multipart), id
 parse_form <- function(form, base_url) {
-  stopifnot(inherits(form, "XMLAbstractNode"), xmlName(form) == "form")
+  stopifnot(inherits(form, "XMLAbstractNode"), XML::xmlName(form) == "form")
 
   attr <- as.list(XML::xmlAttrs(form))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
@@ -79,7 +81,7 @@ parse_fields <- function(form) {
   raw <- form[sel("input, select, textarea")]
 
   fields <- lapply(raw, function(x) {
-    switch(xmlName(x),
+    switch(XML::xmlName(x),
       textarea = parse_textarea(x),
       input = parse_input(x),
       select = parse_select(x)
@@ -111,7 +113,7 @@ print.fields <- function(x, ..., indent = 0) {
 # * date/datetime/month/week/time
 # * (if unknown treat as text)
 parse_input <- function(input) {
-  stopifnot(inherits(input, "XMLAbstractNode"), xmlName(input) == "input")
+  stopifnot(inherits(input, "XMLAbstractNode"), XML::xmlName(input) == "input")
   attr <- as.list(XML::xmlAttrs(input))
 
   structure(
@@ -129,7 +131,7 @@ parse_input <- function(input) {
 }
 
 parse_select <- function(select) {
-  stopifnot(inherits(select, "XMLAbstractNode"), xmlName(select) == "select")
+  stopifnot(inherits(select, "XMLAbstractNode"), XML::xmlName(select) == "select")
 
   attr <- as.list(XML::xmlAttrs(select))
   options <- parse_options(select[sel("option")])
@@ -151,10 +153,10 @@ format.select <- function(x, ...) {
 
 parse_options <- function(options) {
   parse_option <- function(option) {
-    attr <- as.list(xmlAttrs(option))
+    attr <- as.list(XML::xmlAttrs(option))
     list(
       value = attr$value,
-      name = xmlValue(option),
+      name = XML::xmlValue(option),
       selected = !is.null(attr$selected)
     )
   }
@@ -171,12 +173,12 @@ parse_options <- function(options) {
 }
 
 parse_textarea <- function(textarea) {
-  attr <- as.list(xmlAttrs(textarea))
+  attr <- as.list(XML::xmlAttrs(textarea))
 
   structure(
     list(
       name = attr$name,
-      value = xmlValue(textarea)
+      value = XML::xmlValue(textarea)
     ),
     class = "textarea"
   )
@@ -244,15 +246,15 @@ submit_form <- function(form, submit = NULL) {
 
   # Make request
   if (request$method == "GET") {
-    r <- GET(request$url, params = request$values)
+    r <- httr::GET(request$url, params = request$values)
   } else if (request$method == "POST") {
-    r <- POST(request$url, body = request$values, encode = request$encode)
+    r <- httr::POST(request$url, body = request$values, encode = request$encode)
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)
   }
 
-  stop_for_status(r)
-  content(r, "parsed")
+  httr::stop_for_status(r)
+  httr::content(r, "parsed")
 }
 
 submit_request <- function(form, submit = NULL) {

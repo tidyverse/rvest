@@ -5,7 +5,8 @@ Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
 Description: rvest makes it easy to harvest (i.e. scrape) data from web
     pages by providing some helpful wrappers around XML and httr.
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.1.0)
+Imports:
     httr,
     XML,
     selectr
