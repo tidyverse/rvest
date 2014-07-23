@@ -204,7 +204,7 @@ format.textarea <- function(x, ...) {
 #' search <- parse_forms("https://www.google.com")[[1]]
 #' set_values(search, q = "My little pony")
 #' set_values(search, hl = "fr")
-#' set_values(search, btnI = "blah")
+#' \dontrun{set_values(search, btnI = "blah")}
 set_values <- function(form, ...) {
   new_values <- list(...)
 

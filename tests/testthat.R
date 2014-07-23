@@ -1,4 +1,4 @@
 library(testthat)
-library(scrape)
+library(rvest)
 
-test_check("scrape")
+test_check("rvest")
