@@ -1,0 +1,94 @@
+---
+title: "Selectorgadget"
+output: html_document
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Selectorgadget}
+---
+
+```{r, echo = FALSE}
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
+
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+Selectorgadget is a javascript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page. 
+
+## Installation
+
+To install it, open this page in your browser, and then drag the following link to your bookmark bar: <a href="javascript:(function(){var%20s=document.createElement('div');s.innerHTML='Loading...';s.style.color='black';s.style.padding='20px';s.style.position='fixed';s.style.zIndex='9999';s.style.fontSize='3.0em';s.style.border='2px%20solid%20black';s.style.right='40px';s.style.top='40px';s.setAttribute('class','selector_gadget_loading');s.style.background='white';document.body.appendChild(s);s=document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','https://dv0akt2986vzh.cloudfront.net/unstable/lib/selectorgadget.js');document.body.appendChild(s);})();">SelectorGadget</a>.
+
+## Use
+
+To use it, open the page 
+
+1. Click on the element you want to select. Matching elements will be highlighted in yellow.
+
+2. Click on elements that shouldn't be selected. They will turn red.
+
+3. Iterate until only the elements you want are selected.
+
+For example, imagine we want to find the actors listed on an IMDB movie page, e.g. [The Lego Movie](http://www.imdb.com/title/tt1490017/).
+
+1.  Navigate to the page and scroll to the actors list.
+
+    ```{r, echo = FALSE}
+    embed_png("selectorgadget-1.png")
+    ```
+
+2. Click on the selectorgagdget link in the bookmarks. The selectorgadget
+   console will appear at the bottom of the screen, and element currently
+   under the mouse will be highlighed in orange.
+   
+    ```{r, echo = FALSE}
+    embed_png("selectorgadget-2.png")
+    ```
+
+3.  Click on the element you want to select (the name of an actor). The 
+    element you selected will be highlighted in green. Selectorgadget guesses
+    which css selector you want (`.itemprop` in this case), and highlights
+    all matches in yellow.
+
+    ```{r, echo = FALSE}
+    embed_png("selectorgadget-3.png")
+    ```
+
+4.  Scroll around the document to find elements that you don't want to match 
+    and click on them. For example, we don't to match the title of the movie,
+    so we click on it and it turns red. The css selector updates to 
+    `#titleCast .itemprop`.
+
+    ```{r, echo = FALSE}
+    embed_png("selectorgadget-4.png")
+    embed_png("selectorgadget-5.png")
+    ```
+
+Once we've determined the css selector, we can use it in R to extract the values we want:
+
+```{r}
+library(rvest)
+html <- parse_html("http://www.imdb.com/title/tt1490017/")
+cast <- html[sel("#titleCast .itemprop")]
+length(cast)
+cast[1:2]
+```
+
+Looking carefully at this output, we see twice as many matches as we expected. That's because we've selected both the table cell and the text inside the cell. We can experiment with selectorgadget to find a better match or look at the html directly.
+
+```{r}
+cast <- html[sel("#titleCast span.itemprop")]
+length(cast)
+
+html_text(cast)
+```
+

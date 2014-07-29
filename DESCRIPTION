@@ -10,7 +10,10 @@ Imports:
     httr,
     XML,
     selectr
+Suggests:
+    testthat,
+    knitr,
+    png
 License: GPL-3
 LazyData: true
-Suggests:
-    testthat
+VignetteBuilder: knitr
