@@ -5,39 +5,28 @@
 #'   If parsed XML document, also provide the \code{base_url} so relative
 #'   actions can be correctly constructed.
 #' @param ... Other arguments used by methods.
+#' @seealso HTML 4.01 form specification:
+#'   \url{http://www.w3.org/TR/html401/interact/forms.html}
 #' @examples
-#' parse_forms("https://hadley.wufoo.com/forms/libraryrequire-quiz/")
-#' parse_forms("https://hadley.wufoo.com/forms/r-journal-submission/")
+#' html_form(html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
+#' html_form(html("https://hadley.wufoo.com/forms/r-journal-submission/"))
 #'
-#' library(httr)
-#' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm&adjust_yr=1&p=.htm"
-#' html <- content(GET(url), "parsed")
-#' forms <- parse_forms(html, base_ur = url)
-parse_forms <- function(src, ...) UseMethod("parse_forms")
+#' box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+#' html_form(box_office[sel("form")][[1]])
+html_form <- function(src, ...) UseMethod("html_form")
 
 #' @export
-parse_forms.XMLAbstractDocument <- function(src, base_url, ...) {
-  forms <- src[sel("form")]
-  lapply(forms, parse_form, base_url = base_url)
+html_form.XMLAbstractDocument <- function(src) {
+  html_form(src[sel("form")])
 }
 
 #' @export
-parse_forms.character <- function(src, base_url, ...) {
-  if (grepl(src, "<|>")) {
-    html <- XML::htmlParse(src, ...)
-  } else {
-    r <- httr::GET(src, ...)
-    httr::stop_for_status(r)
-    html <- httr::content(r, "parsed")
-  }
-
-  parse_forms(html, base_url = r$url)
+html_form.XMLNodeSet <- function(src) {
+  lapply(src, html_form)
 }
 
-# http://www.w3.org/TR/html401/interact/forms.html
-#
-# <form>: action (url), type (GET/POST), enctype (form/multipart), id
-parse_form <- function(form, base_url) {
+#' @export
+html_form.XMLInternalElementNode <- function(form) {
   stopifnot(inherits(form, "XMLAbstractNode"), XML::xmlName(form) == "form")
 
   attr <- as.list(XML::xmlAttrs(form))
@@ -45,7 +34,7 @@ parse_form <- function(form, base_url) {
   method <- toupper(attr$method) %||% "GET"
   enctype <- convert_enctype(attr$enctype)
 
-  url <- XML::getRelativeURL(attr$action, base_url)
+  url <- XML::getRelativeURL(attr$action, XML::docName(form))
 
   fields <- parse_fields(form)
 
@@ -201,7 +190,7 @@ format.textarea <- function(x, ...) {
 #' @return An updated form object
 #' @export
 #' @examples
-#' search <- parse_forms("https://www.google.com")[[1]]
+#' search <- html_form("https://www.google.com")[[1]]
 #' set_values(search, q = "My little pony")
 #' set_values(search, hl = "fr")
 #' \dontrun{set_values(search, btnI = "blah")}
@@ -241,7 +230,7 @@ set_values <- function(form, ...) {
 #' @export
 #' @examples
 #' url <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
-#' f0 <- parse_forms(url)[[1]]
+#' f0 <- html_form(url)[[1]]
 #' f1 <- set_values(f0, entry.564397473 = "abc")
 #' r <- submit_form(f1)
 #' r[sel(".ss-resp-message")]

@@ -17,7 +17,9 @@ html.character <- function(x) {
 #' @export
 html.response <- function(x) {
   httr::stop_for_status(x)
-  httr::content(x, "parsed")
+  xml <- httr::content(x, "parsed")
+  XML::docName(xml) <- x$url
+  xml
 }
 
 #' @export

@@ -11,7 +11,7 @@ rvest helps you scrape information from web pages. It currently provides two mai
 
 * Parse tables into data frames with `html_table()`.
 
-* Extract, modify and submit forms with `parse_forms()`, `set_values()` and
+* Extract, modify and submit forms with `html_form()`, `set_values()` and
   `submit_form()`
 
 # Inspirations
