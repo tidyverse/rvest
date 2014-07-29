@@ -1,10 +1,9 @@
 #' Parse forms in a page.
 #'
 #' @export
-#' @param src A string containing xml, a url or a parsed XML document.
+#' @param x A string containing xml, a url or a parsed XML document.
 #'   If parsed XML document, also provide the \code{base_url} so relative
 #'   actions can be correctly constructed.
-#' @param ... Other arguments used by methods.
 #' @seealso HTML 4.01 form specification:
 #'   \url{http://www.w3.org/TR/html401/interact/forms.html}
 #' @examples
@@ -13,30 +12,30 @@
 #'
 #' box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
 #' html_form(box_office[sel("form")][[1]])
-html_form <- function(src, ...) UseMethod("html_form")
+html_form <- function(x) UseMethod("html_form")
 
 #' @export
-html_form.XMLAbstractDocument <- function(src) {
-  html_form(src[sel("form")])
+html_form.XMLAbstractDocument <- function(x) {
+  html_form(x[sel("form")])
 }
 
 #' @export
-html_form.XMLNodeSet <- function(src) {
-  lapply(src, html_form)
+html_form.XMLNodeSet <- function(x) {
+  lapply(x, html_form)
 }
 
 #' @export
-html_form.XMLInternalElementNode <- function(form) {
-  stopifnot(inherits(form, "XMLAbstractNode"), XML::xmlName(form) == "form")
+html_form.XMLInternalElementNode <- function(x) {
+  stopifnot(inherits(x, "XMLAbstractNode"), XML::xmlName(x) == "form")
 
-  attr <- as.list(XML::xmlAttrs(form))
+  attr <- as.list(XML::xmlAttrs(x))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
   method <- toupper(attr$method) %||% "GET"
   enctype <- convert_enctype(attr$enctype)
 
-  url <- XML::getRelativeURL(attr$action, XML::docName(form))
+  url <- XML::getRelativeURL(attr$action, XML::docName(x))
 
-  fields <- parse_fields(form)
+  fields <- parse_fields(x)
 
   structure(
     list(
