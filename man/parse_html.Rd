@@ -3,7 +3,7 @@
 \alias{parse_html}
 \title{Parse an HTML page.}
 \usage{
-parse_html(x, ...)
+parse_html(x)
 }
 \arguments{
 \item{x}{A url, a string containing html, or a a httr response.}

@@ -2,20 +2,20 @@
 #'
 #' @param x A url, a string containing html, or a a httr response.
 #' @export
-parse_html <- function(x, ...) UseMethod("parse_html")
+parse_html <- function(x) UseMethod("parse_html")
 
 #' @export
-parse_html.character <- function(x, ...) {
+parse_html.character <- function(x) {
   if (grepl(x, "<|>")) {
-    XML::htmlParse(x, ...)
+    XML::htmlParse(x)
   } else {
-    r <- httr::GET(x, ...)
+    r <- httr::GET(x)
     parse_html(r)
   }
 }
 
 #' @export
-parse_html.response <- function(x, ...) {
+parse_html.response <- function(x) {
   httr::stop_for_status(x)
   httr::content(x, "parsed")
 }
