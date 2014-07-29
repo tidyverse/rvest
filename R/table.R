@@ -27,6 +27,11 @@ html_table <- function(x, header = NA, trim = TRUE) {
 }
 
 #' @export
+html_table.XMLAbstractDocument <- function(x, ...) {
+  html_table(x[sel("table")])
+}
+
+#' @export
 html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE) {
   # FIXME: guess useful names
   lapply(x, html_table, header = header, trim = trim)
