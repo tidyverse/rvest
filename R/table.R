@@ -44,7 +44,7 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE) {
 
   # Throw error if any rowspan/colspan present
   rows <- x[sel("tr")]
-  cells <- lapply(rows, "[", xpath("./td|./th"))
+  cells <- lapply(rows, "[", xpath(".//td|.//th"))
 
   n <- unique(vapply(cells, length, integer(1)))
   if (length(n) != 1) {
