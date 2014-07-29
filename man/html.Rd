@@ -6,9 +6,25 @@
 html(x)
 }
 \arguments{
-\item{x}{A url, a string containing html, or a a httr response.}
+\item{x}{A url, a string containing html, or a response from an httr query.}
 }
 \description{
 Parse an HTML page.
+}
+\examples{
+# From a url:
+google <- html("http://google.com")
+google[sel("p")]
+
+# From a string: (minimal html 5 document)
+# http://www.brucelawson.co.uk/2010/a-minimal-html5-document/
+minimal <- html("<!doctype html>
+  <meta charset=utf-8>
+ <title>blah</title>
+ <p>I'm the content")
+minimal
+
+# From an httr request
+google2 <- html(httr::GET("http://google.com"))
 }
 
