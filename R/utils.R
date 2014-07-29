@@ -14,3 +14,24 @@ format_list <- function(x, indent = 0) {
   formatted <- vapply(x, format, character(1))
   paste0(spaces, formatted, collapse = "\n")
 }
+
+is_node <- function(x) {
+  inherits(x, "XMLInternalElementNode") || inherits(x, "HTMLInternalDocument")
+}
+is_node_list <- function(x) {
+  inherits(x, "XMLNodeSet")
+}
+
+xml_apply <- function(x, f, ..., .type) {
+  if (is_node(x)) {
+    f(x, ...)
+  } else if (is_node_list(x)) {
+    if (missing(.type)) {
+      lapply(x, f, ...)
+    } else {
+      vapply(x, f, ..., FUN.VALUE = .type)
+    }
+  } else {
+    stop("Unknown input of class: ", paste(class(x), collapse = ", "))
+  }
+}

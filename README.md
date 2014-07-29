@@ -4,7 +4,10 @@
 
 rvest helps you scrape information from web pages. It currently provides two main features:
 
-* Easily select parts of a document using css selectors: `doc[sel("table td")]`
+* Select parts of a document using css selectors: `doc[sel("table td")]`
+
+* Extract important components of html tags with `html_tag()`, `html_text()`,
+  `html_attr()` and `html_attrs()`.
 
 * Extract, modify and submit forms with `parse_forms()`, `set_values()` and
   `submit_form()`
