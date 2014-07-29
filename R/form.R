@@ -190,7 +190,7 @@ format.textarea <- function(x, ...) {
 #' @return An updated form object
 #' @export
 #' @examples
-#' search <- html_form("https://www.google.com")[[1]]
+#' search <- html_form(html("https://www.google.com"))[[1]]
 #' set_values(search, q = "My little pony")
 #' set_values(search, hl = "fr")
 #' \dontrun{set_values(search, btnI = "blah")}
@@ -229,8 +229,8 @@ set_values <- function(form, ...) {
 #'   using the elements returned by \code{submit_request}.
 #' @export
 #' @examples
-#' url <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
-#' f0 <- html_form(url)[[1]]
+#' test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
+#' f0 <- html_form(test)[[1]]
 #' f1 <- set_values(f0, entry.564397473 = "abc")
 #' r <- submit_form(f1)
 #' r[sel(".ss-resp-message")]
@@ -296,5 +296,5 @@ submit_request <- function(form, submit = NULL) {
 #' @examples
 #' google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
 google_form <- function(x) {
-  paste0("https://docs.google.com/forms/d/", x, "/viewform")
+  html(paste0("https://docs.google.com/forms/d/", x, "/viewform"))
 }

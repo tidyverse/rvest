@@ -20,8 +20,8 @@ If successful, the parsed html response. Throws an error if http
 Submit a form back to the server.
 }
 \examples{
-url <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
-f0 <- html_form(url)[[1]]
+test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
+f0 <- html_form(test)[[1]]
 f1 <- set_values(f0, entry.564397473 = "abc")
 r <- submit_form(f1)
 r[sel(".ss-resp-message")]

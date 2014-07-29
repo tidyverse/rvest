@@ -17,7 +17,7 @@ An updated form object
 Set values in a form.
 }
 \examples{
-search <- html_form("https://www.google.com")[[1]]
+search <- html_form(html("https://www.google.com"))[[1]]
 set_values(search, q = "My little pony")
 set_values(search, hl = "fr")
 \dontrun{set_values(search, btnI = "blah")}
