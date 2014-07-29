@@ -32,11 +32,17 @@ To install it, open this page in your browser, and then drag the following link 
 
 To use it, open the page 
 
-1. Click on the element you want to select. Matching elements will be highlighted in yellow.
+1. Click on the element you want to select. Selectorgadget will make a first
+   guess at what css selector you want. It's likely to be bad since it only
+   has one example to learn from, but it's a start. Elements that match the
+   selector will be highlighted in yellow.
 
 2. Click on elements that shouldn't be selected. They will turn red.
+   Click on elements that should be selector. They will turn green.
 
-3. Iterate until only the elements you want are selected.
+3. Iterate until only the elements you want are selected.  Selectorgadget
+   isn't perfect and sometimes won't be able to find a useful css selector. 
+   Sometimes starting from a different element helps.
 
 For example, imagine we want to find the actors listed on an IMDB movie page, e.g. [The Lego Movie](http://www.imdb.com/title/tt1490017/).
 
