@@ -2,26 +2,26 @@
 #'
 #' @param x A url, a string containing html, or a a httr response.
 #' @export
-parse_html <- function(x) UseMethod("parse_html")
+html <- function(x) UseMethod("html")
 
 #' @export
-parse_html.character <- function(x) {
+html.character <- function(x) {
   if (grepl(x, "<|>")) {
     XML::htmlParse(x)
   } else {
     r <- httr::GET(x)
-    parse_html(r)
+    html(r)
   }
 }
 
 #' @export
-parse_html.response <- function(x) {
+html.response <- function(x) {
   httr::stop_for_status(x)
   httr::content(x, "parsed")
 }
 
 #' @export
-parse_html.XMLAbstractDocument <- function(x, ...) {
+html.XMLAbstractDocument <- function(x, ...) {
   x
 }
 
@@ -37,8 +37,8 @@ parse_html.XMLAbstractDocument <- function(x, ...) {
 #'   vector; \code{html_attrs}, a list.
 #' @export
 #' @examples
-#' html <- parse_html("http://www.imdb.com/title/tt1490017/")
-#' cast <- html[sel("#titleCast span.itemprop")]
+#' movie <- html("http://www.imdb.com/title/tt1490017/")
+#' cast <- movie[sel("#titleCast span.itemprop")]
 #' html_text(cast)
 #' html_tag(cast)
 #' html_attrs(cast)

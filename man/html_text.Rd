@@ -18,6 +18,8 @@ html_attr(x, name)
 \item{x}{Either a complete document (HTMLInternalDocument),
 a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
 
+\item{name}{Name of attribute to extract.}
+
 \item{...}{Other arguments passed onto \code{\link[XML]{xmlValue}()}.
 The most useful argument is \code{trim = TRUE} which will remove leading
 and trailing whitespace.}
@@ -30,8 +32,8 @@ and trailing whitespace.}
 Extract attributes, text and tag name from html.
 }
 \examples{
-html <- parse_html("http://www.imdb.com/title/tt1490017/")
-cast <- html[sel("#titleCast span.itemprop")]
+movie <- html("http://www.imdb.com/title/tt1490017/")
+cast <- movie[sel("#titleCast span.itemprop")]
 html_text(cast)
 html_tag(cast)
 html_attrs(cast)
