@@ -8,6 +8,17 @@ pluck <- function(x, name, type) {
   }
 }
 
+vpluck_with_default <- function(xs, i, default) {
+  extract <- function(x) {
+    if (i %in% names(x)) {
+      x[[i]]
+    } else {
+      default
+    }
+  }
+  vapply(xs, extract, FUN.VALUE = default)
+}
+
 format_list <- function(x, indent = 0) {
   spaces <- paste(rep("  ", indent), collapse = "")
 
