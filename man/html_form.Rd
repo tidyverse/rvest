@@ -6,9 +6,7 @@
 html_form(x)
 }
 \arguments{
-\item{x}{A string containing xml, a url or a parsed XML document.
-If parsed XML document, also provide the \code{base_url} so relative
-actions can be correctly constructed.}
+\item{x}{A node, node set or document.}
 }
 \description{
 Parse forms in a page.

@@ -1,6 +1,6 @@
 #' Parse an HTML page.
 #'
-#' @param x A url, a string containing html, or a response from an httr query.
+#' @param x A url, a string containing html, or a response from an httr request.
 #' @export
 #' @examples
 #' # From a url:

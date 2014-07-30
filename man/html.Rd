@@ -6,7 +6,7 @@
 html(x)
 }
 \arguments{
-\item{x}{A url, a string containing html, or a response from an httr query.}
+\item{x}{A url, a string containing html, or a response from an httr request.}
 }
 \description{
 Parse an HTML page.

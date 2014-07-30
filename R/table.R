@@ -9,7 +9,7 @@
 #' \item Headers are in the first row
 #' \item All rows have the same number of cells
 #' }
-#' @param x HTML tag or list of tags to parse.
+#' @param x A node, node set or document.
 #' @param header Use first row as header? If \code{NA}, will use first row
 #'   if it consists of \code{<th>} tags.
 #' @param trim Remove leading and trailing whitespace within each cell?

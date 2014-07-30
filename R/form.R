@@ -1,9 +1,7 @@
 #' Parse forms in a page.
 #'
 #' @export
-#' @param x A string containing xml, a url or a parsed XML document.
-#'   If parsed XML document, also provide the \code{base_url} so relative
-#'   actions can be correctly constructed.
+#' @param x A node, node set or document.
 #' @seealso HTML 4.01 form specification:
 #'   \url{http://www.w3.org/TR/html401/interact/forms.html}
 #' @examples
