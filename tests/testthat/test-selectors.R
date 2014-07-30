@@ -2,6 +2,8 @@ context("Selectors")
 
 test <- XML::htmlParse("test.html")
 
+# XPath ------------------------------------------------------------------------
+
 test_that("xpath with // selects from root", {
   p <- test[xpath("//p")]
   expect_equal(length(p), 4)
@@ -15,6 +17,8 @@ test_that("xpath with // selects from root", {
   b <- p[xpath("b")]
   expect_equal(length(b), 2)
 })
+
+# CSS --------------------------------------------------------------------------
 
 test_that("css class selects from current value", {
   p <- test[sel("p")]
