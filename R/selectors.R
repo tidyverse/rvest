@@ -3,7 +3,9 @@
 #' More easily extract pieces out of HTML documents using XPath and css
 #' selectors. CSS selectors are particularly useful in conjunction with
 #' \url{http://selectorgadget.com/}: it makes it easy to find exactly
-#' which selector you should be using.
+#' which selector you should be using. If you have't used css selectors
+#' before, work your way through the fun tutorial at
+#' \url{http://flukeout.github.io/}.
 #'
 #' @section CSS selector support:
 #'
