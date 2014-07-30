@@ -61,6 +61,15 @@ html.XMLAbstractDocument <- function(x, ...) {
 #' html_attrs(cast)
 #' html_attr(cast, "class")
 #' html_attr(cast, "itemprop")
+#'
+#' basic <- html("<p class='a'><b>Bold text</b></p>")
+#' # See sel()/xpath() for CSS selector and xpath selectors
+#' p <- basic[sel("p")][[1]]
+#' p
+#' # Can subset with numbers to extract children
+#' p[[1]]
+#' # Or with strings to extract attributes
+#' p["class"]
 html_text <- function(x, ...) {
   xml_apply(x, XML::xmlValue, ..., .type = character(1))
 }

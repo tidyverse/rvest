@@ -2,7 +2,7 @@
 \name{xpath}
 \alias{sel}
 \alias{xpath}
-\title{XPath & css selector helpers}
+\title{XML selectors.}
 \usage{
 xpath(x)
 
@@ -43,26 +43,24 @@ exceptions are listed below:
 }
 \examples{
 # CSS selectors ----------------------------------------------
-library(httr)
-url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm"
-html <- content(GET(url), "parsed")
-html[sel("center")]
-html[sel("center font")]
-html[sel("center font b")]
+ateam <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+ateam[sel("center")]
+ateam[sel("center font")]
+ateam[sel("center font b")]
 
-# You can also chain subsetting:
-html[sel("center")][sel("td")]
-html[sel("center")][sel("font")]
-html[sel("table")][[1]][sel("img")]
+# You can chain subsetting:
+ateam[sel("center")][sel("td")]
+ateam[sel("center")][sel("font")]
+ateam[sel("table")][[1]][sel("img")]
 
 # Find all images contained in the first two tables
-html[sel("table")][1:2][sel("img")]
+ateam[sel("table")][1:2][sel("img")]
 
 # XPath selectors ---------------------------------------------
 # chaining with XPath is a little trickier - you may need to vary
 # the prefix you're using - // always selects from the root noot
 # regardless of where you currently are in the doc
-boxoffice <- html[xpath("//center//font//b")]
+boxoffice <- ateam[xpath("//center//font//b")]
 boxoffice[xpath("//b")]
 }
 

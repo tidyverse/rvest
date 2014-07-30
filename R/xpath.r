@@ -1,4 +1,4 @@
-#' XPath & css selector helpers
+#' XML selectors.
 #'
 #' More easily extract pieces out of HTML documents using XPath and css
 #' selectors. CSS selectors are particularly useful in conjunction with
@@ -31,26 +31,24 @@
 #' @param x XPath or css selector.
 #' @examples
 #' # CSS selectors ----------------------------------------------
-#' library(httr)
-#' url <- "http://www.boxofficemojo.com/movies/?id=ateam.htm"
-#' html <- content(GET(url), "parsed")
-#' html[sel("center")]
-#' html[sel("center font")]
-#' html[sel("center font b")]
+#' ateam <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+#' ateam[sel("center")]
+#' ateam[sel("center font")]
+#' ateam[sel("center font b")]
 #'
-#' # You can also chain subsetting:
-#' html[sel("center")][sel("td")]
-#' html[sel("center")][sel("font")]
-#' html[sel("table")][[1]][sel("img")]
+#' # You can chain subsetting:
+#' ateam[sel("center")][sel("td")]
+#' ateam[sel("center")][sel("font")]
+#' ateam[sel("table")][[1]][sel("img")]
 #'
 #' # Find all images contained in the first two tables
-#' html[sel("table")][1:2][sel("img")]
+#' ateam[sel("table")][1:2][sel("img")]
 #'
 #' # XPath selectors ---------------------------------------------
 #' # chaining with XPath is a little trickier - you may need to vary
 #' # the prefix you're using - // always selects from the root noot
 #' # regardless of where you currently are in the doc
-#' boxoffice <- html[xpath("//center//font//b")]
+#' boxoffice <- ateam[xpath("//center//font//b")]
 #' boxoffice[xpath("//b")]
 #' @export
 xpath <- function(x) structure(x, class = c("xpath_selector", "selector"))
@@ -66,36 +64,55 @@ print.selector <- function(x, ...) {
 
 #' @export
 `[.HTMLInternalDocument` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) return(NextMethod())
-
-  if (inherits(i, "css_selector")) {
-    i <- selectr::css_to_xpath(i, prefix = "//")
-  }
-  XML::getNodeSet(x, i)
-}
-
-#' @export
-`[.XMLInternalElementNode` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) return(NextMethod())
-
-  if (inherits(i, "css_selector")) {
-    i <- selectr::css_to_xpath(i, prefix = "descendant::")
-  }
-  XML::getNodeSet(x, i)
+  html_extract_n(x, i, prefix = "//")
 }
 
 #' @export
 `[.XMLNodeSet` <- function(x, i, ...) {
-  if (!inherits(i, "selector")) {
-    return(structure(NextMethod(), class = "XMLNodeSet"))
+  if (is.numeric(i)) {
+    out <- .subset(x, i)
+  } else {
+    nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
+    out <- unlist(nodes, recursive = FALSE)
   }
 
-  if (inherits(i, "css_selector")) {
-    i <- selectr::css_to_xpath(i, prefix = "descendant::")
-  }
-
-  nodes <- unlist(lapply(x, XML::getNodeSet, path = i), recursive = FALSE)
-  class(nodes) <- "XMLNodeSet"
-  nodes
+  class(out) <- "XMLNodeSet"
+  out
 }
 
+#' @export
+`[.XMLInternalElementNode` <- function(x, i, ...) {
+  html_extract_n(x, i, prefix = "descendant::")
+}
+
+html_extract_1 <- function(node, i) {
+  if (is.numeric(i)) {
+    out <- XML::xmlChildren(node, addNames = FALSE)[[i]]
+  } else if (is.character(i)) {
+    out <- XML::xmlAttrs(node)[[i]]
+  } else {
+    stop("Don't know how to subset HTML with object of class ",
+      paste(class(i), collapse = ", "), call. = FALSE)
+  }
+  out
+}
+
+html_extract_n <- function(node, i, prefix) {
+  if (is.numeric(i)) {
+    out <- XML::xmlChildren(node, addNames = FALSE)[i]
+  } else if (inherits(i, "css_selector")) {
+    xpath <- selectr::css_to_xpath(i, prefix = prefix)
+    out <- XML::getNodeSet(node, xpath)
+  } else if (inherits(i, "xpath_selector")) {
+    out <- XML::getNodeSet(node, i)
+  } else if (is.character(i)) {
+    out <- XML::xmlAttrs(node)[i]
+  } else {
+    stop("Don't know how to subset HTML with object of class ",
+      paste(class(i), collapse = ", "), call. = FALSE)
+  }
+  class(out) <- "XMLNodeSet"
+  out
+}
+
+# Print methods ------------------------
