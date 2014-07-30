@@ -73,13 +73,35 @@ print.selector <- function(x, ...) {
 `[.XMLNodeSet` <- function(x, i, ...) {
   if (is.numeric(i)) {
     out <- .subset(x, i)
-  } else {
+  } else if (inherits(i, "selector")) {
     nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
     out <- unlist(nodes, recursive = FALSE)
+  } else if (is.character(i)) {
+    attrs <- html_attrs(x)
+    out <- lapply(i, vpluck_with_default, x = attrs, default = NA_character_)
+    names(out) <- i
+    class(out) <- "data.frame"
+    attr(out, "row.names") <- .set_row_names(length(attrs))
+    return(out)
+  } else {
+    stop("Don't know how to subset HTML with object of class ",
+      paste(class(i), collapse = ", "), call. = FALSE)
+
   }
 
   class(out) <- "XMLNodeSet"
   out
+}
+
+vpluck_with_default <- function(xs, i, default) {
+  extract <- function(x) {
+    if (i %in% names(x)) {
+      x[[i]]
+    } else {
+      default
+    }
+  }
+  vapply(xs, extract, FUN.VALUE = default)
 }
 
 #' @export
@@ -108,7 +130,10 @@ html_extract_n <- function(node, i, prefix) {
   } else if (inherits(i, "xpath_selector")) {
     out <- XML::getNodeSet(node, i)
   } else if (is.character(i)) {
-    out <- XML::xmlAttrs(node)[i]
+    # Only option that doesn't return XMLNodeSet
+    attr <- as.list(XML::xmlAttrs(node))
+    attr[setdiff(i, names(attr))] <- NA_character_
+    return(attr[i])
   } else {
     stop("Don't know how to subset HTML with object of class ",
       paste(class(i), collapse = ", "), call. = FALSE)

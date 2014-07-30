@@ -45,3 +45,23 @@ test_that("css selects find all children", {
 })
 
 
+# Character --------------------------------------------------------------------
+
+test_that("missing attributes yield missing values", {
+  test <- html("<p><img src='a' /><img src='b'/><img /></p>")
+  p <- test[sel("p")][[1]]
+
+  expect_equal(p[[1]]["src"], list(src = "a"))
+  expect_equal(p[[3]]["src"], list(src = NA_character_))
+  expect_equal(p[[1]][c("src", "a")], list(src = "a", a = NA_character_))
+  expect_equal(p[[3]][c("src", "a")], list(src = NA_character_, a = NA_character_))
+})
+
+test_that("character subsetting of node set returns data frame", {
+  test <- html("<p><img src='a' /><img src='b'/><img /></p>")
+  img <- test[sel("img")]
+
+  expect_equal(img["src"], data.frame(src = c("a", "b", NA), stringsAsFactors = FALSE))
+})
+
+
