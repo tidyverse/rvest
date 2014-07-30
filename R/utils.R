@@ -1,6 +1,6 @@
 "%||%" <- function(a, b) if (is.null(a)) b else a
 
-vpluck <- function(x, name, type) {
+pluck <- function(x, name, type) {
   if (missing(type)) {
     lapply(x, "[[", name)
   } else {

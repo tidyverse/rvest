@@ -79,7 +79,7 @@ parse_fields <- function(form) {
       select = parse_select(x)
     )
   })
-  names(fields) <- vpluck(fields, "name")
+  names(fields) <- pluck(fields, "name")
   class(fields) <- "fields"
   fields
 }
@@ -154,9 +154,9 @@ parse_options <- function(options) {
   }
 
   parsed <- lapply(options, parse_option)
-  value <- vpluck(parsed, "value", character(1))
-  name <- vpluck(parsed, "name", character(1))
-  selected <- vpluck(parsed, "selected", logical(1))
+  value <- pluck(parsed, "value", character(1))
+  name <- pluck(parsed, "name", character(1))
+  selected <- pluck(parsed, "selected", logical(1))
 
   list(
     value = value[selected],
@@ -277,7 +277,7 @@ submit_request <- function(form, submit = NULL) {
   fields <- Filter(function(x) !is.null(x$value), fields)
   fields <- fields[setdiff(names(fields), other_submits)]
 
-  values <- vpluck(fields, "value")
+  values <- pluck(fields, "value")
   names(values) <- names(fields)
 
   list(
