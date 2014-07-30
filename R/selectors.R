@@ -116,5 +116,3 @@ html_extract_n <- function(node, i, prefix) {
   class(out) <- "XMLNodeSet"
   out
 }
-
-# Print methods ------------------------
