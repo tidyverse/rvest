@@ -33,19 +33,5 @@ s \%>\% jump_to("thesis") \%>\% jump_to("/") \%>\% history()
 s \%>\% jump_to("thesis") \%>\% back() \%>\% history()
 
 s \%>\% follow_link("vita")
-
-\dontrun{
-# Get my united miles
-united <- html_session("http://www.united.com/", config(http.version = 2L))
-account <- united \%>\% follow_link("Account")
-
-login <- account[sel("form")][[1]]
-login <- login \%>\% html_form() \%>\%
-   set_values(
-    `ctl00$ContentInfo$SignIn$onepass$txtField` = "GY797363",
-    `ctl00$ContentInfo$SignIn$password$txtPassword` = password
-  )
-account \%>\% submit_form(login, "ctl00$ContentInfo$SignInSecure")
-}
 }
 
