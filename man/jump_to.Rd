@@ -18,7 +18,7 @@ follow_link(x, i, ...)
 \item{i}{You can select with: \describe{
   \item{an integer}{selects the ith link}
   \item{a css or xpath selector}{selects first link that matches selector}
-  \item{a string}{first link containing that text}
+  \item{a string}{first link containing that text (case sensitive)}
 }}
 }
 \description{

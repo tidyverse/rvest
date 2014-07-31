@@ -18,6 +18,14 @@
 #' s %>% jump_to("thesis") %>% back() %>% history()
 #'
 #' s %>% follow_link("vita")
+#'
+#' \dontrun{
+#' # Get my united miles
+#' united <- html_session("http://www.united.com/")
+#' account <- united %>% follow_link("Account")
+#' united[sel("form")]
+#'
+#' }
 html_session <- function(url, ...) {
   session <- structure(
     list(
@@ -43,11 +51,17 @@ print.session <- function(x, ...) {
 }
 
 make_request <- function(x, url, ...) {
-  x$url <- url
   x$response <- httr::GET(url, x$config, ..., handle = x$handle)
+  x$url <- x$response$url
   httr::warn_for_status(x$response)
 
   x
+}
+
+show <- function(x) {
+  temp <- tempfile()
+  writeBin(httr::content(x$response, "raw"), temp)
+  browseURL(temp)
 }
 
 #' @export
@@ -83,7 +97,7 @@ jump_to <- function(x, url, ...) {
 #' @param i You can select with: \describe{
 #'   \item{an integer}{selects the ith link}
 #'   \item{a css or xpath selector}{selects first link that matches selector}
-#'   \item{a string}{first link containing that text}
+#'   \item{a string}{first link containing that text (case sensitive)}
 #' }
 #' @export
 #' @rdname jump_to

@@ -33,5 +33,13 @@ s \%>\% jump_to("thesis") \%>\% jump_to("/") \%>\% history()
 s \%>\% jump_to("thesis") \%>\% back() \%>\% history()
 
 s \%>\% follow_link("vita")
+
+\dontrun{
+# Get my united miles
+united <- html_session("http://www.united.com/")
+account <- united \%>\% follow_link("Account")
+united[sel("form")]
+
+}
 }
 
