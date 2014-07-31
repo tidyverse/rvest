@@ -31,15 +31,13 @@ html_form.XMLInternalElementNode <- function(x) {
   method <- toupper(attr$method) %||% "GET"
   enctype <- convert_enctype(attr$enctype)
 
-  url <- XML::getRelativeURL(attr$action, XML::docName(x))
-
   fields <- parse_fields(x)
 
   structure(
     list(
       name = name,
       method = method,
-      url = url,
+      url = attr$action,
       enctype = enctype,
       fields = fields
     ),
@@ -236,20 +234,18 @@ set_values <- function(form, ...) {
 #' f1 <- set_values(f0, entry.564397473 = "abc")
 #' r <- submit_form(f1)
 #' r[sel(".ss-resp-message")]
-submit_form <- function(form, submit = NULL) {
+submit_form <- function(session, form, submit = NULL) {
   request <- submit_request(form, submit)
 
   # Make request
   if (request$method == "GET") {
-    r <- httr::GET(request$url, params = request$values)
+    request_GET(session, url = request$url, params = request$values)
   } else if (request$method == "POST") {
-    r <- httr::POST(request$url, body = request$values, encode = request$encode)
+    request_POST(session, url = request$url, body = request$values,
+      encode = request$encode)
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)
   }
-
-  httr::stop_for_status(r)
-  httr::content(r, "parsed")
 }
 
 submit_request <- function(form, submit = NULL) {
@@ -285,7 +281,7 @@ submit_request <- function(form, submit = NULL) {
 
   list(
     method = method,
-    encode = form$encode,
+    encode = form$enctype,
     url = url,
     values = values
   )

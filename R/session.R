@@ -21,7 +21,7 @@
 #'
 #' \dontrun{
 #' # Get my united miles
-#' united <- html_session("http://www.united.com/")
+#' united <- html_session("http://www.united.com/", config(http.version = 2L))
 #' account <- united %>% follow_link("Account")
 #'
 #' login <- account[sel("form")][[1]]
@@ -30,13 +30,13 @@
 #'     `ctl00$ContentInfo$SignIn$onepass$txtField` = "GY797363",
 #'     `ctl00$ContentInfo$SignIn$password$txtPassword` = password
 #'   )
-#' )
+#' account %>% submit_form(login, "ctl00$ContentInfo$SignInSecure")
 #' }
 html_session <- function(url, ...) {
   session <- structure(
     list(
       handle   = httr::handle(url),
-      config   = httr::config(..., autoreferer = 1L),
+      config   = c(..., config(autoreferer = 1L)),
       url      = NULL,
       back     = character(),
       forward  = character(),
@@ -45,7 +45,7 @@ html_session <- function(url, ...) {
     ),
     class = "session"
   )
-  make_request(session, url)
+  request_GET(session, url)
 }
 
 #' @export
@@ -56,14 +56,36 @@ print.session <- function(x, ...) {
   cat("  Size:   ", length(x$response$content), "\n", sep = "")
 }
 
-make_request <- function(x, url, ...) {
+request_GET <- function(x, url, ...) {
   x$response <- httr::GET(url, x$config, ..., handle = x$handle)
   x$html <- new.env(parent = emptyenv(), hash = FALSE)
-
   x$url <- x$response$url
+
   httr::warn_for_status(x$response)
 
   x
+}
+
+request_POST <- function(x, url, ...) {
+  # Some sites redirect a POST request - in that case, the following request
+  # should be convert to a GET. This is does not agree with the HTTP spec,
+  # but is common in practice (see http://stackoverflow.com/questions/8138137
+  # for discussion).
+  x$response <- httr::POST(url, x$config, ..., config(followlocation = FALSE),
+    handle = x$handle)
+  x$html <- new.env(parent = emptyenv(), hash = FALSE)
+  x$url <- x$response$url
+  x$back <- character() # can't go back after a post
+
+  if (status_code(x) %/% 100 == 3) {
+    url <- headers(x)$Location
+    request_GET(x, url)
+  } else {
+    httr::warn_for_status(x$response)
+    x
+
+  }
+
 }
 
 show <- function(x) {
@@ -99,7 +121,7 @@ jump_to <- function(x, url, ...) {
 
   x$back <- c(url, x$back)
   x$forward <- character()
-  make_request(x, url, ...)
+  request_GET(x, url, ...)
 }
 
 #' @param i You can select with: \describe{
@@ -162,7 +184,7 @@ back <- function(x) {
   x$back <- x$back[-1]
   x$forward <- c(url, x$forward)
 
-  make_request(x, url)
+  request_GET(x, url)
 }
 
 #' @export
