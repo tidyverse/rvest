@@ -64,6 +64,8 @@ print.selector <- function(x, ...) {
   cat("<", class(x)[1], "> ", x, "\n", sep = "")
 }
 
+is.selector <- function(x) inherits(x, "selector")
+
 #' @export
 `[.HTMLInternalDocument` <- function(x, i, ...) {
   html_extract_n(x, i, prefix = "//")

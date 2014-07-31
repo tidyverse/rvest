@@ -14,6 +14,10 @@ rvest helps you scrape information from web pages. It currently provides two mai
 * Extract, modify and submit forms with `html_form()`, `set_values()` and
   `submit_form()`
 
+* Navigate around a website as if you're in a browser with `html_session()`,
+  `jump_to()`, `follow_link()`, `back()`, `forward()`, `submit_format()` and
+  so on.
+
 # Inspirations
 
 * Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html)

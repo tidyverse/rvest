@@ -46,3 +46,13 @@ xml_apply <- function(x, f, ..., .type) {
     stop("Unknown input of class: ", paste(class(x), collapse = ", "))
   }
 }
+
+#' Pipe operator
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+NULL

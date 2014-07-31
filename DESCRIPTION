@@ -7,9 +7,10 @@ Description: rvest makes it easy to harvest (i.e. scrape) data from web
 Depends:
     R (>= 3.1.0)
 Imports:
-    httr,
+    httr (>= 0.4.0.99),
     XML,
-    selectr
+    selectr,
+    magrittr
 Suggests:
     testthat,
     knitr,
