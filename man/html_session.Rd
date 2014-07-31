@@ -18,6 +18,13 @@ is.session(x)
 \description{
 Simulate a session in an html browser.
 }
+\section{Methods}{
+
+A session object responds to a combination of httr and html methods:
+use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
+and \code{\link[httr]{status_code}()} to access properties of the request;
+using subsetting with selectors (\code{\link{xpath}()}, \code{\link{sel}()}).
+}
 \examples{
 # http://stackoverflow.com/questions/15853204
 

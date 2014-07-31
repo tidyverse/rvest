@@ -1,5 +1,11 @@
 #' Simulate a session in an html browser.
 #'
+#' @section Methods:
+#' A session object responds to a combination of httr and html methods:
+#' use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
+#' and \code{\link[httr]{status_code}()} to access properties of the request;
+#' using subsetting with selectors (\code{\link{xpath}()}, \code{\link{sel}()}).
+#'
 #' @param url Location to start session
 #' @param ... Any additional httr config to use throughout session.
 #' @param x An object to test to see if it's a session.
@@ -144,8 +150,6 @@ print.history <- function(x, ...) {
   cat(paste0(prefix, unlist(x), collapse = "\n"), "\n", sep = "")
 }
 
-
-
 # html methods -----------------------------------------------------------------
 
 #' @export
@@ -175,9 +179,6 @@ is_html <- function(x) {
   parsed <- httr::parse_media(type)
   parsed$complete %in% c("text/html", "application/xhtml+xml")
 }
-
-
-
 
 # httr methods -----------------------------------------------------------------
 
