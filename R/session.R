@@ -23,7 +23,7 @@
 #' # Get my united miles
 #' united <- html_session("http://www.united.com/")
 #' account <- united %>% follow_link("Account")
-#' united[sel("form")]
+#' account[sel("form")]
 #'
 #' }
 html_session <- function(url, ...) {
@@ -165,6 +165,12 @@ print.history <- function(x, ...) {
 }
 
 # html methods -----------------------------------------------------------------
+
+#' @export
+html_form.session <- function(x) html_form(get_html(x))
+
+#' @export
+html_table.session <- function(x) html_table(get_html(x))
 
 #' @export
 `[.session` <- function(x, i, ...) {

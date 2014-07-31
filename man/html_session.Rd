@@ -38,7 +38,7 @@ s \%>\% follow_link("vita")
 # Get my united miles
 united <- html_session("http://www.united.com/")
 account <- united \%>\% follow_link("Account")
-united[sel("form")]
+account[sel("form")]
 
 }
 }
