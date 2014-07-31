@@ -23,8 +23,14 @@
 #' # Get my united miles
 #' united <- html_session("http://www.united.com/")
 #' account <- united %>% follow_link("Account")
-#' account[sel("form")]
 #'
+#' login <- account[sel("form")][[1]]
+#' login <- login %>% html_form() %>%
+#'    set_values(
+#'     `ctl00$ContentInfo$SignIn$onepass$txtField` = "GY797363",
+#'     `ctl00$ContentInfo$SignIn$password$txtPassword` = password
+#'   )
+#' )
 #' }
 html_session <- function(url, ...) {
   session <- structure(
@@ -52,6 +58,8 @@ print.session <- function(x, ...) {
 
 make_request <- function(x, url, ...) {
   x$response <- httr::GET(url, x$config, ..., handle = x$handle)
+  x$html <- new.env(parent = emptyenv(), hash = FALSE)
+
   x$url <- x$response$url
   httr::warn_for_status(x$response)
 
