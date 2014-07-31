@@ -77,15 +77,8 @@ request_POST <- function(x, url, ...) {
   x$url <- x$response$url
   x$back <- character() # can't go back after a post
 
-  if (status_code(x) %/% 100 == 3) {
-    url <- headers(x)$Location
-    request_GET(x, url)
-  } else {
-    httr::warn_for_status(x$response)
-    x
-
-  }
-
+  httr::warn_for_status(x$response)
+  x
 }
 
 show <- function(x) {
