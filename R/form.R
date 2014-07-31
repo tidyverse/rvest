@@ -64,7 +64,12 @@ print.form <- function(x, indent = 0, ...) {
 
 #' @export
 format.input <- function(x, ...) {
-  paste0("<input ", x$type, "> '", x$name, "': ", x$value)
+  if (x$type == "password") {
+    value <- paste0(rep("*", nchar(x$value)), collapse = "")
+  } else {
+    value <- x$value
+  }
+  paste0("<input ", x$type, "> '", x$name, "': ", value)
 }
 
 parse_fields <- function(form) {
