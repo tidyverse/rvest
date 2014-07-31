@@ -36,7 +36,7 @@ html_session <- function(url, ...) {
   session <- structure(
     list(
       handle   = httr::handle(url),
-      config   = c(..., config(autoreferer = 1L)),
+      config   = c(..., httr::config(autoreferer = 1L)),
       url      = NULL,
       back     = character(),
       forward  = character(),
@@ -71,8 +71,8 @@ request_POST <- function(x, url, ...) {
   # should be convert to a GET. This is does not agree with the HTTP spec,
   # but is common in practice (see http://stackoverflow.com/questions/8138137
   # for discussion).
-  x$response <- httr::POST(url, x$config, ..., config(followlocation = FALSE),
-    handle = x$handle)
+  x$response <- httr::POST(url, x$config, ...,
+    httr::config(followlocation = FALSE), handle = x$handle)
   x$html <- new.env(parent = emptyenv(), hash = FALSE)
   x$url <- x$response$url
   x$back <- character() # can't go back after a post
@@ -200,7 +200,9 @@ print.history <- function(x, ...) {
 html_form.session <- function(x) html_form(get_html(x))
 
 #' @export
-html_table.session <- function(x) html_table(get_html(x))
+html_table.session <- function(x, header = NA, trim = TRUE) {
+  html_table(get_html(x), header = header, trim = trim)
+}
 
 #' @export
 `[.session` <- function(x, i, ...) {
@@ -208,7 +210,7 @@ html_table.session <- function(x) html_table(get_html(x))
 }
 
 get_html <- function(x) {
-  if (exists("cached", env = x$html)) {
+  if (exists("cached", envir = x$html)) {
     return(x$html$cached)
   }
 

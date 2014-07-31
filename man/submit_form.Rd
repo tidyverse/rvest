@@ -3,9 +3,11 @@
 \alias{submit_form}
 \title{Submit a form back to the server.}
 \usage{
-submit_form(form, submit = NULL)
+submit_form(session, form, submit = NULL)
 }
 \arguments{
+\item{session}{Session to submit form to.}
+
 \item{form}{Form to submit}
 
 \item{submit}{Name of submit button to use. If not supplied, defaults to
@@ -23,7 +25,5 @@ Submit a form back to the server.
 test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
 f0 <- html_form(test)[[1]]
 f1 <- set_values(f0, entry.564397473 = "abc")
-r <- submit_form(f1)
-r[sel(".ss-resp-message")]
 }
 

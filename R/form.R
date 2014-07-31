@@ -221,6 +221,7 @@ set_values <- function(form, ...) {
 
 #' Submit a form back to the server.
 #'
+#' @param session Session to submit form to.
 #' @param form Form to submit
 #' @param submit Name of submit button to use. If not supplied, defaults to
 #'   first submission button on the form (with a message).
@@ -232,8 +233,6 @@ set_values <- function(form, ...) {
 #' test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
 #' f0 <- html_form(test)[[1]]
 #' f1 <- set_values(f0, entry.564397473 = "abc")
-#' r <- submit_form(f1)
-#' r[sel(".ss-resp-message")]
 submit_form <- function(session, form, submit = NULL) {
   request <- submit_request(form, submit)
 
