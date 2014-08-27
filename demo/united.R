@@ -1,10 +1,15 @@
 # Scrape miles from united site
 
+library(rvest)
+library(magrittr)
+
 united <- html_session("http://www.united.com/")
 account <- united %>% follow_link("Account")
 
-login <- account[sel("form")][[1]]
-login <- login %>% html_form() %>%
+login <- account %>%
+  html_node("form") %>%
+  extract2(1) %>%
+  html_form() %>%
    set_values(
     `ctl00$ContentInfo$SignIn$onepass$txtField` = "GY797363",
     `ctl00$ContentInfo$SignIn$password$txtPassword` = password

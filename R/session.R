@@ -184,6 +184,11 @@ html_table.session <- function(x, header = NA, trim = TRUE) {
 }
 
 #' @export
+html_node.session <- function(x, nodes, xpath = FALSE) {
+  html_node(get_html(x), nodes, xpath = xpath)
+}
+
+#' @export
 `[.session` <- function(x, i, ...) {
   get_html(x)[i, ...]
 }
