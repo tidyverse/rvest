@@ -133,3 +133,36 @@ html_extract_n <- function(node, i, prefix) {
   class(out) <- "XMLNodeSet"
   out
 }
+
+
+#' Select nodes from an HTML document
+#'
+#' @param x Either a complete document (HTMLInternalDocument),
+#'   a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).
+#' @param nodes,xpath Nodes to select. By default this is a css selector.
+#'   If \code{xpath} is \code{TRUE}, it's interpreted as an xpath selector.
+#'   (the default), this should be a css
+#' @export
+html_node <- function(x, nodes, xpath = FALSE) UseMethod("html_node")
+
+#' @export
+html_node.HTMLInternalDocument <- function(x, nodes, xpath = FALSE) {
+  i <- if (xpath) xpath(nodes) else sel(nodes)
+  html_extract_n(x, i, prefix = "//")
+}
+
+#' @export
+html_node.XMLNodeSet <- function(x, nodes, xpath = FALSE) {
+  i <- if (xpath) xpath(nodes) else sel(nodes)
+  nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
+
+  out <- unlist(nodes, recursive = FALSE)
+  class(out) <- "XMLNodeSet"
+  out
+}
+
+#' @export
+html_node.XMLInternalElementNode<- function(x, nodes, xpath = FALSE) {
+  i <- if (xpath) xpath(nodes) else sel(nodes)
+  html_extract_n(x, i, prefix = "descendant::")
+}
