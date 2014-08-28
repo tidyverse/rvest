@@ -29,11 +29,11 @@ Parse an html table into a data frame.
 }
 \examples{
 bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
-tables <- bonds[sel("table")]
+tables <- html_node(bonds, "table")
 html_table(tables[[2]])
 html_table(tables[2:4])
 
 births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
-html_table(births[sel("table")][[2]])
+html_table(html_node(births, "table")[[2]])
 }
 

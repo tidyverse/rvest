@@ -33,7 +33,7 @@ Extract attributes, text and tag name from html.
 }
 \examples{
 movie <- html("http://www.imdb.com/title/tt1490017/")
-cast <- movie[sel("#titleCast span.itemprop")]
+cast <- html_node(movie, "#titleCast span.itemprop")
 html_text(cast)
 html_tag(cast)
 html_attrs(cast)
@@ -41,12 +41,11 @@ html_attr(cast, "class")
 html_attr(cast, "itemprop")
 
 basic <- html("<p class='a'><b>Bold text</b></p>")
-# See sel()/xpath() for CSS selector and xpath selectors
-p <- basic[sel("p")][[1]]
+p <- html_node(basic, "p")[[1]]
 p
 # Can subset with numbers to extract children
 p[[1]]
-# Or with strings to extract attributes
-p["class"]
+# Use html_attr to get attributes
+html_attr(p, "class")
 }
 

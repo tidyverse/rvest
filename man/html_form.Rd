@@ -16,7 +16,7 @@ html_form(html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
 html_form(html("https://hadley.wufoo.com/forms/r-journal-submission/"))
 
 box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
-html_form(box_office[sel("form")][[1]])
+html_node(box_office, "form")[[1]]
 }
 \seealso{
 HTML 4.01 form specification:

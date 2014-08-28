@@ -5,7 +5,7 @@
 #' @examples
 #' # From a url:
 #' google <- html("http://google.com")
-#' google[sel("p")]
+#' google %>% html_node("p")
 #'
 #' # From a string: (minimal html 5 document)
 #' # http://www.brucelawson.co.uk/2010/a-minimal-html5-document/
@@ -55,7 +55,7 @@ html.XMLAbstractDocument <- function(x, ...) {
 #' @export
 #' @examples
 #' movie <- html("http://www.imdb.com/title/tt1490017/")
-#' cast <- movie[sel("#titleCast span.itemprop")]
+#' cast <- html_node(movie, "#titleCast span.itemprop")
 #' html_text(cast)
 #' html_tag(cast)
 #' html_attrs(cast)
@@ -63,13 +63,12 @@ html.XMLAbstractDocument <- function(x, ...) {
 #' html_attr(cast, "itemprop")
 #'
 #' basic <- html("<p class='a'><b>Bold text</b></p>")
-#' # See sel()/xpath() for CSS selector and xpath selectors
-#' p <- basic[sel("p")][[1]]
+#' p <- html_node(basic, "p")[[1]]
 #' p
 #' # Can subset with numbers to extract children
 #' p[[1]]
-#' # Or with strings to extract attributes
-#' p["class"]
+#' # Use html_attr to get attributes
+#' html_attr(p, "class")
 html_text <- function(x, ...) {
   xml_apply(x, XML::xmlValue, ..., .type = character(1))
 }

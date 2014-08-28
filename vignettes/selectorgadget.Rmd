@@ -84,7 +84,7 @@ Once we've determined the css selector, we can use it in R to extract the values
 ```{r}
 library(rvest)
 html <- html("http://www.imdb.com/title/tt1490017/")
-cast <- html[sel("#titleCast .itemprop")]
+cast <- html_node(html, "#titleCast .itemprop")
 length(cast)
 cast[1:2]
 ```
@@ -92,7 +92,7 @@ cast[1:2]
 Looking carefully at this output, we see twice as many matches as we expected. That's because we've selected both the table cell and the text inside the cell. We can experiment with selectorgadget to find a better match or look at the html directly.
 
 ```{r}
-cast <- html[sel("#titleCast span.itemprop")]
+cast <- html_node(html, "#titleCast span.itemprop")
 length(cast)
 
 html_text(cast)

@@ -4,7 +4,7 @@
 #' A session object responds to a combination of httr and html methods:
 #' use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
 #' and \code{\link[httr]{status_code}()} to access properties of the request;
-#' using subsetting with selectors (\code{\link{xpath}()}, \code{\link{sel}()}).
+#' and \code{\link{html_node}} to access the html.
 #'
 #' @param url Location to start session
 #' @param ... Any additional httr config to use throughout session.
@@ -92,7 +92,6 @@ is.session <- function(x) inherits(x, "session")
 #' s %>% jump_to("thesis/")
 #' s %>% follow_link("vita")
 #' s %>% follow_link(3)
-#' s %>% follow_link(sel("#footer a"))
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
 
@@ -114,12 +113,10 @@ follow_link <- function(x, i, ...) {
   stopifnot(is.session(x), length(i) == 1)
 
   if (is.numeric(i)) {
-    a <- x[sel("a")][[i]]
-  } else if (is.selector(i)) {
-    a <- x[i][[1]]
+    a <- html_node(x, "a")[[i]]
   } else if (is.character(i)) {
-    links <- x[sel("a")]
-    text <- vapply(links, XML::xmlValue, character(1))
+    links <- html_node(x, "a")
+    text <- html_text(links)
     match <- grepl(i, text, fixed = TRUE)
     if (!any(match)) {
       stop("No links have text '", i, "'", call. = FALSE)
@@ -128,7 +125,7 @@ follow_link <- function(x, i, ...) {
     a <- links[[which(match)[1]]]
   }
 
-  url <- a["href"][[1]]
+  url <- html_attr(a, "href")
   message("Navigating to ", url)
   jump_to(x, url, ...)
 }
@@ -186,11 +183,6 @@ html_table.session <- function(x, header = NA, trim = TRUE) {
 #' @export
 html_node.session <- function(x, nodes, xpath = FALSE) {
   html_node(get_html(x), nodes, xpath = xpath)
-}
-
-#' @export
-`[.session` <- function(x, i, ...) {
-  get_html(x)[i, ...]
 }
 
 get_html <- function(x) {
