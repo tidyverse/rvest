@@ -1,7 +1,7 @@
 context("Selectors")
 library(magrittr)
 
-test <- XML::htmlParse("test.html")
+test <- html("test.html")
 
 # XPath ------------------------------------------------------------------------
 

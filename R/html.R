@@ -1,6 +1,7 @@
 #' Parse an HTML page.
 #'
-#' @param x A url, a string containing html, or a response from an httr request.
+#' @param x A url, a local path, a string containing html, or a response from
+#'   an httr request.
 #' @export
 #' @examples
 #' # From a url:
@@ -21,11 +22,13 @@ html <- function(x) UseMethod("html")
 
 #' @export
 html.character <- function(x) {
-  if (grepl("<|>", x) && !(grepl("^http", x))) {
-    XML::htmlParse(x)
-  } else {
+  if (grepl("^http", x)) {
     r <- httr::GET(x)
     html(r)
+  } else if (grepl("<|>", x)) {
+    XML::htmlParse(x, asText = TRUE)
+  } else {
+    XML::htmlParse(x, asText = FALSE)
   }
 }
 
