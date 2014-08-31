@@ -53,12 +53,7 @@ request_GET <- function(x, url, ...) {
 }
 
 request_POST <- function(x, url, ...) {
-  # Some sites redirect a POST request - in that case, the following request
-  # should be convert to a GET. This is does not agree with the HTTP spec,
-  # but is common in practice (see http://stackoverflow.com/questions/8138137
-  # for discussion).
-  x$response <- httr::POST(url, x$config, ...,
-    httr::config(followlocation = FALSE), handle = x$handle)
+  x$response <- httr::POST(url, x$config, ..., handle = x$handle)
   x$html <- new.env(parent = emptyenv(), hash = FALSE)
   x$url <- x$response$url
   x$back <- character() # can't go back after a post
@@ -173,29 +168,30 @@ print.history <- function(x, ...) {
 # html methods -----------------------------------------------------------------
 
 #' @export
-html_form.session <- function(x) html_form(get_html(x))
-
-#' @export
-html_table.session <- function(x, header = NA, trim = TRUE) {
-  html_table(get_html(x), header = header, trim = trim)
-}
-
-#' @export
-html_node.session <- function(x, nodes, xpath = FALSE) {
-  html_node(get_html(x), nodes, xpath = xpath)
-}
-
-get_html <- function(x) {
+html.session <- function(x) {
   if (exists("cached", envir = x$html)) {
     return(x$html$cached)
   }
 
   if (!is_html(x)) {
-    stop("Current page doesn't appear to be html", call. = FALSE)
+    stop("Current page doesn't appear to be html.", call. = FALSE)
   }
 
   x$html$cached <- httr::content(x$response, "parsed")
   x$html$cached
+}
+
+#' @export
+html_form.session <- function(x) html_form(html(x))
+
+#' @export
+html_table.session <- function(x, header = NA, trim = TRUE) {
+  html_table(html(x), header = header, trim = trim)
+}
+
+#' @export
+html_node.session <- function(x, nodes, xpath = FALSE) {
+  html_node(html(x), nodes, xpath = xpath)
 }
 
 is_html <- function(x) {
