@@ -63,7 +63,7 @@ print.form <- function(x, indent = 0, ...) {
 #' @export
 format.input <- function(x, ...) {
   if (x$type == "password") {
-    value <- paste0(rep("*", nchar(x$value)), collapse = "")
+    value <- paste0(rep("*", nchar(x$value) %||% 0), collapse = "")
   } else {
     value <- x$value
   }
@@ -233,15 +233,15 @@ set_values <- function(form, ...) {
 #' test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
 #' f0 <- html_form(test)[[1]]
 #' f1 <- set_values(f0, entry.564397473 = "abc")
-submit_form <- function(session, form, submit = NULL) {
+submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
 
   # Make request
   if (request$method == "GET") {
-    request_GET(session, url = request$url, params = request$values)
+    request_GET(session, url = request$url, params = request$values, ...)
   } else if (request$method == "POST") {
     request_POST(session, url = request$url, body = request$values,
-      encode = request$encode)
+      encode = request$encode, ...)
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)
   }

@@ -1,4 +1,4 @@
-"%||%" <- function(a, b) if (is.null(a)) b else a
+"%||%" <- function(a, b) if (length(a) == 0) b else a
 
 pluck <- function(x, name, type) {
   if (missing(type)) {
