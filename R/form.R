@@ -225,6 +225,8 @@ set_values <- function(form, ...) {
 #' @param form Form to submit
 #' @param submit Name of submit button to use. If not supplied, defaults to
 #'   first submission button on the form (with a message).
+#' @param ... Additional arguments passed on to \code{\link[httr]{GET}()}
+#'   or \code{\link[httr]{POST}()}
 #' @return If successful, the parsed html response. Throws an error if http
 #'   request fails. To access other elements of response, construct it yourself
 #'   using the elements returned by \code{submit_request}.

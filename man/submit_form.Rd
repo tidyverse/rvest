@@ -12,6 +12,9 @@ submit_form(session, form, submit = NULL, ...)
 
 \item{submit}{Name of submit button to use. If not supplied, defaults to
 first submission button on the form (with a message).}
+
+\item{...}{Additional arguments passed on to \code{\link[httr]{GET}()}
+or \code{\link[httr]{POST}()}}
 }
 \value{
 If successful, the parsed html response. Throws an error if http
