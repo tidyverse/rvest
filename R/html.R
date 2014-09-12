@@ -2,6 +2,9 @@
 #'
 #' @param x A url, a local path, a string containing html, or a response from
 #'   an httr request.
+#' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
+#'   for complete list. If you have problems determining the correct encoding,
+#'   try \code{\link[stringi]{stri_enc_detect}}
 #' @export
 #' @examples
 #' # From a url:
@@ -18,30 +21,30 @@
 #'
 #' # From an httr request
 #' google2 <- html(httr::GET("http://google.com"))
-html <- function(x) UseMethod("html")
+html <- function(x, encoding = NULL) UseMethod("html")
 
 #' @export
-html.character <- function(x) {
+html.character <- function(x, encoding = NULL) {
   if (grepl("^http", x)) {
     r <- httr::GET(x)
-    html(r)
+    html(r, encoding = encoding)
   } else if (grepl("<|>", x)) {
-    XML::htmlParse(x, asText = TRUE)
+    XML::htmlParse(x, asText = TRUE, encoding = encoding)
   } else {
-    XML::htmlParse(x, asText = FALSE)
+    XML::htmlParse(x, asText = FALSE, encoding = encoding)
   }
 }
 
 #' @export
-html.response <- function(x) {
+html.response <- function(x, encoding = NULL) {
   httr::stop_for_status(x)
-  xml <- httr::content(x, "parsed")
+  xml <- httr::content(x, "parsed", encoding = encoding)
   XML::docName(xml) <- x$url
   xml
 }
 
 #' @export
-html.XMLAbstractDocument <- function(x, ...) {
+html.XMLAbstractDocument <- function(x, encoding = NULL) {
   x
 }
 

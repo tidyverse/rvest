@@ -168,7 +168,7 @@ print.history <- function(x, ...) {
 # html methods -----------------------------------------------------------------
 
 #' @export
-html.session <- function(x) {
+html.session <- function(x, encoding = NULL) {
   if (exists("cached", envir = x$html)) {
     return(x$html$cached)
   }
@@ -177,7 +177,7 @@ html.session <- function(x) {
     stop("Current page doesn't appear to be html.", call. = FALSE)
   }
 
-  x$html$cached <- httr::content(x$response, "parsed")
+  x$html$cached <- httr::content(x$response, "parsed", encoding = encoding)
   x$html$cached
 }
 
