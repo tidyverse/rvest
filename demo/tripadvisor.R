@@ -31,7 +31,7 @@ date <- reviews %>%
   as.POSIXct()
 
 review <- reviews %>%
-  html_node(".partial_entry") %>%
+  html_node(".entry .partial_entry") %>%
   html_text()
 
 data.frame(id, quote, rating, date, review, stringsAsFactors = FALSE) %>% View()
