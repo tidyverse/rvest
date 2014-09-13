@@ -9,12 +9,12 @@
 #' html_form(html("https://hadley.wufoo.com/forms/r-journal-submission/"))
 #'
 #' box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
-#' html_node(box_office, "form")[[1]]
+#' box_office %>% html_node("form") %>% html_form()
 html_form <- function(x) UseMethod("html_form")
 
 #' @export
 html_form.XMLAbstractDocument <- function(x) {
-  html_form(html_node(x, "form"))
+  html_form(html_nodes(x, "form"))
 }
 
 #' @export
@@ -71,7 +71,7 @@ format.input <- function(x, ...) {
 }
 
 parse_fields <- function(form) {
-  raw <- html_node(form, "input, select, textarea")
+  raw <- html_nodes(form, "input, select, textarea")
 
   fields <- lapply(raw, function(x) {
     switch(XML::xmlName(x),

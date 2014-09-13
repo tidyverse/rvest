@@ -7,7 +7,7 @@ url <- "http://www.tripadvisor.com/Hotel_Review-g37209-d1762915-Reviews-JW_Marri
 
 reviews <- url %>%
   html() %>%
-  html_node("#REVIEWS .innerBubble")
+  html_nodes("#REVIEWS .innerBubble")
 
 id <- reviews %>%
   html_node(".quote a") %>%

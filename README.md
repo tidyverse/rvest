@@ -9,14 +9,14 @@ library(rvest)
 lego_movie <- html("http://www.imdb.com/title/tt1490017/")
 
 rating <- lego_movie %>% 
-  html_node("strong span") %>%
+  html_nodes("strong span") %>%
   html_text() %>%
   as.numeric()
 rating
 #> [1] 7.9
 
 cast <- lego_movie %>%
-  html_node("#titleCast .itemprop span") %>%
+  html_nodes("#titleCast .itemprop span") %>%
   html_text()
 cast
 #>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    
@@ -25,7 +25,7 @@ cast
 #> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"     
 
 poster <- lego_movie %>%
-  html_node("#img_primary img") %>%
+  html_nodes("#img_primary img") %>%
   html_attr("src")
 poster
 #> "http://ia.media-imdb.com/images/M/....jpg"
@@ -38,9 +38,9 @@ The most important functions in rvest are:
 * Create an html document from a url, a file on disk or a string containing
   html with `html()`.
 
-* Select parts of a document using css selectors: `html_node(doc, "table td")`
+* Select parts of a document using css selectors: `html_nodes(doc, "table td")`
   (or if you've a glutton for punishment, use xpath selectors with
-  `html_node(doc, xpath = "//table//td")`). If you haven't heard of 
+  `html_nodes(doc, xpath = "//table//td")`). If you haven't heard of 
   [selectorgadget](http://selectorgadget.com/), make sure to read
   `vignette("selectorgadget")` to learn about it.
 

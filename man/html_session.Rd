@@ -23,7 +23,7 @@ Simulate a session in an html browser.
 A session object responds to a combination of httr and html methods:
 use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
 and \code{\link[httr]{status_code}()} to access properties of the request;
-and \code{\link{html_node}} to access the html.
+and \code{\link{html_nodes}} to access the html.
 }
 \examples{
 # http://stackoverflow.com/questions/15853204

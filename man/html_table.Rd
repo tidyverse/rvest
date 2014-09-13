@@ -31,12 +31,12 @@ Parse an html table into a data frame.
 }
 \examples{
 bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
-tables <- html_node(bonds, "table")
+tables <- html_nodes(bonds, "table")
 html_table(tables[[2]])
 html_table(tables[2:4])
 
 births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
-html_table(html_node(births, "table")[[2]])
+html_table(html_nodes(births, "table")[[2]])
 
 # If the table is badly formed, and has different number of rows in
 # each column use fill = TRUE. Here's it's due to incorrect colspan

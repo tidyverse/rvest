@@ -4,7 +4,7 @@
 #' A session object responds to a combination of httr and html methods:
 #' use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
 #' and \code{\link[httr]{status_code}()} to access properties of the request;
-#' and \code{\link{html_node}} to access the html.
+#' and \code{\link{html_nodes}} to access the html.
 #'
 #' @param url Location to start session
 #' @param ... Any additional httr config to use throughout session.
@@ -108,9 +108,9 @@ follow_link <- function(x, i, ...) {
   stopifnot(is.session(x), length(i) == 1)
 
   if (is.numeric(i)) {
-    a <- html_node(x, "a")[[i]]
+    a <- html_nodes(x, "a")[[i]]
   } else if (is.character(i)) {
-    links <- html_node(x, "a")
+    links <- html_nodes(x, "a")
     text <- html_text(links)
     match <- grepl(i, text, fixed = TRUE)
     if (!any(match)) {
@@ -190,8 +190,8 @@ html_table.session <- function(x, header = NA, trim = TRUE, fill = FALSE) {
 }
 
 #' @export
-html_node.session <- function(x, css, xpath) {
-  html_node(html(x), css, xpath)
+html_nodes.session <- function(x, css, xpath) {
+  html_nodes(html(x), css, xpath)
 }
 
 is_html <- function(x) {

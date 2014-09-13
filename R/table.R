@@ -17,12 +17,12 @@
 #' @export
 #' @examples
 #' bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
-#' tables <- html_node(bonds, "table")
+#' tables <- html_nodes(bonds, "table")
 #' html_table(tables[[2]])
 #' html_table(tables[2:4])
 #'
 #' births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
-#' html_table(html_node(births, "table")[[2]])
+#' html_table(html_nodes(births, "table")[[2]])
 #'
 #' # If the table is badly formed, and has different number of rows in
 #' # each column use fill = TRUE. Here's it's due to incorrect colspan
@@ -36,7 +36,7 @@ html_table <- function(x, header = NA, trim = TRUE, fill = FALSE) {
 
 #' @export
 html_table.XMLAbstractDocument <- function(x, ...) {
-  html_table(html_node(x, "table"), ...)
+  html_table(html_nodes(x, "table"), ...)
 }
 
 #' @export
@@ -52,9 +52,9 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
   stopifnot(html_tag(x) == "table")
 
   # Throw error if any rowspan/colspan present
-  rows <- html_node(x, "tr")
+  rows <- html_nodes(x, "tr")
   n <- length(rows)
-  cells <- lapply(rows, "html_node", xpath = ".//td|.//th")
+  cells <- lapply(rows, "html_nodes", xpath = ".//td|.//th")
 
   ncols <- lapply(cells, html_attr, "colspan", default = "1")
   ncols <- lapply(ncols, as.integer)

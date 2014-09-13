@@ -19,7 +19,7 @@ Parse an HTML page.
 \examples{
 # From a url:
 google <- html("http://google.com")
-google \%>\% html_node("p")
+google \%>\% html_nodes("p")
 
 # From a string: (minimal html 5 document)
 # http://www.brucelawson.co.uk/2010/a-minimal-html5-document/

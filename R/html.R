@@ -9,7 +9,7 @@
 #' @examples
 #' # From a url:
 #' google <- html("http://google.com")
-#' google %>% html_node("p")
+#' google %>% html_nodes("p")
 #'
 #' # From a string: (minimal html 5 document)
 #' # http://www.brucelawson.co.uk/2010/a-minimal-html5-document/
@@ -61,7 +61,7 @@ html.XMLAbstractDocument <- function(x, encoding = NULL) {
 #' @export
 #' @examples
 #' movie <- html("http://www.imdb.com/title/tt1490017/")
-#' cast <- html_node(movie, "#titleCast span.itemprop")
+#' cast <- html_nodes(movie, "#titleCast span.itemprop")
 #' html_text(cast)
 #' html_tag(cast)
 #' html_attrs(cast)
@@ -69,7 +69,7 @@ html.XMLAbstractDocument <- function(x, encoding = NULL) {
 #' html_attr(cast, "itemprop")
 #'
 #' basic <- html("<p class='a'><b>Bold text</b></p>")
-#' p <- html_node(basic, "p")[[1]]
+#' p <- html_node(basic, "p")
 #' p
 #' # Can subset with numbers to extract children
 #' p[[1]]

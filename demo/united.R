@@ -7,7 +7,7 @@ united <- html_session("http://www.united.com/")
 account <- united %>% follow_link("Account")
 
 login <- account %>%
-  html_node("form") %>%
+  html_nodes("form") %>%
   extract2(1) %>%
   html_form() %>%
    set_values(
