@@ -185,8 +185,8 @@ html.session <- function(x, encoding = NULL) {
 html_form.session <- function(x) html_form(html(x))
 
 #' @export
-html_table.session <- function(x, header = NA, trim = TRUE) {
-  html_table(html(x), header = header, trim = trim)
+html_table.session <- function(x, header = NA, trim = TRUE, fill = FALSE) {
+  html_table(html(x), header = header, trim = trim, fill = fill)
 }
 
 #' @export
