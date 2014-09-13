@@ -12,14 +12,23 @@ rating <- lego_movie %>%
   html_node("strong span") %>%
   html_text() %>%
   as.numeric()
+rating
+#> [1] 7.9
 
 cast <- lego_movie %>%
   html_node("#titleCast .itemprop span") %>%
   html_text()
+cast
+#>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    
+#>  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" 
+#>  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    
+#> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"     
 
 poster <- lego_movie %>%
   html_node("#img_primary img") %>%
   html_attr("src")
+poster
+#> "http://ia.media-imdb.com/images/M/....jpg"
 ```
 
 The most important functions in rvest are:
