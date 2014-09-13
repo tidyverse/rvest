@@ -43,16 +43,18 @@
 #' html_node(ateam, "center font b")
 #'
 #' # But html_node is best used in conjunction with %>% from magrittr
-#' library(magrittr)
 #' # You can chain subsetting:
 #' ateam %>% html_node("center") %>% html_node("td")
 #' ateam %>% html_node("center") %>% html_node("font")
 #'
-#' # To pick out an element at specified position, use extract2
+#' # To pick out an element at specified position, use magrittr::extract2
 #' # which is an alias for [[
+#' library(magrittr)
 #' ateam %>% html_node("table") %>% extract2(1) %>% html_node("img")
+#' ateam %>% html_node("table") %>% `[[`(1) %>% html_node("img")
 #'
 #' # Find all images contained in the first two tables
+#' ateam %>% html_node("table") %>% `[`(1:2) %>% html_node("img")
 #' ateam %>% html_node("table") %>% extract(1:2) %>% html_node("img")
 #'
 #' # XPath selectors ---------------------------------------------

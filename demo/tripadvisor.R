@@ -2,7 +2,6 @@
 # http://notesofdabbler.github.io/201408_hotelReview/scrapeTripAdvisor.html
 
 library(rvest)
-library(magrittr)
 
 url <- "http://www.tripadvisor.com/Hotel_Review-g37209-d1762915-Reviews-JW_Marriott_Indianapolis-Indianapolis_Indiana.html"
 

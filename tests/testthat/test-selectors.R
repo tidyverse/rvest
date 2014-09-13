@@ -1,5 +1,4 @@
 context("Selectors")
-library(magrittr)
 
 test <- html("test.html")
 
@@ -36,7 +35,7 @@ test_that("css selects don't select themselves", {
   p <- test %>% html_node("p") %>% html_node("p")
   expect_equal(length(p), 0)
 
-  p <- test %>% html_node("p") %>% extract2(1) %>% html_node("p")
+  p <- test %>% html_node("p") %>% `[[`(1) %>% html_node("p")
   expect_equal(length(p), 0)
 })
 
