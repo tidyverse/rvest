@@ -3,7 +3,7 @@
 \alias{html_table}
 \title{Parse an html table into a data frame.}
 \usage{
-html_table(x, header = NA, trim = TRUE)
+html_table(x, header = NA, trim = TRUE, fill = FALSE)
 }
 \arguments{
 \item{x}{A node, node set or document.}
@@ -12,6 +12,9 @@ html_table(x, header = NA, trim = TRUE)
 if it consists of \code{<th>} tags.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
+
+\item{fill}{If \code{TRUE}, automatically fill rows with fewer than
+the maximum number of columns with \code{NA}s.}
 }
 \description{
 Parse an html table into a data frame.
@@ -22,9 +25,8 @@ Parse an html table into a data frame.
 \code{html_table} currently makes a few assumptions:
 
 \itemize{
-\item No cells span multiple rows or columns
+\item No cells span multiple rows
 \item Headers are in the first row
-\item All rows have the same number of cells
 }
 }
 \examples{
@@ -35,5 +37,12 @@ html_table(tables[2:4])
 
 births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 html_table(html_node(births, "table")[[2]])
+
+# If the table is badly formed, and has different number of rows in
+# each column use fill = TRUE. Here's it's due to incorrect colspan
+# specification.
+skiing <- html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
+skiing \%>\%
+  html_table(fill = TRUE)
 }
 

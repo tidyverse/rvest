@@ -5,14 +5,15 @@
 #' \code{html_table} currently makes a few assumptions:
 #'
 #' \itemize{
-#' \item No cells span multiple rows or columns
+#' \item No cells span multiple rows
 #' \item Headers are in the first row
-#' \item All rows have the same number of cells
 #' }
 #' @param x A node, node set or document.
 #' @param header Use first row as header? If \code{NA}, will use first row
 #'   if it consists of \code{<th>} tags.
 #' @param trim Remove leading and trailing whitespace within each cell?
+#' @param fill If \code{TRUE}, automatically fill rows with fewer than
+#'   the maximum number of columns with \code{NA}s.
 #' @export
 #' @examples
 #' bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
@@ -22,55 +23,90 @@
 #'
 #' births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 #' html_table(html_node(births, "table")[[2]])
-html_table <- function(x, header = NA, trim = TRUE) {
+#'
+#' # If the table is badly formed, and has different number of rows in
+#' # each column use fill = TRUE. Here's it's due to incorrect colspan
+#' # specification.
+#' skiing <- html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
+#' skiing %>%
+#'   html_table(fill = TRUE)
+html_table <- function(x, header = NA, trim = TRUE, fill = FALSE) {
   UseMethod("html_table")
 }
 
 #' @export
 html_table.XMLAbstractDocument <- function(x, ...) {
-  html_table(html_node(x, "table"))
+  html_table(html_node(x, "table"), ...)
 }
 
 #' @export
-html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE) {
+html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE, fill = FALSE) {
   # FIXME: guess useful names
-  lapply(x, html_table, header = header, trim = trim)
+  lapply(x, html_table, header = header, trim = trim, fill = fill)
 }
 
 #' @export
-html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE) {
+html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
+                                              fill = FALSE) {
 
   stopifnot(html_tag(x) == "table")
 
   # Throw error if any rowspan/colspan present
   rows <- html_node(x, "tr")
+  n <- length(rows)
   cells <- lapply(rows, "html_node", ".//td|.//th", xpath = TRUE)
 
-  n <- unique(vapply(cells, length, integer(1)))
-  if (length(n) != 1) {
-    stop("Table doesn't have equal number of columns in every row",
-      call. = FALSE)
+  ncols <- lapply(cells, html_attr, "colspan", default = "1")
+  ncols <- lapply(ncols, as.integer)
+  p <- unique(vapply(ncols, sum, integer(1)))
+
+  if (length(p) > 1) {
+    if (!fill) {
+      stop("Table doesn't has different numbers of columns in different rows. ",
+        "Do you want fill = TRUE?", call. = FALSE)
+    } else {
+      p <- max(p)
+    }
   }
 
-  is_header <- t(vapply(cells, function(x) html_tag(x) == "th", logical(n)))
+  values <- lapply(cells, html_text, trim = trim)
+  out <- matrix(NA_character_, nrow = n, ncol = p)
+
+  for (i in seq_len(n)) {
+    row <- values[[i]]
+    ncol <- ncols[[i]]
+    col <- 1
+    for (j in seq_len(p)) {
+      if (j > length(row)) next
+      out[i, col] <- row[[j]]
+      col <- col + ncol[j]
+    }
+  }
+
   if (is.na(header)) {
-    header <- all(is_header[1, ])
+    header <- all(html_tag(cells[[1]]) == "th")
   }
-
-  values <- t(vapply(cells, html_text, trim = trim, FUN.VALUE = character(n)))
   if (header) {
-    col_names <- values[1, ]
-    values <- values[-1, ]
+    col_names <- out[1, ]
+    out <- out[-1, ]
   } else {
-    col_names <- paste("X", seq_along(ncol(values)))
+    col_names <- paste("X", seq_along(ncol(out)))
   }
 
-  df <- lapply(seq_len(ncol(values)), function(i) {
-    type.convert(values[, i], as.is = TRUE)
+  df <- lapply(seq_len(p), function(i) {
+    type.convert(out[, i], as.is = TRUE)
   })
   names(df) <- col_names
   class(df) <- "data.frame"
-  attr(df, "row.names") <- .set_row_names(nrow(values))
+  attr(df, "row.names") <- .set_row_names(nrow(out))
 
   df
+}
+
+expand <- function(x, n) {
+
+
+  browser()
+  length(x) <- n
+  x
 }
