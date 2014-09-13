@@ -48,7 +48,16 @@ The most important functions in rvest are:
 
 To see examples of these function in use, check out the demos.
 
-# Inspirations
+## Installation
+
+rvest isn't available on CRAN (yet), so download it directly from github with:
+
+```R
+# install.packages("devtools")
+install_github("hadley/rvest")
+```
+
+## Inspirations
 
 * Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
   [beautiful soup](http://www.crummy.com/software/BeautifulSoup/).
