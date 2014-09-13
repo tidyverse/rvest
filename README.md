@@ -29,7 +29,7 @@ The most important functions in rvest are:
 
 * Select parts of a document using css selectors: `html_node(doc, "table td")`
   (or if you've a glutton for punishment, use xpath selectors with
-  `html_node(doc, "//table//td", xpath = TRUE)`).
+  `html_node(doc, xpath = "//table//td")`).
 
 * Extract important components of html tags with `html_tag()` (the name of the
   tag), `html_text()` (all text contained inside the tag), `html_attr()`

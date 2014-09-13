@@ -3,15 +3,14 @@
 \alias{html_node}
 \title{Select nodes from an HTML document}
 \usage{
-html_node(x, nodes, xpath = FALSE)
+html_node(x, css, xpath)
 }
 \arguments{
 \item{x}{Either a complete document (HTMLInternalDocument),
 a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
 
-\item{nodes,xpath}{Nodes to select. By default this is a css selector.
-If \code{xpath} is \code{TRUE}, it's interpreted as an xpath selector.
-(the default), this should be a css}
+\item{css,xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a css or xpath selector.}
 }
 \description{
 More easily extract pieces out of HTML documents using XPath and css
@@ -70,7 +69,7 @@ ateam \%>\% html_node("table") \%>\% extract(1:2) \%>\% html_node("img")
 # the prefix you're using - // always selects from the root noot
 # regardless of where you currently are in the doc
 ateam \%>\%
-  html_node("//center//font//b", xpath = TRUE) \%>\%
-  html_node("//b", xpath = TRUE)
+  html_node(xpath = "//center//font//b") \%>\%
+  html_node(xpath = "//b")
 }
 

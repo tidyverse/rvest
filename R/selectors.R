@@ -32,9 +32,8 @@
 #'
 #' @param x Either a complete document (HTMLInternalDocument),
 #'   a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).
-#' @param nodes,xpath Nodes to select. By default this is a css selector.
-#'   If \code{xpath} is \code{TRUE}, it's interpreted as an xpath selector.
-#'   (the default), this should be a css
+#' @param css,xpath Nodes to select. Supply one of \code{css} or \code{xpath}
+#'   depending on whether you want to use a css or xpath selector.
 #' @export
 #' @examples
 #' # CSS selectors ----------------------------------------------
@@ -61,19 +60,19 @@
 #' # the prefix you're using - // always selects from the root noot
 #' # regardless of where you currently are in the doc
 #' ateam %>%
-#'   html_node("//center//font//b", xpath = TRUE) %>%
-#'   html_node("//b", xpath = TRUE)
-html_node <- function(x, nodes, xpath = FALSE) UseMethod("html_node")
+#'   html_node(xpath = "//center//font//b") %>%
+#'   html_node(xpath = "//b")
+html_node <- function(x, css, xpath) UseMethod("html_node")
 
 #' @export
-html_node.HTMLInternalDocument <- function(x, nodes, xpath = FALSE) {
-  i <- if (xpath) xpath(nodes) else sel(nodes)
+html_node.HTMLInternalDocument <- function(x, css, xpath) {
+  i <- make_selector(css, xpath)
   html_extract_n(x, i, prefix = "//")
 }
 
 #' @export
-html_node.XMLNodeSet <- function(x, nodes, xpath = FALSE) {
-  i <- if (xpath) xpath(nodes) else sel(nodes)
+html_node.XMLNodeSet <- function(x, css, xpath) {
+  i <- make_selector(css, xpath)
   nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
 
   out <- unlist(nodes, recursive = FALSE)
@@ -82,11 +81,24 @@ html_node.XMLNodeSet <- function(x, nodes, xpath = FALSE) {
 }
 
 #' @export
-html_node.XMLInternalElementNode<- function(x, nodes, xpath = FALSE) {
-  i <- if (xpath) xpath(nodes) else sel(nodes)
+html_node.XMLInternalElementNode<- function(x, css, xpath) {
+  i <- make_selector(css, xpath)
   html_extract_n(x, i, prefix = "descendant::")
 }
 
+make_selector <- function(css, xpath) {
+  if (missing(css) && missing(xpath))
+    stop("Please supply one of css or xpath", call. = FALSE)
+  if (!missing(css) && !missing(xpath))
+    stop("Please supply css or xpath, not both", call. = FALSE)
+
+  if (!missing(css)) {
+    sel(css)
+  } else {
+    xpath(xpath)
+  }
+
+}
 
 xpath <- function(x) structure(x, class = c("xpath_selector", "selector"))
 sel <- function(x) structure(x, class = c("css_selector", "selector"))

@@ -54,7 +54,7 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
   # Throw error if any rowspan/colspan present
   rows <- html_node(x, "tr")
   n <- length(rows)
-  cells <- lapply(rows, "html_node", ".//td|.//th", xpath = TRUE)
+  cells <- lapply(rows, "html_node", xpath = ".//td|.//th")
 
   ncols <- lapply(cells, html_attr, "colspan", default = "1")
   ncols <- lapply(ncols, as.integer)

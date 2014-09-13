@@ -190,8 +190,8 @@ html_table.session <- function(x, header = NA, trim = TRUE, fill = FALSE) {
 }
 
 #' @export
-html_node.session <- function(x, nodes, xpath = FALSE) {
-  html_node(html(x), nodes, xpath = xpath)
+html_node.session <- function(x, css, xpath) {
+  html_node(html(x), css, xpath)
 }
 
 is_html <- function(x) {

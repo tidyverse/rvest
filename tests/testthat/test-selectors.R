@@ -6,16 +6,16 @@ test <- html("test.html")
 # XPath ------------------------------------------------------------------------
 
 test_that("xpath with // selects from root", {
-  p <- html_node(test, "//p", xpath = TRUE)
+  p <- html_node(test, xpath = "//p")
   expect_equal(length(p), 4)
 
-  p2 <- html_node(p[[1]], "//p", xpath = TRUE)
+  p2 <- html_node(p[[1]], xpath = "//p")
   expect_equal(length(p2), 4)
 
-  p3 <- html_node(p[[3]], "b", xpath = TRUE)
+  p3 <- html_node(p[[3]], xpath = "b")
   expect_equal(length(p3), 1)
 
-  b <- html_node(p, "b", xpath = TRUE)
+  b <- html_node(p, xpath = "b")
   expect_equal(length(b), 2)
 })
 
