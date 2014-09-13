@@ -31,6 +31,8 @@ poster
 #> "http://ia.media-imdb.com/images/M/....jpg"
 ```
 
+## Overview
+
 The most important functions in rvest are:
 
 * Create an html document from a url, a file on disk or a string containing
@@ -42,9 +44,9 @@ The most important functions in rvest are:
   [selectorgadget](http://selectorgadget.com/), make sure to read
   `vignette("selectorgadget")` to learn about it.
 
-* Extract important components of html tags with `html_tag()` (the name of the
-  tag), `html_text()` (all text contained inside the tag), `html_attr()`
-  (contents of a single attribute) and `html_attrs()` (all attributes).
+* Extract components with `html_tag()` (the name of the tag), `html_text()` 
+  (all text inside the tag), `html_attr()` (contents of a single attribute) and 
+  `html_attrs()` (all attributes).
 
 * Parse tables into data frames with `html_table()`.
 
