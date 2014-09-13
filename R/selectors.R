@@ -83,7 +83,7 @@ html_node.XMLNodeSet <- function(x, css, xpath) {
 }
 
 #' @export
-html_node.XMLInternalElementNode<- function(x, css, xpath) {
+html_node.XMLInternalElementNode <- function(x, css, xpath) {
   i <- make_selector(css, xpath)
   html_extract_n(x, i, prefix = "descendant::")
 }
