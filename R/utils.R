@@ -56,3 +56,18 @@ xml_apply <- function(x, f, ..., .type) {
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
 NULL
+
+
+#' Extract elements of a list by position.
+#'
+#' @param x A list
+#' @param i A string or integer.
+#' @param type Type of output, if known
+#' @export
+pluck <- function(x, i, type) {
+  if (missing(type)) {
+    lapply(x, .subset2, i)
+  } else {
+    vapply(x, .subset2, i, FUN.VALUE = type)
+  }
+}
