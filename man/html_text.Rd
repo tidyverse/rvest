@@ -12,7 +12,7 @@ html_tag(x)
 
 html_attrs(x)
 
-html_attr(x, name)
+html_attr(x, name, default = NA_character_)
 }
 \arguments{
 \item{x}{Either a complete document (HTMLInternalDocument),
@@ -23,6 +23,9 @@ The most useful argument is \code{trim = TRUE} which will remove leading
 and trailing whitespace.}
 
 \item{name}{Name of attribute to extract.}
+
+\item{default}{A string used as a default value when the attribute does
+not exist in every node.}
 }
 \value{
 \code{html_attr}, \code{html_tag} and \code{html_text}, a character

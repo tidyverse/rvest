@@ -92,7 +92,18 @@ html_attrs <- function(x) {
 }
 
 #' @rdname html_text
+#' @param default A string used as a default value when the attribute does
+#'   not exist in every node.
 #' @export
-html_attr <- function(x, name) {
-  xml_apply(x, function(x) XML::xmlAttrs(x)[[name]], .type = character(1))
+html_attr <- function(x, name, default = NA_character_) {
+  xml_apply(x, xml_attr, name, default = default, .type = character(1))
+}
+
+xml_attr <- function(x, name, default) {
+  attr <- XML::xmlAttrs(x)
+  if (name %in% names(attr)) {
+    attr[[name]]
+  } else {
+    default
+  }
 }
