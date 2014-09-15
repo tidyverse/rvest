@@ -3,7 +3,7 @@
 \alias{html_table}
 \title{Parse an html table into a data frame.}
 \usage{
-html_table(x, header = NA, trim = TRUE, fill = FALSE)
+html_table(x, header = NA, trim = TRUE, fill = FALSE, dec = ".")
 }
 \arguments{
 \item{x}{A node, node set or document.}
@@ -15,6 +15,8 @@ if it consists of \code{<th>} tags.}
 
 \item{fill}{If \code{TRUE}, automatically fill rows with fewer than
 the maximum number of columns with \code{NA}s.}
+
+\item{dec}{The character used as decimal mark.}
 }
 \description{
 Parse an html table into a data frame.

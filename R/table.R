@@ -14,6 +14,7 @@
 #' @param trim Remove leading and trailing whitespace within each cell?
 #' @param fill If \code{TRUE}, automatically fill rows with fewer than
 #'   the maximum number of columns with \code{NA}s.
+#' @param dec The character used as decimal mark.
 #' @export
 #' @examples
 #' bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
@@ -30,7 +31,7 @@
 #' skiing <- html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
 #' skiing %>%
 #'   html_table(fill = TRUE)
-html_table <- function(x, header = NA, trim = TRUE, fill = FALSE) {
+html_table <- function(x, header = NA, trim = TRUE, fill = FALSE, dec = ".") {
   UseMethod("html_table")
 }
 
@@ -40,14 +41,15 @@ html_table.XMLAbstractDocument <- function(x, ...) {
 }
 
 #' @export
-html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE, fill = FALSE) {
+html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE, fill = FALSE,
+                                  dec = ".") {
   # FIXME: guess useful names
-  lapply(x, html_table, header = header, trim = trim, fill = fill)
+  lapply(x, html_table, header = header, trim = trim, fill = fill, dec = dec)
 }
 
 #' @export
 html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
-                                              fill = FALSE) {
+                                              fill = FALSE, dec = ".") {
 
   stopifnot(html_tag(x) == "table")
 
@@ -94,7 +96,7 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
   }
 
   df <- lapply(seq_len(p), function(i) {
-    type.convert(out[, i], as.is = TRUE)
+    type.convert(out[, i], as.is = TRUE, dec = dec)
   })
   names(df) <- col_names
   class(df) <- "data.frame"
