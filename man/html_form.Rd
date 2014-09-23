@@ -12,11 +12,13 @@ html_form(x)
 Parse forms in a page.
 }
 \examples{
+\donttest{
 html_form(html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
 html_form(html("https://hadley.wufoo.com/forms/r-journal-submission/"))
 
 box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
 box_office \%>\% html_node("form") \%>\% html_form()
+}
 }
 \seealso{
 HTML 4.01 form specification:

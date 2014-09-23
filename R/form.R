@@ -5,11 +5,13 @@
 #' @seealso HTML 4.01 form specification:
 #'   \url{http://www.w3.org/TR/html401/interact/forms.html}
 #' @examples
+#' \donttest{
 #' html_form(html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
 #' html_form(html("https://hadley.wufoo.com/forms/r-journal-submission/"))
 #'
 #' box_office <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
 #' box_office %>% html_node("form") %>% html_form()
+#' }
 html_form <- function(x) UseMethod("html_form")
 
 #' @export
