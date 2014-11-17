@@ -89,18 +89,19 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
     header <- all(html_tag(cells[[1]]) == "th")
   }
   if (header) {
-    col_names <- out[1, ]
-    out <- out[-1, ]
+    col_names <- out[1, , drop = FALSE]
+    out <- out[-1, , drop = FALSE]
   } else {
     col_names <- paste("X", seq_along(ncol(out)))
   }
 
+  # Convert matrix to list to data frame
   df <- lapply(seq_len(p), function(i) {
     type.convert(out[, i], as.is = TRUE, dec = dec)
   })
   names(df) <- col_names
   class(df) <- "data.frame"
-  attr(df, "row.names") <- .set_row_names(nrow(out))
+  attr(df, "row.names") <- .set_row_names(length(df[[1]]))
 
   df
 }
