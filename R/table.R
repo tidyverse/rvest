@@ -105,11 +105,3 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
 
   df
 }
-
-expand <- function(x, n) {
-
-
-  browser()
-  length(x) <- n
-  x
-}
