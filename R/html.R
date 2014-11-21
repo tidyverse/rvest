@@ -38,9 +38,20 @@ html.character <- function(x, encoding = NULL) {
 #' @export
 html.response <- function(x, encoding = NULL) {
   httr::stop_for_status(x)
-  xml <- httr::content(x, "parsed", encoding = encoding)
+
+  text <- httr::content(x, "text")
+  xml <- XML::htmlParse(text, asText = TRUE,
+    encoding = encoding %||% default_encoding(x))
   XML::docName(xml) <- x$url
   xml
+}
+
+default_encoding <- function(x) {
+  type <- httr::headers(x)$`Content-Type`
+  if (is.null(type)) return(NULL)
+
+  media <- httr::parse_media(type)
+  media$params$charset
 }
 
 #' @export
