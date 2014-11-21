@@ -14,8 +14,8 @@
 #' # http://stackoverflow.com/questions/15853204
 #'
 #' s <- html_session("http://had.co.nz")
-#' s %>% jump_to("thesis") %>% jump_to("/") %>% history()
-#' s %>% jump_to("thesis") %>% back() %>% history()
+#' s %>% jump_to("thesis") %>% jump_to("/") %>% session_history()
+#' s %>% jump_to("thesis") %>% back() %>% session_history()
 #'
 #' s %>% follow_link("vita")
 html_session <- function(url, ...) {
