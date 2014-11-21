@@ -131,7 +131,7 @@ follow_link <- function(x, i, ...) {
 #'
 #' @export
 #' @param x A session.
-history <- function(x) {
+session_history <- function(x) {
   structure(
     list(
       back    = rev(x$back),
@@ -143,7 +143,7 @@ history <- function(x) {
 }
 
 #' @export
-#' @rdname history
+#' @rdname session_history
 back <- function(x) {
   stopifnot(is.session(x))
 
