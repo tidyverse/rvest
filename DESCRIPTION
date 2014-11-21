@@ -1,9 +1,9 @@
 Package: rvest
-Title: Easily harvest (scrape) web pages
+Title: Easily Harvest (Scrape) Web Pages
 Version: 0.1
 Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
-Description: rvest makes it easy to harvest (i.e. scrape) data from web
-    pages by providing some helpful wrappers around XML and httr.
+Description: Wrappers around the XML and httr packages to make it easy to
+    download, then manipulation html pages.
 Depends:
     R (>= 3.0.1)
 Imports:
