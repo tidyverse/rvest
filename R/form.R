@@ -129,7 +129,7 @@ parse_select <- function(select) {
   stopifnot(inherits(select, "XMLAbstractNode"), XML::xmlName(select) == "select")
 
   attr <- as.list(XML::xmlAttrs(select))
-  options <- parse_options(html_node(select, "option"))
+  options <- parse_options(html_nodes(select, "option"))
 
   structure(
     list(
