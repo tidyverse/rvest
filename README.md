@@ -47,7 +47,9 @@ The most important functions in rvest are:
 
 -   Parse tables into data frames with `html_table()`.
 
--   Extract, modify and submit forms with `html_form()`, `set_values()` and `submit_form()`
+-   Extract, modify and submit forms with `html_form()`, `set_values()` and `submit_form()`.
+
+-   Detect and repair encoding problems with `guess_encoding()` and `repair_encoding()`.
 
 -   Navigate around a website as if you're in a browser with `html_session()`, `jump_to()`, `follow_link()`, `back()`, `forward()`, `submit_form()` and so on. (This is still a work in progress, so I'd love your feedback.)
 
