@@ -83,10 +83,12 @@ is.session <- function(x) inherits(x, "session")
 #' @param ... Any additional httr configs to apply to this request.
 #' @export
 #' @examples
+#' \donttest{
 #' s <- html_session("http://had.co.nz")
 #' s %>% jump_to("thesis/")
 #' s %>% follow_link("vita")
 #' s %>% follow_link(3)
+#' }
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
 

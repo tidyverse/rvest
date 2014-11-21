@@ -27,9 +27,11 @@ follow_link(x, i, ...)
 tag) on the current page.
 }
 \examples{
+\donttest{
 s <- html_session("http://had.co.nz")
 s \%>\% jump_to("thesis/")
 s \%>\% follow_link("vita")
 s \%>\% follow_link(3)
+}
 }
 
