@@ -1,6 +1,6 @@
 Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
 Description: Wrappers around the XML and httr packages to make it easy to
     download, then manipulation html pages.
