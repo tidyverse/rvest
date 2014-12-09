@@ -14,4 +14,13 @@ test_that("select options are named character vector", {
   expect_equal(form$fields[[1]]$options, c(a = "1", b = "2"))
 })
 
+test_that("parse_fields gets the button", {
+    select <- minimal_html("button test", '
+    <form>
+      <button type="submit">Click me</button>
+    </form>
+  ')
 
+    form <- select %>% html_node("form") %>% html_form()
+    expect_equal(form$fields[[1]]$type, "submit")
+})
