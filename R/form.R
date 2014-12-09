@@ -73,13 +73,14 @@ format.input <- function(x, ...) {
 }
 
 parse_fields <- function(form) {
-  raw <- html_nodes(form, "input, select, textarea")
+  raw <- html_nodes(form, "input, select, textarea, button")
 
   fields <- lapply(raw, function(x) {
     switch(XML::xmlName(x),
       textarea = parse_textarea(x),
       input = parse_input(x),
-      select = parse_select(x)
+      select = parse_select(x),
+      button = parse_button(x)
     )
   })
   names(fields) <- pluck(fields, "name")
@@ -182,6 +183,29 @@ parse_textarea <- function(textarea) {
 #' @export
 format.textarea <- function(x, ...) {
   paste0("<textarea> '", x$name, "' [", nchar(x$value), " char]")
+}
+
+parse_button <- function(button) {
+  stopifnot(inherits(button, "XMLAbstractNode"), XML::xmlName(button) == "button")
+  attr <- as.list(XML::xmlAttrs(button))
+  
+  structure(
+    list(
+      name = attr$name %||% "<unnamed>",
+      type = attr$type,
+      value = attr$value,
+      checked = attr$checked,
+      disabled = attr$disabled,
+      readonly = attr$readonly,
+      required = attr$required %||% FALSE
+    ),
+    class = "button"
+  )
+}
+
+#' @export
+format.button <- function(x, ...) {
+  paste0("<button ", x$type, "> '", x$name)
 }
 
 
