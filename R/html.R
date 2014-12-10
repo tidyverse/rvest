@@ -5,6 +5,11 @@
 #' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
 #'   for complete list. If you have problems determining the correct encoding,
 #'   try \code{\link[stringi]{stri_enc_detect}}
+#' @param ... Further arguments to be passed to subsequent functions.
+#'   In particular:
+#'   \itemize{
+#'      \item{\code{\link[httr]{GET}}}
+#'   }
 #' @export
 #' @examples
 #' # From a url:
@@ -21,12 +26,13 @@
 #'
 #' # From an httr request
 #' google2 <- html(httr::GET("http://google.com"))
-html <- function(x, encoding = NULL) UseMethod("html")
+# html <- function(x, encoding = NULL, httr_config = list(), ...) UseMethod("html")
+html <- function(x, encoding = NULL, ...) UseMethod("html")
 
 #' @export
-html.character <- function(x, encoding = NULL) {
+html.character <- function(x, encoding = NULL, ...) {
   if (grepl("^http", x)) {
-    r <- httr::GET(x)
+    r <- httr::GET(x, ...)
     html(r, encoding = encoding)
   } else if (grepl("<|>", x)) {
     XML::htmlParse(x, asText = TRUE, encoding = encoding)
@@ -34,6 +40,16 @@ html.character <- function(x, encoding = NULL) {
     XML::htmlParse(x, asText = FALSE, encoding = encoding)
   }
 }
+# html.character <- function(x, encoding = NULL, httr_config = list()) {
+#   if (grepl("^http", x)) {
+#     r <- httr::GET(x, config = httr_config)
+#     html(r, encoding = encoding)
+#   } else if (grepl("<|>", x)) {
+#     XML::htmlParse(x, asText = TRUE, encoding = encoding)
+#   } else {
+#     XML::htmlParse(x, asText = FALSE, encoding = encoding)
+#   }
+# }
 
 #' @export
 html.response <- function(x, encoding = NULL) {
