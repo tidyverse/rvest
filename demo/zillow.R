@@ -1,6 +1,6 @@
 # Inspired by https://github.com/notesofdabbler
-
 library(rvest)
+library(tidyr)
 
 url <- "http://www.zillow.com/homes/for_sale/Greenwood-IN/fsba,fsbo,fore,cmsn_lt/house_type/52333_rid/39.638414,-86.011362,39.550714,-86.179419_rect/12_zm/0_mmm/"
 
@@ -41,10 +41,10 @@ params <- houses %>%
   strsplit(", ")
 beds <- params %>%
   pluck(1, character(1)) %>%
-  tidyr::extract_numeric()
+  extract_numeric()
 baths <- params %>%
   pluck(2, character(1)) %>%
-  tidyr::extract_numeric()
+  extract_numeric()
 house_area <- params %>%
   pluck(3, character(1)) %>%
   area()
