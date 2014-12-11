@@ -115,11 +115,47 @@ follow_link <- function(x, i, ...) {
     links <- html_nodes(x, "a")
     text <- html_text(links)
     match <- grepl(i, text, fixed = TRUE)
+
+    ## Error object //
+    errors <- list()
+    errors$match <- list(status = 0, message = NULL)
+
+    ## Try to match `i` in link text //
     if (!any(match)) {
-      stop("No links have text '", i, "'", call. = FALSE)
+      errors$match$status <- 1
+      errors$match$message <- expression(stop("No links have text '", i, "'", call. = FALSE))
+      links <- list()
+    } else {
+      a <- links[[which(match)[1]]]
     }
 
-    a <- links[[which(match)[1]]]
+    ## This means that something that has been tried before failed
+    ## --> try the next thing
+    if (errors[[length(errors)]]$status == 1) {
+      ## Append error object //
+      errors$selector <- list(status = 0, message = NULL)
+      ## Try interpreting `i` as selector //
+      links <- html_nodes(httr::content(x$response), i)
+      if (!length(links)) {
+        errors$selector$status <- 1
+        errors$selector$message <- expression(
+          stop("No links found when using selector '", i, "'", call. = FALSE)
+        )
+      } else {
+        a <- html_nodes(links, "a")[1]
+      }
+    }
+
+    ## Process error object //
+    ## If any element has status 1 --> abort
+    if (errors[[length(errors)]]$status == 1) {
+      ## Information about what has been tried
+      sapply(errors, function(ii) {
+        try(eval(ii$message))
+      })
+      ## Actual error shutting everyting down
+      eval(errors[[length(errors)]]$message)
+    }
   }
 
   url <- html_attr(a, "href")
