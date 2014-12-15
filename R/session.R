@@ -99,62 +99,57 @@ jump_to <- function(x, url, ...) {
   request_GET(x, url, ...)
 }
 
-#' @param i You can select with: \describe{
-#'   \item{an integer}{selects the ith link}
-#'   \item{a css or xpath selector}{selects first link that matches selector}
-#'   \item{a string}{first link containing that text (case sensitive)}
+#' @param i object used to identify the actual link to follow.
+#' @param type One of: \describe{
+#'   \item{"text": }{first link containing that text (case sensitive)}
+#'   \item{"css": }{selects first link that matches CSS selector}
+#'   \item{"xpath": }{selects first link that matches XPath expression/selector}
+#'   \item{"position": }{selects the ith link}
 #' }
 #' @export
 #' @rdname jump_to
-follow_link <- function(x, i, ...) {
+follow_link <- function(x, i, type = c("text", "css", "xpath", "position"),
+                        ...) {
   stopifnot(is.session(x), length(i) == 1)
 
-  if (is.numeric(i)) {
-    a <- html_nodes(x, "a")[[i]]
-  } else if (is.character(i)) {
-    links <- html_nodes(x, "a")
-    text <- html_text(links)
-    match <- grepl(i, text, fixed = TRUE)
+  type <- match.arg(type, c("text", "css", "xpath", "position"))
 
-    ## Error object //
-    errors <- list()
-    errors$match <- list(status = 0, message = NULL)
-
-    ## Try to match `i` in link text //
-    if (!any(match)) {
-      errors$match$status <- 1
-      errors$match$message <- expression(stop("No links have text '", i, "'", call. = FALSE))
-      links <- list()
+  if (is.numeric(i) && type == "position") {
+    a <- html_nodes(x, "a")
+    if (i > length(a)) {
+      stop("Position ", i, " is out of bounds (max is: ", length(a), ")",
+           call. = FALSE)
     } else {
-      a <- links[[which(match)[1]]]
+      a <- a[[i]]
     }
-
-    ## This means that something that has been tried before failed
-    ## --> try the next thing
-    if (errors[[length(errors)]]$status == 1) {
-      ## Append error object //
-      errors$selector <- list(status = 0, message = NULL)
-      ## Try interpreting `i` as selector //
-      links <- html_nodes(httr::content(x$response), i)
+  } else if (is.character(i)) {
+    if (type == "text") {
+      links <- html_nodes(x, "a")
+      text <- html_text(links)
+      match <- grepl(i, text, fixed = TRUE)
+      ## Try to match `i` in link text //
+      if (!any(match)) {
+        stop("No links have text '", i, "'", call. = FALSE)
+      } else {
+        a <- links[[which(match)[1]]]
+      }
+    } else if (type == "css") {
+      ## Try interpreting `i` as CSS selector //
+      links <- html_nodes(httr::content(x$response), css = i)
       if (!length(links)) {
-        errors$selector$status <- 1
-        errors$selector$message <- expression(
-          stop("No links found when using selector '", i, "'", call. = FALSE)
-        )
+        stop("No links found when using CSS selector '", i, "'", call. = FALSE)
       } else {
         a <- html_nodes(links, "a")[1]
       }
-    }
-
-    ## Process error object //
-    ## If any element has status 1 --> abort
-    if (errors[[length(errors)]]$status == 1) {
-      ## Information about what has been tried
-      sapply(errors, function(ii) {
-        try(eval(ii$message))
-      })
-      ## Actual error shutting everyting down
-      eval(errors[[length(errors)]]$message)
+    } else if (type == "xpath") {
+      ## Try interpreting `i` as Xpath expression/selector //
+      links <- html_nodes(httr::content(x$response), xpath = i)
+      if (!length(links)) {
+        stop("No links found when using Xpath expression/selector '",
+             i, "'", call. = FALSE)
+      } else {
+        a <- html_nodes(links, "a")[1]
+      }
     }
   }
 

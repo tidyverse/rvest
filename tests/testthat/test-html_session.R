@@ -1,32 +1,105 @@
-context("html_session: additional args")
+##------------------------------------------------------------------------------
+## Preparations //
+##------------------------------------------------------------------------------
 
-test_that("additional args for html_session()", {
-  expect_is(s <- html_session("https://www.aldi-sued.de/",
-    httr::user_agent("Mozilla/5.0")), "session")
+## Ensure offline copy of test website //
+path_data <- if (basename(getwd()) == "testthat") {
+  "data"
+} else {
+  "tests/testthat/data"
+}
+dir.create(path_data, recursive = TRUE, showWarnings = FALSE)
 
-  ## `i` is text that should be matched:
-  expect_is(s %>% follow_link("Angebote"), "session")
+html_1 <- file.path(path_data, "test_1.html")
+if (!file.exists(html_1)) {
+  res <- httr::GET("http://testing-ground.scraping.pro/")
+  write(httr::content(res, as = "text"), file = html_1)
+}
 
-  ## `i` is valid selector:
-  expect_is(s %>% follow_link(".m-first"), "session")
+## Load offline copy //
+expect_is(.html <- html(html_1), "HTMLInternalDocument")
 
-  ## `i` is invalid selector:
-  expect_error(s %>% follow_link("abcd"))
+## TODO: suggestion #43
+## Possibly figure out a way to download the entire website and to being
+## able to use sessions as created by `html_session()` (as well as derived
+## functionality such as `follow_link()` on such offline content
+
+##------------------------------------------------------------------------------
+## Actual tests //
+##------------------------------------------------------------------------------
+
+context("follow_link: text")
+
+test_that("valid text", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_is(s %>% follow_link("TABLE REPORT", "text"), "session")
 })
 
-test_that("additional args for html_session()", {
-  expect_is(s <- html_session(
-    "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=ssd",
-    httr::user_agent("Mozilla/5.0")), "session")
+test_that("invalid text", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_error(s %>% follow_link("abcd", "text"))
+})
 
-  ## `i` is text that should be matched:
-  expect_is(s %>% follow_link("Prime"), "session")
+##----------
 
-  ## `i` is valid selector:
+context("follow_link: CSS")
+
+test_that("simple CSS", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_is(s %>% follow_link(".caseblock", "css"), "session")
+})
+
+test_that("complex CSS", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+#   expect_is(s %>% follow_link(".caseblock:nth-child(1) a", "css"), "session")
+## TODO: fix #41
+  expect_error(s %>% follow_link(".caseblock:nth-child(1) a", "css"))
+})
+
+test_that("invalid CSS", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_error(s %>% follow_link("abcd", "css"))
+})
+
+##----------
+
+context("follow_link: XPath")
+
+test_that("Simple Xpath", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+
+  ## Valid XPath expression/selector:
   expect_is(s %>% follow_link(
-    "#result_0 .a-spacing-base+ .a-spacing-mini .a-spacing-none"), "session")
-
-  ## `i` is invalid selector:
-  expect_error(s %>% follow_link("abcd"))
+    '//*[contains(concat( " ", @class, " " ), concat( " ", "caseblock", " " ))]',
+    "xpath"), "session")
 })
 
+test_that("Complex Xpath", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+#   expect_is(s %>% follow_link(
+#     '//*[contains(concat( " ", @class, " " ), concat( " ", "caseblock", " " )) and (((count(preceding-sibling::*) + 1) = 1) and parent::*)]//a',
+#     "xpath"), "session")
+## TODO: fix #42
+  expect_error(s %>% follow_link(
+    '//*[contains(concat( " ", @class, " " ), concat( " ", "caseblock", " " )) and (((count(preceding-sibling::*) + 1) = 1) and parent::*)]//a',
+    "xpath"))
+})
+
+test_that("Invalid Xpath", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_error(s %>% follow_link("abcd", "xpath"))
+})
+
+##----------
+
+context("follow_link: position")
+
+test_that("Valid position", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_is(s %>% follow_link(1, "position"), "session")
+})
+
+test_that("Invalid position", {
+  expect_is(s <- html_session("http://testing-ground.scraping.pro/"), "session")
+  expect_error(s %>% follow_link(10^3, "position"))
+})
