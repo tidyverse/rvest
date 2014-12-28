@@ -5,6 +5,9 @@
 #' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
 #'   for complete list. If you have problems determining the correct encoding,
 #'   try \code{\link[stringi]{stri_enc_detect}}
+#'
+#' @param ... further arguments to pass along to httr's GET, in the case where \code{x}
+#' is a url.
 #' @export
 #' @examples
 #' # From a url:
@@ -21,12 +24,12 @@
 #'
 #' # From an httr request
 #' google2 <- html(httr::GET("http://google.com"))
-html <- function(x, encoding = NULL) UseMethod("html")
+html <- function(x, encoding = NULL, ...) UseMethod("html")
 
 #' @export
-html.character <- function(x, encoding = NULL) {
+html.character <- function(x, encoding = NULL, ...) {
   if (grepl("^http", x)) {
-    r <- httr::GET(x)
+    r <- httr::GET(x, ...)
     html(r, encoding = encoding)
   } else if (grepl("<|>", x)) {
     XML::htmlParse(x, asText = TRUE, encoding = encoding)

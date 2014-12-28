@@ -3,15 +3,18 @@
 \alias{html}
 \title{Parse an HTML page.}
 \usage{
-html(x, encoding = NULL)
+html(x, encoding = NULL, ...)
 }
 \arguments{
 \item{x}{A url, a local path, a string containing html, or a response from
 an httr request.}
 
 \item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
-for complete list. If you have problems determining the correct encoding,
-try \code{\link[stringi]{stri_enc_detect}}}
+  for complete list. If you have problems determining the correct encoding,
+  try \code{\link[stringi]{stri_enc_detect}}}
+
+\item{...}{further arguments to pass along to httr's GET, in the case where \code{x}
+is a url.}
 }
 \description{
 Parse an HTML page.
