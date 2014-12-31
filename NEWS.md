@@ -18,4 +18,4 @@
   (#25, #50).
 
 * `submit_form()` converts relative paths to absolute URLS (#52).
-  It also deals better with 0-length inputs (#50).
+  It also deals better with 0-length inputs (#29).
