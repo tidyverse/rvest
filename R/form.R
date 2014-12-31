@@ -116,7 +116,7 @@ parse_input <- function(input) {
     list(
       name = attr$name,
       type = attr$type %||% "text",
-      value = attr$value,
+      value = attr$value %||% NULL,
       checked = attr$checked,
       disabled = attr$disabled,
       readonly = attr$readonly,
@@ -301,7 +301,7 @@ submit_request <- function(form, submit = NULL) {
   url <- form$url
 
   fields <- form$fields
-  fields <- Filter(function(x) !is.null(x$value), fields)
+  fields <- Filter(function(x) length(x$value) > 0, fields)
   fields <- fields[setdiff(names(fields), other_submits)]
 
   values <- pluck(fields, "value")
