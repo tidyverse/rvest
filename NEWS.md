@@ -16,3 +16,5 @@
 * `html()` does a better job of dealing with encodings (passing the
   problem on to `XML::parseHTML()`) instead of trying to do it itself 
   (#25, #50).
+
+* `submit_form()` converts relative paths to absolute URLS (#52).

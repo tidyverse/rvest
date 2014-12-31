@@ -188,7 +188,7 @@ format.textarea <- function(x, ...) {
 parse_button <- function(button) {
   stopifnot(inherits(button, "XMLAbstractNode"), XML::xmlName(button) == "button")
   attr <- as.list(XML::xmlAttrs(button))
-  
+
   structure(
     list(
       name = attr$name %||% "<unnamed>",
@@ -263,12 +263,13 @@ set_values <- function(form, ...) {
 #' f1 <- set_values(f0, entry.564397473 = "abc")
 submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
+  url <- XML::getRelativeURL(session$url, form$url)
 
   # Make request
   if (request$method == "GET") {
-    request_GET(session, url = request$url, params = request$values, ...)
+    request_GET(session, url = url, params = request$values, ...)
   } else if (request$method == "POST") {
-    request_POST(session, url = request$url, body = request$values,
+    request_POST(session, url = url, body = request$values,
       encode = request$encode, ...)
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)
