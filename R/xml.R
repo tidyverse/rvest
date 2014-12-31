@@ -16,9 +16,9 @@
 #'
 #' entries %>% xml_node("author name") %>% xml_text()
 #' entries %>% lapply(. %>% xml_nodes("category") %>% xml_attr("term"))
-xml <- function(x, encoding = NULL) {
+xml <- function(x, ..., encoding = NULL) {
   # xmlParse <- function(x, ...) XML::xmlInternalTreeParse(x, getDTD = FALSE, ...)
-  out <- parse(x, XML::htmlParse, encoding = encoding)
+  out <- parse(x, XML::htmlParse, ..., encoding = encoding)
   out
 }
 

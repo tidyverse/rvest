@@ -2,6 +2,8 @@
 #'
 #' @param x A url, a local path, a string containing html, or a response from
 #'   an httr request.
+#' @param ... If \code{x} is a URL, additional arguments are passed on to
+#'   \code{\link[httr]{GET}()}.
 #' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
 #'   for complete list. If you have problems determining the correct encoding,
 #'   try \code{\link[stringi]{stri_enc_detect}}
@@ -22,8 +24,8 @@
 #'
 #' # From an httr request
 #' google2 <- html(httr::GET("http://google.com"))
-html <- function(x, encoding = NULL) {
-  parse(x, XML::htmlParse, encoding = encoding)
+html <- function(x, ..., encoding = NULL) {
+  parse(x, XML::htmlParse, ..., encoding = encoding)
 }
 
 #' Extract attributes, text and tag name from html.

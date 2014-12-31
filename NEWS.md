@@ -7,3 +7,6 @@
   and attribute names) of a xml/html object (#10).
 
 * `html_nodes()` now returns an empty list if no elements are found (#31).
+
+* `html()` and `xml()` pass `...` on to `httr::GET()` so you can more
+  finely control the request (#48).

@@ -11,7 +11,7 @@
 \alias{xml_text}
 \title{Work with xml.}
 \usage{
-xml(x, encoding = NULL)
+xml(x, ..., encoding = NULL)
 
 xml_tag(x)
 
@@ -31,6 +31,9 @@ xml_children(x)
 \item{x}{A url, a local path, a string containing html, or a response from
 an httr request.}
 
+\item{...}{If \code{x} is a URL, additional arguments are passed on to
+\code{\link[httr]{GET}()}.}
+
 \item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
 for complete list. If you have problems determining the correct encoding,
 try \code{\link[stringi]{stri_enc_detect}}}
@@ -45,10 +48,6 @@ depending on whether you want to use a css or xpath selector.}
 
 \item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
 depending on whether you want to use a css or xpath selector.}
-
-\item{...}{Other arguments passed onto \code{\link[XML]{xmlValue}()}.
-The most useful argument is \code{trim = TRUE} which will remove leading
-and trailing whitespace.}
 }
 \description{
 All methods work the same as their HTML equivalents. Currently \code{xml}

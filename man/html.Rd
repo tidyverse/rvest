@@ -4,11 +4,14 @@
 \alias{html}
 \title{Parse an HTML page.}
 \usage{
-html(x, encoding = NULL)
+html(x, ..., encoding = NULL)
 }
 \arguments{
 \item{x}{A url, a local path, a string containing html, or a response from
 an httr request.}
+
+\item{...}{If \code{x} is a URL, additional arguments are passed on to
+\code{\link[httr]{GET}()}.}
 
 \item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
 for complete list. If you have problems determining the correct encoding,
