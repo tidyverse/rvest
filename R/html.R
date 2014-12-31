@@ -21,42 +21,8 @@
 #'
 #' # From an httr request
 #' google2 <- html(httr::GET("http://google.com"))
-html <- function(x, encoding = NULL) UseMethod("html")
-
-#' @export
-html.character <- function(x, encoding = NULL) {
-  if (grepl("^http", x)) {
-    r <- httr::GET(x)
-    html(r, encoding = encoding)
-  } else if (grepl("<|>", x)) {
-    XML::htmlParse(x, asText = TRUE, encoding = encoding)
-  } else {
-    XML::htmlParse(x, asText = FALSE, encoding = encoding)
-  }
-}
-
-#' @export
-html.response <- function(x, encoding = NULL) {
-  httr::stop_for_status(x)
-
-  text <- httr::content(x, "text")
-  xml <- XML::htmlParse(text, asText = TRUE,
-    encoding = encoding %||% default_encoding(x))
-  XML::docName(xml) <- x$url
-  xml
-}
-
-default_encoding <- function(x) {
-  type <- httr::headers(x)$`Content-Type`
-  if (is.null(type)) return(NULL)
-
-  media <- httr::parse_media(type)
-  media$params$charset
-}
-
-#' @export
-html.XMLAbstractDocument <- function(x, encoding = NULL) {
-  x
+html <- function(x, encoding = NULL) {
+  parse(x, XML::htmlParse, encoding = encoding)
 }
 
 #' Extract attributes, text and tag name from html.
