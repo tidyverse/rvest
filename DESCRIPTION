@@ -1,7 +1,10 @@
 Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
 Version: 0.1.0.9000
-Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
+Authors@R: as.person(c(
+    'Hadley Wickham <h.wickham@gmail.com> [aut,cre]',
+    'RStudio [cph]'
+    ))
 Description: Wrappers around the XML and httr packages to make it easy to
     download, then manipulation html pages.
 Depends:
