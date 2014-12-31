@@ -62,6 +62,12 @@ html_tag <- function(x) {
   xml_apply(x, XML::xmlName, .type = character(1))
 }
 
+#' @rdname html_children
+#' @export
+html_children <- function(x) {
+  xml_apply(x, XML::xmlChildren)
+}
+
 #' @rdname html_text
 #' @export
 html_attrs <- function(x) {

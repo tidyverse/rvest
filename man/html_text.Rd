@@ -3,6 +3,7 @@
 \name{html_text}
 \alias{html_attr}
 \alias{html_attrs}
+\alias{html_children}
 \alias{html_tag}
 \alias{html_text}
 \title{Extract attributes, text and tag name from html.}
@@ -10,6 +11,8 @@
 html_text(x, ...)
 
 html_tag(x)
+
+html_children(x)
 
 html_attrs(x)
 
