@@ -12,3 +12,7 @@
   finely control the request (#48).
 
 * `html_attr()` returns default value when input is NULL (#49)
+
+* `html()` does a better job of dealing with encodings (passing the
+  problem on to `XML::parseHTML()`) instead of trying to do it itself 
+  (#25, #50).

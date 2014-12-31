@@ -16,7 +16,7 @@ parse.character <- function(x, parser, ..., encoding = NULL) {
 parse.response <- function(x, parser, ..., encoding = NULL) {
   httr::stop_for_status(x)
 
-  text <- httr::content(x, "text")
+  text <- rawToChar(httr::content(x, "raw"))
   encoding <- encoding %||% default_encoding(x)
 
   xml <- parser(text, asText = TRUE, encoding = encoding)
