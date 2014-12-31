@@ -83,6 +83,8 @@ html_attrs <- function(x) {
 #' @export
 html_attr <- function(x, name, default = NA_character_) {
   xml_attr <- function(x, name, default) {
+    if (is.null(x)) return(default)
+
     attr <- XML::xmlAttrs(x)
     if (name %in% names(attr)) {
       attr[[name]]

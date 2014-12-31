@@ -10,3 +10,5 @@
 
 * `html()` and `xml()` pass `...` on to `httr::GET()` so you can more
   finely control the request (#48).
+
+* `html_attr()` returns default value when input is NULL (#49)
