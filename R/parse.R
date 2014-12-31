@@ -4,7 +4,7 @@ parse <- function(x, parser, encoding = NULL) UseMethod("parse")
 parse.character <- function(x, parser, encoding = NULL) {
   if (grepl("^http", x)) {
     r <- httr::GET(x)
-    html(r, encoding = encoding)
+    parse(r, parser, encoding = encoding)
   } else if (grepl("<|>", x)) {
     parser(x, asText = TRUE, encoding = encoding)
   } else {

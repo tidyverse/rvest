@@ -45,6 +45,8 @@ The most important functions in rvest are:
 
 -   Extract components with `html_tag()` (the name of the tag), `html_text()` (all text inside the tag), `html_attr()` (contents of a single attribute) and `html_attrs()` (all attributes).
 
+-   (You can also use rvest with XML files: parse with `xml()`, then extract components using `xml_node()`, `xml_attr()`, `xml_attrs()`, `xml_text()` and `xml_tag()`.)
+
 -   Parse tables into data frames with `html_table()`.
 
 -   Extract, modify and submit forms with `html_form()`, `set_values()` and `submit_form()`.

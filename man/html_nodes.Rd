@@ -10,7 +10,7 @@ html_nodes(x, css, xpath)
 html_node(x, css, xpath)
 }
 \arguments{
-\item{x}{Either a complete document (HTMLInternalDocument),
+\item{x}{Either a complete document (XMLInternalDocument),
 a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
 
 \item{css,xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}

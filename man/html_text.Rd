@@ -19,7 +19,7 @@ html_attrs(x)
 html_attr(x, name, default = NA_character_)
 }
 \arguments{
-\item{x}{Either a complete document (HTMLInternalDocument),
+\item{x}{Either a complete document (XMLInternalDocument),
 a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
 
 \item{...}{Other arguments passed onto \code{\link[XML]{xmlValue}()}.

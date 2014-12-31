@@ -20,6 +20,7 @@ Parse an HTML page.
 \examples{
 # From a url:
 google <- html("http://google.com")
+google \%>\% xml_structure()
 google \%>\% html_nodes("p")
 
 # From a string: (minimal html 5 document)

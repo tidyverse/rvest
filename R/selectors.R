@@ -36,7 +36,7 @@
 #'   simple selector.
 #' }
 #'
-#' @param x Either a complete document (HTMLInternalDocument),
+#' @param x Either a complete document (XMLInternalDocument),
 #'   a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).
 #' @param css,xpath Nodes to select. Supply one of \code{css} or \code{xpath}
 #'   depending on whether you want to use a css or xpath selector.
@@ -79,7 +79,7 @@
 html_nodes <- function(x, css, xpath) UseMethod("html_nodes")
 
 #' @export
-html_nodes.HTMLInternalDocument <- function(x, css, xpath) {
+html_nodes.XMLInternalDocument <- function(x, css, xpath) {
   i <- make_selector(css, xpath)
   html_extract_n(x, i, prefix = "//")
 }
@@ -105,7 +105,7 @@ html_nodes.XMLInternalElementNode <- function(x, css, xpath) {
 html_node <- function(x, css, xpath) UseMethod("html_node")
 
 #' @export
-html_node.HTMLInternalDocument <- function(x, css, xpath) {
+html_node.XMLInternalDocument <- function(x, css, xpath) {
   i <- make_selector(css, xpath)
   html_extract_1(x, i, prefix = "//")
 }

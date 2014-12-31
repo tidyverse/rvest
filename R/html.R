@@ -9,6 +9,7 @@
 #' @examples
 #' # From a url:
 #' google <- html("http://google.com")
+#' google %>% xml_structure()
 #' google %>% html_nodes("p")
 #'
 #' # From a string: (minimal html 5 document)
@@ -27,7 +28,7 @@ html <- function(x, encoding = NULL) {
 
 #' Extract attributes, text and tag name from html.
 #'
-#' @param x Either a complete document (HTMLInternalDocument),
+#' @param x Either a complete document (XMLInternalDocument),
 #'   a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).
 #' @param name Name of attribute to extract.
 #' @param ... Other arguments passed onto \code{\link[XML]{xmlValue}()}.
@@ -62,7 +63,7 @@ html_tag <- function(x) {
   xml_apply(x, XML::xmlName, .type = character(1))
 }
 
-#' @rdname html_children
+#' @rdname html_text
 #' @export
 html_children <- function(x) {
   xml_apply(x, XML::xmlChildren)
@@ -79,14 +80,14 @@ html_attrs <- function(x) {
 #'   not exist in every node.
 #' @export
 html_attr <- function(x, name, default = NA_character_) {
-  xml_apply(x, xml_attr, name, default = default, .type = character(1))
-}
-
-xml_attr <- function(x, name, default) {
-  attr <- XML::xmlAttrs(x)
-  if (name %in% names(attr)) {
-    attr[[name]]
-  } else {
-    default
+  xml_attr <- function(x, name, default) {
+    attr <- XML::xmlAttrs(x)
+    if (name %in% names(attr)) {
+      attr[[name]]
+    } else {
+      default
+    }
   }
+
+  xml_apply(x, xml_attr, name, default = default, .type = character(1))
 }
