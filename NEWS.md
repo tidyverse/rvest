@@ -5,3 +5,5 @@
 
 * `xml_structure()`: new function that displays the structure (i.e. tag
   and attribute names) of a xml/html object (#10).
+
+* `html_nodes()` now returns an empty list if no elements are found (#31).

@@ -90,6 +90,7 @@ html_nodes.XMLNodeSet <- function(x, css, xpath) {
   nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
 
   out <- unlist(nodes, recursive = FALSE)
+  out <- out %||% list()
   class(out) <- "XMLNodeSet"
   out
 }
@@ -176,6 +177,7 @@ html_extract_n <- function(node, i, prefix) {
     stop("Don't know how to subset HTML with object of class ",
       paste(class(i), collapse = ", "), call. = FALSE)
   }
+  out <- out %||% list()
   class(out) <- "XMLNodeSet"
   out
 }

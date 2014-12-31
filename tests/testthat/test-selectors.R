@@ -44,3 +44,10 @@ test_that("css selects find all children", {
   expect_equal(length(b), 3)
 })
 
+test_that("empty matches returns empty list", {
+  none <- test %>% html_nodes("none")
+  expect_equal(length(none), 0)
+
+  expect_equal(none %>% html_node("none") %>% length(), 0)
+  expect_equal(none %>% html_nodes("none") %>% length(), 0)
+})
