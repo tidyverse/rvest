@@ -17,10 +17,10 @@
 #' @param dec The character used as decimal mark.
 #' @export
 #' @examples
-#' bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
-#' tables <- html_nodes(bonds, "table")
-#' html_table(tables[[2]])
-#' html_table(tables[2:4])
+#' tdist <- html("http://en.wikipedia.org/wiki/Student%27s_t-distribution")
+#' tdist %>%
+#'   html_node("table.infobox") %>%
+#'   html_table(header = FALSE)
 #'
 #' births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 #' html_table(html_nodes(births, "table")[[2]])
@@ -92,7 +92,7 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
     col_names <- out[1, , drop = FALSE]
     out <- out[-1, , drop = FALSE]
   } else {
-    col_names <- paste("X", seq_along(ncol(out)))
+    col_names <- paste0("X", seq_len(ncol(out)))
   }
 
   # Convert matrix to list to data frame

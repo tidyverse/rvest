@@ -33,10 +33,10 @@ Parse an html table into a data frame.
 }
 }
 \examples{
-bonds <- html("http://finance.yahoo.com/bonds/composite_bond_rates")
-tables <- html_nodes(bonds, "table")
-html_table(tables[[2]])
-html_table(tables[2:4])
+tdist <- html("http://en.wikipedia.org/wiki/Student\%27s_t-distribution")
+tdist \%>\%
+  html_node("table.infobox") \%>\%
+  html_table(header = FALSE)
 
 births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 html_table(html_nodes(births, "table")[[2]])
