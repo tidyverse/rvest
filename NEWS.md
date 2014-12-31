@@ -19,3 +19,5 @@
 
 * `submit_form()` converts relative paths to absolute URLS (#52).
   It also deals better with 0-length inputs (#29).
+
+* Add missing `html_node()` method for session.
