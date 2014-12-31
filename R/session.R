@@ -16,8 +16,7 @@
 #' s <- html_session("http://had.co.nz")
 #' s %>% jump_to("thesis") %>% jump_to("/") %>% session_history()
 #' s %>% jump_to("thesis") %>% back() %>% session_history()
-#'
-#' s %>% follow_link("vita")
+#' s %>% follow_link(css = "#p a")
 html_session <- function(url, ...) {
   session <- structure(
     list(
@@ -88,6 +87,7 @@ is.session <- function(x) inherits(x, "session")
 #' s %>% jump_to("thesis/")
 #' s %>% follow_link("vita")
 #' s %>% follow_link(3)
+#' s %>% follow_link("vita")
 #' }
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
@@ -101,25 +101,33 @@ jump_to <- function(x, url, ...) {
 
 #' @param i You can select with: \describe{
 #'   \item{an integer}{selects the ith link}
-#'   \item{a css or xpath selector}{selects first link that matches selector}
 #'   \item{a string}{first link containing that text (case sensitive)}
 #' }
+#' @inheritParams html_node
 #' @export
 #' @rdname jump_to
-follow_link <- function(x, i, ...) {
-  stopifnot(is.session(x), length(i) == 1)
+follow_link <- function(x, i, css, xpath, ...) {
+  stopifnot(is.session(x))
 
-  if (is.numeric(i)) {
-    a <- html_nodes(x, "a")[[i]]
-  } else if (is.character(i)) {
-    links <- html_nodes(x, "a")
-    text <- html_text(links)
-    match <- grepl(i, text, fixed = TRUE)
-    if (!any(match)) {
-      stop("No links have text '", i, "'", call. = FALSE)
+  if (!missing(i)) {
+    stopifnot(length(i) == 1)
+    if (is.numeric(i)) {
+      a <- html_nodes(x, "a")[[i]]
+    } else if (is.character(i)) {
+      links <- html_nodes(x, "a")
+      text <- html_text(links)
+      match <- grepl(i, text, fixed = TRUE)
+      if (!any(match)) {
+        stop("No links have text '", i, "'", call. = FALSE)
+      }
+
+      a <- links[[which(match)[1]]]
     }
-
-    a <- links[[which(match)[1]]]
+  } else {
+    a <- html_node(x, css = css, xpath = xpath)
+    if (is.null(a)) {
+      stop("No links matched that expression", call. = FALSE)
+    }
   }
 
   url <- html_attr(a, "href")

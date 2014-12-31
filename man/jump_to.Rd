@@ -7,7 +7,7 @@
 \usage{
 jump_to(x, url, ...)
 
-follow_link(x, i, ...)
+follow_link(x, i, css, xpath, ...)
 }
 \arguments{
 \item{x}{A session.}
@@ -18,9 +18,14 @@ follow_link(x, i, ...)
 
 \item{i}{You can select with: \describe{
   \item{an integer}{selects the ith link}
-  \item{a css or xpath selector}{selects first link that matches selector}
   \item{a string}{first link containing that text (case sensitive)}
 }}
+
+\item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a css or xpath selector.}
+
+\item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a css or xpath selector.}
 }
 \description{
 \code{jump_to()} takes a url (either relative or absolute);
@@ -33,6 +38,7 @@ s <- html_session("http://had.co.nz")
 s \%>\% jump_to("thesis/")
 s \%>\% follow_link("vita")
 s \%>\% follow_link(3)
+s \%>\% follow_link("vita")
 }
 }
 

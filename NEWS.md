@@ -21,3 +21,5 @@
   It also deals better with 0-length inputs (#29).
 
 * Add missing `html_node()` method for session.
+
+* `follow_link()` now accepts css and xpath selectors. (#38, #41, #42)

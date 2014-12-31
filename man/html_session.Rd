@@ -32,7 +32,6 @@ and \code{\link{html_nodes}} to access the html.
 s <- html_session("http://had.co.nz")
 s \%>\% jump_to("thesis") \%>\% jump_to("/") \%>\% session_history()
 s \%>\% jump_to("thesis") \%>\% back() \%>\% session_history()
-
-s \%>\% follow_link("vita")
+s \%>\% follow_link(css = "#p a")
 }
 
