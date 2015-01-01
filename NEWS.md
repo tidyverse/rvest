@@ -25,5 +25,5 @@
 
 * `html_nodes()` now returns an empty list if no elements are found (#31).
 
-* `submit_form()` converts relative paths to absolute URLS (#52).
+* `submit_form()` converts relative paths to absolute URLs (#52).
   It also deals better with 0-length inputs (#29).
