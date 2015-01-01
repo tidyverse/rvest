@@ -12,8 +12,8 @@ There was 1 NOTEs:
 
 * checking CRAN incoming feasibility ... NOTE
 
-  .This is a new submission. html and httr are not spelling mistakes.
+  html and httr are not spelling mistakes.
 
 ## Downstream dependencies
 
-This is a new package so there are no downstream dependencies.
+There are no downstream dependencies.
