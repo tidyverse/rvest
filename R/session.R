@@ -16,7 +16,7 @@
 #' s <- html_session("http://had.co.nz")
 #' s %>% jump_to("thesis") %>% jump_to("/") %>% session_history()
 #' s %>% jump_to("thesis") %>% back() %>% session_history()
-#' s %>% follow_link(css = "#p a")
+#' s %>% follow_link(css = "p a")
 html_session <- function(url, ...) {
   session <- structure(
     list(
