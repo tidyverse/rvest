@@ -1,4 +1,4 @@
-# rvest 0.1.0.9000
+# rvest 0.2.0
 
 * Add xml support: parse with `xml()`, then work with using `xml_node()`,
   `xml_attr()`, `xml_attrs()`, `xml_text()` and `xml_tag()` (#24).
