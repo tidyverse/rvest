@@ -29,3 +29,5 @@
 
 * `submit_form()` converts relative paths to absolute URLs (#52).
   It also deals better with 0-length inputs (#29).
+
+* `submit_form()` fix form url that return by `XML::getRelativeURL()` (#56)
