@@ -263,7 +263,7 @@ set_values <- function(form, ...) {
 #' f1 <- set_values(f0, entry.564397473 = "abc")
 submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
-  url <- XML::getRelativeURL(session$url, form$url)
+  url <- XML::getRelativeURL(form$url, session$url)
 
   # Make request
   if (request$method == "GET") {
