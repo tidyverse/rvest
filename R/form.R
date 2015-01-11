@@ -270,7 +270,7 @@ set_values_ <- function(form, ..., .dots=list()) {
 #' test %>% submit_form_values(entry.564397473 = "abc")
 
 submit_form_values <- function(x, form=NULL, submit=NULL, ..., .values=list()) {
-  if(!is.session(x) {
+  if(!is.session(x)) {
     stop("Invalid session parameter")
   }
   dots <- list(...)
