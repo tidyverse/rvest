@@ -294,7 +294,8 @@ submit_form_values <- function(x, form=NULL, submit=NULL, ..., .values=list()) {
       } else if (sum(field_match)>1) {
         stop("multiple forms with matching field names")
       }
-    forms[[which(field_match)]]
+      forms[[which(field_match)]]
+    }
   }
   form <- set_values_(form, .dots=new_values)
   submit_form(x, form=form, submit=submit, config=config_values)
