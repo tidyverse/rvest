@@ -265,8 +265,7 @@ set_values_ <- function(form, ..., .dots=list()) {
 #' @export
 #' @seealso \code{\link{submit_form}}
 #' @examples
-#' test <- html_session(paste0("https://docs.google.com/forms/d/",
-#'   "1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI","/viewform"))
+#' test <- html_session(paste0("https://docs.google.com/forms/d/","1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI","/viewform"))
 #' test %>% submit_form_values(entry.564397473 = "abc")
 
 submit_form_values <- function(x, form=NULL, submit=NULL, ..., .values=list()) {
