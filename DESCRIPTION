@@ -11,7 +11,7 @@ Depends:
     R (>= 3.0.1)
 Imports:
     httr (>= 0.5),
-    XML,
+    XML (>= 3.98),
     selectr,
     magrittr
 Suggests:
