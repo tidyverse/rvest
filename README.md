@@ -60,7 +60,11 @@ To see examples of these function in use, check out the demos.
 Installation
 ------------
 
-rvest isn't available on CRAN (yet), so download it directly from github with:
+rvest is available on CRAN.
+``` r
+install.packages("rvest")
+```
+You can also download it directly from github with:
 
 ``` r
 # install.packages("devtools")
