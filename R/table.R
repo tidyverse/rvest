@@ -67,7 +67,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
 
   if (length(p) > 1) {
     if (!fill) {
-      stop("Table doesn't has different numbers of columns in different rows. ",
+      stop("Table has inconsistent number of columns. ",
         "Do you want fill = TRUE?", call. = FALSE)
     } else {
       p <- max(p)
