@@ -36,14 +36,13 @@
 #'   simple selector.
 #' }
 #'
-#' @param x Either a complete document (XMLInternalDocument),
-#'   a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).
+#' @param x Either a document, a node set or a single node.
 #' @param css,xpath Nodes to select. Supply one of \code{css} or \code{xpath}
 #'   depending on whether you want to use a css or xpath selector.
 #' @export
 #' @examples
 #' # CSS selectors ----------------------------------------------
-#' ateam <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+#' ateam <- read_html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
 #' html_nodes(ateam, "center")
 #' html_nodes(ateam, "center font")
 #' html_nodes(ateam, "center font b")
@@ -54,10 +53,12 @@
 #' ateam %>% html_nodes("center") %>% html_nodes("font")
 #'
 #' # When applied to a list of nodes, html_nodes() collapses output
-#' # html_node() selects a single element from each
+#' # html_node() throws an error
 #' td <- ateam %>% html_nodes("center") %>% html_nodes("td")
 #' td %>% html_nodes("font")
+#' \dontrun{
 #' td %>% html_node("font")
+#' }
 #'
 #' # To pick out an element at specified position, use magrittr::extract2
 #' # which is an alias for [[
@@ -76,56 +77,25 @@
 #' ateam %>%
 #'   html_nodes(xpath = "//center//font//b") %>%
 #'   html_nodes(xpath = "//b")
-html_nodes <- function(x, css, xpath) UseMethod("html_nodes")
-
-#' @export
-html_nodes.XMLInternalDocument <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  html_extract_n(x, i, prefix = "//")
+html_nodes <- function(x, css, xpath) {
+  UseMethod("html_nodes")
 }
 
 #' @export
-html_nodes.XMLNodeSet <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  nodes <- lapply(x, html_extract_n, i, prefix = "descendant::")
-
-  out <- unlist(nodes, recursive = FALSE)
-  out <- out %||% list()
-  class(out) <- "XMLNodeSet"
-  out
-}
-
-#' @export
-html_nodes.XMLInternalElementNode <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  html_extract_n(x, i, prefix = "descendant::")
+html_nodes.default <- function(x, css, xpath) {
+  xml2::xml_find_all(x, make_selector(css, xpath))
 }
 
 #' @export
 #' @rdname html_nodes
-html_node <- function(x, css, xpath) UseMethod("html_node")
-
-#' @export
-html_node.XMLInternalDocument <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  html_extract_1(x, i, prefix = "//")
+html_node <- function(x, css, xpath) {
+  UseMethod("html_node")
 }
 
 #' @export
-html_node.XMLNodeSet <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  nodes <- lapply(x, html_extract_1, i, prefix = "descendant::")
-
-  class(nodes) <- "XMLNodeSet"
-  nodes
+html_node.default <- function(x, css, xpath) {
+  xml2::xml_find_one(x, make_selector(css, xpath))
 }
-
-#' @export
-html_node.XMLInternalElementNode <- function(x, css, xpath) {
-  i <- make_selector(css, xpath)
-  html_extract_1(x, i, prefix = "descendant::")
-}
-
 
 make_selector <- function(css, xpath) {
   if (missing(css) && missing(xpath))
@@ -134,51 +104,15 @@ make_selector <- function(css, xpath) {
     stop("Please supply css or xpath, not both", call. = FALSE)
 
   if (!missing(css)) {
-    sel(css)
+    if (!is.character(css) && length(css) == 1)
+      stop("`css` must be a string")
+
+    selectr::css_to_xpath(css, prefix = ".//")
   } else {
-    xpath(xpath)
+    if (!is.character(xpath) && length(xpath) == 1)
+      stop("`xpath` must be a string")
+
+    xpath
   }
-}
-
-xpath <- function(x) structure(x, class = c("xpath_selector", "selector"))
-sel <- function(x) structure(x, class = c("css_selector", "selector"))
-
-is.selector <- function(x) inherits(x, "selector")
-
-html_extract_1 <- function(node, i, prefix) {
-  if (inherits(i, "css_selector")) {
-    xpath <- selectr::css_to_xpath(i, prefix = prefix)
-    out <- XML::getNodeSet(node, xpath)
-  } else if (inherits(i, "xpath_selector")) {
-    out <- XML::getNodeSet(node, i)
-  } else {
-    stop("Don't know how to subset HTML with object of class ",
-      paste(class(i), collapse = ", "), call. = FALSE)
-  }
-
-  if (length(out) == 0) return(NULL)
-  out[[1]]
-}
-
-html_extract_n <- function(node, i, prefix) {
-  if (is.numeric(i)) {
-    out <- XML::xmlChildren(node, addNames = FALSE)[i]
-  } else if (inherits(i, "css_selector")) {
-    xpath <- selectr::css_to_xpath(i, prefix = prefix)
-    out <- XML::getNodeSet(node, xpath)
-  } else if (inherits(i, "xpath_selector")) {
-    out <- XML::getNodeSet(node, i)
-  } else if (is.character(i)) {
-    # Only option that doesn't return XMLNodeSet
-    attr <- as.list(XML::xmlAttrs(node))
-    attr[setdiff(i, names(attr))] <- NA_character_
-    return(attr[i])
-  } else {
-    stop("Don't know how to subset HTML with object of class ",
-      paste(class(i), collapse = ", "), call. = FALSE)
-  }
-  out <- out %||% list()
-  class(out) <- "XMLNodeSet"
-  out
 }
 

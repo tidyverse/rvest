@@ -83,7 +83,7 @@ Once we've determined the css selector, we can use it in R to extract the values
 
 ```{r}
 library(rvest)
-html <- html("http://www.imdb.com/title/tt1490017/")
+html <- read_html("http://www.imdb.com/title/tt1490017/")
 cast <- html_nodes(html, "#titleCast .itemprop")
 length(cast)
 cast[1:2]

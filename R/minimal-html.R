@@ -10,7 +10,7 @@
 #' @examples
 #' minimal_html("test")
 minimal_html <- function(title, html = "") {
-  html(paste0(
+  xml2::read_html(paste0(
     "<!doctype html>\n",
     "<meta charset=utf-8>\n",
     "<title>", title, "</title>\n",

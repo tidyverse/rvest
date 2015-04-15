@@ -17,18 +17,18 @@
 #' @param dec The character used as decimal mark.
 #' @export
 #' @examples
-#' tdist <- html("http://en.wikipedia.org/wiki/Student%27s_t-distribution")
+#' tdist <- read_html("http://en.wikipedia.org/wiki/Student%27s_t-distribution")
 #' tdist %>%
 #'   html_node("table.infobox") %>%
 #'   html_table(header = FALSE)
 #'
-#' births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
+#' births <- read_html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 #' html_table(html_nodes(births, "table")[[2]])
 #'
 #' # If the table is badly formed, and has different number of rows in
 #' # each column use fill = TRUE. Here's it's due to incorrect colspan
 #' # specification.
-#' skiing <- html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
+#' skiing <- read_html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
 #' skiing %>%
 #'   html_table(fill = TRUE)
 html_table <- function(x, header = NA, trim = TRUE, fill = FALSE, dec = ".") {
@@ -36,22 +36,25 @@ html_table <- function(x, header = NA, trim = TRUE, fill = FALSE, dec = ".") {
 }
 
 #' @export
-html_table.XMLAbstractDocument <- function(x, ...) {
-  html_table(html_nodes(x, "table"), ...)
+html_table.xml_document <- function(x, header = NA, trim = TRUE, fill = FALSE,
+                                    dec = ".") {
+  tables <- xml2::xml_find_all(x, ".//table")
+  lapply(tables, html_table, header = header, trim = trim, fill = fill, dec = dec)
 }
 
+
 #' @export
-html_table.XMLNodeSet <- function(x, header = NA, trim = TRUE, fill = FALSE,
+html_table.xml_nodeset <- function(x, header = NA, trim = TRUE, fill = FALSE,
                                   dec = ".") {
   # FIXME: guess useful names
   lapply(x, html_table, header = header, trim = trim, fill = fill, dec = dec)
 }
 
 #' @export
-html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
+html_table.xml_node <- function(x, header = NA, trim = TRUE,
                                               fill = FALSE, dec = ".") {
 
-  stopifnot(html_tag(x) == "table")
+  stopifnot(html_name(x) == "table")
 
   # Throw error if any rowspan/colspan present
   rows <- html_nodes(x, "tr")
@@ -86,7 +89,7 @@ html_table.XMLInternalElementNode <- function(x, header = NA, trim = TRUE,
   }
 
   if (is.na(header)) {
-    header <- all(html_tag(cells[[1]]) == "th")
+    header <- all(html_name(cells[[1]]) == "th")
   }
   if (header) {
     col_names <- out[1, , drop = FALSE]

@@ -1,6 +1,6 @@
 context("Selectors")
 
-test <- html("test.html")
+test <- read_html("test.html")
 
 # XPath ------------------------------------------------------------------------
 

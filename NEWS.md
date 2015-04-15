@@ -1,5 +1,23 @@
 # rvest 0.2.0.9000
 
+* rvest has been rewritten to take advantage of the new xml2 package. xml2 
+  provides a fresh binding to libxml2, avoiding many of the work-arounds 
+  previously needed for the XML package. Now rvest depends on the xml2 
+  package, so all the xml functions are available, and rvest adds a thin 
+  wrapper for html. 
+  
+* A number of functions have change names. The old versions still work,
+  but are deprecated and will be removed in rvest 0.4.0.
+  
+  * `html_tag()` -> `html_name()`
+  * `html()` -> `read_html()`
+
+* `html_node()` now throws an error if there are no matches, and a warning
+  if there's more than one match. I think this should make it more likely to
+  fail clearly when the structure of the page changes.
+
+* `xml_structure()` has been moved to xml2.
+
 # rvest 0.2.0
 
 ## New features

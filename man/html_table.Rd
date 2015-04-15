@@ -33,18 +33,18 @@ Parse an html table into a data frame.
 }
 }
 \examples{
-tdist <- html("http://en.wikipedia.org/wiki/Student\%27s_t-distribution")
+tdist <- read_html("http://en.wikipedia.org/wiki/Student\%27s_t-distribution")
 tdist \%>\%
   html_node("table.infobox") \%>\%
   html_table(header = FALSE)
 
-births <- html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
+births <- read_html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
 html_table(html_nodes(births, "table")[[2]])
 
 # If the table is badly formed, and has different number of rows in
 # each column use fill = TRUE. Here's it's due to incorrect colspan
 # specification.
-skiing <- html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
+skiing <- read_html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
 skiing \%>\%
   html_table(fill = TRUE)
 }

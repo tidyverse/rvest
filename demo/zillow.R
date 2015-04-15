@@ -4,7 +4,7 @@ library(tidyr)
 
 url <- "http://www.zillow.com/homes/for_sale/Greenwood-IN/fsba,fsbo,fore,cmsn_lt/house_type/52333_rid/39.638414,-86.011362,39.550714,-86.179419_rect/12_zm/0_mmm/"
 
-houses <- html(url) %>%
+houses <- read_html(url) %>%
   html_nodes("article")
 
 z_id <- houses %>% html_attr("id")

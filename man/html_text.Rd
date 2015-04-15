@@ -4,13 +4,13 @@
 \alias{html_attr}
 \alias{html_attrs}
 \alias{html_children}
-\alias{html_tag}
+\alias{html_name}
 \alias{html_text}
 \title{Extract attributes, text and tag name from html.}
 \usage{
-html_text(x, ...)
+html_text(x, trim = FALSE)
 
-html_tag(x)
+html_name(x)
 
 html_children(x)
 
@@ -19,14 +19,11 @@ html_attrs(x)
 html_attr(x, name, default = NA_character_)
 }
 \arguments{
-\item{x}{Either a complete document (XMLInternalDocument),
-a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
+\item{x}{A document, node, or node set.}
 
-\item{...}{Other arguments passed onto \code{\link[XML]{xmlValue}()}.
-The most useful argument is \code{trim = TRUE} which will remove leading
-and trailing whitespace.}
+\item{trim}{If \code{TRUE} will trim leading and trailing spaces.}
 
-\item{name}{Name of attribute to extract.}
+\item{name}{Name of attribute to retrieve.}
 
 \item{default}{A string used as a default value when the attribute does
 not exist in every node.}
@@ -39,20 +36,11 @@ not exist in every node.}
 Extract attributes, text and tag name from html.
 }
 \examples{
-movie <- html("http://www.imdb.com/title/tt1490017/")
+movie <- read_html("http://www.imdb.com/title/tt1490017/")
 cast <- html_nodes(movie, "#titleCast span.itemprop")
 html_text(cast)
-html_tag(cast)
+html_name(cast)
 html_attrs(cast)
 html_attr(cast, "class")
-html_attr(cast, "itemprop")
-
-basic <- html("<p class='a'><b>Bold text</b></p>")
-p <- html_node(basic, "p")
-p
-# Can subset with numbers to extract children
-p[[1]]
-# Use html_attr to get attributes
-html_attr(p, "class")
 }
 

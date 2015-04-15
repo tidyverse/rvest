@@ -18,7 +18,7 @@
 #' \donttest{
 #' # This page claims to be in iso-8859-1:
 #' url <- 'http://www.elections.ca/content.aspx?section=res&dir=cir/list&document=index&lang=e#list'
-#' elections <- html(url)
+#' elections <- read_html(url)
 #' x <- elections %>% html_nodes("table") %>% .[[2]] %>% html_table() %>% .$TO
 #' # But something looks wrong:
 #' x

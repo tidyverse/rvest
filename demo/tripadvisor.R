@@ -6,7 +6,7 @@ library(rvest)
 url <- "http://www.tripadvisor.com/Hotel_Review-g37209-d1762915-Reviews-JW_Marriott_Indianapolis-Indianapolis_Indiana.html"
 
 reviews <- url %>%
-  html() %>%
+  read_html() %>%
   html_nodes("#REVIEWS .innerBubble")
 
 id <- reviews %>%

@@ -10,8 +10,7 @@ html_nodes(x, css, xpath)
 html_node(x, css, xpath)
 }
 \arguments{
-\item{x}{Either a complete document (XMLInternalDocument),
-a list of tags (XMLNodeSet) or a single tag (XMLInternalElementNode).}
+\item{x}{Either a document, a node set or a single node.}
 
 \item{css,xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
 depending on whether you want to use a css or xpath selector.}
@@ -58,7 +57,7 @@ exceptions are listed below:
 }
 \examples{
 # CSS selectors ----------------------------------------------
-ateam <- html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+ateam <- read_html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
 html_nodes(ateam, "center")
 html_nodes(ateam, "center font")
 html_nodes(ateam, "center font b")
@@ -69,10 +68,12 @@ ateam \%>\% html_nodes("center") \%>\% html_nodes("td")
 ateam \%>\% html_nodes("center") \%>\% html_nodes("font")
 
 # When applied to a list of nodes, html_nodes() collapses output
-# html_node() selects a single element from each
+# html_node() throws an error
 td <- ateam \%>\% html_nodes("center") \%>\% html_nodes("td")
 td \%>\% html_nodes("font")
+\dontrun{
 td \%>\% html_node("font")
+}
 
 # To pick out an element at specified position, use magrittr::extract2
 # which is an alias for [[

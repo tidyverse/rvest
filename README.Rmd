@@ -22,7 +22,7 @@ rvest helps you scrape information from web pages. It is designed to work with [
 
 ```{r, message = FALSE}
 library(rvest)
-lego_movie <- html("http://www.imdb.com/title/tt1490017/")
+lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
 
 rating <- lego_movie %>% 
   html_nodes("strong span") %>%
@@ -46,7 +46,7 @@ poster
 The most important functions in rvest are:
 
 * Create an html document from a url, a file on disk or a string containing
-  html with `html()`.
+  html with `read_html()`.
 
 * Select parts of a document using css selectors: `html_nodes(doc, "table td")`
   (or if you've a glutton for punishment, use xpath selectors with

@@ -2,30 +2,21 @@
 % Please edit documentation in R/xml.R
 \name{xml}
 \alias{xml}
-\alias{xml_attr}
-\alias{xml_attrs}
-\alias{xml_children}
 \alias{xml_node}
 \alias{xml_nodes}
 \alias{xml_tag}
 \alias{xml_text}
 \title{Work with xml.}
 \usage{
-xml(x, ..., encoding = NULL)
+xml(x, ..., encoding = "")
 
 xml_tag(x)
-
-xml_attr(x, name, default = NA_character_)
-
-xml_attrs(x)
 
 xml_node(x, css, xpath)
 
 xml_nodes(x, css, xpath)
 
-xml_text(x, ...)
-
-xml_children(x)
+xml_text(x, trim = FALSE)
 }
 \arguments{
 \item{x}{A url, a local path, a string containing html, or a response from
@@ -38,11 +29,6 @@ an httr request.}
 for complete list. If you have problems determining the correct encoding,
 try \code{\link[stringi]{stri_enc_detect}}}
 
-\item{name}{Name of attribute to extract.}
-
-\item{default}{A string used as a default value when the attribute does
-not exist in every node.}
-
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
 depending on whether you want to use a css or xpath selector.}
 
@@ -50,17 +36,7 @@ depending on whether you want to use a css or xpath selector.}
 depending on whether you want to use a css or xpath selector.}
 }
 \description{
-All methods work the same as their HTML equivalents. Currently \code{xml}
-parses XML files as HTML because I can't find another way to ignore
-namespaces.
+Deprecated. Please use just xm2 directly
 }
-\examples{
-search <- xml("http://stackoverflow.com/feeds")
-
-entries <- search \%>\% xml_nodes("entry")
-entries[[1]] \%>\% xml_structure()
-
-entries \%>\% xml_node("author name") \%>\% xml_text()
-entries \%>\% lapply(. \%>\% xml_nodes("category") \%>\% xml_attr("term"))
-}
+\keyword{internal}
 

@@ -21,6 +21,6 @@ test_that("parse_fields gets the button", {
     </form>
   ')
 
-    form <- select %>% html_node("form") %>% html_form()
-    expect_equal(form$fields[[1]]$type, "submit")
+  form <- select %>% html_node("form") %>% html_form()
+  expect_equal(form$fields[[1]]$type, "submit")
 })
