@@ -16,7 +16,8 @@
   if there's more than one match. I think this should make it more likely to
   fail clearly when the structure of the page changes.
 
-* `xml_structure()` has been moved to xml2.
+* `xml_structure()` has been moved to xml2. New `html_structure()` (also in 
+  xml2) highlights id and class attributes (#78).
 
 * `submit_form()` now works with forms that use GET (#66).
 
