@@ -5,7 +5,6 @@
 \alias{xml_node}
 \alias{xml_nodes}
 \alias{xml_tag}
-\alias{xml_text}
 \title{Work with xml.}
 \usage{
 xml(x, ..., encoding = "")
@@ -15,8 +14,6 @@ xml_tag(x)
 xml_node(x, css, xpath)
 
 xml_nodes(x, css, xpath)
-
-xml_text(x, trim = FALSE)
 }
 \arguments{
 \item{x}{A url, a local path, a string containing html, or a response from
