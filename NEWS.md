@@ -18,6 +18,8 @@
 
 * `xml_structure()` has been moved to xml2.
 
+* `submit_form()` now works with forms that use GET (#66).
+
 # rvest 0.2.0
 
 ## New features

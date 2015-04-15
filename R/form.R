@@ -267,7 +267,7 @@ submit_form <- function(session, form, submit = NULL, ...) {
 
   # Make request
   if (request$method == "GET") {
-    request_GET(session, url = url, params = request$values, ...)
+    request_GET(session, url = url, query = request$values, ...)
   } else if (request$method == "POST") {
     request_POST(session, url = url, body = request$values,
       encode = request$encode, ...)
