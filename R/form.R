@@ -222,6 +222,11 @@ format.button <- function(x, ...) {
 #' \dontrun{set_values(search, btnI = "blah")}
 set_values <- function(form, ...) {
   new_values <- list(...)
+  set_values_(form, .dots=new_values)
+}
+
+set_values_ <- function(form, ..., .dots=list()) {
+  new_values <- .dots
 
   # check for valid names
   no_match <- setdiff(names(new_values), names(form$fields))
@@ -243,6 +248,57 @@ set_values <- function(form, ...) {
 
   form
 
+}
+
+#' Submit a form back to the server with specific field values.
+#'
+#' @param session Session to submit form to.
+#' @param form Form to submit. If not supplied, form with matching field
+#'   names will automatically be selected
+#' @param submit Name of submit button to use. If not supplied, defaults to
+#'   first submission button on the form (with a message).
+#' @param ... Additional named parameters are sent to \code{set_values} to
+#'   update form and unnamed arguments are passed on to \code{\link[httr]{GET}()}
+#'   or \code{\link[httr]{POST}()}
+#' @return If successful, the parsed html response. Throws an error if http
+#'   request fails. 
+#' @export
+#' @seealso \code{\link{submit_form}}
+#' @examples
+#' test <- html_session(paste0("https://docs.google.com/forms/d/","1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI","/viewform"))
+#' test %>% submit_form_values(entry.564397473 = "abc")
+
+submit_form_values <- function(x, form=NULL, submit=NULL, ..., .values=list()) {
+  if(!is.session(x)) {
+    stop("Invalid session parameter")
+  }
+  dots <- list(...)
+  new_values <- modifyList(.values, dots[names(dots)!=""])
+  config_values <- dots[names(dots)==""]
+  if(is.null(form)) {
+    forms <- html_form(x)
+    if (length(forms)==0) {
+      stop("no forms found")
+    }
+    if (length(new_values)==0 && length(forms)>0) {
+      stop("Multiple forms found but no fields were listed to match")
+    }
+    form <- if (length(forms)==1 && length(new_values)==0) {
+      forms[[1]]
+    } else {
+      fields <- lapply(forms, function(x) names(x$fields))
+      field_match <- sapply(fields, function(ff, nn) all(nn %in% ff),
+        nn=names(new_values))
+      if (sum(field_match)==0) {
+        stop("no forms with matching field names found")
+      } else if (sum(field_match)>1) {
+        stop("multiple forms with matching field names")
+      }
+      forms[[which(field_match)]]
+    }
+  }
+  form <- set_values_(form, .dots=new_values)
+  submit_form(x, form=form, submit=submit, config=config_values)
 }
 
 #' Submit a form back to the server.
