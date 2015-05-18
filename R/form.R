@@ -230,7 +230,7 @@ set_values <- function(form, ...) {
       call. = FALSE)
   }
 
-  for(field in names(new_values)) {
+  for (field in names(new_values)) {
     type <- form$fields[[field]]$type %||% "non-input"
     if (type == "hidden") {
       warning("Setting value of hidden field '", field, "'.", call. = FALSE)
