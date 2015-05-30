@@ -21,6 +21,9 @@
 
 * `submit_form()` now works with forms that use GET (#66).
 
+* `submit_request()` (and hence `submit_form()`) is now case-insensitive, 
+  and so will find `<input type=SUBMIT>` as well as`<input type="submit">`.
+
 # rvest 0.2.0
 
 ## New features
