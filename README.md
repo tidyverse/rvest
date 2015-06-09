@@ -8,7 +8,7 @@ rvest helps you scrape information from web pages. It is designed to work with [
 
 ``` r
 library(rvest)
-lego_movie <- html("http://www.imdb.com/title/tt1490017/")
+lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
 
 rating <- lego_movie %>% 
   html_nodes("strong span") %>%
