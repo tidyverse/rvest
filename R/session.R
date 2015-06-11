@@ -91,7 +91,9 @@ is.session <- function(x) inherits(x, "session")
 #' }
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
+
   url <- xml2::url_absolute(curl::curl_escape(url), x$url)
+
   x$back <- c(url, x$back)
   x$forward <- character()
   request_GET(x, url, ...)
@@ -128,6 +130,7 @@ follow_link <- function(x, i, css, xpath, ...) {
     }
     a <- links[[1]]
   }
+
   url <- html_attr(a, "href")
   message("Navigating to ", url)
   jump_to(x, url, ...)
