@@ -164,7 +164,7 @@ parse_options <- function(options) {
 
   list(
     value = value[selected],
-    options = setNames(value, name)
+    options = stats::setNames(value, name)
   )
 }
 

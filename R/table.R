@@ -100,7 +100,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
 
   # Convert matrix to list to data frame
   df <- lapply(seq_len(p), function(i) {
-    type.convert(out[, i], as.is = TRUE, dec = dec)
+    utils::type.convert(out[, i], as.is = TRUE, dec = dec)
   })
   names(df) <- col_names
   class(df) <- "data.frame"
