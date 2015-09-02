@@ -277,7 +277,9 @@ submit_form <- function(session, form, submit = NULL, ...) {
 }
 
 submit_request <- function(form, submit = NULL) {
-  submits <- Filter(function(x) identical(x$type, "submit"), form$fields)
+  submits <- Filter(function(x) {
+      identical(tolower(x$type), "submit") | identical(tolower(x$type), "image")
+  }, form$fields)
   if (is.null(submit)) {
     submit <- names(submits)[[1]]
     message("Submitting with '", submit, "'")

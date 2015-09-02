@@ -21,6 +21,13 @@
 
 * `submit_form()` now works with forms that use GET (#66).
 
+* `submit_request()` (and hence `submit_form()`) is now case-insensitive, 
+  and so will find `<input type=SUBMIT>` as well as`<input type="submit">`.
+  
+* `submit_request()` (and hence `submit_form()`) recognizes forms with 
+  `<input type="image">` as a valid form submission button per
+  <http://www.w3.org/TR/html-markup/input.image.html>
+  
 # rvest 0.2.0
 
 ## New features
