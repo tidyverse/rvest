@@ -1,3 +1,7 @@
+## Submission summary
+
+This is a major rewrite which replaces use of the XML package with xml2 (thus avoiding many memory leaks). This is a large change, so I gave the downstream maintainers plenty of time to respond.
+
 ## Test environments
 
 * local OS X install, R 3.1.2
@@ -16,4 +20,6 @@ There was 1 NOTEs:
 
 ## Downstream dependencies
 
-There are no downstream dependencies.
+* I ran R CMD check on all 7 downstream dependencies. 
+* Results summary at https://github.com/hadley/rvest/blob/master/revdep/summary.md
+* Downstream maintainers were notified on Sep 2 that release would happen on Sep 22.

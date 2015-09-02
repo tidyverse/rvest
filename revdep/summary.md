@@ -23,7 +23,7 @@
 |selectr  |   |0.2-3   |2014-12-24 |CRAN (R 3.2.0) |
 |stringi  |   |0.5-5   |2015-06-29 |CRAN (R 3.2.0) |
 |testthat |*  |0.10.0  |2015-05-22 |CRAN (R 3.2.0) |
-|xml2     |   |0.1.1   |2015-06-02 |CRAN (R 3.2.0) |
+|xml2     |   |0.1.2   |2015-09-01 |CRAN (R 3.2.0) |
 
 # Check results
 7 checked out of 7 dependencies 
@@ -57,7 +57,7 @@ __OK__
 Maintainer: Christopher Endres <cjendres1@gmail.com>
 
 ```
-checking examples ... [9s/14s] WARNING
+checking examples ... [9s/13s] WARNING
 Found the following significant warnings:
 
   Warning: 'html' is deprecated.

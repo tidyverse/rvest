@@ -1,4 +1,4 @@
-# rvest 0.2.0.9000
+# rvest 0.3.0
 
 * rvest has been rewritten to take advantage of the new xml2 package. xml2 
   provides a fresh binding to libxml2, avoiding many of the work-arounds 
