@@ -92,7 +92,7 @@ is.session <- function(x) inherits(x, "session")
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
 
-  url <- xml2::url_absolute(url, x$url)
+  url <- xml2::url_absolute(curl::curl_escape(url), x$url)
 
   x$back <- c(url, x$back)
   x$forward <- character()
