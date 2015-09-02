@@ -2,13 +2,16 @@
 rvest
 =====
 
-[![Build Status](https://travis-ci.org/hadley/rvest.png?branch=master)](https://travis-ci.org/hadley/rvest)
+[![Build Status](https://travis-ci.org/hadley/rvest.png?branch=master)](https://travis-ci.org/hadley/rvest) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/rvest/master.svg)](https://codecov.io/github/hadley/rvest?branch=master)
 
 rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](http://www.crummy.com/software/BeautifulSoup/).
 
 ``` r
 library(rvest)
 lego_movie <- html("http://www.imdb.com/title/tt1490017/")
+#> Warning: 'html' is deprecated.
+#> Use 'read_html' instead.
+#> See help("Deprecated")
 
 rating <- lego_movie %>% 
   html_nodes("strong span") %>%
@@ -60,7 +63,13 @@ To see examples of these function in use, check out the demos.
 Installation
 ------------
 
-rvest isn't available on CRAN (yet), so download it directly from github with:
+Install the release version from CRAN:
+
+``` r
+install.packages("rvest")
+```
+
+Or the development version from github
 
 ``` r
 # install.packages("devtools")
