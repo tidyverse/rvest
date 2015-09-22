@@ -18,7 +18,8 @@ Suggests:
     testthat,
     knitr,
     png,
-    stringi (>= 0.3.1)
+    stringi (>= 0.3.1),
+    rmarkdown
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
