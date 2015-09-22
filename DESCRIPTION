@@ -1,8 +1,8 @@
 Package: rvest
 Version: 0.3.0
 Title: Easily Harvest (Scrape) Web Pages
-Description: Wrappers around the xml2 and httr packages to make it easy to
-    download, then manipulate, both html and xml.
+Description: Wrappers around the 'xml2' and 'httr' packages to make it easy to
+    download, then manipulate, HTML and XML.
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
     person("RStudion", role = "cph")

@@ -6,11 +6,11 @@
 |:--------|:----------------------------|
 |version  |R version 3.2.1 (2015-06-18) |
 |system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.673)           |
+|ui       |RStudio (0.99.674)           |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2015-09-02                   |
+|date     |2015-09-22                   |
 
 ## Packages
 
@@ -57,7 +57,7 @@ __OK__
 Maintainer: Christopher Endres <cjendres1@gmail.com>
 
 ```
-checking examples ... [9s/13s] WARNING
+checking examples ... WARNING
 Found the following significant warnings:
 
   Warning: 'html' is deprecated.
@@ -133,13 +133,13 @@ Last 13 lines of output:
 checking re-building of vignette outputs ... NOTE
 Error in re-building vignettes:
   ...
+http://stats.grok.se/json/en/201508/Millennium_Development_Goals
+Error in eval(expr, envir, enclos) : expecting a single value
 http://stats.grok.se/json/es/201506/Objetivos_de_Desarrollo_del_Milenio
 Error in eval(expr, envir, enclos) : expecting a single value
 http://stats.grok.se/json/es/201507/Objetivos_de_Desarrollo_del_Milenio
 Error in eval(expr, envir, enclos) : expecting a single value
 http://stats.grok.se/json/es/201508/Objetivos_de_Desarrollo_del_Milenio
-Error in eval(expr, envir, enclos) : expecting a single value
-http://stats.grok.se/json/en/201505/Millennium_Development_Goals
 Error in eval(expr, envir, enclos) : expecting a single value
 http://stats.grok.se/json/en/201506/Millennium_Development_Goals
 Error in eval(expr, envir, enclos) : expecting a single value

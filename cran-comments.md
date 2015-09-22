@@ -12,14 +12,24 @@ This is a major rewrite which replaces use of the XML package with xml2 (thus av
 
 There were no ERRORs or WARNINGs.
 
-There was 1 NOTEs:
+There was 1 NOTE:
 
-* checking CRAN incoming feasibility ... NOTE
+* I have changed the maintainer address to hadley@rstudio.com. I'll send
+  a confirmation from my old address shortly.
 
-  html and httr are not spelling mistakes.
+* There was a false positive for "found the following (possibly) invalid URLs":
+  the vignette includes a javascript bookmarklet which starts with
+  `javascript:`.
 
 ## Downstream dependencies
 
-* I ran R CMD check on all 7 downstream dependencies. 
-* Results summary at https://github.com/hadley/rvest/blob/master/revdep/summary.md
-* Downstream maintainers were notified on Sep 2 that release would happen on Sep 22.
+* I ran R CMD check on all 7 downstream dependencies. (Summary at 
+  https://github.com/hadley/rvest/blob/master/revdep/summary.md)
+  
+* There are three new failures:
+
+  * gsheet, nhanesA: uses deprecated function
+  * wikipediatrend: uses deprecated function, test now fails
+
+* I notified all downstream maintainers on Sep 2 that release would happen on 
+  Sep 22. I notified them again today.
