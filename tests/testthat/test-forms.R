@@ -14,6 +14,17 @@ test_that("select options are named character vector", {
   expect_equal(form$fields[[1]]$options, c(a = "1", b = "2"))
 })
 
+test_that("select values are inherited from names", {
+  page <- minimal_html("optional values", '
+    <select name="b" id="a">
+      <option value="1">x</option>
+      <option>y</option>
+    </select>
+  ')
+  opts <- page %>% html_node('select') %>% parse_select()
+  expect_equal(opts$options, c(x = "1", y = "y"))
+})
+
 test_that("parse_fields gets the button", {
     select <- minimal_html("button test", '
     <form>

@@ -1,5 +1,7 @@
 # rvest 0.3.0.9000
 
+* Parse `<options>` that don't have value attribute (#85).
+
 # rvest 0.3.0
 
 * rvest has been rewritten to take advantage of the new xml2 package. xml2 
