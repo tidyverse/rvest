@@ -22,7 +22,7 @@
 #'   html_node("table.infobox") %>%
 #'   html_table(header = FALSE)
 #'
-#' births <- read_html("http://www.ssa.gov/oact/babynames/numberUSbirths.html")
+#' births <- read_html("https://www.ssa.gov/oact/babynames/numberUSbirths.html")
 #' html_table(html_nodes(births, "table")[[2]])
 #'
 #' # If the table is badly formed, and has different number of rows in
