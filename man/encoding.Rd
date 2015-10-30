@@ -44,7 +44,7 @@ guess_encoding(x)
 repair_encoding(x)
 
 # But it's better to start from scratch with correctly encoded file
-elections <- html(url, encoding = "UTF-8")
+elections <- read_html(url, encoding = "UTF-8")
 elections \%>\% html_nodes("table") \%>\% .[[2]] \%>\% html_table() \%>\% .$TO
 }
 }
