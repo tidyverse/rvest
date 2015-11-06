@@ -1,4 +1,6 @@
-# rvest 0.3.0.9000
+# rvest 0.3.1
+
+* Fix invalid link for SSA example.
 
 * Parse `<options>` that don't have value attribute (#85).
 

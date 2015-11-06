@@ -181,7 +181,7 @@ print.history <- function(x, ...) {
 # html methods -----------------------------------------------------------------
 
 #' @export
-html_form.session <- function(x) html_form(read_html(x))
+html_form.session <- function(x) html_form(xml2::read_html(x))
 
 #' @export
 html_table.session <- function(x, header = NA, trim = TRUE, fill = FALSE,
