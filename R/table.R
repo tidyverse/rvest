@@ -78,7 +78,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   }
 
   values <- lapply(cells, html_text, trim = trim)
-  out <- matrix(NA_character_, nrow = n, ncol = p)
+  out <- matrix(NA_character_, nrow = n, ncol = maxp)
 
   for (i in seq_len(n)) {
     row <- values[[i]]
@@ -94,7 +94,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   # fill rowspans downwards with repetition
   for (i in seq_len(maxp)) {
     col <- out[, i]
-    for (j in 1:n) {
+    for (j in seq_len(n)) {
       rowspan <- nrows[[j]][i]
       if (!is.na(rowspan) & (rowspan > 1)) {
         for (k in seq_len(rowspan-1)) {
