@@ -63,14 +63,17 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
 
   ncols <- lapply(cells, html_attr, "colspan", default = "1")
   ncols <- lapply(ncols, as.integer)
-  p <- unique(vapply(ncols, sum, integer(1)))
+  nrows <- lapply(cells, html_attr, "rowspan", default = "1")
+  nrows <- lapply(nrows, as.integer)
 
-  if (length(p) > 1) {
+  p <- unique(vapply(ncols, sum, integer(1)))
+  maxp <- max(p)
+
+  if (length(p) > 1 & (maxp * n != Reduce(sum, lapply(nrows, sum)))) {
+    # then missing cells are not parsable by rowspan solution
     if (!fill) {
       stop("Table has inconsistent number of columns. ",
-        "Do you want fill = TRUE?", call. = FALSE)
-    } else {
-      p <- max(p)
+           "Do you want fill = TRUE?", call. = FALSE)
     }
   }
 
@@ -81,10 +84,25 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
     row <- values[[i]]
     ncol <- ncols[[i]]
     col <- 1
-    for (j in seq_len(p)) {
+    for (j in seq_len(maxp)) {
       if (j > length(row)) next
       out[i, col] <- row[[j]]
       col <- col + ncol[j]
+    }
+  }
+
+  # fill rowspans downwards with repetition
+  for (i in seq_len(maxp)) {
+    col <- out[, i]
+    for (j in 1:n) {
+      rowspan <- nrows[[j]][i]
+      if (!is.na(rowspan) & (rowspan > 1)) {
+        for (k in seq_len(rowspan-1)) {
+          l <- head(out[j+k, ], i-1)
+          r <- tail(out[j+k, ], maxp-i+1)
+          out[j + k, ] <- head(c(l, out[j, i], r), maxp)
+        }
+      }
     }
   }
 
@@ -99,7 +117,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   }
 
   # Convert matrix to list to data frame
-  df <- lapply(seq_len(p), function(i) {
+  df <- lapply(seq_len(maxp), function(i) {
     utils::type.convert(out[, i], as.is = TRUE, dec = dec)
   })
   names(df) <- col_names
