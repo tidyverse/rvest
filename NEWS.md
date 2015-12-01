@@ -6,8 +6,8 @@
 
 * Parse `<options>` that don't have value attribute (#85).
 
-* Remove all remaining uses of `html()` in favor of `read_html()` (@jimhester,
-  #113).
+* Remove all remaining uses of `html()` in favor of `read_html()` 
+  (@jimhester, #113).
 
 # rvest 0.3.0
 
