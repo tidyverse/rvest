@@ -69,8 +69,8 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   p <- unique(vapply(ncols, sum, integer(1)))
   maxp <- max(p)
 
-  if (length(p) > 1 & (maxp * n != Reduce(sum, lapply(nrows, sum)))) {
-    # then missing cells are not parsable by rowspan solution
+  if (length(p) > 1 & (maxp * n != sum(unlist(nrows)))) {
+    # then malformed table is not parsable by rowspan solution
     if (!fill) {
       stop("Table has inconsistent number of columns. ",
            "Do you want fill = TRUE?", call. = FALSE)
