@@ -1,5 +1,7 @@
 # rvest 0.3.1.9000
 
+* Parse rowspans effectively by filling downwards by repetition (#111)
+
 # rvest 0.3.1
 
 * Fix invalid link for SSA example.
