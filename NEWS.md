@@ -1,6 +1,7 @@
 # rvest 0.3.1.9000
 
-* Parse rowspans and colspans effectively by filling using repetition from left to right (for colspan) and top to bottom (rowspan) (#111)
+* Parse rowspans and colspans effectively by filling using repetition from 
+  left to right (for colspan) and top to bottom (rowspan) (#111)
 
 # rvest 0.3.1
 
