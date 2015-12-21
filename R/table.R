@@ -123,14 +123,15 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
     col_names <- paste0("X", seq_len(ncol(out)))
   }
 
-  sys_enc <- "big5"  # OS locale dependent
-  if (.Platform$OS.type == "windows"){
-    out <- iconv(out, from="UTF-8", to = sys_enc)
-  }
+  Encoding(out) <- "UTF-8"
+  locale_temp <- Sys.getlocale(category="LC_CTYPE")
+  Sys.setlocale(category="LC_CTYPE", locale='C') # for `utils::type.convert` issue on Windows
   # Convert matrix to list to data frame
   df <- lapply(seq_len(maxp), function(i) {
     utils::type.convert(out[, i], as.is = TRUE, dec = dec)
   })
+  Sys.setlocale(category="LC_CTYPE", locale=locale_temp)
+  Encoding(col_names) <- "UTF-8"
   names(df) <- col_names
   class(df) <- "data.frame"
   attr(df, "row.names") <- .set_row_names(length(df[[1]]))
