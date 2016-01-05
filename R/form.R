@@ -265,11 +265,21 @@ submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
   url <- xml2::url_absolute(form$url, session$url)
 
+  # Unlist values in case of multiple select
+  values <- request$values
+  values_length <- sapply(values, length)
+  if (any(values_length > 1)) {
+    names <- rep(names(values), values_length)
+    values <- unlist(values, use.names=FALSE)
+    names(values) <- names
+    values <- as.list(values)
+  }
+
   # Make request
   if (request$method == "GET") {
-    request_GET(session, url = url, query = request$values, ...)
+    request_GET(session, url = url, query = values, ...)
   } else if (request$method == "POST") {
-    request_POST(session, url = url, body = request$values,
+    request_POST(session, url = url, body = values,
       encode = request$encode, ...)
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)
