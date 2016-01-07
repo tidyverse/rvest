@@ -267,7 +267,7 @@ submit_form <- function(session, form, submit = NULL, ...) {
 
   # Unlist values in case of multiple select
   values <- request$values
-  values_length <- sapply(values, length)
+  values_length <- vapply(values, length, numeric(1))
   if (any(values_length > 1)) {
     names <- rep(names(values), values_length)
     values <- unlist(values, use.names=FALSE)
