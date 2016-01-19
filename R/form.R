@@ -230,7 +230,7 @@ set_values <- function(form, ...) {
       call. = FALSE)
   }
 
-  for (field in names(new_values)) {
+  for (field in unique(names(new_values))) {
     type <- form$fields[[field]]$type %||% "non-input"
     if (type == "hidden") {
       warning("Setting value of hidden field '", field, "'.", call. = FALSE)
@@ -238,11 +238,45 @@ set_values <- function(form, ...) {
       stop("Can't change value of submit input '", field, "'.", call. = FALSE)
     }
 
-    form$fields[[field]]$value <- new_values[[field]]
+    if (type == "checkbox") {
+      # there could be multiple check boxes with same 'name's and different 'value's
+      idx <- unlist(names(new_values) == field)
+      form <- set_checkbox(form, new_values[idx])
+    } else if (type == "radio") {
+      # there could be multiple radio buttons with same 'name's and different 'value's
+      idx <- unlist(names(new_values) == field)
+      form <- set_radio(form, new_values[idx])
+    } else {
+      form$fields[[field]]$value <- new_values[[field]]
+    }
   }
 
   form
 
+}
+
+set_checkbox <- function(form, values) {
+  idx <- which(unlist(lapply(form$fields, function(x) { x$name %in% names(values) })))
+    
+  for (i in unname(idx)) {
+    if (!is.null(form$fields[[i]]$value) && (form$fields[[i]]$value %in% values))
+      form$fields[[i]]$checked <- "true"
+  }
+  return(form)
+}
+
+set_radio <- function(form, values) {
+  idx <- which(unlist(lapply(form$fields, function(x) { x$name %in% names(values) })))
+    
+  for (i in unname(idx)) {
+    if (!is.null(form$fields[[i]]$value)) {
+      if (form$fields[[i]]$value %in% values)
+        form$fields[[i]]$checked <- "true"
+      else
+        form$fields[[i]]$checked <- "false"
+    }
+  }
+  return(form)
 }
 
 #' Submit a form back to the server.
@@ -304,6 +338,7 @@ submit_request <- function(form, submit = NULL) {
 
   fields <- form$fields
   fields <- Filter(function(x) length(x$value) > 0, fields)
+  fields <- Filter(function(x) is.null(x$type) || ((x$type != "radio") && (x$type != "checkbox")) || (!is.null(x$type) && (x$type %in% c("checkbox", "radio")) && !is.null(x$checked) && (x$checked == "true")), fields)
   fields <- fields[setdiff(names(fields), other_submits)]
 
   values <- pluck(fields, "value")
