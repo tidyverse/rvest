@@ -260,7 +260,7 @@ set_checkbox <- function(form, values) {
     
   for (i in unname(idx)) {
     if (!is.null(form$fields[[i]]$value) && (form$fields[[i]]$value %in% values))
-      form$fields[[i]]$checked <- "true"
+      form$fields[[i]]$checked <- "checked"
   }
   return(form)
 }
@@ -338,7 +338,7 @@ submit_request <- function(form, submit = NULL) {
 
   fields <- form$fields
   fields <- Filter(function(x) length(x$value) > 0, fields)
-  fields <- Filter(function(x) is.null(x$type) || ((x$type != "radio") && (x$type != "checkbox")) || (!is.null(x$type) && (x$type %in% c("checkbox", "radio")) && !is.null(x$checked) && (x$checked == "true")), fields)
+  fields <- Filter(function(x) is.null(x$type) || ((x$type != "radio") && (x$type != "checkbox")) || (!is.null(x$type) && (x$type %in% c("checkbox", "radio")) && !is.null(x$checked) && (x$checked == "true" || x$checked == "checked")), fields)
   fields <- fields[setdiff(names(fields), other_submits)]
 
   values <- pluck(fields, "value")
