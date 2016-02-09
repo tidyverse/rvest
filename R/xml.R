@@ -1,6 +1,6 @@
 #' Work with xml.
 #'
-#' Deprecated. Please use just xm2 directly
+#' Deprecated. Please use just xml2 directly
 #'
 #' @export
 #' @keywords internal
