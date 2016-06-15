@@ -70,7 +70,7 @@ Or the development version from github
 
 ``` r
 # install.packages("devtools")
-install_github("hadley/rvest")
+devtools::install_github("hadley/rvest")
 ```
 
 Inspirations
