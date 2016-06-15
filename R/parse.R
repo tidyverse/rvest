@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 #' # From a url:
-#' google <- read_html("http://google.com")
+#' google <- read_html("http://google.com", encoding = "ISO-8859-1")
 #' google %>% xml_structure()
 #' google %>% html_nodes("div")
 #'
