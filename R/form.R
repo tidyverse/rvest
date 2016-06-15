@@ -276,46 +276,63 @@ submit_form <- function(session, form, submit = NULL, ...) {
   }
 }
 
-submit_request <- function(form, submit = NULL) {
-  submits <- Filter(function(x) {
-      identical(tolower(x$type), "submit") | identical(tolower(x$type), "image")
-  }, form$fields)
-  if (is.null(submit)) {
-    submit <- names(submits)[[1]]
-    message("Submitting with '", submit, "'")
-  }
-  if (!(submit %in% names(submits))) {
-    stop(
-      "Unknown submission name '", submit, "'.\n",
-      "Possible values: ", paste0(names(submits), collapse = ", "),
-      call. = FALSE
-    )
-  }
-  other_submits <- setdiff(names(submits), submit)
 
-  # Parameters needed for http request -----------------------------------------
+submit_request <-
+  function (form, submit = NULL)
+{
+  submits <- Filter(function(x) {
+    identical(tolower(x$type), "submit")
+  }, form$fields)
+
+  nsubmits <- Filter(function(x) {
+    !identical(tolower(x$type), "submit")
+  }, form$fields)
+
+  # if list take name and vakue as inputs
+  if (is.list(submit)) {
+    submits[[1]]$name  <- names(submit)[1]
+    submits[[1]]$value <- submit[[1]]
+    submit <- submits[[1]]
+  }
+
+  # if character filter by name
+  if (is.character(submit)){
+    submit <- Filter(function(x){x$name==submit},submits)[[1]]
+  }
+
+  # if null choose first
+  if (is.null(submit)) {
+    submit <- submits[[1]]
+    message("Submitting with '", submit$name, "'")
+  }
+
+  # handle method
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
-    warning("Invalid method (", method, "), defaulting to GET", call. = FALSE)
+    warning("Invalid method (", method, "), defaulting to GET",
+            call. = FALSE)
     method <- "GET"
   }
 
+  # url
   url <- form$url
 
-  fields <- form$fields
+  # fields
+  fields <- nsubmits
+  fields[submit$name] <- list(submit)
   fields <- Filter(function(x) length(x$value) > 0, fields)
-  fields <- fields[setdiff(names(fields), other_submits)]
-
-  values <- pluck(fields, "value")
+  values <- rvest::pluck(fields, "value")
   names(values) <- names(fields)
 
+  # return
   list(
-    method = method,
-    encode = form$enctype,
+    method = method, 
+    encode = form$enctype, 
     url = url,
     values = values
   )
 }
+
 
 #' Make link to google form given id
 #'
