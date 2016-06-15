@@ -13,21 +13,18 @@ address <- houses %>%
   html_node(".property-address a") %>%
   html_attr("href") %>%
   strsplit("/") %>%
-  pluck(3, character(1))
+  pluck(3, character(1)) %>%
+  gsub("-", " ", .)
 
 area <- function(x) {
   val <- as.numeric(gsub("[^0-9.]+", "", x))
   as.integer(val * ifelse(grepl("ac", x), 43560, 1))
 }
-sqft <- houses %>%
-  html_node(".property-lot") %>%
-  html_text() %>%
-  area()
 
-year_build <- houses %>%
-  html_node(".property-year") %>%
+year_built <- houses %>%
+  html_node(".built-year") %>%
   html_text() %>%
-  gsub("Built in ", "", .) %>%
+  gsub(" \u2022 Built ", "", .) %>%
   as.integer()
 
 price <- houses %>%
@@ -38,7 +35,7 @@ price <- houses %>%
 params <- houses %>%
   html_node(".property-data") %>%
   html_text() %>%
-  strsplit(", ")
+  strsplit(" \u2022 ")
 beds <- params %>%
   pluck(1, character(1)) %>%
   extract_numeric()
@@ -48,3 +45,8 @@ baths <- params %>%
 house_area <- params %>%
   pluck(3, character(1)) %>%
   area()
+sqft <- params %>%
+  pluck(4, character(1)) %>%
+  area()
+
+data.frame(address, year_built, price, beds, baths, house_area, sqft, stringsAsFactors = FALSE) %>% View()
