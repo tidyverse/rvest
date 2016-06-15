@@ -52,15 +52,15 @@
 #' ateam %>% html_nodes("center") %>% html_nodes("td")
 #' ateam %>% html_nodes("center") %>% html_nodes("font")
 #'
-#' # When applied to a list of nodes, html_nodes() returns all nodes,
-#' # collapsing results into a new nodelist.
 #' td <- ateam %>% html_nodes("center") %>% html_nodes("td")
 #' td
-#' td %>% html_node("font")
+#' # When applied to a list of nodes, html_nodes() returns all nodes,
+#' # collapsing results into a new nodelist.
+#' td %>% html_nodes("font")
 #' # html_node() returns the first matching node. If there are no matching
 #' # nodes, it returns a "missing" node
 #' if (utils::packageVersion("xml2") > "0.1.2") {
-#'   td %>% html_nodes("font")
+#'   td %>% html_node("font")
 #' }
 #'
 #' # To pick out an element at specified position, use magrittr::extract2
