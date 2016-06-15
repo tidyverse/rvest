@@ -27,10 +27,10 @@ for complete list. If you have problems determining the correct encoding,
 try \code{\link[stringi]{stri_enc_detect}}}
 
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath selector.}
+depending on whether you want to use a css or xpath 1.0 selector.}
 
 \item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath selector.}
+depending on whether you want to use a css or xpath 1.0 selector.}
 }
 \description{
 Deprecated. Please use just xml2 directly

@@ -13,7 +13,7 @@ html_node(x, css, xpath)
 \item{x}{Either a document, a node set or a single node.}
 
 \item{css, xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath selector.}
+depending on whether you want to use a css or xpath 1.0 selector.}
 }
 \description{
 More easily extract pieces out of HTML documents using XPath and css
