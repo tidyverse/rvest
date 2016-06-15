@@ -67,13 +67,14 @@ html_nodes(ateam, "center font b")
 ateam \%>\% html_nodes("center") \%>\% html_nodes("td")
 ateam \%>\% html_nodes("center") \%>\% html_nodes("font")
 
-# When applied to a list of nodes, html_nodes() collapses output
-# html_node() throws an error
+# When applied to a list of nodes, html_nodes() returns all nodes,
+# collapsing results into a new nodelist.
 td <- ateam \%>\% html_nodes("center") \%>\% html_nodes("td")
-td \%>\% html_nodes("font")
-\dontrun{
+td
 td \%>\% html_node("font")
-}
+# html_node() returns the first matching node. If there are no matching
+# nodes, it returns a "missing" node
+td \%>\% html_nodes("font")
 
 # To pick out an element at specified position, use magrittr::extract2
 # which is an alias for [[

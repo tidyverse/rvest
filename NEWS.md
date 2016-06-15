@@ -1,5 +1,7 @@
 # rvest 0.3.1.9000
 
+* If you're using xml2 1.0.0, `html_node()` will now return a "missing node".
+
 * Parse rowspans and colspans effectively by filling using repetition from 
   left to right (for colspan) and top to bottom (rowspan) (#111)
 
