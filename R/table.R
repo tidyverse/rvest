@@ -99,15 +99,15 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
       if (!is.na(rowspan) & (rowspan > 1)) {
         if (!is.na(colspan) & (colspan > 1)) {
           # special case of colspan and rowspan in same cell
-          nrows[[j]] <- c(head(nrows[[j]], i),
+          nrows[[j]] <- c(utils::head(nrows[[j]], i),
                           rep(rowspan, colspan-1),
-                          tail(nrows[[j]], length(rowspan)-(i+1)))
+                          utils::tail(nrows[[j]], length(rowspan)-(i+1)))
           rowspan <- nrows[[j]][i]
         }
         for (k in seq_len(rowspan - 1)) {
-          l <- head(out[j+k, ], i-1)
-          r <- tail(out[j+k, ], maxp-i+1)
-          out[j + k, ] <- head(c(l, out[j, i], r), maxp)
+          l <- utils::head(out[j+k, ], i-1)
+          r <- utils::tail(out[j+k, ], maxp-i+1)
+          out[j + k, ] <- utils::head(c(l, out[j, i], r), maxp)
         }
       }
     }
