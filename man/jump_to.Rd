@@ -34,11 +34,10 @@ tag) on the current page.
 }
 \examples{
 \donttest{
-s <- html_session("http://had.co.nz")
-s \%>\% jump_to("thesis/")
-s \%>\% follow_link("vita")
-s \%>\% follow_link(3)
-s \%>\% follow_link("vita")
+s <- html_session("http://hadley.nz")
+s \%>\% follow_link("github")
+s \%>\% back()
+s \%>\% follow_link("readr")
 }
 }
 

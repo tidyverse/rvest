@@ -29,9 +29,9 @@ and \code{\link{html_nodes}} to access the html.
 \examples{
 # http://stackoverflow.com/questions/15853204
 
-s <- html_session("http://had.co.nz")
-s \%>\% jump_to("thesis") \%>\% jump_to("/") \%>\% session_history()
-s \%>\% jump_to("thesis") \%>\% back() \%>\% session_history()
+s <- html_session("http://hadley.nz")
+s \%>\% jump_to("hadley-wickham.jpg") \%>\% jump_to("/") \%>\% session_history()
+s \%>\% jump_to("hadley-wickham.jpg") \%>\% back() \%>\% session_history()
 \donttest{
 s \%>\% follow_link(css = "p a")
 }
