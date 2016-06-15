@@ -21,7 +21,7 @@ price <- houses %>%
 params <- houses %>%
   html_node(".zsg-photo-card-info") %>%
   html_text() %>%
-  strsplit("·")
+  strsplit("\u00b7")
 
 beds <- params %>% purrr::map_chr(1) %>% readr::parse_number()
 baths <- params %>% purrr::map_chr(2) %>% readr::parse_number()
