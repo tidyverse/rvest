@@ -33,7 +33,7 @@ depending on whether you want to use a css or xpath selector.}
 depending on whether you want to use a css or xpath selector.}
 }
 \description{
-Deprecated. Please use just xm2 directly
+Deprecated. Please use just xml2 directly
 }
 \keyword{internal}
 
