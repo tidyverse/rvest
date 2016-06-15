@@ -277,9 +277,13 @@ submit_form <- function(session, form, submit = NULL, ...) {
 }
 
 submit_request <- function(form, submit = NULL) {
-  submits <- Filter(function(x) {
-      identical(tolower(x$type), "submit") | identical(tolower(x$type), "image")
-  }, form$fields)
+  is_submit <- function(x) tolower(x$type) %in% c("submit", "image", "button")
+
+  submits <- Filter(is_submit, form$fields)
+  if (length(submits) == 0) {
+    stop("Could not find possible submission target.", call. = FALSE)
+  }
+
   if (is.null(submit)) {
     submit <- names(submits)[[1]]
     message("Submitting with '", submit, "'")
