@@ -21,6 +21,7 @@ Suggests:
     stringi (>= 0.3.1),
     rmarkdown,
     covr
+Encoding: UTF-8
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
