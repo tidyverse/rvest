@@ -19,7 +19,8 @@ Suggests:
     knitr,
     png,
     stringi (>= 0.3.1),
-    rmarkdown
+    rmarkdown,
+    covr
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr

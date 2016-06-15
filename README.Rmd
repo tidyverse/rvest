@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # rvest
 
-[![Build Status](https://travis-ci.org/hadley/rvest.png?branch=master)](https://travis-ci.org/hadley/rvest)
+[![Build Status](https://travis-ci.org/hadley/rvest.svg?branch=master)](https://travis-ci.org/hadley/rvest)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest)
 [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/rvest/master.svg)](https://codecov.io/github/hadley/rvest?branch=master)
 
