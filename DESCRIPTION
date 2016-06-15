@@ -23,4 +23,6 @@ Suggests:
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1
+URL: https://github.com/hadley/rvest
+BugReports: https://github.com/hadley/rvest/issues
