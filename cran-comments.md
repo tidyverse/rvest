@@ -7,8 +7,12 @@
 
 0 errors | 0 warnings | 2 notes
 
-* 
-
+* Found the following (possibly) invalid URLs:
+  URL: http://www.crummy.com/software/BeautifulSoup/
+  
+  I see this on win-builder but not locally, so this might be
+  an SSL misconfig (old certs?) on win-builder.
+ 
 * checking dependencies in R code ... NOTE
   Missing or unexported object: 'xml2::xml_find_first'
   
