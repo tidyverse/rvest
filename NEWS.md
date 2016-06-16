@@ -7,6 +7,11 @@
 * Parse rowspans and colspans effectively by filling using repetition from 
   left to right (for colspan) and top to bottom (rowspan) (#111)
 
+* Updated a few examples and demos where the website structure has
+  changed.
+
+* Made compatible with both xml2 0.1.2 and 1.0.0.
+
 # rvest 0.3.1
 
 * Fix invalid link for SSA example.
