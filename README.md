@@ -4,7 +4,7 @@ rvest
 
 [![Build Status](https://travis-ci.org/hadley/rvest.svg?branch=master)](https://travis-ci.org/hadley/rvest) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/rvest/master.svg)](https://codecov.io/github/hadley/rvest?branch=master)
 
-rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](http://www.crummy.com/software/BeautifulSoup/).
+rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
 
 ``` r
 library(rvest)
@@ -28,10 +28,10 @@ cast
 #> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"
 
 poster <- lego_movie %>%
-  html_nodes("#img_primary img") %>%
+  html_nodes(".poster img") %>%
   html_attr("src")
 poster
-#> [1] "http://ia.media-imdb.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_SX214_AL_.jpg"
+#> [1] "http://ia.media-imdb.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"
 ```
 
 Overview
@@ -76,4 +76,4 @@ devtools::install_github("hadley/rvest")
 Inspirations
 ------------
 
--   Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html), [beautiful soup](http://www.crummy.com/software/BeautifulSoup/).
+-   Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html), [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).

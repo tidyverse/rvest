@@ -96,4 +96,4 @@ devtools::install_github("hadley/rvest")
 ## Inspirations
 
 * Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
-  [beautiful soup](http://www.crummy.com/software/BeautifulSoup/).
+  [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
