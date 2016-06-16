@@ -38,7 +38,7 @@ cast <- lego_movie %>%
 cast
 
 poster <- lego_movie %>%
-  html_nodes("#img_primary img") %>%
+  html_nodes(".poster img") %>%
   html_attr("src")
 poster
 ```
