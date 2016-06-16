@@ -1,4 +1,4 @@
-# rvest 0.3.1.9000
+# rvest 0.3.2
 
 * Fixes to `follow_link()` and `back()` to correctly manage session history.
 

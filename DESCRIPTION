@@ -1,5 +1,5 @@
 Package: rvest
-Version: 0.3.1.9000
+Version: 0.3.2
 Title: Easily Harvest (Scrape) Web Pages
 Description: Wrappers around the 'xml2' and 'httr' packages to make it easy to
     download, then manipulate, HTML and XML.
