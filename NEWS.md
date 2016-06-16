@@ -1,5 +1,7 @@
 # rvest 0.3.1.9000
 
+* Fixes to `follow_link()` and `back()` to correctly manage session history.
+
 * If you're using xml2 1.0.0, `html_node()` will now return a "missing node".
 
 * Parse rowspans and colspans effectively by filling using repetition from 

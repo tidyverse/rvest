@@ -35,8 +35,8 @@ tag) on the current page.
 \examples{
 \donttest{
 s <- html_session("http://hadley.nz")
-s \%>\% follow_link("github")
-s \%>\% back()
+s <- s \%>\% follow_link("github")
+s <- s \%>\% back()
 s \%>\% follow_link("readr")
 }
 }

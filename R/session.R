@@ -86,17 +86,18 @@ is.session <- function(x) inherits(x, "session")
 #' @examples
 #' \donttest{
 #' s <- html_session("http://hadley.nz")
-#' s %>% follow_link("github")
-#' s %>% back()
+#' s <- s %>% follow_link("github")
+#' s <- s %>% back()
 #' s %>% follow_link("readr")
 #' }
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
 
+  x$back <- c(x$url, x$back)
+  x$forward <- character()
+
   url <- xml2::url_absolute(url, x$url)
 
-  x$back <- c(url, x$back)
-  x$forward <- character()
   request_GET(x, url, ...)
 }
 
@@ -165,7 +166,7 @@ back <- function(x) {
 
   url <- x$back[[1]]
   x$back <- x$back[-1]
-  x$forward <- c(url, x$forward)
+  x$forward <- c(x$url, x$forward)
 
   request_GET(x, url)
 }
