@@ -3,6 +3,5 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^cran-comments\.md$
-^NEWS\.md$
 ^revdep$
 ^codecov\.yml$
