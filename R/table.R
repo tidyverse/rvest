@@ -54,6 +54,8 @@ html_table.xml_nodeset <- function(x, header = NA, trim = TRUE, fill = FALSE,
 html_table.xml_node <- function(x, header = NA, trim = TRUE,
                                               fill = FALSE, dec = ".") {
 
+  if(grep("Korean",Sys.getlocale())==1){Sys.setlocale("LC_ALL", "English");korean_set<-1}else{korean_set<-0}
+
   stopifnot(html_name(x) == "table")
 
   # Throw error if any rowspan/colspan present
@@ -134,6 +136,6 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   if (length(unique(col_names)) < length(col_names)) {
     warning('At least two columns have the same name')
   }
-
+  if(korean_set==1){Sys.setlocale("LC_ALL", "Korean")}
   df
 }
