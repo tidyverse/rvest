@@ -55,7 +55,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
                                               fill = FALSE, dec = ".") {
 
   if(identical(grep("English",Sys.getlocale()),integer(0))){
-    lang<-strsplit(tem,"[=;._]")[[1]]
+    lang<-strsplit(Sys.getlocale(),"[=;._]")[[1]]
     lang<-lang[length(lang)-2]
     Sys.setlocale("LC_ALL", "English")
     lang_set<-1}else{lang_set<-0}
