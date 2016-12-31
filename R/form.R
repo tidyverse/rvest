@@ -277,8 +277,8 @@ submit_form <- function(session, form, submit = NULL, ...) {
 }
 
 submit_request <- function(form, submit = NULL) {
-  is_submit <- function(x){
-    if(length(x$type)==0L){
+  is_submit <- function(x) {
+    if (length(x$type) == 0L) {
       return(FALSE)
     }
     tolower(x$type) %in% c("submit", "image", "button")
