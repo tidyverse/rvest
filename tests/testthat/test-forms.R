@@ -51,7 +51,7 @@ test_that("submit_request detects submit-buttons correct", {
   expect_null(form$fields[[1]]$type)
   expect_equal(form$fields[[2]]$type, "submit")
 
-  req <- rvest:::submit_request(form, "elementWithoutType")
+  req <- rvest:::submit_request(form, "clickMe")
   expect_length(req, 4L)
   expect_equal(req$method, "POST")
   expect_equal(req$url, "/test-path")
