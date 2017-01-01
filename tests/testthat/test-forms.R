@@ -35,3 +35,24 @@ test_that("parse_fields gets the button", {
   form <- select %>% html_node("form") %>% html_form()
   expect_equal(form$fields[[1]]$type, "submit")
 })
+
+test_that("submit_request detects submit-buttons correct", {
+  select <- minimal_html("submit test", '
+                         <form id="suchparameterForm" method="post" action="/test-path">
+                         <select name="elementWithoutType" size="1">
+                          <option value="10">10</option>
+								          <option value="25">25</option>
+                         </select>
+                         <button type="submit" name="clickMe">Click me</button>
+                         </form>
+                         ')
+
+  form <- select %>% html_node("form") %>% html_form()
+  expect_null(form$fields[[1]]$type)
+  expect_equal(form$fields[[2]]$type, "submit")
+
+  req <- rvest:::submit_request(form, "elementWithoutType")
+  expect_length(req, 4L)
+  expect_equal(req$method, "POST")
+  expect_equal(req$url, "/test-path")
+})
