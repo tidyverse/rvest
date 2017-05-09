@@ -68,9 +68,10 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
 
   p <- unique(vapply(ncols, sum, integer(1)))
   maxp <- max(p)
+  ncells <- sum(unlist(lapply(seq_len(n),
+                              function(i) nrows[[i]] * ncols[[i]])))
 
-  if (length(p) > 1 & maxp * n != sum(unlist(nrows)) &
-      maxp * n != sum(unlist(ncols))) {
+  if (length(p) > 1 & maxp * n != ncells) {
     # then malformed table is not parsable by smart filling solution
     if (!fill) { # fill must then be specified to allow filling with NAs
       stop("Table has inconsistent number of columns. ",
@@ -81,34 +82,32 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   values <- lapply(cells, html_text, trim = trim)
   out <- matrix(NA_character_, nrow = n, ncol = maxp)
 
-  # fill colspans right with repetition
+  # prepare vectors to hold the number of remaining columns and rows
+  # each cell spans to the right and below
+  colspans <- rep(0, maxp)
+  rowspans <- rep(0, maxp)
+
+  # fill colspans right and rowspans down with repetition
   for (i in seq_len(n)) {
     row <- values[[i]]
     ncol <- ncols[[i]]
+    nrow <- nrows[[i]]
+    cols <- length(ncol)
+    j <- 1
     col <- 1
-    for (j in seq_len(length(ncol))) {
-      out[i, col:(col+ncol[j]-1)] <- row[[j]]
-      col <- col + ncol[j]
-    }
-  }
-
-  # fill rowspans down with repetition
-  for (i in seq_len(maxp)) {
-    for (j in seq_len(n)) {
-      rowspan <- nrows[[j]][i]; colspan <- ncols[[j]][i]
-      if (!is.na(rowspan) & (rowspan > 1)) {
-        if (!is.na(colspan) & (colspan > 1)) {
-          # special case of colspan and rowspan in same cell
-          nrows[[j]] <- c(utils::head(nrows[[j]], i),
-                          rep(rowspan, colspan-1),
-                          utils::tail(nrows[[j]], length(rowspan)-(i+1)))
-          rowspan <- nrows[[j]][i]
-        }
-        for (k in seq_len(rowspan - 1)) {
-          l <- utils::head(out[j+k, ], i-1)
-          r <- utils::tail(out[j+k, ], maxp-i+1)
-          out[j + k, ] <- utils::head(c(l, out[j, i], r), maxp)
-        }
+    while (j <= cols & col <= maxp) {
+      if (rowspans[col] == 0) {
+        lastr <- min(n, i+nrow[j]-1)
+        lastc <- min(maxp, col+ncol[j]-1)
+        out[i:lastr, col:lastc] <- row[[j]]
+        colspans[col:lastc] <- ncol[j]:1
+        rowspans[col:lastc] <- nrow[j] - 1
+        col <- col + ncol[j]
+        j <- j + 1
+      } else {
+        span <- col:min(maxp, col+colspans[col]-1)
+        rowspans[span] <- rowspans[span] - 1
+        col <- col + colspans[col]
       }
     }
   }
