@@ -95,19 +95,21 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
     cols <- length(ncol)
     j <- 1
     col <- 1
-    while (j <= cols & col <= maxp) {
-      if (rowspans[col] == 0) {
+    while (col <= maxp) {
+      if (rowspans[col] != 0) {
+        span <- col:(col+colspans[col]-1)
+        rowspans[span] <- rowspans[span] - 1
+        col <- col + colspans[col]
+      } else if (j <= cols) {
         lastr <- min(n, i+nrow[j]-1)
         lastc <- min(maxp, col+ncol[j]-1)
         out[i:lastr, col:lastc] <- row[[j]]
         colspans[col:lastc] <- (lastc-col+1):1
         rowspans[col:lastc] <- nrow[j] - 1
-        col <- col + ncol[j]
+        col <- lastc + 1
         j <- j + 1
       } else {
-        span <- col:(col+colspans[col]-1)
-        rowspans[span] <- rowspans[span] - 1
-        col <- col + colspans[col]
+        col <- col + 1
       }
     }
   }
