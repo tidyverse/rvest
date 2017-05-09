@@ -100,12 +100,12 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
         lastr <- min(n, i+nrow[j]-1)
         lastc <- min(maxp, col+ncol[j]-1)
         out[i:lastr, col:lastc] <- row[[j]]
-        colspans[col:lastc] <- ncol[j]:1
+        colspans[col:lastc] <- (lastc-col+1):1
         rowspans[col:lastc] <- nrow[j] - 1
         col <- col + ncol[j]
         j <- j + 1
       } else {
-        span <- col:min(maxp, col+colspans[col]-1)
+        span <- col:(col+colspans[col]-1)
         rowspans[span] <- rowspans[span] - 1
         col <- col + colspans[col]
       }
