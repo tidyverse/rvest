@@ -68,12 +68,12 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
 
   p <- unique(vapply(ncols, sum, integer(1)))
   maxp <- max(p)
-  ncells <- sum(unlist(lapply(seq_len(n),
-                              function(i) nrows[[i]] * ncols[[i]])))
 
-  if (length(p) > 1 & maxp * n != ncells) {
+  if (length(p) > 1) {
     # then malformed table is not parsable by smart filling solution
-    if (!fill) { # fill must then be specified to allow filling with NAs
+    ncells <- sum(unlist(lapply(seq_len(n),
+                                function(i) nrows[[i]] * ncols[[i]])))
+    if (maxp * n != ncells & !fill) { # fill must then be specified to allow filling with NAs
       stop("Table has inconsistent number of columns. ",
            "Do you want fill = TRUE?", call. = FALSE)
     }
