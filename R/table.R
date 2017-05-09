@@ -97,10 +97,12 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
     col <- 1
     while (col <= maxp) {
       if (rowspans[col] != 0) {
+        # cell spanning over current row, data already written
         span <- col:(col+colspans[col]-1)
         rowspans[span] <- rowspans[span] - 1
         col <- col + colspans[col]
       } else if (j <= cols) {
+        # new cell, write data
         lastr <- min(n, i+nrow[j]-1)
         lastc <- min(maxp, col+ncol[j]-1)
         out[i:lastr, col:lastc] <- row[[j]]
@@ -109,6 +111,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
         col <- lastc + 1
         j <- j + 1
       } else {
+        # past the last <td>, move carefully to find multirow cells
         col <- col + 1
       }
     }
