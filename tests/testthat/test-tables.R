@@ -258,3 +258,14 @@ test_that("a correct but slightly pathological table correctly parsed", {
                c(rep('Categorical Columns', 2),
                  rep('Numerical Columns', 2)))
 })
+
+test_that("Test Wiki table correctly parsed", {
+    table <- read_html("../testwiki.html") %>%
+      html_nodes('.wikitable') %>% html_table(fill = TRUE)
+
+    row92 <- c('Burdur', 'Ahmet Ali Çınar', 'NA', 'Bağımsız')
+    row138 <- c('Denizli', 'Cemil Çalgüner', 'NA', 'Cumhuriyet Halk Partisi')
+    expect_equal(as.character(table[[1]][92,]), row92)
+    expect_equal(as.character(table[[1]][138,]), row138)
+
+})
