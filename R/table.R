@@ -108,7 +108,7 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
           l <- utils::head(out[j+k, ], i-1)
           r <- utils::tail(out[j+k, ], maxp-i+1)
           out[j + k, ] <- utils::head(c(l, out[j, i], r), maxp)
-          nrows[[j+k]] <- c(1, nrows[[j+1]])
+          nrows[[j+k]] <- c(1, nrows[[j+k]])
         }
       }
     }

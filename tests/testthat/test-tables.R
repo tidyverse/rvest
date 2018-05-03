@@ -269,3 +269,12 @@ test_that("Test Wiki table correctly parsed", {
     expect_equal(as.character(table[[1]][138,]), row138)
 
 })
+
+test_that("Test Wiki more difficult table correctly parsed", {
+  table <- read_html("https://tr.wikipedia.org/wiki/TBMM_12._d%C3%B6nem_milletvekilleri_listesi") %>%
+    html_nodes('.wikitable') %>% html_table(fill = TRUE)
+
+  row7 <- c('Adana', 'Ahmet Topaloğlu', 'NA', 'Adalet Partisi')
+  expect_equal(as.character(table[[1]][7,]), row7)
+})
+
