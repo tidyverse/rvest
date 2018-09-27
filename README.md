@@ -18,8 +18,8 @@ rating
 #> [1] 7.8
 
 cast <- lego_movie %>%
-  html_nodes("#titleCast .itemprop span") %>%
-  html_text()
+  html_nodes("#titleCast .primary_photo img") %>%
+  html_attr("alt")
 cast
 #>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    
 #>  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"
