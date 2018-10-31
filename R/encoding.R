@@ -13,6 +13,7 @@
 #'
 #' @param x A character vector.
 #' @param from The encoding that the string is actually in. If \code{NULL},
+#' \code{guess_encoding} will be used.
 #' @name encoding
 #' @examples
 #' # A file with bad encoding included in the package
