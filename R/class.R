@@ -1,6 +1,6 @@
 # vector to HTML class attribute string
 html_class_vec2str <- function(x) {
-  paste(sort(unique(as.character(x))), sep = " ")
+  paste(sort(unique(as.character(x))), collapse = " ")
 }
 
 # HTML class attribute string to character vector
@@ -11,43 +11,57 @@ html_class_str2vec <- function(x) {
   sort(unique(strsplit(trimws(x), "\\s+", fixed = FALSE)[[1]]))
 }
 
-#' Extract classes of a HTML element
+#' Extract or modify HTML classes
 #'
-#' The function \code{html_classes()} is a helper function to return the classes
-#' of a HTML element as a character vector of the unique classes rather than
-#' a single string.
+#' These functions simplify working with the HTML class attribute.
+#' The \code{html_classes()} function returns the classes of an element.
+#' The \code{html_has_classes()} function checks whether an element has
+#' one or specified class.
+#' The \code{html_set_classes()} and \code{html_classes<-()} functions sets
+#' the classes of a HTML element, while \code{html_add_classes()} appends,
+#' and \code{html_remove_classes()} removes classes from the existing set of
+#' classes.
 #'
 #' @param x A node or node set.
-#' @param .classes A character vector of classe names.
+#' @param classnames A character vector of class names.
 #' @param value A character vector of class names. If \code{NULL} in
-#'   \code{html_classes<-} then all classes are removed.
+#'   \code{html_classes<-} or \code{html_set_classes}
+#'   then all classes are removed.
 #' @param ... Arguments passed to methods.
-#' @return If \code{x} is a node, then a character vector containing
-#'   the names of the classes of the HTML element. If the element has no
-#'   classes, then a length-0 character vector is returned. If \code{x} is a
-#'   node set, then a list of character vectors.
+#' @return
+#'   \describe{
+#'   \item{\code{html_classes}}{
+#'      If \code{x} is a node, then a character vector containing
+#'      the names of the classes of the HTML element. If the element has no
+#'      classes, then a length-0 character vector is returned.
+#'      If \code{x} is a node set, then a list of character vectors.
+#'      If \code{x} is missing, then \code{NA}.
+#'   }
+#'   }
+#'
 #' @examples
 #' doc <- read_html("<div class='section level1'><h1>Title</h1></div>")
-#' doc %>%
-#'   html_nodes("div") %>%
-#'   html_classes("level1")
+#' div <- html_nodes(doc, "div")
+#' html_classes(div)
 #'
-#' doc %>%
-#'   html_nodes("section") %>%
-#'   html_remove_classes("level1")
+#' # Remove class
+#' html_remove_classes(div, "level1")
 #'
-#' doc %>%
-#'   html_nodes("h1") %>%
-#'   html_add_classes("chapter-title")
+#' # Add classes
+#' html_add_classes(div, c("chapter", "heading"))
+#'
+#' # Set classes
+#' h1 <- doc %>% html_node("h1")
+#' html_classes(h1) <- "chapter-title"
 #'
 #' @export
-html_classes <- function(x, ...) {
+html_classes <- function(x) {
   UseMethod("html_classes")
 }
 
 #' @importFrom xml2 xml_attr
 #' @export
-html_classes.xml_node <- function(x, ...) {
+html_classes.xml_node <- function(x) {
   klass <- xml_attr(x, "class")
   if (!length(klass) || is.na(klass)) {
     character()
@@ -57,12 +71,12 @@ html_classes.xml_node <- function(x, ...) {
 }
 
 #' @export
-html_classes.xml_missing <- function(x, ...) {
+html_classes.xml_missing <- function(x) {
   NA_character_
 }
 
 #' @export
-html_classes.xml_nodeset <- function(x, ...) {
+html_classes.xml_nodeset <- function(x) {
   lapply(x, html_classes)
 }
 
@@ -80,9 +94,9 @@ html_classes.xml_nodeset <- function(x, ...) {
   if (!is.null(value)) {
     value <- html_class_vec2str(value)
   }
-  xml_attr(x = x, attr = "class") <- value
+  xml_attr(x, "class") <- value
+  x
 }
-
 
 #' @importFrom xml2 xml_attr<-
 #' @export
@@ -100,61 +114,62 @@ html_classes.xml_nodeset <- function(x, ...) {
 #' @export
 html_set_classes <- function(x, value) {
   html_classes(x) <- value
+  x
 }
 
 #' @rdname html_classes
 #' @export
-html_has_classes <- function(x, .classes, ...) {
+html_has_classes <- function(x, classnames) {
   UseMethod("html_has_classes")
 }
 
 #' @export
-html_has_classes.xml_node <- function(x, .classes, ...) {
-  all(.classes %in% html_classes(x))
+html_has_classes.xml_node <- function(x, classnames) {
+  all(classnames %in% html_classes(x))
 }
 
 #' @export
-html_has_classes.xml_nodeset <- function(x, .classes, ...) {
-  vapply(x, html_has_classes, TRUE, .classes = .classes)
+html_has_classes.xml_nodeset <- function(x, classnames) {
+  vapply(x, html_has_classes, TRUE, classnames = classnames)
 }
 
 #' @export
-html_has_classes.xml_missing <- function(x, .classes, ...) {
+html_has_classes.xml_missing <- function(x, classnames) {
   NA
 }
 
 #' @rdname html_classes
 #' @export
-html_add_classes <- function(x, .classes, ...) {
+html_add_classes <- function(x, classnames) {
   UseMethod("html_add_classes")
 }
 
 #' @export
-html_add_classes.xml_node <- function(x, .classes, ...) {
-  newclasses <- c(html_classes, as.character(.classes))
+html_add_classes.xml_node <- function(x, classnames) {
+  newclasses <- c(html_classes(x), as.character(classnames))
   html_classes(x) <- newclasses
 }
 
 #' @export
-html_add_classes.xml_nodeset <- function(x, .classes, ...) {
-  lapply(x, html_add_classes, .classes = .classes, ...)
+html_add_classes.xml_nodeset <- function(x, classnames) {
+  lapply(x, html_add_classes, classnames = classnames)
   x
 }
 
 #' @export
-html_add_classes.xml_missing <- function(x, .classes, ...) {
+html_add_classes.xml_missing <- function(x, classnames) {
   x
 }
 
 #' @rdname html_classes
 #' @export
-html_remove_classes <- function(x, .classes, ...) {
+html_remove_classes <- function(x, classnames) {
   UseMethod("html_remove_classes")
 }
 
 #' @export
-html_remove_classes.xml_node <- function(x, .classes, ...) {
-  newclasses <- setdiff(html_classes(x), as.character(.classes))
+html_remove_classes.xml_node <- function(x, classnames) {
+  newclasses <- setdiff(html_classes(x), as.character(classnames))
   # If no classes, remove class attribute
   if (!length(newclasses)) {
     newclasses <- NULL
@@ -163,12 +178,12 @@ html_remove_classes.xml_node <- function(x, .classes, ...) {
 }
 
 #' @export
-html_remove_classes.xml_nodeset <- function(x, .classes, ...) {
-  lapply(x, html_remove_classes, .classes = .classes)
+html_remove_classes.xml_nodeset <- function(x, classnames) {
+  lapply(x, html_remove_classes, classnames = classnames)
   x
 }
 
 #' @export
-html_remove_classes.xml_missing <- function(x, .classes, ...) {
+html_remove_classes.xml_missing <- function(x, classnames) {
   x
 }
