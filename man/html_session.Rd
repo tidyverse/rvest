@@ -26,6 +26,7 @@ use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
 and \code{\link[httr]{status_code}()} to access properties of the request;
 and \code{\link{html_nodes}} to access the html.
 }
+
 \examples{
 # http://stackoverflow.com/questions/15853204
 
@@ -36,4 +37,3 @@ s \%>\% jump_to("hadley-wickham.jpg") \%>\% back() \%>\% session_history()
 s \%>\% follow_link(css = "p a")
 }
 }
-

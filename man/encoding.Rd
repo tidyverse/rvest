@@ -13,7 +13,8 @@ repair_encoding(x, from = NULL)
 \arguments{
 \item{x}{A character vector.}
 
-\item{from}{The encoding that the string is actually in. If \code{NULL},}
+\item{from}{The encoding that the string is actually in. If \code{NULL},
+\code{guess_encoding} will be used.}
 }
 \description{
 These functions help you respond to web pages that declare incorrect
@@ -28,6 +29,7 @@ fact.
 These function are wrappers around tools from the fantastic stringi
 package, so you'll need to make sure to have that installed.
 }
+
 \examples{
 # A file with bad encoding included in the package
 path <- system.file("html-ex", "bad-encoding.html", package = "rvest")
@@ -39,4 +41,3 @@ guess_encoding(x)
 read_html(path, encoding = "ISO-8859-1") \%>\% html_nodes("p") \%>\% html_text()
 read_html(path, encoding = "ISO-8859-2") \%>\% html_nodes("p") \%>\% html_text()
 }
-

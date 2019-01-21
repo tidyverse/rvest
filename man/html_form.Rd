@@ -25,4 +25,3 @@ box_office \%>\% html_node("form") \%>\% html_form()
 HTML 4.01 form specification:
   \url{http://www.w3.org/TR/html401/interact/forms.html}
 }
-

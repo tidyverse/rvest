@@ -50,8 +50,8 @@ The most important functions in rvest are:
 * Create an html document from a url, a file on disk or a string containing
   html with `read_html()`.
 
-* Select parts of a document using css selectors: `html_nodes(doc, "table td")`
-  (or if you've a glutton for punishment, use xpath selectors with
+* Select parts of a document using CSS selectors: `html_nodes(doc, "table td")`
+  (or if you've a glutton for punishment, use XPath selectors with
   `html_nodes(doc, xpath = "//table//td")`). If you haven't heard of 
   [selectorgadget](http://selectorgadget.com/), make sure to read
   `vignette("selectorgadget")` to learn about it.
@@ -86,7 +86,7 @@ Install the release version from CRAN:
 install.packages("rvest")
 ```
 
-Or the development version from github
+Or the development version from GitHub
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
@@ -95,5 +95,5 @@ devtools::install_github("hadley/rvest")
 
 ## Inspirations
 
-* Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
-  [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
+* Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
+  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).

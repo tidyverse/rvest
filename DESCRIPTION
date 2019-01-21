@@ -20,11 +20,12 @@ Suggests:
     png,
     stringi (>= 0.3.1),
     rmarkdown,
-    covr
+    covr,
+    spelling
 Encoding: UTF-8
 License: GPL-3
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
 URL: https://github.com/hadley/rvest
 BugReports: https://github.com/hadley/rvest/issues
+Language: en-US

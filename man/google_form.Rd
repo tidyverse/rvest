@@ -15,4 +15,3 @@ Make link to google form given id
 \examples{
 google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
 }
-
