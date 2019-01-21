@@ -1,9 +1,9 @@
 #' Select nodes from an HTML document
 #'
-#' More easily extract pieces out of HTML documents using XPath and css
+#' More easily extract pieces out of HTML documents using XPath and CSS
 #' selectors. CSS selectors are particularly useful in conjunction with
 #' \url{http://selectorgadget.com/}: it makes it easy to find exactly
-#' which selector you should be using. If you have't used css selectors
+#' which selector you should be using. If you haven't used CSS selectors
 #' before, work your way through the fun tutorial at
 #' \url{http://flukeout.github.io/}
 #'
@@ -38,7 +38,7 @@
 #'
 #' @param x Either a document, a node set or a single node.
 #' @param css,xpath Nodes to select. Supply one of \code{css} or \code{xpath}
-#'   depending on whether you want to use a css or xpath 1.0 selector.
+#'   depending on whether you want to use a CSS or XPath 1.0 selector.
 #' @export
 #' @examples
 #' # CSS selectors ----------------------------------------------

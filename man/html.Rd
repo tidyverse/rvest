@@ -47,4 +47,3 @@ minimal \%>\% xml_structure()
 google2 <- read_html(httr::GET("http://google.com"))
 }
 \keyword{deprecated}
-

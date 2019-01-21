@@ -2,9 +2,9 @@
 % Please edit documentation in R/xml.R
 \name{xml}
 \alias{xml}
+\alias{xml_tag}
 \alias{xml_node}
 \alias{xml_nodes}
-\alias{xml_tag}
 \title{Work with xml.}
 \usage{
 xml(x, ..., encoding = "")
@@ -27,13 +27,12 @@ for complete list. If you have problems determining the correct encoding,
 try \code{\link[stringi]{stri_enc_detect}}}
 
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath 1.0 selector.}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
 
 \item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath 1.0 selector.}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
 }
 \description{
 Deprecated. Please use just xml2 directly
 }
 \keyword{internal}
-

@@ -10,4 +10,3 @@ html_tag(x)
 Deprecated: please use \code{html_name} instead.
 }
 \keyword{internal}
-

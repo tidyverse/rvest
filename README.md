@@ -66,7 +66,7 @@ Install the release version from CRAN:
 install.packages("rvest")
 ```
 
-Or the development version from github
+Or the development version from GitHub
 
 ``` r
 # install.packages("devtools")
@@ -76,4 +76,4 @@ devtools::install_github("hadley/rvest")
 Inspirations
 ------------
 
--   Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html), [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
+-   Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html), [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
