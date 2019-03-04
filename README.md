@@ -3,11 +3,15 @@
 
 # rvest <img src='man/figures/logo.png' align="right" height="139" />
 
-[![Build
-Status](https://travis-ci.org/hadley/rvest.svg?branch=master)](https://travis-ci.org/hadley/rvest)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/hadley/rvest/master.svg)](https://codecov.io/github/hadley/rvest?branch=master)
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
+[![Travis build
+status](https://travis-ci.org/tidyverse/rvest.svg?branch=master)](https://travis-ci.org/tidyverse/rvest)
+[![Codecov test
+coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
+<!-- badges: end -->
 
 rvest helps you scrape information from web pages. It is designed to
 work with [magrittr](https://github.com/smbache/magrittr) to make it
