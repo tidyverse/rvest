@@ -29,3 +29,4 @@ VignetteBuilder: knitr
 URL: https://github.com/hadley/rvest
 BugReports: https://github.com/hadley/rvest/issues
 Language: en-US
+RoxygenNote: 6.1.1
