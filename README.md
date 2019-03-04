@@ -32,8 +32,8 @@ rating
 #> [1] 7.8
 
 cast <- lego_movie %>%
-  html_nodes("#titleCast .itemprop span") %>%
-  html_text()
+  html_nodes("#titleCast .primary_photo img") %>%
+  html_attr("alt")
 cast
 #> character(0)
 
