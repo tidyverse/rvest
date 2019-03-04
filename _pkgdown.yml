@@ -1,6 +1,12 @@
 url: https://rvest.tidyverse.org
 destination: docs
 
+home:
+  strip_header: true
+
+template:
+  package: tidytemplate
+
 reference:
 - title: Extract data from HTML
   contents:

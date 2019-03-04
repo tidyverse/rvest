@@ -13,6 +13,8 @@ status](https://travis-ci.org/tidyverse/rvest.svg?branch=master)](https://travis
 coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
 
+## Overview
+
 rvest helps you scrape information from web pages. It is designed to
 work with [magrittr](https://github.com/smbache/magrittr) to make it
 easy to express common web scraping tasks, inspired by libraries like
@@ -42,7 +44,22 @@ poster
 #> [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"
 ```
 
-## Overview
+## Installation
+
+Install the release version from CRAN:
+
+``` r
+install.packages("rvest")
+```
+
+Or the development version from GitHub
+
+``` r
+# install.packages("devtools")
+devtools::install_github("tidyverse/rvest")
+```
+
+## Key functions
 
 The most important functions in rvest are:
 
@@ -77,21 +94,6 @@ The most important functions in rvest are:
     progress, so I’d love your feedback.)
 
 To see examples of these function in use, check out the demos.
-
-## Installation
-
-Install the release version from CRAN:
-
-``` r
-install.packages("rvest")
-```
-
-Or the development version from GitHub
-
-``` r
-# install.packages("devtools")
-devtools::install_github("tidyverse/rvest")
-```
 
 ## Inspirations
 
