@@ -90,7 +90,7 @@ Or the development version from GitHub
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("hadley/rvest")
+devtools::install_github("tidyverse/rvest")
 ```
 
 ## Inspirations
