@@ -1,3 +1,4 @@
+^\.covrignore$
 ^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
