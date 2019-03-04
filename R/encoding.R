@@ -1,9 +1,9 @@
 #' Guess and repair faulty character encoding.
 #'
 #' These functions help you respond to web pages that declare incorrect
-#' encodings. You can use \code{guess_encoding} to figure out what
-#' the real encoding is (and then supply that to the \code{encoding} argument of
-#' html), or use \code{repair_encoding} to fix character vectors after the
+#' encodings. You can use `guess_encoding` to figure out what
+#' the real encoding is (and then supply that to the `encoding` argument of
+#' html), or use `repair_encoding` to fix character vectors after the
 #' fact.
 #'
 #' @section stringi:
@@ -12,8 +12,8 @@
 #' package, so you'll need to make sure to have that installed.
 #'
 #' @param x A character vector.
-#' @param from The encoding that the string is actually in. If \code{NULL},
-#'   \code{guess_encoding} will be used.
+#' @param from The encoding that the string is actually in. If `NULL`,
+#'   `guess_encoding` will be used.
 #' @name encoding
 #' @examples
 #' # A file with bad encoding included in the package

@@ -30,7 +30,7 @@ not exist in every node.}
 }
 \value{
 \code{html_attr}, \code{html_tag} and \code{html_text}, a character
-  vector; \code{html_attrs}, a list.
+vector; \code{html_attrs}, a list.
 }
 \description{
 Extract attributes, text and tag name from html.

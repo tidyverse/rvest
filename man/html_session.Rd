@@ -22,9 +22,9 @@ Simulate a session in an html browser.
 \section{Methods}{
 
 A session object responds to a combination of httr and html methods:
-use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
-and \code{\link[httr]{status_code}()} to access properties of the request;
-and \code{\link{html_nodes}} to access the html.
+use \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},
+and \code{\link[httr:status_code]{httr::status_code()}} to access properties of the request;
+and \code{\link[=html_nodes]{html_nodes()}} to access the html.
 }
 
 \examples{

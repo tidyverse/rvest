@@ -1,14 +1,14 @@
 #' Parse an HTML page.
 #'
-#' html is deprecated: please use \code{read_html}() instead.
+#' html is deprecated: please use `read_html`() instead.
 #'
 #' @param x A url, a local path, a string containing html, or a response from
 #'   an httr request.
-#' @param ... If \code{x} is a URL, additional arguments are passed on to
-#'   \code{\link[httr]{GET}()}.
-#' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
+#' @param ... If `x` is a URL, additional arguments are passed on to
+#'   [httr::GET()].
+#' @param encoding Specify encoding of document. See [iconvlist()]
 #'   for complete list. If you have problems determining the correct encoding,
-#'   try \code{\link[stringi]{stri_enc_detect}}
+#'   try [stringi::stri_enc_detect()]
 #' @keywords deprecated
 #' @export
 #' @examples

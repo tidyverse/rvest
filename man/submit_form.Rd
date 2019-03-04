@@ -14,13 +14,13 @@ submit_form(session, form, submit = NULL, ...)
 \item{submit}{Name of submit button to use. If not supplied, defaults to
 first submission button on the form (with a message).}
 
-\item{...}{Additional arguments passed on to \code{\link[httr]{GET}()}
-or \code{\link[httr]{POST}()}}
+\item{...}{Additional arguments passed on to \code{\link[httr:GET]{httr::GET()}}
+or \code{\link[httr:POST]{httr::POST()}}}
 }
 \value{
 If successful, the parsed html response. Throws an error if http
-  request fails. To access other elements of response, construct it yourself
-  using the elements returned by \code{submit_request}.
+request fails. To access other elements of response, construct it yourself
+using the elements returned by \code{submit_request}.
 }
 \description{
 Submit a form back to the server.

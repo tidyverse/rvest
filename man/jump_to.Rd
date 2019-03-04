@@ -17,8 +17,8 @@ follow_link(x, i, css, xpath, ...)
 \item{...}{Any additional httr configs to apply to this request.}
 
 \item{i}{You can select with: \describe{
-  \item{an integer}{selects the ith link}
-  \item{a string}{first link containing that text (case sensitive)}
+\item{an integer}{selects the ith link}
+\item{a string}{first link containing that text (case sensitive)}
 }}
 
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}

@@ -1,6 +1,6 @@
 #' html_tag
 #'
-#' Deprecated: please use \code{html_name} instead.
+#' Deprecated: please use `html_name` instead.
 #'
 #' @export
 #' @keywords internal

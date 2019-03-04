@@ -44,15 +44,15 @@ exceptions are listed below:
 
 \itemize{
 \item Pseudo selectors that require interactivity are ignored:
-  \code{:hover}, \code{:active}, \code{:focus}, \code{:target},
-  \code{:visited}
+\code{:hover}, \code{:active}, \code{:focus}, \code{:target},
+\code{:visited}
 \item The following pseudo classes don't work with the wild card element, *:
-  \code{*:first-of-type}, \code{*:last-of-type}, \code{*:nth-of-type},
-  \code{*:nth-last-of-type}, \code{*:only-of-type}
+\code{*:first-of-type}, \code{*:last-of-type}, \code{*:nth-of-type},
+\code{*:nth-last-of-type}, \code{*:only-of-type}
 \item It supports \code{:contains(text)}
 \item You can use !=, \code{[foo!=bar]} is the same as \code{:not([foo=bar])}
 \item \code{:not()} accepts a sequence of simple selectors, not just single
-  simple selector.
+simple selector.
 }
 }
 

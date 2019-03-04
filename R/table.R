@@ -2,18 +2,18 @@
 #'
 #' @section Assumptions:
 #'
-#' \code{html_table} currently makes a few assumptions:
+#' `html_table` currently makes a few assumptions:
 #'
 #' \itemize{
 #' \item No cells span multiple rows
 #' \item Headers are in the first row
 #' }
 #' @param x A node, node set or document.
-#' @param header Use first row as header? If \code{NA}, will use first row
-#'   if it consists of \code{<th>} tags.
+#' @param header Use first row as header? If `NA`, will use first row
+#'   if it consists of `<th>` tags.
 #' @param trim Remove leading and trailing whitespace within each cell?
-#' @param fill If \code{TRUE}, automatically fill rows with fewer than
-#'   the maximum number of columns with \code{NA}s.
+#' @param fill If `TRUE`, automatically fill rows with fewer than
+#'   the maximum number of columns with `NA`s.
 #' @param dec The character used as decimal mark.
 #' @export
 #' @examples

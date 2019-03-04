@@ -20,11 +20,11 @@ xml_nodes(x, css, xpath)
 an httr request.}
 
 \item{...}{If \code{x} is a URL, additional arguments are passed on to
-\code{\link[httr]{GET}()}.}
+\code{\link[httr:GET]{httr::GET()}}.}
 
-\item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
+\item{encoding}{Specify encoding of document. See \code{\link[=iconvlist]{iconvlist()}}
 for complete list. If you have problems determining the correct encoding,
-try \code{\link[stringi]{stri_enc_detect}}}
+try \code{\link[stringi:stri_enc_detect]{stringi::stri_enc_detect()}}}
 
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
 depending on whether you want to use a CSS or XPath 1.0 selector.}

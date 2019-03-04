@@ -1,7 +1,7 @@
 #' Extract attributes, text and tag name from html.
 #'
-#' @return \code{html_attr}, \code{html_tag} and \code{html_text}, a character
-#'   vector; \code{html_attrs}, a list.
+#' @return `html_attr`, `html_tag` and `html_text`, a character
+#'   vector; `html_attrs`, a list.
 #' @inheritParams xml2::xml_text
 #' @export
 #' @examples
