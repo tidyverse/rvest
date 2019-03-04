@@ -7,6 +7,6 @@
 lhs \%>\% rhs
 }
 \description{
-Pipe operator
+See \link[magrittr:\%>\%]{magrittr::\%>\%} for more details.
 }
 \keyword{internal}

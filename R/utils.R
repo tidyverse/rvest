@@ -20,7 +20,7 @@ format_list <- function(x, indent = 0) {
 
 #' Pipe operator
 #'
-#' See [magrittr::\%>\%()] for more details.
+#' See [magrittr::%>%] for more details.
 #'
 #' @name %>%
 #' @rdname pipe
