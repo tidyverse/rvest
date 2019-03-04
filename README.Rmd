@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rvest
+# rvest <img src='man/figures/logo.png' align="right" height="139" />
 
 [![Build Status](https://travis-ci.org/hadley/rvest.svg?branch=master)](https://travis-ci.org/hadley/rvest)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest)
