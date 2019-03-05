@@ -113,16 +113,20 @@
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] 7.8</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">cast &lt;-<span class="st"> </span>lego_movie <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">"#titleCast .itemprop span"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="reference/html_text.html">html_text</a></span>()</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">"#titleCast .primary_photo img"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="reference/html_text.html">html_attr</a></span>(<span class="st">"alt"</span>)</a>
 <a class="sourceLine" id="cb1-14" data-line-number="14">cast</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; character(0)</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">poster &lt;-<span class="st"> </span>lego_movie <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">".poster img"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="st">  </span><span class="kw"><a href="reference/html_text.html">html_attr</a></span>(<span class="st">"src"</span>)</a>
-<a class="sourceLine" id="cb1-20" data-line-number="20">poster</a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    </span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt;  [7] "Charlie Day"     "Amanda Farinos"  "Keith Ferguson" </span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; [10] "Will Ferrell"    "Will Forte"      "Dave Franco"    </span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">poster &lt;-<span class="st"> </span>lego_movie <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="st">  </span><span class="kw"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">".poster img"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="st">  </span><span class="kw"><a href="reference/html_text.html">html_attr</a></span>(<span class="st">"src"</span>)</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">poster</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></a></code></pre></div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
