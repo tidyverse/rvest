@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Navigate to a new url. — jump_to • rvest</title>
+<title>rvest: Easily Harvest (Scrape) Web Pages — rvest-package • rvest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -31,11 +31,11 @@
 
 
 
-<meta property="og:title" content="Navigate to a new url. — jump_to" />
+<meta property="og:title" content="rvest: Easily Harvest (Scrape) Web Pages — rvest-package" />
 
-<meta property="og:description" content="jump_to() takes a url (either relative or absolute);
-follow_link takes an expression that refers to a link (an &amp;lt;a&amp;gt;
-tag) on the current page." />
+<meta property="og:description" content="
+Wrappers around the 'xml2' and 'httr' packages to
+    make it easy to download, then manipulate, HTML and XML." />
 
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,73 +126,42 @@ tag) on the current page." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Navigate to a new url.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/session.R'><code>R/session.R</code></a></small>
-    <div class="hidden name"><code>jump_to.Rd</code></div>
+    <h1>rvest: Easily Harvest (Scrape) Web Pages</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/rvest-package.R'><code>R/rvest-package.R</code></a></small>
+    <div class="hidden name"><code>rvest-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>jump_to()</code> takes a url (either relative or absolute);
-<code>follow_link</code> takes an expression that refers to a link (an <code>&lt;a&gt;</code>
-tag) on the current page.</p>
+    <p><img src='figures/logo.png' align='right' /></p>
+<p>Wrappers around the 'xml2' and 'httr' packages to
+    make it easy to download, then manipulate, HTML and XML.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>jump_to</span>(<span class='no'>x</span>, <span class='no'>url</span>, <span class='no'>...</span>)
+        
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-<span class='fu'>follow_link</span>(<span class='no'>x</span>, <span class='no'>i</span>, <span class='no'>css</span>, <span class='no'>xpath</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A session.</p></td>
-    </tr>
-    <tr>
-      <th>url</th>
-      <td><p>A URL, either relative or absolute, to navigate to.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Any additional httr configs to apply to this request.</p></td>
-    </tr>
-    <tr>
-      <th>i</th>
-      <td><p>You can select with:</p><dl class='dl-horizontal'>
-<dt>an integer</dt><dd><p>selects the ith link</p></dd>
-<dt>a string</dt><dd><p>first link containing that text (case sensitive)</p></dd>
-</dl></td>
-    </tr>
-    <tr>
-      <th>css</th>
-      <td><p>Nodes to select. Supply one of <code>css</code> or <code>xpath</code>
-depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
-    </tr>
-    <tr>
-      <th>xpath</th>
-      <td><p>Nodes to select. Supply one of <code>css</code> or <code>xpath</code>
-depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
-    </tr>
-    </table>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://github.com/tidyverse/rvest'>https://github.com/tidyverse/rvest</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/tidyverse/rvest/issues'>https://github.com/tidyverse/rvest/issues</a></p></li>
+</ul></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='html_session.html'>html_session</a></span>(<span class='st'>"http://hadley.nz"</span>)
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='no'>s</span> <span class='kw'>%&gt;%</span> <span class='fu'>follow_link</span>(<span class='st'>"github"</span>)</div><div class='output co'>#&gt; <span class='message'>Navigating to http://github.com/hadley/</span></div><div class='input'><span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='no'>s</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='session_history.html'>back</a></span>()
-<span class='no'>s</span> <span class='kw'>%&gt;%</span> <span class='fu'>follow_link</span>(<span class='st'>"readr"</span>)</div><div class='output co'>#&gt; <span class='message'>Navigating to https://readr.tidyverse.org</span></div><div class='output co'>#&gt; &lt;session&gt; https://readr.tidyverse.org/
-#&gt;   Status: 200
-#&gt;   Type:   text/html; charset=utf-8
-#&gt;   Size:   21331</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
+
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Hadley Wickham <a href='mailto:hadley@rstudio.com'>hadley@rstudio.com</a></p>
+<p>Other contributors:</p><ul>
+<li><p>RStudio [copyright holder]</p></li>
+</ul>
+
 
   </div>
 </div>
