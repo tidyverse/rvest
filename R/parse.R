@@ -29,7 +29,7 @@
 #' # From an httr request
 #' google2 <- read_html(httr::GET("http://google.com"))
 html <- function(x, ..., encoding = "") {
-  .Deprecated("read_html")
+  .Deprecated("xml2::read_html")
   xml2::read_html(x, ..., encoding = encoding)
 }
 
