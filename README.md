@@ -35,7 +35,11 @@ cast <- lego_movie %>%
   html_nodes("#titleCast .primary_photo img") %>%
   html_attr("alt")
 cast
-#> character(0)
+#>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    
+#>  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"
+#>  [7] "Charlie Day"     "Amanda Farinos"  "Keith Ferguson" 
+#> [10] "Will Ferrell"    "Will Forte"      "Dave Franco"    
+#> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"
 
 poster <- lego_movie %>%
   html_nodes(".poster img") %>%
@@ -72,13 +76,13 @@ The most important functions in rvest are:
     haven’t heard of [selectorgadget](http://selectorgadget.com/), make
     sure to read `vignette("selectorgadget")` to learn about it.
 
-  - Extract components with `html_tag()` (the name of the tag),
+  - Extract components with `html_name()` (the name of the tag),
     `html_text()` (all text inside the tag), `html_attr()` (contents of
     a single attribute) and `html_attrs()` (all attributes).
 
   - (You can also use rvest with XML files: parse with `xml()`, then
     extract components using `xml_node()`, `xml_attr()`, `xml_attrs()`,
-    `xml_text()` and `xml_tag()`.)
+    `xml_text()` and `xml_name()`.)
 
   - Parse tables into data frames with `html_table()`.
 
