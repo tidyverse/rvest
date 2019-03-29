@@ -1,5 +1,7 @@
 # rvest 0.3.2.9000
 
+* Fix `R CMD check` failure
+
 * `submit_request()` now checks for empty form-field-types to select the
    correct submit fields (@rentrop, #159)
 

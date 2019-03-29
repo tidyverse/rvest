@@ -34,18 +34,38 @@ Parse an html table into a data frame.
 }
 
 \examples{
-tdist <- read_html("http://en.wikipedia.org/wiki/Student\%27s_t-distribution")
-tdist \%>\%
-  html_node("table.infobox") \%>\%
-  html_table(header = FALSE)
+sample1 <- minimal_html("<table>
+  <tr><th>Col A</th><th>Col B</th></tr>
+  <tr><td>1</td><td>x</td></tr>
+  <tr><td>4</td><td>y</td></tr>
+  <tr><td>10</td><td>z</td></tr>
+</table>")
+sample1 \%>\%
+  html_node("table") \%>\%
+  html_table()
 
-births <- read_html("https://www.ssa.gov/oact/babynames/numberUSbirths.html")
-html_table(html_nodes(births, "table")[[2]])
+# Values in merged cells will be duplicated
+sample2 <- minimal_html("<table>
+  <tr><th>A</th><th>B</th><th>C</th></tr>
+  <tr><td>1</td><td>2</td><td>3</td></tr>
+  <tr><td colspan='2'>4</td><td>5</td></tr>
+  <tr><td>6</td><td colspan='2'>7</td></tr>
+</table>")
 
-# If the table is badly formed, and has different number of rows in
-# each column use fill = TRUE. Here's it's due to incorrect colspan
-# specification.
-skiing <- read_html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
-skiing \%>\%
+sample2 \%>\%
+  html_node("table") \%>\%
+  html_table()
+
+# If the table is badly formed, and has different number of columns
+# in each row, use `fill = TRUE` to fill in the missing values
+sample3 <- minimal_html("<table>
+  <tr><th>A</th><th>B</th><th>C</th></tr>
+  <tr><td colspan='2'>1</td><td>2</td></tr>
+  <tr><td colspan='2'>3</td></tr>
+  <tr><td>4</td></tr>
+</table>")
+
+sample3 \%>\%
+  html_node("table") \%>\%
   html_table(fill = TRUE)
 }
