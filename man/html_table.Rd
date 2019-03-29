@@ -32,6 +32,7 @@ Parse an html table into a data frame.
 \item Headers are in the first row
 }
 }
+
 \examples{
 tdist <- read_html("http://en.wikipedia.org/wiki/Student\%27s_t-distribution")
 tdist \%>\%
@@ -48,4 +49,3 @@ skiing <- read_html("http://data.fis-ski.com/dynamic/results.html?sector=CC&race
 skiing \%>\%
   html_table(fill = TRUE)
 }
-

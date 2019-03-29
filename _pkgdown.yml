@@ -1,0 +1,31 @@
+url: https://rvest.tidyverse.org
+destination: docs
+
+home:
+  strip_header: true
+
+template:
+  package: tidytemplate
+
+reference:
+- title: Extract data from HTML
+  contents:
+  - html
+  - html_form
+  - html_nodes
+  - html_table
+  - html_text
+
+- title: Manage a scraping session
+  contents:
+  - html_session
+  - jump_to
+  - back
+  - set_values
+  - submit_form
+
+- title: Utilities
+  contents:
+  - encoding
+  - pluck
+  - google_form

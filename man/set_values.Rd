@@ -23,4 +23,3 @@ set_values(search, q = "My little pony")
 set_values(search, hl = "fr")
 \dontrun{set_values(search, btnI = "blah")}
 }
-

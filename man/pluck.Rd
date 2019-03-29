@@ -16,4 +16,3 @@ pluck(x, i, type)
 \description{
 Extract elements of a list by position.
 }
-

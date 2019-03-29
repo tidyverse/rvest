@@ -2,9 +2,9 @@
 #'
 #' @section Methods:
 #' A session object responds to a combination of httr and html methods:
-#' use \code{\link[httr]{cookies}()}, \code{\link[httr]{headers}()},
-#' and \code{\link[httr]{status_code}()} to access properties of the request;
-#' and \code{\link{html_nodes}} to access the html.
+#' use [httr::cookies()], [httr::headers()],
+#' and [httr::status_code()] to access properties of the request;
+#' and [html_nodes()] to access the html.
 #'
 #' @param url Location to start session
 #' @param ... Any additional httr config to use throughout session.
@@ -75,8 +75,8 @@ is.session <- function(x) inherits(x, "session")
 
 #' Navigate to a new url.
 #'
-#' \code{jump_to()} takes a url (either relative or absolute);
-#' \code{follow_link} takes an expression that refers to a link (an \code{<a>}
+#' `jump_to()` takes a url (either relative or absolute);
+#' `follow_link` takes an expression that refers to a link (an `<a>`
 #' tag) on the current page.
 #'
 #' @param x A session.

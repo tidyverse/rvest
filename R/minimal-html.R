@@ -1,6 +1,6 @@
 #' Generate a minimal html5 page.
 #'
-#' See \url{http://www.brucelawson.co.uk/2010/a-minimal-html5-document/} for
+#' See <http://www.brucelawson.co.uk/2010/a-minimal-html5-document/> for
 #' details.
 #'
 #' @param title Page title
