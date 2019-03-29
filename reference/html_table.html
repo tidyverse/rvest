@@ -175,187 +175,47 @@ the maximum number of columns with <code>NA</code>s.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tdist</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"http://en.wikipedia.org/wiki/Student%27s_t-distribution"</span>)
-<span class='no'>tdist</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='html_nodes.html'>html_node</a></span>(<span class='st'>"table.infobox"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>html_table</span>(<span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                                  X1
-#&gt; 1      Probability density function
-#&gt; 2  Cumulative distribution function
-#&gt; 3                        Parameters
-#&gt; 4                           Support
-#&gt; 5                               PDF
-#&gt; 6                               CDF
-#&gt; 7                              Mean
-#&gt; 8                            Median
-#&gt; 9                              Mode
-#&gt; 10                         Variance
-#&gt; 11                         Skewness
-#&gt; 12                     Ex. kurtosis
-#&gt; 13                          Entropy
-#&gt; 14                              MGF
-#&gt; 15                               CF
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                               X2
-#&gt; 1                                                                                                                                                                                                                                                                                                                                                                                   Probability density function
-#&gt; 2                                                                                                                                                                                                                                                                                                                                                                               Cumulative distribution function
-#&gt; 3                                                                                                                                                                                                                                                                                                                                                          ν&gt;0{\\displaystyle \\nu &gt;0} degrees of freedom (real)
-#&gt; 4                                                                                                                                                                                                                                                                                                                                                            x∈(−∞,∞){\\displaystyle x\\in (-\\infty ,\\infty )}
-#&gt; 5                                                                                                                                                         Γ(ν+12)νπΓ(ν2)(1+x2ν)−ν+12{\\displaystyle \\textstyle {\\frac {\\Gamma \\left({\\frac {\\nu +1}{2}}\\right)}{{\\sqrt {\\nu \\pi }}\\,\\Gamma \\left({\\frac {\\nu }{2}}\\right)}}\\left(1+{\\frac {x^{2}}{\\nu }}\\right)^{-{\\frac {\\nu +1}{2}}}\\!}
-#&gt; 6  12+xΓ(ν+12)×2F1(12,ν+12;32;−x2ν)πνΓ(ν2){\\displaystyle {\\begin{matrix}{\\frac {1}{2}}+x\\Gamma \\left({\\frac {\\nu +1}{2}}\\right)\\times \\\\[0.5em]{\\frac {\\,_{2}F_{1}\\left({\\frac {1}{2}},{\\frac {\\nu +1}{2}};{\\frac {3}{2}};-{\\frac {x^{2}}{\\nu }}\\right)}{{\\sqrt {\\pi \\nu }}\\,\\Gamma \\left({\\frac {\\nu }{2}}\\right)}}\\end{matrix}}}\n     where 2F1 is the hypergeometric function
-#&gt; 7                                                                                                                                                                                                                                                                                                                                                         0 for ν&gt;1{\\displaystyle \\nu &gt;1}, otherwise undefined
-#&gt; 8                                                                                                                                                                                                                                                                                                                                                                                                              0
-#&gt; 9                                                                                                                                                                                                                                                                                                                                                                                                              0
-#&gt; 10                                                                                                                                                                                                                                                   νν−2{\\displaystyle \\textstyle {\\frac {\\nu }{\\nu -2}}} for ν&gt;2{\\displaystyle \\nu &gt;2}, ∞ for 1&lt;ν≤2{\\displaystyle 1&lt;\\nu \\leq 2}, otherwise undefined
-#&gt; 11                                                                                                                                                                                                                                                                                                                                                        0 for ν&gt;3{\\displaystyle \\nu &gt;3}, otherwise undefined
-#&gt; 12                                                                                                                                                                                                                                                       6ν−4{\\displaystyle \\textstyle {\\frac {6}{\\nu -4}}} for ν&gt;4{\\displaystyle \\nu &gt;4}, ∞ for 2&lt;ν≤4{\\displaystyle 2&lt;\\nu \\leq 4}, otherwise undefined
-#&gt; 13                 ν+12[ψ(1+ν2)−ψ(ν2)]+ln⁡[νB(ν2,12)](nats){\\displaystyle {\\begin{matrix}{\\frac {\\nu +1}{2}}\\left[\\psi \\left({\\frac {1+\\nu }{2}}\\right)-\\psi \\left({\\frac {\\nu }{2}}\\right)\\right]\\\\[0.5em]+\\ln {\\left[{\\sqrt {\\nu }}B\\left({\\frac {\\nu }{2}},{\\frac {1}{2}}\\right)\\right]}\\,{\\scriptstyle {\\text{(nats)}}}\\end{matrix}}}\nψ: digamma function,\nB: beta function
-#&gt; 14                                                                                                                                                                                                                                                                                                                                                                                                     undefined
-#&gt; 15                                                                                  Kν/2(ν|t|)⋅(ν|t|)ν/2Γ(ν/2)2ν/2−1{\\displaystyle \\textstyle {\\frac {K_{\\nu /2}\\left({\\sqrt {\\nu }}|t|\\right)\\cdot \\left({\\sqrt {\\nu }}|t|\\right)^{\\nu /2}}{\\Gamma (\\nu /2)2^{\\nu /2-1}}}} for ν&gt;0{\\displaystyle \\nu &gt;0}\nKν(x){\\displaystyle K_{\\nu }(x)}: modified Bessel function of the second kind[1]</div><div class='input'>
-<span class='no'>births</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"https://www.ssa.gov/oact/babynames/numberUSbirths.html"</span>)
-<span class='fu'>html_table</span>(<span class='fu'><a href='html_nodes.html'>html_nodes</a></span>(<span class='no'>births</span>, <span class='st'>"table"</span>)<span class='kw'>[[</span><span class='fl'>2</span>]])</div><div class='output co'>#&gt;     Year ofbirth      Male    Female     Total
-#&gt; 1           1880   118,400    97,605   216,005
-#&gt; 2           1881   108,282    98,855   207,137
-#&gt; 3           1882   122,031   115,695   237,726
-#&gt; 4           1883   112,477   120,059   232,536
-#&gt; 5           1884   122,738   137,586   260,324
-#&gt; 6           1885   115,945   141,948   257,893
-#&gt; 7           1886   119,041   153,735   272,776
-#&gt; 8           1887   109,313   155,422   264,735
-#&gt; 9           1888   129,906   189,445   319,351
-#&gt; 10          1889   119,032   189,219   308,251
-#&gt; 11          1890   119,701   201,661   321,362
-#&gt; 12          1891   109,265   196,566   305,831
-#&gt; 13          1892   131,453   224,913   356,366
-#&gt; 14          1893   121,041   225,232   346,273
-#&gt; 15          1894   124,893   235,971   360,864
-#&gt; 16          1895   126,643   247,106   373,749
-#&gt; 17          1896   129,071   251,993   381,064
-#&gt; 18          1897   121,942   248,275   370,217
-#&gt; 19          1898   132,104   274,144   406,248
-#&gt; 20          1899   115,193   247,490   362,683
-#&gt; 21          1900   162,133   317,752   479,885
-#&gt; 22          1901   115,595   254,229   369,824
-#&gt; 23          1902   132,750   280,334   413,084
-#&gt; 24          1903   129,326   278,196   407,522
-#&gt; 25          1904   138,508   292,436   430,944
-#&gt; 26          1905   143,238   309,865   453,103
-#&gt; 27          1906   144,071   313,440   457,511
-#&gt; 28          1907   158,587   337,434   496,021
-#&gt; 29          1908   166,368   354,531   520,899
-#&gt; 30          1909   176,867   368,096   544,963
-#&gt; 31          1910   208,521   419,526   628,047
-#&gt; 32          1911   241,395   441,818   683,213
-#&gt; 33          1912   451,457   586,712 1,038,169
-#&gt; 34          1913   536,247   654,913 1,191,160
-#&gt; 35          1914   683,325   796,619 1,479,944
-#&gt; 36          1915   880,940 1,023,876 1,904,816
-#&gt; 37          1916   923,257 1,085,721 2,008,978
-#&gt; 38          1917   959,325 1,123,698 2,083,023
-#&gt; 39          1918 1,048,674 1,202,365 2,251,039
-#&gt; 40          1919 1,015,337 1,174,648 2,189,985
-#&gt; 41          1920 1,100,817 1,244,039 2,344,856
-#&gt; 42          1921 1,137,940 1,279,711 2,417,651
-#&gt; 43          1922 1,125,261 1,247,556 2,372,817
-#&gt; 44          1923 1,132,325 1,252,460 2,384,785
-#&gt; 45          1924 1,169,066 1,295,706 2,464,772
-#&gt; 46          1925 1,151,445 1,263,075 2,414,520
-#&gt; 47          1926 1,145,506 1,230,152 2,375,658
-#&gt; 48          1927 1,161,855 1,236,397 2,398,252
-#&gt; 49          1928 1,141,171 1,195,463 2,336,634
-#&gt; 50          1929 1,107,538 1,157,521 2,265,059
-#&gt; 51          1930 1,129,422 1,166,423 2,295,845
-#&gt; 52          1931 1,069,568 1,103,625 2,173,193
-#&gt; 53          1932 1,074,289 1,106,222 2,180,511
-#&gt; 54          1933 1,020,008 1,045,936 2,065,944
-#&gt; 55          1934 1,061,738 1,082,225 2,143,963
-#&gt; 56          1935 1,069,387 1,086,706 2,156,093
-#&gt; 57          1936 1,064,170 1,077,491 2,141,661
-#&gt; 58          1937 1,093,483 1,101,762 2,195,245
-#&gt; 59          1938 1,136,302 1,141,359 2,277,661
-#&gt; 60          1939 1,133,162 1,134,043 2,267,205
-#&gt; 61          1940 1,186,022 1,181,249 2,367,271
-#&gt; 62          1941 1,254,654 1,245,857 2,500,511
-#&gt; 63          1942 1,408,070 1,390,394 2,798,464
-#&gt; 64          1943 1,454,311 1,435,274 2,889,585
-#&gt; 65          1944 1,388,968 1,366,455 2,755,423
-#&gt; 66          1945 1,371,285 1,346,064 2,717,349
-#&gt; 67          1946 1,650,220 1,612,845 3,263,065
-#&gt; 68          1947 1,857,382 1,817,823 3,675,205
-#&gt; 69          1948 1,782,564 1,742,576 3,525,140
-#&gt; 70          1949 1,801,835 1,755,492 3,557,327
-#&gt; 71          1950 1,819,067 1,758,618 3,577,685
-#&gt; 72          1951 1,911,828 1,847,277 3,759,105
-#&gt; 73          1952 1,974,199 1,902,276 3,876,475
-#&gt; 74          1953 2,001,256 1,929,099 3,930,355
-#&gt; 75          1954 2,068,413 1,990,839 4,059,252
-#&gt; 76          1955 2,089,594 2,004,694 4,094,288
-#&gt; 77          1956 2,144,575 2,059,267 4,203,842
-#&gt; 78          1957 2,187,459 2,097,547 4,285,006
-#&gt; 79          1958 2,153,039 2,065,020 4,218,059
-#&gt; 80          1959 2,166,256 2,078,511 4,244,767
-#&gt; 81          1960 2,165,696 2,079,841 4,245,537
-#&gt; 82          1961 2,155,956 2,076,400 4,232,356
-#&gt; 83          1962 2,102,051 2,026,983 4,129,034
-#&gt; 84          1963 2,065,187 1,987,940 4,053,127
-#&gt; 85          1964 2,027,330 1,957,248 3,984,578
-#&gt; 86          1965 1,895,210 1,827,379 3,722,589
-#&gt; 87          1966 1,817,912 1,755,580 3,573,492
-#&gt; 88          1967 1,779,774 1,716,699 3,496,473
-#&gt; 89          1968 1,776,069 1,709,549 3,485,618
-#&gt; 90          1969 1,829,979 1,762,722 3,592,701
-#&gt; 91          1970 1,905,622 1,831,889 3,737,511
-#&gt; 92          1971 1,818,381 1,752,365 3,570,746
-#&gt; 93          1972 1,674,675 1,612,464 3,287,139
-#&gt; 94          1973 1,614,211 1,554,035 3,168,246
-#&gt; 95          1974 1,630,740 1,566,138 3,196,878
-#&gt; 96          1975 1,623,029 1,560,738 3,183,767
-#&gt; 97          1976 1,633,225 1,571,864 3,205,089
-#&gt; 98          1977 1,709,859 1,644,926 3,354,785
-#&gt; 99          1978 1,709,099 1,643,789 3,352,888
-#&gt; 100         1979 1,791,825 1,723,133 3,514,958
-#&gt; 101         1980 1,855,024 1,780,361 3,635,385
-#&gt; 102         1981 1,862,416 1,788,234 3,650,650
-#&gt; 103         1982 1,887,126 1,813,985 3,701,111
-#&gt; 104         1983 1,863,331 1,789,354 3,652,685
-#&gt; 105         1984 1,876,225 1,802,890 3,679,115
-#&gt; 106         1985 1,923,822 1,845,903 3,769,725
-#&gt; 107         1986 1,920,958 1,845,046 3,766,004
-#&gt; 108         1987 1,949,471 1,873,831 3,823,302
-#&gt; 109         1988 2,001,329 1,922,580 3,923,909
-#&gt; 110         1989 2,095,455 1,991,890 4,087,345
-#&gt; 111         1990 2,151,160 2,053,962 4,205,122
-#&gt; 112         1991 2,119,192 2,033,116 4,152,308
-#&gt; 113         1992 2,098,620 2,004,297 4,102,917
-#&gt; 114         1993 2,064,960 1,971,175 4,036,135
-#&gt; 115         1994 2,037,946 1,949,024 3,986,970
-#&gt; 116         1995 2,010,995 1,921,218 3,932,213
-#&gt; 117         1996 2,003,372 1,916,882 3,920,254
-#&gt; 118         1997 1,997,337 1,908,808 3,906,145
-#&gt; 119         1998 2,027,136 1,938,008 3,965,144
-#&gt; 120         1999 2,038,346 1,946,204 3,984,550
-#&gt; 121         2000 2,087,391 1,994,881 4,082,272
-#&gt; 122         2001 2,067,422 1,980,040 4,047,462
-#&gt; 123         2002 2,065,531 1,973,957 4,039,488
-#&gt; 124         2003 2,100,052 2,005,406 4,105,458
-#&gt; 125         2004 2,112,190 2,016,585 4,128,775
-#&gt; 126         2005 2,126,034 2,028,174 4,154,208
-#&gt; 127         2006 2,190,837 2,089,049 4,279,886
-#&gt; 128         2007 2,213,423 2,114,797 4,328,220
-#&gt; 129         2008 2,178,453 2,080,929 4,259,382
-#&gt; 130         2009 2,118,953 2,022,977 4,141,930
-#&gt; 131         2010 2,052,122 1,958,284 4,010,406
-#&gt; 132         2011 2,028,589 1,935,047 3,963,636
-#&gt; 133         2012 2,025,890 1,936,239 3,962,129
-#&gt; 134         2013 2,016,731 1,923,856 3,940,587
-#&gt; 135         2014 2,044,378 1,951,652 3,996,030
-#&gt; 136         2015 2,038,331 1,945,317 3,983,648
-#&gt; 137         2016 2,017,790 1,928,438 3,946,228
-#&gt; 138         2017 1,963,290 1,874,899 3,838,189</div><div class='input'>
-<span class='co'># If the table is badly formed, and has different number of rows in</span>
-<span class='co'># each column use fill = TRUE. Here's it's due to incorrect colspan</span>
-<span class='co'># specification.</span>
-<span class='no'>skiing</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"http://data.fis-ski.com/dynamic/results.html?sector=CC&amp;raceid=22395"</span>)
-<span class='no'>skiing</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>html_table</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; list()</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>sample1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span>(<span class='st'>"&lt;table&gt;
+  &lt;tr&gt;&lt;th&gt;Col A&lt;/th&gt;&lt;th&gt;Col B&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;x&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;y&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;z&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;"</span>)
+<span class='no'>sample1</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='html_nodes.html'>html_node</a></span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>html_table</span>()</div><div class='output co'>#&gt;   Col A Col B
+#&gt; 1     1     x
+#&gt; 2     4     y
+#&gt; 3    10     z</div><div class='input'>
+<span class='co'># Values in merged cells will be duplicated</span>
+<span class='no'>sample2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span>(<span class='st'>"&lt;table&gt;
+  &lt;tr&gt;&lt;th&gt;A&lt;/th&gt;&lt;th&gt;B&lt;/th&gt;&lt;th&gt;C&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td colspan='2'&gt;4&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;6&lt;/td&gt;&lt;td colspan='2'&gt;7&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;"</span>)
+
+<span class='no'>sample2</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='html_nodes.html'>html_node</a></span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>html_table</span>()</div><div class='output co'>#&gt;   A B C
+#&gt; 1 1 2 3
+#&gt; 2 4 4 5
+#&gt; 3 6 7 7</div><div class='input'>
+<span class='co'># If the table is badly formed, and has different number of columns</span>
+<span class='co'># in each row, use `fill = TRUE` to fill in the missing values</span>
+<span class='no'>sample3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span>(<span class='st'>"&lt;table&gt;
+  &lt;tr&gt;&lt;th&gt;A&lt;/th&gt;&lt;th&gt;B&lt;/th&gt;&lt;th&gt;C&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td colspan='2'&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td colspan='2'&gt;3&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;"</span>)
+
+<span class='no'>sample3</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='html_nodes.html'>html_node</a></span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>html_table</span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;   A  B  C
+#&gt; 1 1  1  2
+#&gt; 2 3  3 NA
+#&gt; 3 4 NA NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
