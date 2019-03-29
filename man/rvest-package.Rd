@@ -14,6 +14,7 @@ Wrappers around the 'xml2' and 'httr' packages to
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://rvest.tidyverse.org/}
   \item \url{https://github.com/tidyverse/rvest}
   \item Report bugs at \url{https://github.com/tidyverse/rvest/issues}
 }
