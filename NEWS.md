@@ -1,5 +1,8 @@
 # rvest 0.3.2.9000
 
+* `submit_request()` now checks for empty form-field-types to select the
+   correct submit fields (@rentrop, #159)
+
 # rvest 0.3.2
 
 * Fixes to `follow_link()` and `back()` to correctly manage session history.
