@@ -1,170 +1,150 @@
-# Setup
+# Platform
 
-## Platform
-
-|setting  |value                        |
+|field    |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.3.0 (2016-05-03) |
-|system   |x86_64, darwin13.4.0         |
-|ui       |RStudio (0.99.1212)          |
+|version  |R version 3.5.2 (2018-12-20) |
+|os       |macOS Mojave 10.14.3         |
+|system   |x86_64, darwin15.6.0         |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
+|ctype    |en_US.UTF-8                  |
 |tz       |America/Chicago              |
-|date     |2016-06-16                   |
+|date     |2019-03-29                   |
 
-## Packages
+# Dependencies
 
-|package   |*  |version    |date       |source                           |
-|:---------|:--|:----------|:----------|:--------------------------------|
-|covr      |   |2.0.1      |2016-04-06 |CRAN (R 3.3.0)                   |
-|httr      |   |1.2.0      |2016-06-15 |cran (@1.2.0)                    |
-|knitr     |   |1.13       |2016-05-09 |CRAN (R 3.3.0)                   |
-|magrittr  |   |1.5        |2014-11-22 |CRAN (R 3.3.0)                   |
-|png       |   |0.1-7      |2013-12-03 |CRAN (R 3.3.0)                   |
-|rmarkdown |   |0.9.6      |2016-05-01 |CRAN (R 3.3.0)                   |
-|rvest     |*  |0.3.1.9000 |2016-06-16 |local (hadley/rvest@NA)          |
-|selectr   |   |0.2-3      |2014-12-24 |CRAN (R 3.3.0)                   |
-|stringi   |   |1.1.1      |2016-05-27 |cran (@1.1.1)                    |
-|testthat  |*  |1.0.2.9000 |2016-06-16 |Github (hadley/testthat@d3e20b9) |
-|xml2      |*  |0.1.2      |2015-09-01 |CRAN (R 3.3.0)                   |
+|package |old   |new        |Δ  |
+|:-------|:-----|:----------|:--|
+|rvest   |0.3.2 |0.3.2.9000 |*  |
+|glue    |NA    |1.3.1      |*  |
+|Rcpp    |NA    |1.0.1      |*  |
+|stringi |NA    |1.4.3      |*  |
 
-# Check results
-19 packages
+# Revdeps
 
-## addinslist (0.1)
-Maintainer: Dean Attali <daattali@gmail.com>  
-Bug reports: https://github.com/daattali/addinslist/issues
+## Couldn't check (4)
 
-0 errors | 0 warnings | 0 notes
+|package                                  |version |error |warning |note |
+|:----------------------------------------|:-------|:-----|:-------|:----|
+|[BIOMASS](problems.md#biomass)           |2.1     |1     |        |     |
+|[ELMER](problems.md#elmer)               |2.6.2   |1     |        |     |
+|[petro.One](problems.md#petroone)        |0.2.3   |1     |        |     |
+|[TCGAbiolinks](problems.md#tcgabiolinks) |2.10.5  |1     |        |     |
 
-## eurostat (1.2.21)
-Maintainer: Lahti Leo <louhos@googlegroups.com>  
-Bug reports: https://github.com/ropengov/eurostat/issues
+## All (111)
 
-0 errors | 0 warnings | 0 notes
-
-## finreportr (1.0.0)
-Maintainer: Seward Lee <sewardlee337@gmail.com>
-
-0 errors | 0 warnings | 0 notes
-
-## fuzzyjoin (0.1)
-Maintainer: David Robinson <drobinson@stackoverflow.com>
-
-0 errors | 0 warnings | 0 notes
-
-## googleformr (0.0.3)
-Maintainer: Steve Simpson <steven.troy.simpson@gmail.com>
-
-0 errors | 0 warnings | 0 notes
-
-## gutenbergr (0.1.1)
-Maintainer: David Robinson <admiral.david@gmail.com>  
-Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
-
-0 errors | 0 warnings | 0 notes
-
-## iemiscdata (0.5.2)
-Maintainer: Irucka Embry <iembry@ecoccs.com>  
-Bug reports: https://gitlab.com/iembry/iemiscdata/issues
-
-0 errors | 0 warnings | 0 notes
-
-## MazamaSpatialUtils (0.4.3)
-Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-
-0 errors | 0 warnings | 0 notes
-
-## nhanesA (0.6.4)
-Maintainer: Christopher Endres <cjendres1@gmail.com>
-
-0 errors | 0 warnings | 0 notes
-
-## rccmisc (0.3.7)
-Maintainer: Erik Bulow <erik.bulow@rccvast.se>  
-Bug reports: https://bitbucket.com/cancercentrum/rccmisc/issues
-
-0 errors | 0 warnings | 0 notes
-
-## rex (1.1.1)
-Maintainer: Jim Hester <james.f.hester@gmail.com>  
-Bug reports: https://github.com/kevinushey/rex/issues
-
-0 errors | 0 warnings | 0 notes
-
-## rNOMADS (2.3.0)
-Maintainer: Daniel C. Bowman <danny.c.bowman@gmail.com>
-
-0 errors | 0 warnings | 0 notes
-
-## rscopus (0.1.2)
-Maintainer: John Muschelli <muschellij2@gmail.com>  
-Bug reports: https://github.com/muschellij2/rscopus/issues
-
-0 errors | 0 warnings | 0 notes
-
-## rUnemploymentData (1.0.0)
-Maintainer: Ari Lamstein <arilamstein@gmail.com>  
-Bug reports: https://github.com/trulia/choroplethr/issues
-
-0 errors | 0 warnings | 1 note 
-
-```
-checking R code for possible problems ... NOTE
-animated_county_unemployment_choropleth: no visible global function
-  definition for ‘data’
-animated_state_unemployment_choropleth: no visible global function
-  definition for ‘data’
-build_county_df: no visible global function definition for ‘data’
-build_state_df: no visible global function definition for ‘data’
-county_unemployment_choropleth: no visible global function definition
-  for ‘data’
-get_county_unemployment_df: no visible global function definition for
-  ‘read.fwf’
-get_county_unemployment_df: no visible global function definition for
-  ‘data’
-state_unemployment_choropleth: no visible global function definition
-  for ‘data’
-Undefined global functions or variables:
-  data read.fwf
-Consider adding
-  importFrom("utils", "data", "read.fwf")
-to your NAMESPACE file.
-```
-
-## scholar (0.1.4)
-Maintainer: James Keirstead <james.keirstead@gmail.com>  
-Bug reports: https://github.com/jkeirstead/scholar/issues
-
-0 errors | 0 warnings | 0 notes
-
-## sejmRP (1.3)
-Maintainer: Piotr Smuda <piotrsmuda@gmail.com>  
-Bug reports: http://github.com/mi2-warsaw/sejmRP/issues
-
-0 errors | 0 warnings | 0 notes
-
-## traits (0.2.0)
-Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
-Bug reports: http://www.github.com/ropensci/traits/issues
-
-0 errors | 0 warnings | 0 notes
-
-## webchem (0.1.0.0)
-Maintainer: Eduard Szöcs <eduardszoecs@gmail.com>  
-Bug reports: https://github.com/ropensci/webchem/issues
-
-0 errors | 0 warnings | 0 notes
-
-## wikipediatrend (1.1.10)
-Maintainer: Peter Meissner <retep.meissner@gmail.com>  
-Bug reports: https://github.com/petermeissner/wikipediatrend/issues
-
-0 errors | 0 warnings | 1 note 
-
-```
-checking package dependencies ... NOTE
-Packages suggested but not available for checking:
-  ‘AnomalyDetection’ ‘BreakoutDetection’
-```
+|package                                                |version |error |warning |note |
+|:------------------------------------------------------|:-------|:-----|:-------|:----|
+|addinslist                                             |0.2     |      |        |     |
+|adjustedcranlogs                                       |0.1.0   |      |        |     |
+|[aire.zmvm](problems.md#airezmvm)                      |0.8.1   |      |        |1    |
+|[AMR](problems.md#amr)                                 |0.6.1   |      |        |3    |
+|ari                                                    |0.1.0   |      |        |     |
+|ballr                                                  |0.2.3   |      |        |     |
+|[BANEScarparkinglite](problems.md#banescarparkinglite) |0.1.2   |      |        |1    |
+|[banxicoR](problems.md#banxicor)                       |0.9.0   |      |        |1    |
+|baseballDBR                                            |0.1.2   |      |        |     |
+|BatchGetSymbols                                        |2.4     |      |        |     |
+|BAwiR                                                  |1.2     |      |        |     |
+|BETS                                                   |0.4.9   |      |        |     |
+|[BiocPkgTools](problems.md#biocpkgtools)               |1.0.3   |      |        |2    |
+|[BioInstaller](problems.md#bioinstaller)               |0.3.7   |      |        |1    |
+|[BIOMASS](problems.md#biomass)                         |2.1     |1     |        |     |
+|BIS                                                    |0.2.1   |      |        |     |
+|BMRBr                                                  |0.2.0   |      |        |     |
+|bomrang                                                |0.5.0   |      |        |     |
+|boxoffice                                              |1.2.1   |      |        |     |
+|cansim                                                 |0.2.3   |      |        |     |
+|coalitions                                             |0.6.5   |      |        |     |
+|cptec                                                  |0.1.0   |      |        |     |
+|crypto                                                 |1.1.1   |      |        |     |
+|[ctrdata](problems.md#ctrdata)                         |0.17.0  |1     |        |     |
+|[datasus](problems.md#datasus)                         |0.4.1   |      |        |1    |
+|ecoseries                                              |0.1.5   |      |        |     |
+|[EdSurvey](problems.md#edsurvey)                       |2.2.3   |      |        |1    |
+|[ELMER](problems.md#elmer)                             |2.6.2   |1     |        |     |
+|epidata                                                |0.2.0   |      |        |     |
+|essurvey                                               |1.0.2   |      |        |     |
+|etl                                                    |0.3.7   |      |        |     |
+|[eurostat](problems.md#eurostat)                       |3.3.1.3 |      |        |1    |
+|[ezpickr](problems.md#ezpickr)                         |1.0.4   |      |        |1    |
+|fastqcr                                                |0.1.2   |      |        |     |
+|[fedregs](problems.md#fedregs)                         |0.1.1   |      |        |1    |
+|finreportr                                             |1.0.1   |      |        |     |
+|foghorn                                                |1.1.0   |      |        |     |
+|forestChange                                           |0.5     |      |        |     |
+|fuzzyjoin                                              |0.1.4   |      |        |     |
+|ganalytics                                             |0.10.7  |      |        |     |
+|gcite                                                  |0.10.1  |      |        |     |
+|genius                                                 |0.0.1.0 |      |        |     |
+|geniusr                                                |1.1.0   |      |        |     |
+|gesis                                                  |0.2.1   |      |        |     |
+|[gfer](problems.md#gfer)                               |0.1.10  |      |        |1    |
+|googleformr                                            |0.0.3   |      |        |     |
+|googleLanguageR                                        |0.2.0   |      |        |     |
+|[helminthR](problems.md#helminthr)                     |1.0.7   |      |        |1    |
+|htmltidy                                               |0.4.0   |      |        |     |
+|[ICD10gm](problems.md#icd10gm)                         |1.0.3   |      |        |2    |
+|icpsrdata                                              |0.3.0   |      |        |     |
+|[iemiscdata](problems.md#iemiscdata)                   |0.6.1   |      |        |2    |
+|[incadata](problems.md#incadata)                       |0.6.4   |      |        |1    |
+|[jpndistrict](problems.md#jpndistrict)                 |0.3.2   |      |        |1    |
+|kableExtra                                             |1.1.0   |      |        |     |
+|[KDViz](problems.md#kdviz)                             |1.3.1   |      |        |1    |
+|MazamaSpatialUtils                                     |0.6.1   |      |        |     |
+|[newsanchor](problems.md#newsanchor)                   |0.1.0   |      |        |2    |
+|nhanesA                                                |0.6.5   |      |        |     |
+|nhdR                                                   |0.5.1   |      |        |     |
+|noaaoceans                                             |0.1.0   |      |        |     |
+|osmdata                                                |0.0.10  |      |        |     |
+|pedquant                                               |0.1.0   |      |        |     |
+|[petro.One](problems.md#petroone)                      |0.2.3   |1     |        |     |
+|pewdata                                                |0.2.0   |      |        |     |
+|postlightmercury                                       |1.2     |      |        |     |
+|[prisonbrief](problems.md#prisonbrief)                 |0.1.0   |      |        |1    |
+|[radtools](problems.md#radtools)                       |1.0.4   |1     |        |1    |
+|[raustats](problems.md#raustats)                       |0.1.0   |      |        |1    |
+|[rccmisc](problems.md#rccmisc)                         |0.3.7   |      |        |1    |
+|readOffice                                             |0.2.2   |      |        |     |
+|rex                                                    |1.1.2   |      |        |     |
+|[rmd](problems.md#rmd)                                 |0.1.4   |      |        |1    |
+|RNHANES                                                |1.1.0   |      |        |     |
+|Rnightlights                                           |0.2.3   |      |        |     |
+|rNOMADS                                                |2.4.1   |      |        |     |
+|RNRCS                                                  |0.2.5   |      |        |     |
+|ropercenter                                            |0.2.0   |      |        |     |
+|rscopus                                                |0.6.3   |      |        |     |
+|[RTCGA](problems.md#rtcga)                             |1.12.1  |2     |        |3    |
+|[rtrek](problems.md#rtrek)                             |0.2.0   |      |        |2    |
+|rUnemploymentData                                      |1.1.0   |      |        |     |
+|[rzeit2](problems.md#rzeit2)                           |0.2.3   |      |        |1    |
+|[SanFranBeachWater](problems.md#sanfranbeachwater)     |0.1.0   |      |        |1    |
+|scholar                                                |0.1.7   |      |        |     |
+|[sejmRP](problems.md#sejmrp)                           |1.3.4   |      |        |1    |
+|sharpshootR                                            |1.0     |      |        |     |
+|[sidrar](problems.md#sidrar)                           |0.2.4   |      |        |1    |
+|smapr                                                  |0.2.0   |      |        |     |
+|snotelr                                                |1.0.1   |      |        |     |
+|soilDB                                                 |2.3.5   |      |        |     |
+|speaq                                                  |2.5.0   |      |        |     |
+|spotifyr                                               |2.1.0   |      |        |     |
+|[stlcsb](problems.md#stlcsb)                           |0.1.2   |      |        |1    |
+|[TCGAbiolinks](problems.md#tcgabiolinks)               |2.10.5  |1     |        |     |
+|[TCGAbiolinksGUI](problems.md#tcgabiolinksgui)         |1.8.1   |1     |        |     |
+|[TCGAutils](problems.md#tcgautils)                     |1.2.2   |1     |1       |2    |
+|[textreadr](problems.md#textreadr)                     |0.9.0   |      |        |1    |
+|tidycensus                                             |0.9     |      |        |     |
+|[tidyverse](problems.md#tidyverse)                     |1.2.1   |      |        |1    |
+|tiobeindexr                                            |0.1.1   |      |        |     |
+|tm.plugin.factiva                                      |1.7     |      |        |     |
+|traits                                                 |0.3.0   |      |        |     |
+|[unpivotr](problems.md#unpivotr)                       |0.5.0   |2     |1       |     |
+|[waccR](problems.md#waccr)                             |0.1.0   |      |        |1    |
+|webchem                                                |0.4.0   |      |        |     |
+|WikidataQueryServiceR                                  |0.1.1   |      |        |     |
+|[wikilake](problems.md#wikilake)                       |0.4     |      |        |1    |
+|wikipediatrend                                         |1.1.14  |      |        |     |
+|wikisourcer                                            |0.1.3   |      |        |     |
+|[ztype](problems.md#ztype)                             |0.1.0   |      |        |1    |
 
