@@ -56,7 +56,7 @@
   
 * `submit_request()` (and hence `submit_form()`) recognizes forms with 
   `<input type="image">` as a valid form submission button per
-  <http://www.w3.org/TR/html-markup/input.image.html>
+  <https://www.w3.org/TR/html/input.image.html>
   
 # rvest 0.2.0
 
