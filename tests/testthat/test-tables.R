@@ -258,3 +258,76 @@ test_that("a correct but slightly pathological table correctly parsed", {
                c(rep('Categorical Columns', 2),
                  rep('Numerical Columns', 2)))
 })
+
+test_that("Test rowspans are respected when fill=True", {
+  select <- minimal_html("table parsing", '
+    <table>
+    	<thead>
+    		<tr>
+    			<th>Lorem</th>
+    			<th>ipsum</th>
+    			<th colspan="2">dolor sit</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<tr>
+    			<td rowspan="3">amet</td>
+    			<td>consectetur adipiscing</td>
+    			<td rowspan="2"></td>
+    			<td rowspan="2">elit sed do</td>
+    		</tr>
+    		<tr>
+    			<td>eiusmod tempor</td>
+    		</tr>
+    		<tr>
+    			<td>incididunt ut labore</td>
+    			<td></td>
+    			<td>et</td>
+    		</tr>
+    		<tr>
+    			<td rowspan="3">dolore</td>
+    			<td>magna aliqua</td>
+    			<td></td>
+    			<td>ut</td>
+    		</tr>
+    		<tr>
+    			<td>enim ad</td>
+    			<td rowspan="2"></td>
+    			<td rowspan="2">minim veniam quis</td>
+    		</tr>
+    		<tr>
+    			<td>nostrud exercitation</td>
+    		</tr>
+    		<tr>
+    			<td rowspan="4"><ah>irure</td>
+    			<td>dolor</td>
+    			<td rowspan="2"></td>
+    			<td rowspan="2">in reprehenderit</td>
+    		</tr>
+    		<tr>
+    			<td>in voluptate</td>
+    		</tr>
+    		<tr>
+    			<td>nulla</td>
+    			<td rowspan="2"></td>
+    			<td rowspan="2">pariatur</td>
+    		</tr>
+    		<tr>
+    			<td>excepteur</td>
+    		</tr>
+    	</tbody>
+    </table>'
+  )
+
+
+  table <- select %>%
+    html_nodes('table') %>% html_table(fill = TRUE)
+
+  row1 <- c('amet', 'incididunt ut labore', 'NA', 'et')
+  row2 <- c('dolore', 'magna aliqua', 'NA', 'ut')
+  row3 <- c('irure', 'excepteur', 'NA', 'pariatur')
+
+  expect_equal(as.character(table[[1]][3,]), row1)
+  expect_equal(as.character(table[[1]][4,]), row2)
+  expect_equal(as.character(table[[1]][10,]), row3)
+})
