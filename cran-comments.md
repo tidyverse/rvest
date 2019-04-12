@@ -1,3 +1,7 @@
+This is a resubmission removing a broken link.
+
+---
+
 ## Test environments
 
 * local: darwin15.6.0-3.5.2

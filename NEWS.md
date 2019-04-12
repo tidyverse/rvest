@@ -1,4 +1,4 @@
-# rvest 0.3.2.9000
+# rvest 0.3.3
 
 * Fix `R CMD check` failure
 
@@ -55,8 +55,7 @@
   and so will find `<input type=SUBMIT>` as well as`<input type="submit">`.
   
 * `submit_request()` (and hence `submit_form()`) recognizes forms with 
-  `<input type="image">` as a valid form submission button per
-  <https://www.w3.org/TR/html/input.image.html>
+  `<input type="image">` as a valid form submission button.
   
 # rvest 0.2.0
 
