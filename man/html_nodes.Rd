@@ -91,7 +91,7 @@ ateam \%>\% html_nodes("table") \%>\% extract(1:2) \%>\% html_nodes("img")
 
 # XPath selectors ---------------------------------------------
 # chaining with XPath is a little trickier - you may need to vary
-# the prefix you're using - // always selects from the root noot
+# the prefix you're using - // always selects from the root node
 # regardless of where you currently are in the doc
 ateam \%>\%
   html_nodes(xpath = "//center//font//b") \%>\%
