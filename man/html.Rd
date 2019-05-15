@@ -2,13 +2,10 @@
 % Please edit documentation in R/parse.R
 \name{html}
 \alias{html}
-\alias{read_xml.response}
 \alias{read_xml.session}
 \title{Parse an HTML page.}
 \usage{
 html(x, ..., encoding = "")
-
-\method{read_xml}{response}(x, ..., encoding = "", as_html = FALSE)
 
 \method{read_xml}{session}(x, ..., as_html = FALSE)
 }

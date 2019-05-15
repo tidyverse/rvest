@@ -33,17 +33,6 @@ html <- function(x, ..., encoding = "") {
   xml2::read_html(x, ..., encoding = encoding)
 }
 
-#' @inheritParams xml2::read_xml
-#' @export
-#' @rdname html
-read_xml.response <- function(x, ..., encoding = "", as_html = FALSE) {
-  httr::stop_for_status(x)
-  encoding <- encoding %||% default_encoding(x)
-
-  xml2::read_xml(httr::content(x, "raw"), encoding = encoding, base_url = x$url,
-    as_html = as_html)
-}
-
 default_encoding <- function(x) {
   type <- httr::headers(x)$`Content-Type`
   if (is.null(type)) return(NULL)
@@ -53,6 +42,7 @@ default_encoding <- function(x) {
 }
 
 #' @importFrom xml2 read_xml
+#' @inheritParams xml2::read_xml
 #' @export
 #' @rdname html
 read_xml.session <- function(x, ..., as_html = FALSE) {
@@ -64,5 +54,5 @@ read_xml.session <- function(x, ..., as_html = FALSE) {
     stop("Current page doesn't appear to be html.", call. = FALSE)
   }
 
-  read_xml.response(x$response, ..., as_html = as_html)
+  read_xml(x$response, ..., as_html = as_html)
 }
