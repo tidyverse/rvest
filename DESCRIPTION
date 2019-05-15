@@ -1,6 +1,6 @@
 Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
-Version: 0.3.3.9000
+Version: 0.3.4
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
