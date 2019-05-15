@@ -92,7 +92,7 @@
       <h1>SelectorGadget</h1>
                         <h4 class="author">Hadley Wickham</h4>
             
-            <h4 class="date">2019-05-06</h4>
+            <h4 class="date">2019-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/rvest/blob/master/vignettes/selectorgadget.Rmd"><code>vignettes/selectorgadget.Rmd</code></a></small>
       <div class="hidden name"><code>selectorgadget.Rmd</code></div>
@@ -138,15 +138,12 @@
 <p>Once we’ve determined the css selector, we can use it in R to extract the values we want:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rvest)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading required package: xml2</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Registered S3 method overwritten by 'rvest':</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   method            from</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;   read_xml.response xml2</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">html &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">"http://www.imdb.com/title/tt1490017/"</span>)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">cast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/html_nodes.html">html_nodes</a></span>(html, <span class="st">"#titleCast .itemprop"</span>)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(cast)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] 0</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">cast[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; {xml_nodeset (0)}</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3">html &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">"http://www.imdb.com/title/tt1490017/"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">cast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/html_nodes.html">html_nodes</a></span>(html, <span class="st">"#titleCast .itemprop"</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(cast)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">cast[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; {xml_nodeset (0)}</span></a></code></pre></div>
 <p>Looking carefully at this output, we see twice as many matches as we expected. That’s because we’ve selected both the table cell and the text inside the cell. We can experiment with selectorgadget to find a better match or look at the html directly.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/html_nodes.html">html_nodes</a></span>(html, <span class="st">"#titleCast span.itemprop"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(cast)</a>
