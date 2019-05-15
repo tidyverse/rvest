@@ -1,7 +1,3 @@
-This is a resubmission removing a broken link.
-
----
-
 ## Test environments
 
 * local: darwin15.6.0-3.5.2
@@ -13,6 +9,15 @@ This is a resubmission removing a broken link.
 
 0 errors | 0 warnings | 0 notes
 
-## Reverse dependencies
+## revdepcheck results
 
-Reflexivity in digital anthropology.
+We checked 111 reverse dependencies (105 from CRAN + 6 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 1 packages
+
+Issues with CRAN packages are summarised below.
+
+### Failed to check
+
+* petro.One (NA)
