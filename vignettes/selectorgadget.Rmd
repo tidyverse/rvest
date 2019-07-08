@@ -105,9 +105,7 @@ cast_attrs <- html_attrs(cast)
 
 length(cast_attrs)
 cast_attrs[1:2]
-
 ```
-
 As we can see there's only one attribute called `href` which contains relative url to the actor's page. We can extract it using `html_attr()`, indicating the name of the attribute of interest. Relative urls can be turned to absolute urls using `url_absolute()`.
 
 ```{r}
