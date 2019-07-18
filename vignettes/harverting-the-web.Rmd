@@ -1,0 +1,191 @@
+---
+title: "Harvesting the web with rvest"
+author: "Dmytro Perepolkin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Harvesting the web with rvest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
+
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+```{r results="asis", echo=FALSE}
+# directly adding css to output html without ruining css style https://stackoverflow.com/questions/29291633/adding-custom-css-tags-to-an-rmarkdown-html-document
+cat("
+<style>
+img {
+border: 0px;
+outline: 0 ;
+}
+</style>
+")
+```
+
+
+## Introduction to HTML elements
+
+HTML stand for "Hyper Text Markup Language". HTML page consists of series of elements which browsers use to interpret how to display the content. HTML tags are names of the elements surrounded by angle brackets like so: `<tagname> content goes here... </tagname>`. Most HTML tags come in pairs and consist of opening and a closing tag, known as _start tag_ and _end tag_, where the _end tag_ name is preceded by the forward slash `/`.
+
+Below is a visualization of a simple HTML page structure:
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-1-s.png")
+```
+
+It is possible to define HTML attributes inside HTML tags. Attributes provide additional information about HTML elements, such as hyperlinks for text, and width and height for images. Attributes are always defined in the start tag and come in `name="value"` pairs, like so: `<a href="https://www.example.com">This is a link</a>`
+
+You can learn more about HTML tags and attributes from online resources, such as [W3schools](https://www.w3schools.com/html/default.asp)
+
+## CSS Selectors
+
+CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is **CSS selectors**. CSS selectors represent *patterns* for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. Selectorgadget (see `vignette("selectorgadget")`) implements a quick way of plucking HTML elements using CSS selectors.
+
+Lets have a look at the IMDB page for the [Lego Movie](https://www.imdb.com/title/tt1490017/) and inspect the content of the page behind the fist entry in the Cast table. If you are using Chrome-based browser (either Google Chrome or Chrimium, which would be required if you want to use SelectorGadget add-on) you can right-click the element you want to inspect and select Inspect (or use respective shortcut). 
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-2-s.png")
+```
+
+This will open Developer Tools with the Elements tab containing full HTML content of the page in the tree view, focused on the element you chose to inspect.
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-3-s.png")
+```
+
+Two of very common HTML attributes are `class` and `id`. They are used for grouping and identifying HTML tags. In the screenshot above you can find examples of both of them. 
+
+The tags containing `class` attribute can be selected using `.` followed by the name of the class. For example, you can open SelectorGadget and try selecting tags with classes "odd"(or "even") like so:
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-4-s.png")
+```
+
+In order to search inside specific tag, selectors can be separated by space. Here, for example, we are locating tags with class "character" inside tags with class "odd" (i.e. we are searching for tags with class "character" among the descendants of tags with class "odd").
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-5-s.png")
+```
+
+Another useful selector is for tags with a special attribute "id". Selector for the tags with this attribute can be composed with symbol `#` prepending the attribute value. This selector can be combined with another one as in the example below.
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-6-s.png")
+```
+
+Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combintion, but you can always inspect the page and adjust CSS selector as needed. Here's more realistic example of CSS selector suggested by SelectorGadget (from `vignette("selectogadget")`) which might be interpreted as: "Select tag `a` which is descendant of a tag `td` immediately following a tag with a class set to `.primary_photo`".
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-7-s.png")
+```
+
+The tag with `+` sign indicates that we are interested not in the one identified by the selector, but the one "immediately following" it. In the example above, the tag containing the actor name does not have the "class" attribute, but it is located between (on the same level with) two other `td` tags: `td` tag with class set to `primary_photo` and `td` tag with class set to `character`. Therefore, SelectorGadget suggested the `+` syntax to locate the exact tag we need.
+
+Overview of other useful CSS selectors can be found online, for example [here](https://www.w3schools.com/cssref/css_selectors.asp)
+
+## Extracting HTML elements with CSS
+
+Once the required section of the HTML document is located, it can be extracted with `rvest`. Let's look at the IMDB page for the [Lego Movie](https://www.imdb.com/title/tt1490017/) and extract the names of the characters the actors play. 
+
+```{r}
+library(rvest)
+lego_url <- "http://www.imdb.com/title/tt1490017/"
+html <- read_html(lego_url)
+
+characters <- html_nodes(html, ".cast_list .character")
+
+length(characters)
+
+characters[1:2]
+html_text(characters, trim=TRUE)
+```
+
+`rvest` contains a few handy functions for accessing different attributes of the currently selected nodes. For example, we can access names of the selected tags with `html_name()`:
+```{r}
+html_nodes(html,".cast_list") %>% 
+  html_name()
+```
+Most of the time we want to use `html_nodes()` (returning `xml nodeset`) to make sure we capture all matches, but in those cases when we know that there is only one single match or when we only care about the first match, we can use `html_node()`, which returns single `xml node`.
+
+```{r}
+html_node(html,".cast_list")
+```
+
+If the name of the current tag is `table` (both as single `xml node`, but also as `xml nodeset` of tables) it can usually be parsed into a data.frame automatically (either as a single data.frame or as a list of data.frames, for `xml node` and `xml nodeset`, respectively).
+
+```{r}
+html_node(html,".cast_list") %>% 
+  html_table() %>% 
+  head()
+```
+
+The most basic content in HTML is text. It can be located between the opening and the closing tag of the "tag bracket" (sometimes along with other "descendent" tags). The text (from current and all "children" tags) can be extracted with `html_text()`. Lets extract text out of the first character node.
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_text()
+```
+
+Finally attributes of HTML tags can be extracted using `html_attrs()`(or `html_attr()` for extracting a single attribute from a node/nodeset, given its name). Let's fetch urls of the actors' pages.
+
+```{r}
+html_nodes(html, ".cast_list .character") %>% 
+  html_children() %>% 
+  html_attr("href")
+```
+
+## Extracting HTML elements with xpath
+
+Alternative way of extracting HTML elements is using `xpath` argument in `html_node()` or `html_nodes()`, which allows specifying expressions to extract individual nodes or nodesets. `XPath` (XML Path Language) is a query language for selecting nodes from an XML document. It is much more powerful than CSS selectors, but its syntax is also more terse.
+
+Say we want to extract text from the character column of the Cast table, but only the text without hyperlinks. If we look closer, we will see that the first `td` node of class `character` has two children nodes `a` interleaved with plain text in the following sequence:
+
+- node `a` containing word "Batman" with hyperlink
+- text "/" (forward slash sign)
+- node `a` containing words "Bruce Wayne" with another hyperlink
+- text "(voice)"
+
+```{r, echo=FALSE}
+embed_png("harvesting-web-8-s.png")
+```
+
+The following `rvest` code will separate "children" text from "parent" text and return only text from the "child" node(s).
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_children() %>% 
+  html_text()
+```
+
+However, there's no suitable "CSS selector" to exclude child nodes and extract only text from the "parent" node. This is the situation where `xpath` selector can be more powerful. In addition to traversing the html/xml tree, `xpath` also has its own "extractor" functions, similar to those of `rvest`. In particular, here will will use `text()` applied to "current node only" (this is the meanning of `./` in the following code). We also use `normalize-space()` function, which drops empty strings.
+
+Note that the `xpath` internal function `text()` has simplified the content, but `html_nodes()` is unaware of it and still returns `xml_nodeset`.
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_nodes(xpath="./text()[normalize-space()]")
+```
+
+We can now simplify this output and return values in a normal list.
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_nodes(xpath="./text()[normalize-space()]") %>% 
+  html_text(trim=TRUE)
+```
+
+Please, refer to [Xpath syntax reference here](https://www.w3schools.com/xml/xpath_syntax.asp) to learn more how to compose and use `xpath` to locate elements inside HTML tree. 
