@@ -23,6 +23,19 @@ embed_png <- function(path, dpi = NULL) {
 }
 
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+
+```
+
+```{r results="asis", echo=FALSE}
+# directly adding css to output html without ruining css style https://stackoverflow.com/questions/29291633/adding-custom-css-tags-to-an-rmarkdown-html-document
+cat("
+<style>
+img {
+border: 0px;
+outline: 0 ;
+}
+</style>
+")
 ```
 
 SelectorGadget is a JavaScript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page. 
@@ -52,7 +65,7 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
 1.  Navigate to the page and scroll to the actors list.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-1.png")
+    embed_png("selectorgadget-1-s.png")
     ```
 
 2. Click on the SelectorGadget link in the bookmarks. The SelectorGadget
@@ -60,26 +73,27 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
    under the mouse will be highlighted in orange.
    
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-2.png")
+    embed_png("selectorgadget-2-s.png")
     ```
 
 3.  Click on the element you want to select (the name of an actor). The 
     element you selected will be highlighted in green. SelectorGadget guesses
-    which css selector you want (`.itemprop` in this case), and highlights
-    all matches in yellow.
+    which css selector you want (`a` in this case), and highlights
+    all matches in yellow (see total count equal to 592 as indicated on 
+    on the "Clear" button). This seems to be a little too excessive.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-3.png")
+    embed_png("selectorgadget-3-s.png")
     ```
 
 4.  Scroll around the document to find elements that you don't want to match 
-    and click on them. For example, we don't to match the title of the movie,
-    so we click on it and it turns red. The css selector updates to 
-    `#titleCast .itemprop`.
+    and click on them. For example, we don't to match the character the actor 
+    contributed to, so we click on it and it turns red. The css selector updates to 
+    `.primary_photo+ td a`.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-4.png")
-    embed_png("selectorgadget-5.png")
+    embed_png("selectorgadget-4-s.png")
+    embed_png("selectorgadget-5-s.png")
     ```
 
 Once we've determined the css selector, we can use it in R to extract the values we want:
@@ -92,6 +106,7 @@ cast <- html_nodes(html, ".primary_photo+ td a")
 length(cast)
 cast[1:2]
 ```
+
 Finally, we can extract the text from the selected HTML nodes.
 
 ```{r}
