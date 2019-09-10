@@ -2,9 +2,9 @@
 % Please edit documentation in R/xml.R
 \name{xml}
 \alias{xml}
+\alias{xml_tag}
 \alias{xml_node}
 \alias{xml_nodes}
-\alias{xml_tag}
 \title{Work with xml.}
 \usage{
 xml(x, ..., encoding = "")
@@ -20,20 +20,19 @@ xml_nodes(x, css, xpath)
 an httr request.}
 
 \item{...}{If \code{x} is a URL, additional arguments are passed on to
-\code{\link[httr]{GET}()}.}
+\code{\link[httr:GET]{httr::GET()}}.}
 
-\item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
+\item{encoding}{Specify encoding of document. See \code{\link[=iconvlist]{iconvlist()}}
 for complete list. If you have problems determining the correct encoding,
-try \code{\link[stringi]{stri_enc_detect}}}
+try \code{\link[stringi:stri_enc_detect]{stringi::stri_enc_detect()}}}
 
 \item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath 1.0 selector.}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
 
 \item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a css or xpath 1.0 selector.}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
 }
 \description{
 Deprecated. Please use just xml2 directly
 }
 \keyword{internal}
-

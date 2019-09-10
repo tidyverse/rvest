@@ -1,5 +1,5 @@
 ---
-title: "Selectorgadget"
+title: "SelectorGadget"
 author: "Hadley Wickham"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -25,7 +25,7 @@ embed_png <- function(path, dpi = NULL) {
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
-Selectorgadget is a javascript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page. 
+SelectorGadget is a JavaScript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page. 
 
 ## Installation
 
@@ -35,7 +35,7 @@ To install it, open this page in your browser, and then drag the following link 
 
 To use it, open the page 
 
-1. Click on the element you want to select. Selectorgadget will make a first
+1. Click on the element you want to select. SelectorGadget will make a first
    guess at what css selector you want. It's likely to be bad since it only
    has one example to learn from, but it's a start. Elements that match the
    selector will be highlighted in yellow.
@@ -43,7 +43,7 @@ To use it, open the page
 2. Click on elements that shouldn't be selected. They will turn red.
    Click on elements that *should* be selected. They will turn green.
 
-3. Iterate until only the elements you want are selected.  Selectorgadget
+3. Iterate until only the elements you want are selected.  SelectorGadget
    isn't perfect and sometimes won't be able to find a useful css selector. 
    Sometimes starting from a different element helps.
 
@@ -55,16 +55,16 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
     embed_png("selectorgadget-1.png")
     ```
 
-2. Click on the selectorgagdget link in the bookmarks. The selectorgadget
+2. Click on the SelectorGadget link in the bookmarks. The SelectorGadget
    console will appear at the bottom of the screen, and element currently
-   under the mouse will be highlighed in orange.
+   under the mouse will be highlighted in orange.
    
     ```{r, echo = FALSE}
     embed_png("selectorgadget-2.png")
     ```
 
 3.  Click on the element you want to select (the name of an actor). The 
-    element you selected will be highlighted in green. Selectorgadget guesses
+    element you selected will be highlighted in green. SelectorGadget guesses
     which css selector you want (`.itemprop` in this case), and highlights
     all matches in yellow.
 
@@ -86,18 +86,35 @@ Once we've determined the css selector, we can use it in R to extract the values
 
 ```{r}
 library(rvest)
-html <- read_html("http://www.imdb.com/title/tt1490017/")
-cast <- html_nodes(html, "#titleCast .itemprop")
+lego_url <- "http://www.imdb.com/title/tt1490017/"
+html <- read_html(lego_url)
+cast <- html_nodes(html, ".primary_photo+ td a")
 length(cast)
 cast[1:2]
 ```
-
-Looking carefully at this output, we see twice as many matches as we expected. That's because we've selected both the table cell and the text inside the cell. We can experiment with selectorgadget to find a better match or look at the html directly.
+Finally, we can extract the text from the selected HTML nodes.
 
 ```{r}
-cast <- html_nodes(html, "#titleCast span.itemprop")
-length(cast)
+html_text(cast, trim = TRUE)
+```
 
-html_text(cast)
+Let's say we're also interested in extracting the links to the actors' pages. We can access html attributes of the selected nodes using `html_attrs()`.   
+
+```{r}
+cast_attrs <- html_attrs(cast)
+
+length(cast_attrs)
+cast_attrs[1:2]
+```
+As we can see there's only one attribute called `href` which contains relative url to the actor's page. We can extract it using `html_attr()`, indicating the name of the attribute of interest. Relative urls can be turned to absolute urls using `url_absolute()`.
+
+```{r}
+cast_rel_urls <- html_attr(cast, "href")
+length(cast_rel_urls)
+cast_rel_urls[1:2]
+
+cast_abs_urls <- html_attr(cast, "href") %>% 
+  url_absolute(lego_url)
+cast_abs_urls[1:2]
 ```
 

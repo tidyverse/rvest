@@ -2,34 +2,54 @@
 #'
 #' @section Assumptions:
 #'
-#' \code{html_table} currently makes a few assumptions:
+#' `html_table` currently makes a few assumptions:
 #'
 #' \itemize{
 #' \item No cells span multiple rows
 #' \item Headers are in the first row
 #' }
 #' @param x A node, node set or document.
-#' @param header Use first row as header? If \code{NA}, will use first row
-#'   if it consists of \code{<th>} tags.
+#' @param header Use first row as header? If `NA`, will use first row
+#'   if it consists of `<th>` tags.
 #' @param trim Remove leading and trailing whitespace within each cell?
-#' @param fill If \code{TRUE}, automatically fill rows with fewer than
-#'   the maximum number of columns with \code{NA}s.
+#' @param fill If `TRUE`, automatically fill rows with fewer than
+#'   the maximum number of columns with `NA`s.
 #' @param dec The character used as decimal mark.
 #' @export
 #' @examples
-#' tdist <- read_html("http://en.wikipedia.org/wiki/Student%27s_t-distribution")
-#' tdist %>%
-#'   html_node("table.infobox") %>%
-#'   html_table(header = FALSE)
+#' sample1 <- minimal_html("<table>
+#'   <tr><th>Col A</th><th>Col B</th></tr>
+#'   <tr><td>1</td><td>x</td></tr>
+#'   <tr><td>4</td><td>y</td></tr>
+#'   <tr><td>10</td><td>z</td></tr>
+#' </table>")
+#' sample1 %>%
+#'   html_node("table") %>%
+#'   html_table()
 #'
-#' births <- read_html("https://www.ssa.gov/oact/babynames/numberUSbirths.html")
-#' html_table(html_nodes(births, "table")[[2]])
+#' # Values in merged cells will be duplicated
+#' sample2 <- minimal_html("<table>
+#'   <tr><th>A</th><th>B</th><th>C</th></tr>
+#'   <tr><td>1</td><td>2</td><td>3</td></tr>
+#'   <tr><td colspan='2'>4</td><td>5</td></tr>
+#'   <tr><td>6</td><td colspan='2'>7</td></tr>
+#' </table>")
 #'
-#' # If the table is badly formed, and has different number of rows in
-#' # each column use fill = TRUE. Here's it's due to incorrect colspan
-#' # specification.
-#' skiing <- read_html("http://data.fis-ski.com/dynamic/results.html?sector=CC&raceid=22395")
-#' skiing %>%
+#' sample2 %>%
+#'   html_node("table") %>%
+#'   html_table()
+#'
+#' # If the table is badly formed, and has different number of columns
+#' # in each row, use `fill = TRUE` to fill in the missing values
+#' sample3 <- minimal_html("<table>
+#'   <tr><th>A</th><th>B</th><th>C</th></tr>
+#'   <tr><td colspan='2'>1</td><td>2</td></tr>
+#'   <tr><td colspan='2'>3</td></tr>
+#'   <tr><td>4</td></tr>
+#' </table>")
+#'
+#' sample3 %>%
+#'   html_node("table") %>%
 #'   html_table(fill = TRUE)
 html_table <- function(x, header = NA, trim = TRUE, fill = FALSE, dec = ".") {
   UseMethod("html_table")

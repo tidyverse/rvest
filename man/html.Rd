@@ -2,13 +2,10 @@
 % Please edit documentation in R/parse.R
 \name{html}
 \alias{html}
-\alias{read_xml.response}
 \alias{read_xml.session}
 \title{Parse an HTML page.}
 \usage{
 html(x, ..., encoding = "")
-
-\method{read_xml}{response}(x, ..., encoding = "", as_html = FALSE)
 
 \method{read_xml}{session}(x, ..., as_html = FALSE)
 }
@@ -17,11 +14,11 @@ html(x, ..., encoding = "")
 an httr request.}
 
 \item{...}{If \code{x} is a URL, additional arguments are passed on to
-\code{\link[httr]{GET}()}.}
+\code{\link[httr:GET]{httr::GET()}}.}
 
-\item{encoding}{Specify encoding of document. See \code{\link{iconvlist}()}
+\item{encoding}{Specify encoding of document. See \code{\link[=iconvlist]{iconvlist()}}
 for complete list. If you have problems determining the correct encoding,
-try \code{\link[stringi]{stri_enc_detect}}}
+try \code{\link[stringi:stri_enc_detect]{stringi::stri_enc_detect()}}}
 
 \item{as_html}{Optionally parse an xml file as if it's html.}
 }
@@ -47,4 +44,3 @@ minimal \%>\% xml_structure()
 google2 <- read_html(httr::GET("http://google.com"))
 }
 \keyword{deprecated}
-

@@ -1,4 +1,13 @@
-# rvest 0.3.2.9000
+# rvest 0.3.4
+
+* Remove unneeded `read_xml.response()` method (#242).
+
+# rvest 0.3.3
+
+* Fix `R CMD check` failure
+
+* `submit_request()` now checks for empty form-field-types to select the
+   correct submit fields (@rentrop, #159)
 
 # rvest 0.3.2
 
@@ -50,8 +59,7 @@
   and so will find `<input type=SUBMIT>` as well as`<input type="submit">`.
   
 * `submit_request()` (and hence `submit_form()`) recognizes forms with 
-  `<input type="image">` as a valid form submission button per
-  <http://www.w3.org/TR/html-markup/input.image.html>
+  `<input type="image">` as a valid form submission button.
   
 # rvest 0.2.0
 

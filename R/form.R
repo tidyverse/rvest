@@ -3,7 +3,7 @@
 #' @export
 #' @param x A node, node set or document.
 #' @seealso HTML 4.01 form specification:
-#'   \url{http://www.w3.org/TR/html401/interact/forms.html}
+#'   <http://www.w3.org/TR/html401/interact/forms.html>
 #' @examples
 #' \donttest{
 #' html_form(read_html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
@@ -251,11 +251,11 @@ set_values <- function(form, ...) {
 #' @param form Form to submit
 #' @param submit Name of submit button to use. If not supplied, defaults to
 #'   first submission button on the form (with a message).
-#' @param ... Additional arguments passed on to \code{\link[httr]{GET}()}
-#'   or \code{\link[httr]{POST}()}
+#' @param ... Additional arguments passed on to [httr::GET()]
+#'   or [httr::POST()]
 #' @return If successful, the parsed html response. Throws an error if http
 #'   request fails. To access other elements of response, construct it yourself
-#'   using the elements returned by \code{submit_request}.
+#'   using the elements returned by `submit_request`.
 #' @export
 #' @examples
 #' test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
@@ -277,7 +277,12 @@ submit_form <- function(session, form, submit = NULL, ...) {
 }
 
 submit_request <- function(form, submit = NULL) {
-  is_submit <- function(x) tolower(x$type) %in% c("submit", "image", "button")
+  is_submit <- function(x) {
+    if (length(x$type) == 0L) {
+      return(FALSE)
+    }
+    tolower(x$type) %in% c("submit", "image", "button")
+  }
 
   submits <- Filter(is_submit, form$fields)
   if (length(submits) == 0) {

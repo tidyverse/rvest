@@ -19,4 +19,3 @@ details.
 minimal_html("test")
 }
 \keyword{internal}
-

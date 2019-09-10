@@ -1,14 +1,14 @@
 #' Parse an HTML page.
 #'
-#' html is deprecated: please use \code{read_html}() instead.
+#' html is deprecated: please use `read_html`() instead.
 #'
 #' @param x A url, a local path, a string containing html, or a response from
 #'   an httr request.
-#' @param ... If \code{x} is a URL, additional arguments are passed on to
-#'   \code{\link[httr]{GET}()}.
-#' @param encoding Specify encoding of document. See \code{\link{iconvlist}()}
+#' @param ... If `x` is a URL, additional arguments are passed on to
+#'   [httr::GET()].
+#' @param encoding Specify encoding of document. See [iconvlist()]
 #'   for complete list. If you have problems determining the correct encoding,
-#'   try \code{\link[stringi]{stri_enc_detect}}
+#'   try [stringi::stri_enc_detect()]
 #' @keywords deprecated
 #' @export
 #' @examples
@@ -29,19 +29,8 @@
 #' # From an httr request
 #' google2 <- read_html(httr::GET("http://google.com"))
 html <- function(x, ..., encoding = "") {
-  .Deprecated("read_html")
+  .Deprecated("xml2::read_html")
   xml2::read_html(x, ..., encoding = encoding)
-}
-
-#' @inheritParams xml2::read_xml
-#' @export
-#' @rdname html
-read_xml.response <- function(x, ..., encoding = "", as_html = FALSE) {
-  httr::stop_for_status(x)
-  encoding <- encoding %||% default_encoding(x)
-
-  xml2::read_xml(httr::content(x, "raw"), encoding = encoding, base_url = x$url,
-    as_html = as_html)
 }
 
 default_encoding <- function(x) {
@@ -53,6 +42,7 @@ default_encoding <- function(x) {
 }
 
 #' @importFrom xml2 read_xml
+#' @inheritParams xml2::read_xml
 #' @export
 #' @rdname html
 read_xml.session <- function(x, ..., as_html = FALSE) {
@@ -64,5 +54,5 @@ read_xml.session <- function(x, ..., as_html = FALSE) {
     stop("Current page doesn't appear to be html.", call. = FALSE)
   }
 
-  read_xml.response(x$response, ..., as_html = as_html)
+  read_xml(x$response, ..., as_html = as_html)
 }

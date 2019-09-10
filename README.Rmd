@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,11 +12,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rvest
+# rvest <img src='man/figures/logo.png' align="right" height="139" />
 
-[![Build Status](https://travis-ci.org/hadley/rvest.svg?branch=master)](https://travis-ci.org/hadley/rvest)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rvest)](http://cran.r-project.org/package=rvest)
-[![Coverage Status](https://img.shields.io/codecov/c/github/hadley/rvest/master.svg)](https://codecov.io/github/hadley/rvest?branch=master)
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
+[![Travis build status](https://travis-ci.org/tidyverse/rvest.svg?branch=master)](https://travis-ci.org/tidyverse/rvest)
+[![Codecov test coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
+<!-- badges: end -->
+
+## Overview
 
 rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
 
@@ -33,8 +35,8 @@ rating <- lego_movie %>%
 rating
 
 cast <- lego_movie %>%
-  html_nodes("#titleCast .itemprop span") %>%
-  html_text()
+  html_nodes("#titleCast .primary_photo img") %>%
+  html_attr("alt")
 cast
 
 poster <- lego_movie %>%
@@ -43,26 +45,41 @@ poster <- lego_movie %>%
 poster
 ```
 
-## Overview
+## Installation
+
+Install the release version from CRAN:
+
+```{r, eval = FALSE}
+install.packages("rvest")
+```
+
+Or the development version from GitHub
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("tidyverse/rvest")
+```
+
+## Key functions
 
 The most important functions in rvest are:
 
 * Create an html document from a url, a file on disk or a string containing
   html with `read_html()`.
 
-* Select parts of a document using css selectors: `html_nodes(doc, "table td")`
-  (or if you've a glutton for punishment, use xpath selectors with
+* Select parts of a document using CSS selectors: `html_nodes(doc, "table td")`
+  (or if you've a glutton for punishment, use XPath selectors with
   `html_nodes(doc, xpath = "//table//td")`). If you haven't heard of 
   [selectorgadget](http://selectorgadget.com/), make sure to read
   `vignette("selectorgadget")` to learn about it.
 
-* Extract components with `html_tag()` (the name of the tag), `html_text()` 
+* Extract components with `html_name()` (the name of the tag), `html_text()` 
   (all text inside the tag), `html_attr()` (contents of a single attribute) and 
   `html_attrs()` (all attributes).
 
 * (You can also use rvest with XML files: parse with `xml()`, then extract 
   components using `xml_node()`, `xml_attr()`, `xml_attrs()`, `xml_text()` 
-  and `xml_tag()`.)
+  and `xml_name()`.)
 
 * Parse tables into data frames with `html_table()`.
 
@@ -78,22 +95,7 @@ The most important functions in rvest are:
 
 To see examples of these function in use, check out the demos.
 
-## Installation
-
-Install the release version from CRAN:
-
-```{r, eval = FALSE}
-install.packages("rvest")
-```
-
-Or the development version from github
-
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("hadley/rvest")
-```
-
 ## Inspirations
 
-* Python: [Robobrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
-  [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
+* Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
+  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).
