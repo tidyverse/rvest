@@ -321,13 +321,13 @@ test_that("Test rowspans are respected when fill=True", {
 
 
   table <- select %>%
-    html_nodes('table') %>% html_table(fill = TRUE)
+    html_node('table') %>% html_table(fill=T)
 
   row1 <- c('amet', 'incididunt ut labore', 'NA', 'et')
   row2 <- c('dolore', 'magna aliqua', 'NA', 'ut')
   row3 <- c('irure', 'excepteur', 'NA', 'pariatur')
 
-  expect_equal(as.character(table[[1]][3,]), row1)
-  expect_equal(as.character(table[[1]][4,]), row2)
-  expect_equal(as.character(table[[1]][10,]), row3)
+  expect_equal(as.character(table[3,]), row1)
+  expect_equal(as.character(table[4,]), row2)
+  expect_equal(as.character(table[10,]), row3)
 })
