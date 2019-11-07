@@ -99,3 +99,7 @@ To see examples of these function in use, check out the demos.
 
 * Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
   [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).
+  
+## Code of Conduct
+
+Please note that the rvest project is released with a [Contributor Code of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
