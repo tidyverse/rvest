@@ -8,21 +8,31 @@
 
 <title>Select nodes from an HTML document — html_nodes • rvest</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,36 +42,37 @@
 
 
 <meta property="og:title" content="Select nodes from an HTML document — html_nodes" />
-
 <meta property="og:description" content="More easily extract pieces out of HTML documents using XPath and CSS
 selectors. CSS selectors are particularly useful in conjunction with
 http://selectorgadget.com/: it makes it easy to find exactly
 which selector you should be using. If you haven't used CSS selectors
 before, work your way through the fun tutorial at
 http://flukeout.github.io/" />
-
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
 
+
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+  gtag('config', 'UA-115082821-1');
 </script>
+
   </head>
 
   <body>
@@ -81,7 +92,7 @@ http://flukeout.github.io/" />
         <a class="navbar-brand" href="../index.html">rvest</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
         </div>
       </div>
     </div>
@@ -89,7 +100,7 @@ http://flukeout.github.io/" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -113,7 +124,7 @@ http://flukeout.github.io/" />
 </li>
         <li>
   <a href="https://github.com/tidyverse/rvest">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -124,6 +135,7 @@ http://flukeout.github.io/" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -135,20 +147,18 @@ http://flukeout.github.io/" />
     </div>
 
     <div class="ref-description">
-    
     <p>More easily extract pieces out of HTML documents using XPath and CSS
 selectors. CSS selectors are particularly useful in conjunction with
 <a href='http://selectorgadget.com/'>http://selectorgadget.com/</a>: it makes it easy to find exactly
 which selector you should be using. If you haven't used CSS selectors
 before, work your way through the fun tutorial at
 <a href='http://flukeout.github.io/'>http://flukeout.github.io/</a></p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>html_nodes</span>(<span class='no'>x</span>, <span class='no'>css</span>, <span class='no'>xpath</span>)
 
 <span class='fu'>html_node</span>(<span class='no'>x</span>, <span class='no'>css</span>, <span class='no'>xpath</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -162,19 +172,21 @@ before, work your way through the fun tutorial at
 depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="html-node-vs-html-nodes"><a class="anchor" href="#html-node-vs-html-nodes"></a><code>html_node</code> vs <code>html_nodes</code></h2>
 
     
-    <p><code>html_node</code> is like <code>[[</code> it always extracts exactly one
+
+<p><code>html_node</code> is like <code>[[</code> it always extracts exactly one
 element. When given a list of nodes, <code>html_node</code> will always return
 a list of the same length, the length of <code>html_nodes</code> might be longer
 or shorter.</p>
-    
     <h2 class="hasAnchor" id="css-selector-support"><a class="anchor" href="#css-selector-support"></a>CSS selector support</h2>
 
     
-    <p>CSS selectors are translated to XPath selectors by the <span class="pkg">selectr</span>
+
+
+<p>CSS selectors are translated to XPath selectors by the <span class="pkg">selectr</span>
 package, which is a port of the python <span class="pkg">cssselect</span> library,
 <a href='https://pythonhosted.org/cssselect/'>https://pythonhosted.org/cssselect/</a>.</p>
 <p>It implements the majority of CSS3 selectors, as described in
@@ -192,11 +204,15 @@ exceptions are listed below:</p>
 <li><p><code>:not()</code> accepts a sequence of simple selectors, not just single
 simple selector.</p></li>
 </ul>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># CSS selectors ----------------------------------------------</span>
-<span class='no'>ateam</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"http://www.boxofficemojo.com/movies/?id=ateam.htm"</span>)
+<span class='no'>url</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(
+  <span class='st'>"https://web.archive.org/web/20190202054736/"</span>,
+  <span class='st'>"https://www.boxofficemojo.com/movies/?id=ateam.htm"</span>
+)
+<span class='no'>ateam</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='no'>url</span>)
 <span class='fu'>html_nodes</span>(<span class='no'>ateam</span>, <span class='st'>"center"</span>)</div><div class='output co'>#&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;center&gt;&lt;table border="0" cellspacing="1" cellpadding="4" bgcolor="#dcdcd ...</div><div class='input'><span class='fu'>html_nodes</span>(<span class='no'>ateam</span>, <span class='st'>"center font"</span>)</div><div class='output co'>#&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'><span class='fu'>html_nodes</span>(<span class='no'>ateam</span>, <span class='st'>"center font b"</span>)</div><div class='output co'>#&gt; {xml_nodeset (1)}
@@ -205,8 +221,8 @@ simple selector.</p></li>
 <span class='co'># You can chain subsetting:</span>
 <span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"center"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"td"</span>)</div><div class='output co'>#&gt; {xml_nodeset (7)}
 #&gt; [1] &lt;td align="center" colspan="2"&gt;&lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$7 ...
-#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/studio/chart/?studio=fox.htm"&gt; ...
-#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/schedule/?view=bydate&amp;a ...
+#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/web/20190202054736/https://www ...
+#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/http ...
 #&gt; [4] &lt;td valign="top"&gt;Genre: &lt;b&gt;Action&lt;/b&gt;\n&lt;/td&gt;\n
 #&gt; [5] &lt;td valign="top"&gt;Runtime: &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;\n&lt;/td&gt;
 #&gt; [6] &lt;td valign="top"&gt;MPAA Rating: &lt;b&gt;PG-13&lt;/b&gt;\n&lt;/td&gt;\n
@@ -215,8 +231,8 @@ simple selector.</p></li>
 <span class='no'>td</span> <span class='kw'>&lt;-</span> <span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"center"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"td"</span>)
 <span class='no'>td</span></div><div class='output co'>#&gt; {xml_nodeset (7)}
 #&gt; [1] &lt;td align="center" colspan="2"&gt;&lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$7 ...
-#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/studio/chart/?studio=fox.htm"&gt; ...
-#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/schedule/?view=bydate&amp;a ...
+#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/web/20190202054736/https://www ...
+#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/http ...
 #&gt; [4] &lt;td valign="top"&gt;Genre: &lt;b&gt;Action&lt;/b&gt;\n&lt;/td&gt;\n
 #&gt; [5] &lt;td valign="top"&gt;Runtime: &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;\n&lt;/td&gt;
 #&gt; [6] &lt;td valign="top"&gt;MPAA Rating: &lt;b&gt;PG-13&lt;/b&gt;\n&lt;/td&gt;\n
@@ -225,7 +241,7 @@ simple selector.</p></li>
 <span class='no'>td</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"font"</span>)</div><div class='output co'>#&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'><span class='co'># html_node() returns the first matching node. If there are no matching</span>
 <span class='co'># nodes, it returns a "missing" node</span>
-<span class='kw'>if</span> (<span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/packageDescription'>packageVersion</a></span>(<span class='st'>"xml2"</span>) <span class='kw'>&gt;</span> <span class='st'>"0.1.2"</span>) {
+<span class='kw'>if</span> (<span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span>(<span class='st'>"xml2"</span>) <span class='kw'>&gt;</span> <span class='st'>"0.1.2"</span>) {
   <span class='no'>td</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_node</span>(<span class='st'>"font"</span>)
 }</div><div class='output co'>#&gt; {xml_nodeset (7)}
 #&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;
@@ -237,36 +253,34 @@ simple selector.</p></li>
 #&gt; [7] &lt;NA&gt;</div><div class='input'>
 <span class='co'># To pick out an element at specified position, use magrittr::extract2</span>
 <span class='co'># which is an alias for [[</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>magrittr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘magrittr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    equals, is_less_than, not</span></div><div class='input'><span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/magrittr/topics/aliases'>extract2</a></span>(<span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://m.media-amazon.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanB ...
-#&gt; [2] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [3] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [4] &lt;img src="/img/misc/bom_logo1.png" width="245" height="56" alt="Box Offic ...
-#&gt; [5] &lt;img src="/img/misc/IMDbSm.png" width="34" height="16" alt="IMDb" valign= ...
-#&gt; [6] &lt;img src="http://b.scorecardresearch.com/p?c1=2&amp;amp;c2=6034961&amp;amp;cv=2.0 ...</div><div class='input'><span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>`[[`</span>(<span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://m.media-amazon.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanB ...
-#&gt; [2] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [3] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [4] &lt;img src="/img/misc/bom_logo1.png" width="245" height="56" alt="Box Offic ...
-#&gt; [5] &lt;img src="/img/misc/IMDbSm.png" width="34" height="16" alt="IMDb" valign= ...
-#&gt; [6] &lt;img src="http://b.scorecardresearch.com/p?c1=2&amp;amp;c2=6034961&amp;amp;cv=2.0 ...</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>magrittr</span>)
+<span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/magrittr/man/aliases.html'>extract2</a></span>(<span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
+#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
+#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
+#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>`[[`</span>(<span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
+#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
+#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
+#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'>
 <span class='co'># Find all images contained in the first two tables</span>
 <span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>`[`</span>(<span class='fl'>1</span>:<span class='fl'>2</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://m.media-amazon.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanB ...
-#&gt; [2] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [3] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [4] &lt;img src="/img/misc/bom_logo1.png" width="245" height="56" alt="Box Offic ...
-#&gt; [5] &lt;img src="/img/misc/IMDbSm.png" width="34" height="16" alt="IMDb" valign= ...
-#&gt; [6] &lt;img src="http://b.scorecardresearch.com/p?c1=2&amp;amp;c2=6034961&amp;amp;cv=2.0 ...</div><div class='input'><span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/magrittr/topics/aliases'>extract</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://m.media-amazon.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanB ...
-#&gt; [2] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [3] &lt;img src="//www.assoc-amazon.com/e/ir?t=boxofficemojo-20&amp;amp;l=as2&amp;amp;o= ...
-#&gt; [4] &lt;img src="/img/misc/bom_logo1.png" width="245" height="56" alt="Box Offic ...
-#&gt; [5] &lt;img src="/img/misc/IMDbSm.png" width="34" height="16" alt="IMDb" valign= ...
-#&gt; [6] &lt;img src="http://b.scorecardresearch.com/p?c1=2&amp;amp;c2=6034961&amp;amp;cv=2.0 ...</div><div class='input'>
+#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
+#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
+#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='no'>ateam</span> <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"table"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/magrittr/man/aliases.html'>extract</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_nodes</span>(<span class='st'>"img"</span>)</div><div class='output co'>#&gt; {xml_nodeset (6)}
+#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
+#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
+#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
+#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'>
 <span class='co'># XPath selectors ---------------------------------------------</span>
 <span class='co'># chaining with XPath is a little trickier - you may need to vary</span>
 <span class='co'># the prefix you're using - // always selects from the root node</span>
@@ -277,8 +291,8 @@ simple selector.</p></li>
 #&gt;  [1] &lt;b&gt;Adjuster:&lt;/b&gt;
 #&gt;  [2] &lt;b&gt;The A-Team&lt;/b&gt;
 #&gt;  [3] &lt;b&gt;$77,222,099&lt;/b&gt;
-#&gt;  [4] &lt;b&gt;&lt;a href="/studio/chart/?studio=fox.htm"&gt;Fox&lt;/a&gt;&lt;/b&gt;
-#&gt;  [5] &lt;b&gt;&lt;nobr&gt;&lt;a href="/schedule/?view=bydate&amp;amp;release=theatrical&amp;amp;date ...
+#&gt;  [4] &lt;b&gt;&lt;a href="/web/20190202054736/https://www.boxofficemojo.com/studio/cha ...
+#&gt;  [5] &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/https://www.boxofficemojo.com/sche ...
 #&gt;  [6] &lt;b&gt;Action&lt;/b&gt;
 #&gt;  [7] &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;
 #&gt;  [8] &lt;b&gt;PG-13&lt;/b&gt;
@@ -300,16 +314,14 @@ simple selector.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#html-node-vs-html-nodes"><code>html_node</code> vs <code>html_nodes</code></a></li>
-
       <li><a href="#css-selector-support">CSS selector support</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -322,11 +334,14 @@ simple selector.</p></li>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

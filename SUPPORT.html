@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • rvest</title>
+<title>Getting help with rvest • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -41,7 +41,7 @@
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Getting help with rvest" />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -70,7 +70,7 @@
   </head>
 
   <body>
-    <div class="container template-authors">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -135,19 +135,34 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>Authors</h1>
+      <h1>Getting help with rvest</h1>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong><a href='http://hadley.nz'>Hadley Wickham</a></strong>. Author, maintainer. 
-        </p>
-      </li>
-      <li>
-        <p><strong><a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a></strong>. Copyright holder. 
-        </p>
-      </li>
-    </ul>
+<div id="getting-help-with-rvest" class="section level1">
+
+<p>Thanks for using rvest! Before filing an issue, there are a few places to explore and pieces to put together to make the process as smooth as possible.</p>
+<div id="make-a-reprex" class="section level2">
+<h2 class="hasAnchor">
+<a href="#make-a-reprex" class="anchor"></a>Make a reprex</h2>
+<p>Start by making a minimal <strong>repr</strong>oducible <strong>ex</strong>ample using the <a href="https://reprex.tidyverse.org/">reprex</a> package. If you haven’t heard of or used reprex before, you’re in for a treat! Seriously, reprex will make all of your R-question-asking endeavors easier (which is a pretty insane ROI for the five to ten minutes it’ll take you to learn what it’s all about). For additional reprex pointers, check out the <a href="https://www.tidyverse.org/help/">Get help!</a> section of the tidyverse site.</p>
+</div>
+<div id="where-to-ask" class="section level2">
+<h2 class="hasAnchor">
+<a href="#where-to-ask" class="anchor"></a>Where to ask?</h2>
+<p>Armed with your reprex, the next step is to figure out <a href="https://www.tidyverse.org/help/#where-to-ask">where to ask</a>.</p>
+<ul>
+<li><p>If it’s a question: start with <a href="https://community.rstudio.com/">community.rstudio.com</a>, and/or StackOverflow. There are more people there to answer questions.</p></li>
+<li><p>If it’s a bug: you’re in the right place, <a href="https://github.com/tidyverse/rvest/issues/new">file an issue</a>.</p></li>
+<li><p>If you’re not sure: let the community help you figure it out! If your problem <em>is</em> a bug or a feature request, you can easily return here and report it.</p></li>
+</ul>
+<p>Before opening a new issue, be sure to <a href="https://github.com/tidyverse/rvest/issues">search issues and pull requests</a> to make sure the bug hasn’t been reported and/or already fixed in the development version. By default, the search will be pre-populated with <code>is:issue is:open</code>. You can <a href="https://help.github.com/articles/searching-issues-and-pull-requests/">edit the qualifiers</a> (e.g. <code>is:pr</code>, <code>is:closed</code>) as needed. For example, you’d simply remove <code>is:open</code> to search <em>all</em> issues in the repo, open or closed.</p>
+</div>
+<div id="what-happens-next" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-happens-next" class="anchor"></a>What happens next?</h2>
+<p>To be as efficient as possible, development of tidyverse packages tends to be very bursty, so you shouldn’t worry if you don’t get an immediate response. Typically we don’t look at a repo until a sufficient quantity of issues accumulates, then there’s a burst of intense activity as we focus our efforts. That makes development more efficient because it avoids expensive context switching between problems, at the cost of taking longer to get back to you. This process makes a good reprex particularly important because it might be multiple months between your initial report and when we start working on it. If we can’t reproduce the bug, we can’t fix it!</p>
+</div>
+</div>
 
   </div>
 
