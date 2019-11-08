@@ -58,7 +58,11 @@ simple selector.
 
 \examples{
 # CSS selectors ----------------------------------------------
-ateam <- read_html("http://www.boxofficemojo.com/movies/?id=ateam.htm")
+url <- paste0(
+  "https://web.archive.org/web/20190202054736/",
+  "https://www.boxofficemojo.com/movies/?id=ateam.htm"
+)
+ateam <- read_html(url)
 html_nodes(ateam, "center")
 html_nodes(ateam, "center font")
 html_nodes(ateam, "center font b")
