@@ -1,4 +1,4 @@
-# rvest (development version)
+# rvest 0.3.5
 
 * Use web archive to fix broken example.
 
