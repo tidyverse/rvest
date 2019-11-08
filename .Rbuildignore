@@ -11,3 +11,4 @@
 ^revdep$
 ^codecov\.yml$
 ^\.github$
+^LICENSE\.md$
