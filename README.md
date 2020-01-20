@@ -22,7 +22,7 @@ easy to express common web scraping tasks, inspired by libraries like
 
 ``` r
 library(rvest)
-lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
+lego_movie <- xml2::read_html("http://www.imdb.com/title/tt1490017/")
 
 rating <- lego_movie %>% 
   html_nodes("strong span") %>%
@@ -68,7 +68,7 @@ devtools::install_github("tidyverse/rvest")
 The most important functions in rvest are:
 
   - Create an html document from a url, a file on disk or a string
-    containing html with `read_html()`.
+    containing html with `xml2::read_html()`.
 
   - Select parts of a document using CSS selectors: `html_nodes(doc,
     "table td")` (or if you’ve a glutton for punishment, use XPath
