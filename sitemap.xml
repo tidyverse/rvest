@@ -58,6 +58,9 @@
     <loc>https://rvest.tidyverse.org/reference/xml.html</loc>
   </url>
   <url>
+    <loc>https://rvest.tidyverse.org/articles/harvesting-the-web.html</loc>
+  </url>
+  <url>
     <loc>https://rvest.tidyverse.org/articles/selectorgadget.html</loc>
   </url>
 </urlset>

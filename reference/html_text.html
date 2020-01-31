@@ -110,6 +110,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/harvesting-the-web.html">Harvesting the web with rvest</a>
+    </li>
+    <li>
       <a href="../articles/selectorgadget.html">SelectorGadget</a>
     </li>
   </ul>
@@ -183,9 +186,48 @@ not exist in every node.</p></td>
 vector; <code>html_attrs</code>, a list.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>movie</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"http://www.imdb.com/title/tt1490017/"</span>)
-<span class='no'>cast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span>(<span class='no'>movie</span>, <span class='st'>"#titleCast span.itemprop"</span>)
-<span class='fu'>html_text</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>html_name</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>html_attrs</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; list()</div><div class='input'><span class='fu'>html_attr</span>(<span class='no'>cast</span>, <span class='st'>"class"</span>)</div><div class='output co'>#&gt; character(0)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>movie</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"https://en.wikipedia.org/wiki/The_Lego_Movie"</span>)
+<span class='no'>cast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span>(<span class='no'>movie</span>, <span class='st'>"tr:nth-child(8) .plainlist a"</span>)
+<span class='fu'>html_text</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; [1] "Chris Pratt"     "Will Ferrell"    "Elizabeth Banks" "Will Arnett"    
+#&gt; [5] "Nick Offerman"   "Alison Brie"     "Charlie Day"     "Liam Neeson"    
+#&gt; [9] "Morgan Freeman" </div><div class='input'><span class='fu'>html_name</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; [1] "a" "a" "a" "a" "a" "a" "a" "a" "a"</div><div class='input'><span class='fu'>html_attrs</span>(<span class='no'>cast</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt;                href               title 
+#&gt; "/wiki/Chris_Pratt"       "Chris Pratt" 
+#&gt; 
+#&gt; [[2]]
+#&gt;                 href                title 
+#&gt; "/wiki/Will_Ferrell"       "Will Ferrell" 
+#&gt; 
+#&gt; [[3]]
+#&gt;                    href                   title 
+#&gt; "/wiki/Elizabeth_Banks"       "Elizabeth Banks" 
+#&gt; 
+#&gt; [[4]]
+#&gt;                href               title 
+#&gt; "/wiki/Will_Arnett"       "Will Arnett" 
+#&gt; 
+#&gt; [[5]]
+#&gt;                  href                 title 
+#&gt; "/wiki/Nick_Offerman"       "Nick Offerman" 
+#&gt; 
+#&gt; [[6]]
+#&gt;                href               title 
+#&gt; "/wiki/Alison_Brie"       "Alison Brie" 
+#&gt; 
+#&gt; [[7]]
+#&gt;                href               title 
+#&gt; "/wiki/Charlie_Day"       "Charlie Day" 
+#&gt; 
+#&gt; [[8]]
+#&gt;                href               title 
+#&gt; "/wiki/Liam_Neeson"       "Liam Neeson" 
+#&gt; 
+#&gt; [[9]]
+#&gt;                   href                  title 
+#&gt; "/wiki/Morgan_Freeman"       "Morgan Freeman" 
+#&gt; </div><div class='input'><span class='fu'>html_attr</span>(<span class='no'>cast</span>, <span class='st'>"href"</span>)</div><div class='output co'>#&gt; [1] "/wiki/Chris_Pratt"     "/wiki/Will_Ferrell"    "/wiki/Elizabeth_Banks"
+#&gt; [4] "/wiki/Will_Arnett"     "/wiki/Nick_Offerman"   "/wiki/Alison_Brie"    
+#&gt; [7] "/wiki/Charlie_Day"     "/wiki/Liam_Neeson"     "/wiki/Morgan_Freeman" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -71,6 +71,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/harvesting-the-web.html">Harvesting the web with rvest</a>
+    </li>
+    <li>
       <a href="../articles/selectorgadget.html">SelectorGadget</a>
     </li>
   </ul>
@@ -100,7 +103,6 @@
       <h1>SelectorGadget</h1>
                         <h4 class="author">Hadley Wickham</h4>
             
-            <h4 class="date">2019-11-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/rvest/blob/master/vignettes/selectorgadget.Rmd"><code>vignettes/selectorgadget.Rmd</code></a></small>
       <div class="hidden name"><code>selectorgadget.Rmd</code></div>
@@ -109,6 +111,12 @@
 
     
     
+<style>
+img {
+border: 0px;
+outline: 0 ;
+}
+</style>
 <p>SelectorGadget is a JavaScript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -128,19 +136,19 @@
 <ol style="list-style-type: decimal">
 <li>
 <p>Navigate to the page and scroll to the actors list.</p>
-<p><img src="selectorgadget-1.png" width="500" height="535"></p>
+<p><img src="selectorgadget-1-s.png" width="height="></p>
 </li>
 <li>
 <p>Click on the SelectorGadget link in the bookmarks. The SelectorGadget console will appear at the bottom of the screen, and element currently under the mouse will be highlighted in orange.</p>
-<p><img src="selectorgadget-2.png" width="500" height="535"></p>
+<p><img src="selectorgadget-2-s.png" width="height="></p>
 </li>
 <li>
-<p>Click on the element you want to select (the name of an actor). The element you selected will be highlighted in green. SelectorGadget guesses which css selector you want (<code>.itemprop</code> in this case), and highlights all matches in yellow.</p>
-<p><img src="selectorgadget-3.png" width="500" height="535"></p>
+<p>Click on the element you want to select (the name of an actor). The element you selected will be highlighted in green. SelectorGadget guesses which css selector you want (<code>a</code> in this case), and highlights all matches in yellow (see total count equal to 592 as indicated on on the “Clear” button). This seems to be a little too excessive.</p>
+<p><img src="selectorgadget-3-s.png" width="height="></p>
 </li>
 <li>
-<p>Scroll around the document to find elements that you don’t want to match and click on them. For example, we don’t to match the title of the movie, so we click on it and it turns red. The css selector updates to <code>#titleCast .itemprop</code>.</p>
-<p><img src="selectorgadget-4.png" width="500" height="535"><img src="selectorgadget-5.png" width="500" height="535"></p>
+<p>Scroll around the document to find elements that you don’t want to match and click on them. For example, we don’t to match the character the actor contributed to, so we click on it and it turns red. The css selector updates to <code>.primary_photo+ td a</code>.</p>
+<p><img src="selectorgadget-4-s.png" width="height="><img src="selectorgadget-5-s.png" width="height="></p>
 </li>
 </ol>
 <p>Once we’ve determined the css selector, we can use it in R to extract the values we want:</p>
@@ -156,25 +164,24 @@
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; [1] &lt;a href="/name/nm0004715/?ref_=tt_cl_t1"&gt; Will Arnett\n&lt;/a&gt;</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; [2] &lt;a href="/name/nm0006969/?ref_=tt_cl_t2"&gt; Elizabeth Banks\n&lt;/a&gt;</span></a></code></pre></div>
 <p>Finally, we can extract the text from the selected HTML nodes.</p>
+<p>Looking carefully at this output, we see twice as many matches as we expected. That’s because we’ve selected both the table cell and the text inside the cell. We can experiment with selectorgadget to find a better match or look at the html directly.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/html_text.html">html_text</a></span>(cast, <span class="dt">trim =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;  [7] "Charlie Day"     "Amanda Farinos"  "Keith Ferguson" </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; [10] "Will Ferrell"    "Will Forte"      "Dave Franco"    </span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    </span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" </span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    </span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"</span></a></code></pre></div>
 <p>Let’s say we’re also interested in extracting the links to the actors’ pages. We can access html attributes of the selected nodes using <code><a href="../reference/html_text.html">html_attrs()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cast_attrs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/html_text.html">html_attrs</a></span>(cast)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(cast_attrs)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; [1] 15</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">cast_attrs[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;                             href </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; "/name/nm0004715/?ref_=tt_cl_t1" </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [[2]]</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;                             href </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; "/name/nm0006969/?ref_=tt_cl_t2"</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(cast_attrs)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] 15</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">cast_attrs[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;                             href </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; "/name/nm0004715/?ref_=tt_cl_t1" </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;                             href </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; "/name/nm0006969/?ref_=tt_cl_t2"</span></a></code></pre></div>
 <p>As we can see there’s only one attribute called <code>href</code> which contains relative url to the actor’s page. We can extract it using <code><a href="../reference/html_text.html">html_attr()</a></code>, indicating the name of the attribute of interest. Relative urls can be turned to absolute urls using <code>url_absolute()</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cast_rel_urls &lt;-<span class="st"> </span><span class="kw"><a href="../reference/html_text.html">html_attr</a></span>(cast, <span class="st">"href"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(cast_rel_urls)</a>
