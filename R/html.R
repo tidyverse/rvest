@@ -5,12 +5,12 @@
 #' @inheritParams xml2::xml_text
 #' @export
 #' @examples
-#' movie <- read_html("http://www.imdb.com/title/tt1490017/")
-#' cast <- html_nodes(movie, "#titleCast span.itemprop")
+#' movie <- read_html("https://en.wikipedia.org/wiki/The_Lego_Movie")
+#' cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
 #' html_text(cast)
 #' html_name(cast)
 #' html_attrs(cast)
-#' html_attr(cast, "class")
+#' html_attr(cast, "href")
 html_text <- function(x, trim = FALSE) {
   xml2::xml_text(x, trim = trim)
 }
