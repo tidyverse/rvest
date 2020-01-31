@@ -7,8 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
-[![Travis build
-status](https://travis-ci.org/tidyverse/rvest.svg?branch=master)](https://travis-ci.org/tidyverse/rvest)
+[![R build
+status](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
@@ -35,10 +35,9 @@ cast <- lego_movie %>%
   html_nodes("#titleCast .primary_photo img") %>%
   html_attr("alt")
 cast
-#>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"    
-#>  [4] "Alison Brie"     "David Burrows"   "Anthony Daniels"
-#>  [7] "Charlie Day"     "Amanda Farinos"  "Keith Ferguson" 
-#> [10] "Will Ferrell"    "Will Forte"      "Dave Franco"    
+#>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    
+#>  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" 
+#>  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    
 #> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"
 
 poster <- lego_movie %>%
@@ -107,4 +106,6 @@ To see examples of these function in use, check out the demos.
 
 ## Code of Conduct
 
-Please note that the rvest project is released with a [Contributor Code of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the rvest project is released with a [Contributor Code
+of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.

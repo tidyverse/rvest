@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
-[![Travis build status](https://travis-ci.org/tidyverse/rvest.svg?branch=master)](https://travis-ci.org/tidyverse/rvest)
+[![R build status](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest)
 [![Codecov test coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
 
