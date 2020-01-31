@@ -1,7 +1,6 @@
 ---
 title: "SelectorGadget"
 author: "Hadley Wickham"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Selectorgadget}

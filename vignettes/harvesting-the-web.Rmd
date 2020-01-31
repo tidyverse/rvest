@@ -1,7 +1,6 @@
 ---
 title: "Harvesting the web with rvest"
 author: "Dmytro Perepolkin"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Harvesting the web with rvest}
