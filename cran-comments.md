@@ -11,13 +11,4 @@
 
 ## revdepcheck results
 
-We checked 111 reverse dependencies (105 from CRAN + 6 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
-
- * We saw 0 new problems
- * We failed to check 1 packages
-
-Issues with CRAN packages are summarised below.
-
-### Failed to check
-
-* petro.One (NA)
+This release just fixes an example that was failing on CRAN so I did not run the revdeps.
