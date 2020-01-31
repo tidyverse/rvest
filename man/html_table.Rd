@@ -10,7 +10,7 @@ html_table(x, header = NA, trim = TRUE, fill = FALSE, dec = ".")
 \item{x}{A node, node set or document.}
 
 \item{header}{Use first row as header? If \code{NA}, will use first row
-if it consists of \code{<th>} tags.}
+if it consists of \verb{<th>} tags.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
 

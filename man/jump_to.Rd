@@ -29,7 +29,7 @@ depending on whether you want to use a CSS or XPath 1.0 selector.}
 }
 \description{
 \code{jump_to()} takes a url (either relative or absolute);
-\code{follow_link} takes an expression that refers to a link (an \code{<a>}
+\code{follow_link} takes an expression that refers to a link (an \verb{<a>}
 tag) on the current page.
 }
 \examples{
