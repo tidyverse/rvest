@@ -25,8 +25,3 @@ using the elements returned by \code{submit_request}.
 \description{
 Submit a form back to the server.
 }
-\examples{
-test <- google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
-f0 <- html_form(test)[[1]]
-f1 <- set_values(f0, entry.564397473 = "abc")
-}
