@@ -1,4 +1,4 @@
-# rvest (development version)
+# rvest 0.3.6
 
 * Remove failing example
 
