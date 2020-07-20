@@ -10,7 +10,6 @@ template:
 reference:
 - title: Extract data from HTML
   contents:
-  - html
   - html_form
   - html_nodes
   - html_table

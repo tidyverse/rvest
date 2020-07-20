@@ -64,10 +64,7 @@ devtools::install_github("tidyverse/rvest")
 
 ## Key functions
 
-The most important functions in rvest are:
-
-  - Create an html document from a url, a file on disk or a string
-    containing html with `read_html()`.
+Once you have read a HTML document with `read_html()`, you can:
 
   - Select parts of a document using CSS selectors: `html_nodes(doc,
     "table td")` (or if you’ve a glutton for punishment, use XPath

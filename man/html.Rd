@@ -23,7 +23,7 @@ try \code{\link[stringi:stri_enc_detect]{stringi::stri_enc_detect()}}}
 \item{as_html}{Optionally parse an xml file as if it's html.}
 }
 \description{
-html is deprecated: please use \code{read_html}() instead.
+html is deprecated: please use \code{xml2::read_html()} instead.
 }
 \examples{
 # From a url:
@@ -43,4 +43,4 @@ minimal \%>\% xml_structure()
 # From an httr request
 google2 <- read_html(httr::GET("http://google.com"))
 }
-\keyword{deprecated}
+\keyword{internal}

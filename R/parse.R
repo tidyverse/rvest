@@ -1,6 +1,6 @@
 #' Parse an HTML page.
 #'
-#' html is deprecated: please use `read_html`() instead.
+#' html is deprecated: please use `xml2::read_html()` instead.
 #'
 #' @param x A url, a local path, a string containing html, or a response from
 #'   an httr request.
@@ -9,7 +9,7 @@
 #' @param encoding Specify encoding of document. See [iconvlist()]
 #'   for complete list. If you have problems determining the correct encoding,
 #'   try [stringi::stri_enc_detect()]
-#' @keywords deprecated
+#' @keywords internal
 #' @export
 #' @examples
 #' # From a url:
