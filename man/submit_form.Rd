@@ -19,8 +19,7 @@ or \code{\link[httr:POST]{httr::POST()}}}
 }
 \value{
 If successful, the parsed html response. Throws an error if http
-request fails. To access other elements of response, construct it yourself
-using the elements returned by \code{submit_request}.
+request fails.
 }
 \description{
 Submit a form back to the server.

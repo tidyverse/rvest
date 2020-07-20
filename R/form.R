@@ -254,8 +254,7 @@ set_values <- function(form, ...) {
 #' @param ... Additional arguments passed on to [httr::GET()]
 #'   or [httr::POST()]
 #' @return If successful, the parsed html response. Throws an error if http
-#'   request fails. To access other elements of response, construct it yourself
-#'   using the elements returned by `submit_request`.
+#'   request fails.
 #' @export
 submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
