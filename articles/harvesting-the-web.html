@@ -131,8 +131,8 @@ outline: 0 ;
 <div id="css-selectors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#css-selectors" class="anchor"></a>CSS Selectors</h2>
-<p>CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is <strong>CSS selectors</strong>. CSS selectors represent <em>patterns</em> for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. Selectorgadget (see <code><a href="../articles/selectorgadget.html">vignette("selectorgadget")</a></code>) implements a quick way of plucking HTML elements using CSS selectors.</p>
-<p>Lets have a look at the IMDB page for the <a href="https://www.imdb.com/title/tt1490017/">Lego Movie</a> and inspect the content of the page behind the fist entry in the Cast table. If you are using Chrome-based browser (either Google Chrome or Chrimium, which would be required if you want to use SelectorGadget add-on) you can right-click the element you want to inspect and select Inspect (or use respective shortcut).</p>
+<p>CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is <strong>CSS selectors</strong>. CSS selectors represent <em>patterns</em> for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. SelectorGadget (see <code><a href="../articles/selectorgadget.html">vignette("selectorgadget")</a></code>) implements a quick way of plucking HTML elements using CSS selectors.</p>
+<p>Lets have a look at the IMDB page for the <a href="https://www.imdb.com/title/tt1490017/">Lego Movie</a> and inspect the content of the page behind the fist entry in the Cast table. You can right-click the element you want to inspect and select Inspect or Inspect Element, depending on your browser.</p>
 <p><img src="harvesting-web-2-s.png" width="509" height="540"></p>
 <p>This will open Developer Tools with the Elements tab containing full HTML content of the page in the tree view, focused on the element you chose to inspect.</p>
 <p><img src="harvesting-web-3-s.png" width="height="></p>
@@ -143,7 +143,7 @@ outline: 0 ;
 <p><img src="harvesting-web-5-s.png" width="height="></p>
 <p>Another useful selector is for tags with a special attribute “id”. Selector for the tags with this attribute can be composed with symbol <code>#</code> prepending the attribute value. This selector can be combined with another one as in the example below.</p>
 <p><img src="harvesting-web-6-s.png" width="height="></p>
-<p>Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combintion, but you can always inspect the page and adjust CSS selector as needed. Here’s more realistic example of CSS selector suggested by SelectorGadget (from <code>vignette("selectogadget")</code>) which might be interpreted as: “Select tag <code>a</code> which is descendant of a tag <code>td</code> immediately following a tag with a class set to <code>.primary_photo</code>”.</p>
+<p>Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combination, but you can always inspect the page and adjust CSS selector as needed. Here’s more realistic example of CSS selector suggested by SelectorGadget (from <code>vignette("selectogadget")</code>) which might be interpreted as: “Select tag <code>a</code> which is descendant of a tag <code>td</code> immediately following a tag with a class set to <code>.primary_photo</code>”.</p>
 <p><img src="harvesting-web-7-s.png" width="height="></p>
 <p>The tag with <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> sign indicates that we are interested not in the one identified by the selector, but the one “immediately following” it. In the example above, the tag containing the actor name does not have the “class” attribute, but it is located between (on the same level with) two other <code>td</code> tags: <code>td</code> tag with class set to <code>primary_photo</code> and <code>td</code> tag with class set to <code>character</code>. Therefore, SelectorGadget suggested the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> syntax to locate the exact tag we need.</p>
 <p>Overview of other useful CSS selectors can be found online, for example <a href="https://www.w3schools.com/cssref/css_selectors.asp">here</a></p>
@@ -231,7 +231,7 @@ outline: 0 ;
 <span class="co">#&gt; 4       Blake /  \n            Additional Voices \n  \n  \n  (voice)</span>
 <span class="co">#&gt; 5                                       Unikitty \n  \n  \n  (voice)</span>
 <span class="co">#&gt; 6 Octan Robot /  \n            Additional Voices \n  \n  \n  (voice)</span></pre></body></html></div>
-<p>The most basic content in HTML is text. It can be located between the opening and the closing tag of the “tag bracket” (sometimes along with other “descendent” tags). The text (from current and all “children” tags) can be extracted with <code><a href="../reference/html_text.html">html_text()</a></code>. Lets extract text out of the first character node.</p>
+<p>The most basic content in HTML is text. It can be located between the opening and the closing tag of the “tag bracket” (sometimes along with other “descendant” tags). The text (from current and all “children” tags) can be extracted with <code><a href="../reference/html_text.html">html_text()</a></code>. Lets extract text out of the first character node.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span>()
 <span class="co">#&gt; [1] "\n            Batman /  \n            Bruce Wayne \n  \n  \n  (voice)\n  \n                  \n          "</span></pre></body></html></div>
@@ -271,7 +271,7 @@ outline: 0 ;
   <span class="fu"><a href="../reference/html_text.html">html_children</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span>()
 <span class="co">#&gt; [1] "Batman"      "Bruce Wayne"</span></pre></body></html></div>
-<p>However, there’s no suitable “CSS selector” to exclude child nodes and extract only text from the “parent” node. This is the situation where <code>xpath</code> selector can be more powerful. In addition to traversing the html/xml tree, <code>xpath</code> also has its own “extractor” functions, similar to those of <code>rvest</code>. In particular, here will will use <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> applied to “current node only” (this is the meanning of <code>./</code> in the following code). We also use <code>normalize-space()</code> function, which drops empty strings.</p>
+<p>However, there’s no suitable “CSS selector” to exclude child nodes and extract only text from the “parent” node. This is the situation where <code>xpath</code> selector can be more powerful. In addition to traversing the html/xml tree, <code>xpath</code> also has its own “extractor” functions, similar to those of <code>rvest</code>. In particular, here will will use <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> applied to “current node only” (this is the meaning of <code>./</code> in the following code). We also use <code>normalize-space()</code> function, which drops empty strings.</p>
 <p>Note that the <code>xpath</code> internal function <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> has simplified the content, but <code><a href="../reference/html_nodes.html">html_nodes()</a></code> is unaware of it and still returns <code>xml_nodeset</code>.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="kw">xpath</span><span class="kw">=</span><span class="st">"./text()[normalize-space()]"</span>)
@@ -283,7 +283,7 @@ outline: 0 ;
   <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="kw">xpath</span><span class="kw">=</span><span class="st">"./text()[normalize-space()]"</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span>(<span class="kw">trim</span><span class="kw">=</span><span class="fl">TRUE</span>)
 <span class="co">#&gt; [1] "/"       "(voice)"</span></pre></body></html></div>
-<p>Please, refer to <a href="https://www.w3schools.com/xml/xpath_syntax.asp">Xpath syntax reference here</a> to learn more how to compose and use <code>xpath</code> to locate elements inside HTML tree.</p>
+<p>Please, refer to <a href="https://www.w3schools.com/xml/xpath_syntax.asp">XPath syntax reference here</a> to learn more how to compose and use <code>xpath</code> to locate elements inside HTML tree.</p>
 </div>
   </div>
 
