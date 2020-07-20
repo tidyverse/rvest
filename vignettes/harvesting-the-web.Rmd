@@ -53,9 +53,9 @@ You can learn more about HTML tags and attributes from online resources, such as
 
 ## CSS Selectors
 
-CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is **CSS selectors**. CSS selectors represent *patterns* for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. Selectorgadget (see `vignette("selectorgadget")`) implements a quick way of plucking HTML elements using CSS selectors.
+CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is **CSS selectors**. CSS selectors represent *patterns* for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. SelectorGadget (see `vignette("selectorgadget")`) implements a quick way of plucking HTML elements using CSS selectors.
 
-Lets have a look at the IMDB page for the [Lego Movie](https://www.imdb.com/title/tt1490017/) and inspect the content of the page behind the fist entry in the Cast table. If you are using Chrome-based browser (either Google Chrome or Chrimium, which would be required if you want to use SelectorGadget add-on) you can right-click the element you want to inspect and select Inspect (or use respective shortcut). 
+Lets have a look at the IMDB page for the [Lego Movie](https://www.imdb.com/title/tt1490017/) and inspect the content of the page behind the fist entry in the Cast table. You can right-click the element you want to inspect and select Inspect or Inspect Element, depending on your browser. 
 
 ```{r, echo=FALSE}
 embed_png("harvesting-web-2-s.png")
@@ -87,7 +87,7 @@ Another useful selector is for tags with a special attribute "id". Selector for 
 embed_png("harvesting-web-6-s.png")
 ```
 
-Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combintion, but you can always inspect the page and adjust CSS selector as needed. Here's more realistic example of CSS selector suggested by SelectorGadget (from `vignette("selectogadget")`) which might be interpreted as: "Select tag `a` which is descendant of a tag `td` immediately following a tag with a class set to `.primary_photo`".
+Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combination, but you can always inspect the page and adjust CSS selector as needed. Here's more realistic example of CSS selector suggested by SelectorGadget (from `vignette("selectogadget")`) which might be interpreted as: "Select tag `a` which is descendant of a tag `td` immediately following a tag with a class set to `.primary_photo`".
 
 ```{r, echo=FALSE}
 embed_png("harvesting-web-7-s.png")
@@ -133,7 +133,7 @@ html_node(html,".cast_list") %>%
   head()
 ```
 
-The most basic content in HTML is text. It can be located between the opening and the closing tag of the "tag bracket" (sometimes along with other "descendent" tags). The text (from current and all "children" tags) can be extracted with `html_text()`. Lets extract text out of the first character node.
+The most basic content in HTML is text. It can be located between the opening and the closing tag of the "tag bracket" (sometimes along with other "descendant" tags). The text (from current and all "children" tags) can be extracted with `html_text()`. Lets extract text out of the first character node.
 
 ```{r}
 html_node(html, ".cast_list .character") %>% 
@@ -171,7 +171,7 @@ html_node(html, ".cast_list .character") %>%
   html_text()
 ```
 
-However, there's no suitable "CSS selector" to exclude child nodes and extract only text from the "parent" node. This is the situation where `xpath` selector can be more powerful. In addition to traversing the html/xml tree, `xpath` also has its own "extractor" functions, similar to those of `rvest`. In particular, here will will use `text()` applied to "current node only" (this is the meanning of `./` in the following code). We also use `normalize-space()` function, which drops empty strings.
+However, there's no suitable "CSS selector" to exclude child nodes and extract only text from the "parent" node. This is the situation where `xpath` selector can be more powerful. In addition to traversing the html/xml tree, `xpath` also has its own "extractor" functions, similar to those of `rvest`. In particular, here will will use `text()` applied to "current node only" (this is the meaning of `./` in the following code). We also use `normalize-space()` function, which drops empty strings.
 
 Note that the `xpath` internal function `text()` has simplified the content, but `html_nodes()` is unaware of it and still returns `xml_nodeset`.
 
@@ -187,4 +187,4 @@ html_node(html, ".cast_list .character") %>%
   html_text(trim=TRUE)
 ```
 
-Please, refer to [Xpath syntax reference here](https://www.w3schools.com/xml/xpath_syntax.asp) to learn more how to compose and use `xpath` to locate elements inside HTML tree. 
+Please, refer to [XPath syntax reference here](https://www.w3schools.com/xml/xpath_syntax.asp) to learn more how to compose and use `xpath` to locate elements inside HTML tree. 

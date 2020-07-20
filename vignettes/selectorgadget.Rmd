@@ -3,7 +3,7 @@ title: "SelectorGadget"
 author: "Hadley Wickham"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Selectorgadget}
+  %\VignetteIndexEntry{SelectorGadget}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

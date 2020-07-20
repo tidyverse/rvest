@@ -1,5 +1,6 @@
 arounds
 bookmarklet
+Codecov
 colspan
 colspans
 config
@@ -11,12 +12,14 @@ IMDB
 ith
 libxml
 magrittr
+nodeset
+nodesets
+prepending
 RoboBrowser
 rowspan
 rowspans
 selectorgadget
 SelectorGadget
 stringi
-www
 xpath
 XPath
