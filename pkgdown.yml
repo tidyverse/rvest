@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   harvesting-the-web: harvesting-the-web.html
   selectorgadget: selectorgadget.html
-last_built: 2020-07-27T12:32Z
+last_built: 2020-07-27T12:34Z
 urls:
   reference: https://rvest.tidyverse.org/reference
   article: https://rvest.tidyverse.org/articles
