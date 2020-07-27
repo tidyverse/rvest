@@ -95,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">rvest</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
         </div>
       </div>
     </div>
@@ -196,15 +196,6 @@ try <code><a href='https://rdrr.io/pkg/stringi/man/stri_enc_detect.html'>stringi
 #&gt;     &lt;meta [content, name]&gt;
 #&gt;     &lt;meta [content, http-equiv]&gt;
 #&gt;     &lt;meta [content, itemprop]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
-#&gt;     &lt;meta [content, property]&gt;
 #&gt;     &lt;title&gt;
 #&gt;       {text}
 #&gt;     &lt;script [nonce]&gt;
@@ -266,9 +257,8 @@ try <code><a href='https://rdrr.io/pkg/stringi/man/stri_enc_detect.html'>stringi
 #&gt;     &lt;center&gt;
 #&gt;       &lt;br [clear, id]&gt;
 #&gt;       &lt;div [id]&gt;
-#&gt;         &lt;a [href]&gt;
-#&gt;           &lt;img [alt, border, height, src, title, width, id]&gt;
-#&gt;           &lt;br&gt;
+#&gt;         &lt;img [alt, height, src, style, width, id]&gt;
+#&gt;         &lt;br&gt;
 #&gt;         &lt;br&gt;
 #&gt;       &lt;form [action, name]&gt;
 #&gt;         &lt;table [cellpadding, cellspacing]&gt;
@@ -302,6 +292,14 @@ try <code><a href='https://rdrr.io/pkg/stringi/man/stri_enc_detect.html'>stringi
 #&gt;       &lt;div [id]&gt;
 #&gt;       &lt;div [style]&gt;
 #&gt;         &lt;br&gt;
+#&gt;         &lt;div [id]&gt;
+#&gt;           &lt;style&gt;
+#&gt;             {cdata}
+#&gt;           &lt;div [class, data-ved]&gt;
+#&gt;             &lt;span&gt;
+#&gt;               {text}
+#&gt;             &lt;a [class, href, rel]&gt;
+#&gt;               {text}
 #&gt;       &lt;span [id]&gt;
 #&gt;         &lt;div [style]&gt;
 #&gt;           &lt;div [style, id]&gt;
@@ -319,18 +317,20 @@ try <code><a href='https://rdrr.io/pkg/stringi/man/stri_enc_detect.html'>stringi
 #&gt;           &lt;a [href]&gt;
 #&gt;             {text}
 #&gt;     &lt;script [nonce]&gt;
-#&gt;       {cdata}</div><div class='input'><span class='no'>google</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span>(<span class='st'>"div"</span>)</div><div class='output co'>#&gt; {xml_nodeset (11)}
+#&gt;       {cdata}</div><div class='input'><span class='no'>google</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span>(<span class='st'>"div"</span>)</div><div class='output co'>#&gt; {xml_nodeset (13)}
 #&gt;  [1] &lt;div id="mngb"&gt;\n&lt;div id="gbar"&gt;&lt;nobr&gt;&lt;b class="gb1"&gt;Search&lt;/b&gt; &lt;a class ...
 #&gt;  [2] &lt;div id="gbar"&gt;&lt;nobr&gt;&lt;b class="gb1"&gt;Search&lt;/b&gt; &lt;a class="gb1" href="http ...
 #&gt;  [3] &lt;div id="guser" width="100%"&gt;&lt;nobr&gt;&lt;span id="gbn" class="gbi"&gt;&lt;/span&gt;&lt;sp ...
 #&gt;  [4] &lt;div class="gbh" style="left:0"&gt;&lt;/div&gt;\n
 #&gt;  [5] &lt;div class="gbh" style="right:0"&gt;&lt;/div&gt;
-#&gt;  [6] &lt;div id="lga"&gt;\n&lt;a href="/search?ie=UTF-8&amp;amp;q=Dilhan+Eryurt&amp;amp;oi=ddl ...
+#&gt;  [6] &lt;div id="lga"&gt;\n&lt;img alt="Google" height="92" src="/images/branding/goog ...
 #&gt;  [7] &lt;div class="ds" style="height:32px;margin:4px 0"&gt;&lt;input class="lst" styl ...
 #&gt;  [8] &lt;div id="gac_scont"&gt;&lt;/div&gt;\n
-#&gt;  [9] &lt;div style="font-size:83%;min-height:3.5em"&gt;&lt;br&gt;&lt;/div&gt;\n
-#&gt; [10] &lt;div style="font-size:10pt"&gt;&lt;div style="margin:19px auto;text-align:cent ...
-#&gt; [11] &lt;div style="margin:19px auto;text-align:center" id="fll"&gt;\n&lt;a href="/int ...</div><div class='input'>
+#&gt;  [9] &lt;div style="font-size:83%;min-height:3.5em"&gt;\n&lt;br&gt;&lt;div id="prm"&gt;\n&lt;style ...
+#&gt; [10] &lt;div id="prm"&gt;\n&lt;style&gt;.szppmdbYutt__middle-slot-promo{font-size:small;m ...
+#&gt; [11] &lt;div class="szppmdbYutt__middle-slot-promo" data-ved="0ahUKEwjHjdqjuO3qA ...
+#&gt; [12] &lt;div style="font-size:10pt"&gt;&lt;div style="margin:19px auto;text-align:cent ...
+#&gt; [13] &lt;div style="margin:19px auto;text-align:center" id="fll"&gt;\n&lt;a href="/int ...</div><div class='input'>
 <span class='co'># From a string: (minimal html 5 document)</span>
 <span class='co'># http://www.brucelawson.co.uk/2010/a-minimal-html5-document/</span>
 <span class='no'>minimal</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"&lt;!doctype html&gt;
