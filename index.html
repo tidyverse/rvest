@@ -110,39 +110,42 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>rvest helps you scrape information from web pages. It is designed to work with <a href="https://github.com/smbache/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rvest</span>)
-<span class="no">lego_movie</span> <span class="kw">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"http://www.imdb.com/title/tt1490017/"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
+<span class="va">lego_movie</span> <span class="op">&lt;-</span> <span class="fu">read_html</span><span class="op">(</span><span class="st">"http://www.imdb.com/title/tt1490017/"</span><span class="op">)</span>
 
-<span class="no">rating</span> <span class="kw">&lt;-</span> <span class="no">lego_movie</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">"strong span"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_text</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>()
-<span class="no">rating</span>
+<span class="va">rating</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"strong span"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">rating</span>
 <span class="co">#&gt; [1] 7.7</span>
 
-<span class="no">cast</span> <span class="kw">&lt;-</span> <span class="no">lego_movie</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">"#titleCast .primary_photo img"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_attr</a></span>(<span class="st">"alt"</span>)
-<span class="no">cast</span>
+<span class="va">cast</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"#titleCast .primary_photo img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"alt"</span><span class="op">)</span>
+<span class="va">cast</span>
 <span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    </span>
 <span class="co">#&gt;  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" </span>
 <span class="co">#&gt;  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    </span>
 <span class="co">#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"</span>
 
-<span class="no">poster</span> <span class="kw">&lt;-</span> <span class="no">lego_movie</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span>(<span class="st">".poster img"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_attr</a></span>(<span class="st">"src"</span>)
-<span class="no">poster</span>
-<span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></pre></div>
+<span class="va">poster</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">".poster img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
+<span class="va">poster</span>
+<span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></code></pre></div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the release version from CRAN:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"rvest"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></code></pre></div>
 <p>Or the development version from GitHub</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"tidyverse/rvest"</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidyverse/rvest"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="key-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -190,7 +193,7 @@
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 <div class="community">

@@ -156,7 +156,7 @@
     <p>Parse forms in a page.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>html_form</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>html_form</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,22 +174,24 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>html_form</span>(<span class='fu'>read_html</span>(<span class='st'>"https://hadley.wufoo.com/forms/libraryrequire-quiz/"</span>))</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>html_form</span><span class='op'>(</span><span class='fu'>read_html</span><span class='op'>(</span><span class='st'>"https://hadley.wufoo.com/forms/libraryrequire-quiz/"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; &lt;form&gt; 'form27' (POST https://hadley.wufoo.com/forms/libraryrequire-quiz/)
 #&gt;   &lt;input hidden&gt; 'Field1': 
-#&gt;   &lt;input radio&gt; 'Field1': Loads the cluster package
 #&gt;   &lt;input radio&gt; 'Field1': Loads the class package
+#&gt;   &lt;input radio&gt; 'Field1': Loads the cluster package
 #&gt;   &lt;input radio&gt; 'Field1': I have no idea!
 #&gt;   &lt;input radio&gt; 'Field1': Something else
 #&gt;   &lt;input text&gt; 'Field1_other_Something else': 
 #&gt;   &lt;input hidden&gt; 'currentPage': GfqNaMDZduwwhzuA9YxErPxIPfa0GJOeczQWDlLzZzI=
 #&gt;   &lt;input submit&gt; 'saveForm': Submit
 #&gt;   &lt;textarea&gt; 'comment' [0 char]
-#&gt;   &lt;input hidden&gt; 'idstamp': UDOXTbIFSFezKfOMdCBkvA==
+#&gt;   &lt;input hidden&gt; 'idstamp': 6v7dJeS0TzGC7LnGblr6rA==
 #&gt;   &lt;input hidden&gt; 'encryptedPassword': 
 #&gt;   &lt;input hidden&gt; 'stats': {"errors":0,"startTime":0,"endTime":0,"referer":null}
 #&gt;   &lt;input hidden&gt; 'clickOrEnter': 
-#&gt; </div><div class='input'><span class='fu'>html_form</span>(<span class='fu'>read_html</span>(<span class='st'>"https://hadley.wufoo.com/forms/r-journal-submission/"</span>))</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='fu'>html_form</span><span class='op'>(</span><span class='fu'>read_html</span><span class='op'>(</span><span class='st'>"https://hadley.wufoo.com/forms/r-journal-submission/"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; &lt;form&gt; 'form26' (POST https://hadley.wufoo.com/forms/r-journal-submission/)
 #&gt;   &lt;input text&gt; 'Field9': 
 #&gt;   &lt;input email&gt; 'Field11': 
@@ -207,15 +209,16 @@
 #&gt;   &lt;input hidden&gt; 'currentPage': GfqNaMDZduwwhzuA9YxErPxIPfa0GJOeczQWDlLzZzI=
 #&gt;   &lt;input submit&gt; 'saveForm': Submit
 #&gt;   &lt;textarea&gt; 'comment' [0 char]
-#&gt;   &lt;input hidden&gt; 'idstamp': /2GvPyHCT8a1yQ57NyeNXw==
+#&gt;   &lt;input hidden&gt; 'idstamp': aF5m1oVuSlahd2uY36z28w==
 #&gt;   &lt;input hidden&gt; 'encryptedPassword': 
 #&gt;   &lt;input hidden&gt; 'stats': {"errors":0,"startTime":0,"endTime":0,"referer":null}
 #&gt;   &lt;input hidden&gt; 'clickOrEnter': 
 #&gt; </div><div class='input'>
-<span class='no'>box_office</span> <span class='kw'>&lt;-</span> <span class='fu'>read_html</span>(<span class='st'>"http://www.boxofficemojo.com/movies/?id=ateam.htm"</span>)
-<span class='no'>box_office</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span>(<span class='st'>"form"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>html_form</span>()</div><div class='output co'>#&gt; &lt;form&gt; '&lt;unnamed&gt;' (GET /search)
+<span class='va'>box_office</span> <span class='op'>&lt;-</span> <span class='fu'>read_html</span><span class='op'>(</span><span class='st'>"http://www.boxofficemojo.com/movies/?id=ateam.htm"</span><span class='op'>)</span>
+<span class='va'>box_office</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"form"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_form</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;form&gt; '&lt;unnamed&gt;' (GET /search)
 #&gt;   &lt;input search&gt; 'q': 
-#&gt;   &lt;input submit&gt; '': </div><div class='input'># }
+#&gt;   &lt;input submit&gt; '': </div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

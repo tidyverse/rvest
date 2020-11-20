@@ -99,7 +99,8 @@
 
       
 
-      </header><script src="harvesting-the-web_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="harvesting-the-web_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="harvesting-the-web_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="harvesting-the-web_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Harvesting the web with rvest</h1>
@@ -152,21 +153,22 @@ outline: 0 ;
 <h2 class="hasAnchor">
 <a href="#extracting-html-elements-with-css" class="anchor"></a>Extracting HTML elements with CSS</h2>
 <p>Once the required section of the HTML document is located, it can be extracted with <code>rvest</code>. Let’s look at the IMDB page for the <a href="https://www.imdb.com/title/tt1490017/">Lego Movie</a> and extract the names of the characters the actors play.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rvest</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: xml2</span>
-<span class="no">lego_url</span> <span class="kw">&lt;-</span> <span class="st">"http://www.imdb.com/title/tt1490017/"</span>
-<span class="no">html</span> <span class="kw">&lt;-</span> <span class="fu">read_html</span>(<span class="no">lego_url</span>)
+<span class="va">lego_url</span> <span class="op">&lt;-</span> <span class="st">"http://www.imdb.com/title/tt1490017/"</span>
+<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu">read_html</span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
 
-<span class="no">characters</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>)
+<span class="va">characters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">characters</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">characters</span><span class="op">)</span>
 <span class="co">#&gt; [1] 15</span>
 
-<span class="no">characters</span>[<span class="fl">1</span>:<span class="fl">2</span>]
+<span class="va">characters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
 <span class="co">#&gt; {xml_nodeset (2)}</span>
 <span class="co">#&gt; [1] &lt;td class="character"&gt;\n            &lt;a href="/title/tt1490017/characters/ ...</span>
 <span class="co">#&gt; [2] &lt;td class="character"&gt;\n            &lt;a href="/title/tt1490017/characters/ ...</span>
-<span class="fu"><a href="../reference/html_text.html">html_text</a></span>(<span class="no">characters</span>, <span class="kw">trim</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="va">characters</span>, trim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "Batman /  \n            Bruce Wayne \n  \n  \n  (voice)"                                                </span>
 <span class="co">#&gt;  [2] "Wyldstyle /  \n            Lucy \n  \n  \n  (voice)"                                                    </span>
 <span class="co">#&gt;  [3] "Blake /  \n            Additional Voices \n  \n  \n  (voice)"                                           </span>
@@ -181,13 +183,15 @@ outline: 0 ;
 <span class="co">#&gt; [12] "Wally \n  \n  \n  (voice)"                                                                              </span>
 <span class="co">#&gt; [13] "Vitruvius \n  \n  \n  (voice)"                                                                          </span>
 <span class="co">#&gt; [14] "Gandalf /  \n            Additional Voices \n  \n  \n  (voice)"                                         </span>
-<span class="co">#&gt; [15] "Green Lantern \n  \n  \n  (voice)"</span></pre></body></html></div>
+<span class="co">#&gt; [15] "Green Lantern \n  \n  \n  (voice)"</span></code></pre></div>
 <p><code>rvest</code> contains a few handy functions for accessing different attributes of the currently selected nodes. For example, we can access names of the selected tags with <code><a href="../reference/html_text.html">html_name()</a></code>:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="no">html</span>,<span class="st">".cast_list"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_name</a></span>()
-<span class="co">#&gt; [1] "table"</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>,<span class="st">".cast_list"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_name</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "table"</span></code></pre></div>
 <p>Most of the time we want to use <code><a href="../reference/html_nodes.html">html_nodes()</a></code> (returning <code>xml nodeset</code>) to make sure we capture all matches, but in those cases when we know that there is only one single match or when we only care about the first match, we can use <code><a href="../reference/html_nodes.html">html_node()</a></code>, which returns single <code>xml node</code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>,<span class="st">".cast_list"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>,<span class="st">".cast_list"</span><span class="op">)</span>
 <span class="co">#&gt; {html_node}</span>
 <span class="co">#&gt; &lt;table class="cast_list"&gt;</span>
 <span class="co">#&gt;  [1] &lt;tr&gt;&lt;td colspan="4" class="castlist_label"&gt;Cast overview, first billed o ...</span>
@@ -205,11 +209,12 @@ outline: 0 ;
 <span class="co">#&gt; [13] &lt;tr class="even"&gt;\n&lt;td class="primary_photo"&gt;\n&lt;a href="/name/nm2002649/ ...</span>
 <span class="co">#&gt; [14] &lt;tr class="odd"&gt;\n&lt;td class="primary_photo"&gt;\n&lt;a href="/name/nm0000151/? ...</span>
 <span class="co">#&gt; [15] &lt;tr class="even"&gt;\n&lt;td class="primary_photo"&gt;\n&lt;a href="/name/nm3025399/ ...</span>
-<span class="co">#&gt; [16] &lt;tr class="odd"&gt;\n&lt;td class="primary_photo"&gt;\n&lt;a href="/name/nm1706767/? ...</span></pre></body></html></div>
+<span class="co">#&gt; [16] &lt;tr class="odd"&gt;\n&lt;td class="primary_photo"&gt;\n&lt;a href="/name/nm1706767/? ...</span></code></pre></div>
 <p>If the name of the current tag is <code>table</code> (both as single <code>xml node</code>, but also as <code>xml nodeset</code> of tables) it can usually be parsed into a data.frame automatically (either as a single data.frame or as a list of data.frames, for <code>xml node</code> and <code>xml nodeset</code>, respectively).</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>,<span class="st">".cast_list"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_table.html">html_table</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>,<span class="st">".cast_list"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt;                                  X1                                X2</span>
 <span class="co">#&gt; 1 Cast overview, first billed only: Cast overview, first billed only:</span>
 <span class="co">#&gt; 2                                                         Will Arnett</span>
@@ -230,15 +235,17 @@ outline: 0 ;
 <span class="co">#&gt; 3                Wyldstyle /  \n            Lucy \n  \n  \n  (voice)</span>
 <span class="co">#&gt; 4       Blake /  \n            Additional Voices \n  \n  \n  (voice)</span>
 <span class="co">#&gt; 5                                       Unikitty \n  \n  \n  (voice)</span>
-<span class="co">#&gt; 6 Octan Robot /  \n            Additional Voices \n  \n  \n  (voice)</span></pre></body></html></div>
+<span class="co">#&gt; 6 Octan Robot /  \n            Additional Voices \n  \n  \n  (voice)</span></code></pre></div>
 <p>The most basic content in HTML is text. It can be located between the opening and the closing tag of the “tag bracket” (sometimes along with other “descendant” tags). The text (from current and all “children” tags) can be extracted with <code><a href="../reference/html_text.html">html_text()</a></code>. Lets extract text out of the first character node.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_text</a></span>()
-<span class="co">#&gt; [1] "\n            Batman /  \n            Bruce Wayne \n  \n  \n  (voice)\n  \n                  \n          "</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "\n            Batman /  \n            Bruce Wayne \n  \n  \n  (voice)\n  \n                  \n          "</span></code></pre></div>
 <p>Finally attributes of HTML tags can be extracted using <code><a href="../reference/html_text.html">html_attrs()</a></code>(or <code><a href="../reference/html_text.html">html_attr()</a></code> for extracting a single attribute from a node/nodeset, given its name). Let’s fetch urls of the actors’ pages.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_children</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_attr</a></span>(<span class="st">"href"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
 <span class="co">#&gt;  [2] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
 <span class="co">#&gt;  [3] "/title/tt1490017/characters/nm0006969?ref_=tt_cl_t2" </span>
@@ -252,7 +259,7 @@ outline: 0 ;
 <span class="co">#&gt; [11] "/title/tt1490017/characters/nm0000151?ref_=tt_cl_t13"</span>
 <span class="co">#&gt; [12] "/title/tt1490017/characters/nm3025399?ref_=tt_cl_t14"</span>
 <span class="co">#&gt; [13] "/title/tt1490017/characters/nm3025399?ref_=tt_cl_t14"</span>
-<span class="co">#&gt; [14] "/title/tt1490017/characters/nm1706767?ref_=tt_cl_t15"</span></pre></body></html></div>
+<span class="co">#&gt; [14] "/title/tt1490017/characters/nm1706767?ref_=tt_cl_t15"</span></code></pre></div>
 </div>
 <div id="extracting-html-elements-with-xpath" class="section level2">
 <h2 class="hasAnchor">
@@ -267,22 +274,25 @@ outline: 0 ;
 </ul>
 <p><img src="harvesting-web-8-s.png" width="height="></p>
 <p>The following <code>rvest</code> code will separate “children” text from “parent” text and return only text from the “child” node(s).</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_children</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_text</a></span>()
-<span class="co">#&gt; [1] "Batman"      "Bruce Wayne"</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Batman"      "Bruce Wayne"</span></code></pre></div>
 <p>However, there’s no suitable “CSS selector” to exclude child nodes and extract only text from the “parent” node. This is the situation where <code>xpath</code> selector can be more powerful. In addition to traversing the html/xml tree, <code>xpath</code> also has its own “extractor” functions, similar to those of <code>rvest</code>. In particular, here will will use <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> applied to “current node only” (this is the meaning of <code>./</code> in the following code). We also use <code>normalize-space()</code> function, which drops empty strings.</p>
 <p>Note that the <code>xpath</code> internal function <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> has simplified the content, but <code><a href="../reference/html_nodes.html">html_nodes()</a></code> is unaware of it and still returns <code>xml_nodeset</code>.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="kw">xpath</span><span class="kw">=</span><span class="st">"./text()[normalize-space()]"</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span>xpath<span class="op">=</span><span class="st">"./text()[normalize-space()]"</span><span class="op">)</span>
 <span class="co">#&gt; {xml_nodeset (2)}</span>
 <span class="co">#&gt; [1]  /  \n            </span>
-<span class="co">#&gt; [2]  \n  \n  \n  (voice)\n  \n                  \n</span></pre></body></html></div>
+<span class="co">#&gt; [2]  \n  \n  \n  (voice)\n  \n                  \n</span></code></pre></div>
 <p>We can now simplify this output and return values in a normal list.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span>(<span class="no">html</span>, <span class="st">".cast_list .character"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span>(<span class="kw">xpath</span><span class="kw">=</span><span class="st">"./text()[normalize-space()]"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/html_text.html">html_text</a></span>(<span class="kw">trim</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="co">#&gt; [1] "/"       "(voice)"</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span>xpath<span class="op">=</span><span class="st">"./text()[normalize-space()]"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span>trim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/"       "(voice)"</span></code></pre></div>
 <p>Please, refer to <a href="https://www.w3schools.com/xml/xpath_syntax.asp">XPath syntax reference here</a> to learn more how to compose and use <code>xpath</code> to locate elements inside HTML tree.</p>
 </div>
   </div>
