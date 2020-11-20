@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* rvest is now licensed as MIT (#287).
+
 # rvest 0.3.6
 
 * Remove failing example
