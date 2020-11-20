@@ -10,7 +10,7 @@ Authors@R:
              role = "cph"))
 Description: Wrappers around the 'xml2' and 'httr' packages to
     make it easy to download, then manipulate, HTML and XML.
-License: GPL-3
+License: MIT + file LICENSE
 URL: http://rvest.tidyverse.org/,
     https://github.com/tidyverse/rvest
 BugReports: https://github.com/tidyverse/rvest/issues
