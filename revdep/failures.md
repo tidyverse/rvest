@@ -1,22 +1,32 @@
-# ELMER
+# helminthR
 
 <details>
 
-* Version: 2.6.3
-* Source code: https://github.com/cran/ELMER
-* Date/Publication: 2019-04-02
-* Number of recursive dependencies: 211
+* Version: 1.0.7
+* GitHub: https://github.com/rOpenSci/helminthR
+* Source code: https://github.com/cran/helminthR
+* Date/Publication: 2019-02-03 16:33:14 UTC
+* Number of recursive dependencies: 56
 
-Run `revdep_details(,"ELMER")` for more info
+Run `cloud_details(, "helminthR")` for more info
 
 </details>
 
-## In both
+## Newly broken
 
-*   checking whether package ‘ELMER’ can be installed ... ERROR
+*   checking whether package ‘helminthR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00install.out’ for details.
+    See ‘/tmp/workdir/helminthR/new/helminthR.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘knitr’ ‘rmarkdown’
+      All declared Imports should be used.
     ```
 
 ## Installation
@@ -24,49 +34,139 @@ Run `revdep_details(,"ELMER")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘ELMER’ ...
+* installing *source* package ‘helminthR’ ...
+** package ‘helminthR’ successfully unpacked and MD5 sums checked
+** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called 'sesameData'
-ERROR: lazy loading failed for package 'ELMER'
-* removing '/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/ELMER'
+Error: object ‘html’ is not exported by 'namespace:rvest'
+Execution halted
+ERROR: lazy loading failed for package ‘helminthR’
+* removing ‘/tmp/workdir/helminthR/new/helminthR.Rcheck/helminthR’
+
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘ELMER’ ...
+* installing *source* package ‘helminthR’ ...
+** package ‘helminthR’ successfully unpacked and MD5 sums checked
+** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called 'sesameData'
-ERROR: lazy loading failed for package 'ELMER'
-* removing '/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/ELMER/old/ELMER.Rcheck/ELMER'
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (helminthR)
+
 
 ```
-# petro.One
+# iemiscdata
 
 <details>
 
-* Version: 0.2.3
-* Source code: https://github.com/cran/petro.One
-* URL: https://github.com/f0nzie/petro.One
-* Date/Publication: 2019-01-13 16:20:03 UTC
-* Number of recursive dependencies: 81
+* Version: 0.6.1
+* GitHub: NA
+* Source code: https://github.com/cran/iemiscdata
+* Date/Publication: 2016-07-22 18:53:04
+* Number of recursive dependencies: 135
 
-Run `revdep_details(,"petro.One")` for more info
+Run `cloud_details(, "iemiscdata")` for more info
 
 </details>
 
-## In both
+## Error before installation
 
-*   checking whether package ‘petro.One’ can be installed ... ERROR
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/iemiscdata/new/iemiscdata.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘iemiscdata/DESCRIPTION’ ... OK
+* this is package ‘iemiscdata’ version ‘0.6.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+...
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘Mannings-n-examples-vignette.Rmd’ using ‘UTF-8’... OK
+  ‘View-PDF-table-vignette.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 2 NOTEs
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/iemiscdata/old/iemiscdata.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘iemiscdata/DESCRIPTION’ ... OK
+* this is package ‘iemiscdata’ version ‘0.6.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+...
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘Mannings-n-examples-vignette.Rmd’ using ‘UTF-8’... OK
+  ‘View-PDF-table-vignette.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 2 NOTEs
+
+
+
+
+
+```
+# rUnemploymentData
+
+<details>
+
+* Version: 1.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/rUnemploymentData
+* Date/Publication: 2017-01-19 18:15:41
+* Number of recursive dependencies: 120
+
+Run `cloud_details(, "rUnemploymentData")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘rUnemploymentData’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/00install.out’ for details.
+    See ‘/tmp/workdir/rUnemploymentData/new/rUnemploymentData.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -74,95 +174,37 @@ Run `revdep_details(,"petro.One")` for more info
 ### Devel
 
 ```
-* installing *source* package ‘petro.One’ ...
-** package ‘petro.One’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘rUnemploymentData’ ...
+** package ‘rUnemploymentData’ successfully unpacked and MD5 sums checked
+** using staged installation
 ** R
 ** data
-*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
-  dlopen(/Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘petro.One’
-* removing ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/petro.One’
+Error: object ‘html’ is not exported by 'namespace:rvest'
+Execution halted
+ERROR: lazy loading failed for package ‘rUnemploymentData’
+* removing ‘/tmp/workdir/rUnemploymentData/new/rUnemploymentData.Rcheck/rUnemploymentData’
+
 
 ```
 ### CRAN
 
 ```
-* installing *source* package ‘petro.One’ ...
-** package ‘petro.One’ successfully unpacked and MD5 sums checked
+* installing *source* package ‘rUnemploymentData’ ...
+** package ‘rUnemploymentData’ successfully unpacked and MD5 sums checked
+** using staged installation
 ** R
 ** data
-*** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
-  dlopen(/Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/hadley/Documents/tidyverse/rvest/revdep/library.noindex/petro.One/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘petro.One’
-* removing ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/petro.One/old/petro.One.Rcheck/petro.One’
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (rUnemploymentData)
 
-```
-# TCGAbiolinks
-
-<details>
-
-* Version: 2.10.5
-* Source code: https://github.com/cran/TCGAbiolinks
-* URL: https://github.com/BioinformaticsFMRP/TCGAbiolinks
-* BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinks/issues
-* Date/Publication: 2019-03-20
-* Number of recursive dependencies: 248
-
-Run `revdep_details(,"TCGAbiolinks")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘TCGAbiolinks’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘TCGAbiolinks’ ...
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘sesameData’
-ERROR: lazy loading failed for package ‘TCGAbiolinks’
-* removing ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/TCGAbiolinks’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘TCGAbiolinks’ ...
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  there is no package called ‘sesameData’
-ERROR: lazy loading failed for package ‘TCGAbiolinks’
-* removing ‘/Users/hadley/Documents/tidyverse/rvest/revdep/checks.noindex/TCGAbiolinks/old/TCGAbiolinks.Rcheck/TCGAbiolinks’
 
 ```

@@ -15,14 +15,14 @@ URL: http://rvest.tidyverse.org/,
     https://github.com/tidyverse/rvest
 BugReports: https://github.com/tidyverse/rvest/issues
 Depends:
-    R (>= 3.2),
-    xml2
+    R (>= 3.2)
 Imports:
     httr (>= 0.5),
     lifecycle,
     magrittr,
     rlang,
-    selectr
+    selectr,
+    xml2
 Suggests:
     covr,
     knitr,

@@ -1,5 +1,10 @@
 # rvest (development version)
 
+* rvest now imports xml2 rather than depending on it. This is cleaner because
+  it avoids attaching all the xml2 functions that you're less likely to use.
+  To make it as backward compatible as possible, rvest re-exports xml2 functions
+  `read_html()`, `xml_absolute()`.
+
 * `guess_encoding()` has been renamed to `html_encoding_guess()` to avoid
    a clash with `stringr::guess_encoding()` (#209).
    
