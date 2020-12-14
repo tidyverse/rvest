@@ -258,6 +258,11 @@ set_values <- function(form, ...) {
 #' @export
 submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
+
+  if (!is.null(form$url)) {
+    abort("`form` doesn't contain a `url` attribute")
+  }
+
   url <- xml2::url_absolute(form$url, session$url)
 
   # Make request
