@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>History navigation tools — session_history • rvest</title>
+<title>Guess faulty character encoding — html_encoding_guess • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,11 @@
 
 
 
-<meta property="og:title" content="History navigation tools — session_history" />
-<meta property="og:description" content="History navigation tools" />
+<meta property="og:title" content="Guess faulty character encoding — html_encoding_guess" />
+<meta property="og:description" content="html_encoding_guess() helps you handle web pages that declare an incorrect
+encoding. Use html_encoding_guess() to generate a list of possible
+encodings, then try each out by using encoding argument of read_html().
+html_encoding_guess() replaces the deprecated guess_encoding()." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -147,29 +150,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>History navigation tools</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/session.R'><code>R/session.R</code></a></small>
-    <div class="hidden name"><code>session_history.Rd</code></div>
+    <h1>Guess faulty character encoding</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/encoding.R'><code>R/encoding.R</code></a></small>
+    <div class="hidden name"><code>html_encoding_guess.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>History navigation tools</p>
+    <p><code>html_encoding_guess()</code> helps you handle web pages that declare an incorrect
+encoding. Use <code>html_encoding_guess()</code> to generate a list of possible
+encodings, then try each out by using <code>encoding</code> argument of <code>read_html()</code>.
+<code>html_encoding_guess()</code> replaces the deprecated <code>guess_encoding()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>session_history</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='fu'>back</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>html_encoding_guess</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A session.</p></td>
+      <td><p>A character vector.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># A file with bad encoding included in the package</span>
+<span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"html-ex"</span>, <span class='st'>"bad-encoding.html"</span>, package <span class='op'>=</span> <span class='st'>"rvest"</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>read_html</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_text.html'>html_text</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "\xc9migré cause célèbre déjà vu."</div><div class='input'>
+<span class='fu'>html_encoding_guess</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     encoding language confidence
+#&gt; 1 ISO-8859-1       fr       0.31
+#&gt; 2 ISO-8859-2       ro       0.22
+#&gt; 3   UTF-16BE                0.10
+#&gt; 4   UTF-16LE                0.10
+#&gt; 5    GB18030       zh       0.10
+#&gt; 6       Big5       zh       0.10
+#&gt; 7 ISO-8859-9       tr       0.06
+#&gt; 8 IBM424_rtl       he       0.01
+#&gt; 9 IBM424_ltr       he       0.01</div><div class='input'><span class='co'># Two valid encodings, only one of which is correct</span>
+<span class='fu'>read_html</span><span class='op'>(</span><span class='va'>path</span>, encoding <span class='op'>=</span> <span class='st'>"ISO-8859-1"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_text.html'>html_text</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Émigré cause célèbre déjà vu."</div><div class='input'><span class='fu'>read_html</span><span class='op'>(</span><span class='va'>path</span>, encoding <span class='op'>=</span> <span class='st'>"ISO-8859-2"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_text.html'>html_text</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Émigré cause célčbre déjŕ vu."</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

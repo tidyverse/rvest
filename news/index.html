@@ -102,7 +102,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +129,7 @@
 </li>
         <li>
   <a href="https://github.com/tidyverse/rvest/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -155,6 +155,9 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
+<li><p><code><a href="../reference/repair_encoding.html">repair_encoding()</a></code> has been deprecated because it doesn’t appear to work.</p></li>
+<li><p><code>pluck()</code> is no longer exported; if you need it use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_chr()</a></code> and friends instead (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
 <li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> errors if <code>form</code> doesn’t have a <code>url</code> (<a href='https://github.com/tidyverse/rvest/issues/288'>#288</a>).</p></li>
 <li><p>Long deprecated functions have been removed: <code>html()</code>, <code>html_tag()</code>, <code><a href="../reference/xml.html">xml()</a></code>.</p></li>
 <li><p><code><a href="../reference/xml.html">xml_tag()</a></code>, <code><a href="../reference/xml.html">xml_node()</a></code>, and <code><a href="../reference/xml.html">xml_nodes()</a></code> have been formally deprecated and will go away in a future version.</p></li>

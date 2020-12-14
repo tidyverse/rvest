@@ -4,10 +4,10 @@
     <loc>https://rvest.tidyverse.org/index.html</loc>
   </url>
   <url>
-    <loc>https://rvest.tidyverse.org/reference/encoding.html</loc>
+    <loc>https://rvest.tidyverse.org/reference/google_form.html</loc>
   </url>
   <url>
-    <loc>https://rvest.tidyverse.org/reference/google_form.html</loc>
+    <loc>https://rvest.tidyverse.org/reference/html_encoding_guess.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/html_form.html</loc>
@@ -34,7 +34,7 @@
     <loc>https://rvest.tidyverse.org/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://rvest.tidyverse.org/reference/pluck.html</loc>
+    <loc>https://rvest.tidyverse.org/reference/repair_encoding.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/rvest-package.html</loc>
