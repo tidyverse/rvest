@@ -6,7 +6,7 @@
 \alias{html_children}
 \alias{html_attrs}
 \alias{html_attr}
-\title{Extract attributes, text and tag name from html.}
+\title{Extract attributes, text, and tag name from html}
 \usage{
 html_text(x, trim = FALSE)
 
@@ -29,17 +29,24 @@ html_attr(x, name, default = NA_character_)
 not exist in every node.}
 }
 \value{
-\code{html_attr}, \code{html_tag} and \code{html_text}, a character
-vector; \code{html_attrs}, a list.
+A character vector (for \code{html_attr()}, \code{html_tag()}, and
+\code{html_text()}) or list (\code{html_attrs()}) the same length as \code{x}
 }
 \description{
-Extract attributes, text and tag name from html.
+\code{html_text()} extracts text inside a node, \code{html_attr()} extract a
+single attribute, \code{html_attr()} extract all attributes, and \code{html_tag()}
+gives the tag name.
 }
 \examples{
-movie <- read_html("https://en.wikipedia.org/wiki/The_Lego_Movie")
+url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
+movie <- read_html(url)
 cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
+
 html_text(cast)
 html_name(cast)
 html_attrs(cast)
 html_attr(cast, "href")
+
+# If needed, use url_absolute() to convert to complete urls
+url_absolute(html_attr(cast, "href"), url)
 }

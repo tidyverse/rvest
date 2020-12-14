@@ -1,16 +1,25 @@
-#' Extract attributes, text and tag name from html.
+#' Extract attributes, text, and tag name from html
 #'
-#' @return `html_attr`, `html_tag` and `html_text`, a character
-#'   vector; `html_attrs`, a list.
+#' `html_text()` extracts text inside a node, `html_attr()` extract a
+#' single attribute, `html_attr()` extract all attributes, and `html_tag()`
+#' gives the tag name.
+#'
 #' @inheritParams xml2::xml_text
+#' @return A character vector (for `html_attr()`, `html_tag()`, and
+#'   `html_text()`) or list (`html_attrs()`) the same length as `x`
 #' @export
 #' @examples
-#' movie <- read_html("https://en.wikipedia.org/wiki/The_Lego_Movie")
+#' url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
+#' movie <- read_html(url)
 #' cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
+#'
 #' html_text(cast)
 #' html_name(cast)
 #' html_attrs(cast)
 #' html_attr(cast, "href")
+#'
+#' # If needed, use url_absolute() to convert to complete urls
+#' url_absolute(html_attr(cast, "href"), url)
 html_text <- function(x, trim = FALSE) {
   xml2::xml_text(x, trim = trim)
 }
