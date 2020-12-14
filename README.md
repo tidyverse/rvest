@@ -7,8 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
-[![R build
-status](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest/actions)
+[![R-CMD-check](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
@@ -66,29 +65,30 @@ devtools::install_github("tidyverse/rvest")
 
 Once you have read a HTML document with `read_html()`, you can:
 
-  - Select parts of a document using CSS selectors: `html_nodes(doc,
-    "table td")` (or if you’ve a glutton for punishment, use XPath
-    selectors with `html_nodes(doc, xpath = "//table//td")`). If you
-    haven’t heard of [selectorgadget](http://selectorgadget.com/), make
-    sure to read `vignette("selectorgadget")` to learn about it.
+-   Select parts of a document using CSS selectors:
+    `html_nodes(doc, "table td")` (or if you’ve a glutton for
+    punishment, use XPath selectors with
+    `html_nodes(doc, xpath = "//table//td")`). If you haven’t heard of
+    [selectorgadget](http://selectorgadget.com/), make sure to read
+    `vignette("selectorgadget")` to learn about it.
 
-  - Extract components with `html_name()` (the name of the tag),
+-   Extract components with `html_name()` (the name of the tag),
     `html_text()` (all text inside the tag), `html_attr()` (contents of
     a single attribute) and `html_attrs()` (all attributes).
 
-  - (You can also use rvest with XML files: parse with `xml()`, then
+-   (You can also use rvest with XML files: parse with `xml()`, then
     extract components using `xml_node()`, `xml_attr()`, `xml_attrs()`,
     `xml_text()` and `xml_name()`.)
 
-  - Parse tables into data frames with `html_table()`.
+-   Parse tables into data frames with `html_table()`.
 
-  - Extract, modify and submit forms with `html_form()`, `set_values()`
+-   Extract, modify and submit forms with `html_form()`, `set_values()`
     and `submit_form()`.
 
-  - Detect and repair encoding problems with `guess_encoding()` and
+-   Detect and repair encoding problems with `guess_encoding()` and
     `repair_encoding()`.
 
-  - Navigate around a website as if you’re in a browser with
+-   Navigate around a website as if you’re in a browser with
     `html_session()`, `jump_to()`, `follow_link()`, `back()`,
     `forward()`, `submit_form()` and so on. (This is still a work in
     progress, so I’d love your feedback.)
@@ -97,7 +97,7 @@ To see examples of these function in use, check out the demos.
 
 ## Inspirations
 
-  - Python:
+-   Python:
     [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
     [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).
 
