@@ -56,7 +56,7 @@ repair_encoding <- function(x, from = NULL) {
       stop("No guess has more than 50% confidence", call. = FALSE)
     }
 
-    message("Best guess: ", from, " (", conf, "% confident)")
+    inform(paste0("Best guess: ", from, " (", conf, "% confident)"))
   }
 
   stringi::stri_conv(x, from = from)

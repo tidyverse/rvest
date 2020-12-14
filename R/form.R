@@ -290,7 +290,7 @@ submit_request <- function(form, submit = NULL) {
 
   if (is.null(submit)) {
     submit <- names(submits)[[1]]
-    message("Submitting with '", submit, "'")
+    inform(paste0("Submitting with '", submit, "'"))
   }
   if (!(submit %in% names(submits))) {
     stop(
