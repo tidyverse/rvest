@@ -1,3 +1,12 @@
+#' @importFrom xml2 read_html
+#' @export
+xml2::read_html
+
+#' @importFrom xml2 url_absolute
+#' @export
+xml2::url_absolute
+
+
 #' Deprecated XML functions
 #'
 #' `r lifecycle::badge('deprecated')`
