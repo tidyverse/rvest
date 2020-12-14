@@ -1,4 +1,4 @@
-#' Extract attributes, text, and tag name from html
+#' Extract attributes, text, or tag name
 #'
 #' `html_text()` extracts text inside a node, `html_attr()` extract a
 #' single attribute, `html_attr()` extract all attributes, and `html_tag()`
@@ -32,12 +32,6 @@ html_name <- function(x) {
 
 #' @rdname html_text
 #' @export
-html_children <- function(x) {
-  xml2::xml_children(x)
-}
-
-#' @rdname html_text
-#' @export
 html_attrs <- function(x) {
   xml2::xml_attrs(x)
 }
@@ -51,3 +45,18 @@ html_attr <- function(x, name, default = NA_character_) {
   xml2::xml_attr(x, name, default = default)
 }
 
+
+#' Find all child elements
+#'
+#' @export
+#' @examples
+#' html <- minimal_html("A list", "<ul><li>1<li>2<li>3</ul>")
+#' ul <- html_nodes(html, "ul")
+#' html_children(ul)
+#'
+#' html <- minimal_html("A paragraph", "<p>Hello <b>Hadley</b><i>!</i>")
+#' p <- html_nodes(html, "p")
+#' html_children(p)
+html_children <- function(x) {
+  xml2::xml_children(x)
+}

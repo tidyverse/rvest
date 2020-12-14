@@ -3,16 +3,13 @@
 \name{html_text}
 \alias{html_text}
 \alias{html_name}
-\alias{html_children}
 \alias{html_attrs}
 \alias{html_attr}
-\title{Extract attributes, text, and tag name from html}
+\title{Extract attributes, text, or tag name}
 \usage{
 html_text(x, trim = FALSE)
 
 html_name(x)
-
-html_children(x)
 
 html_attrs(x)
 
