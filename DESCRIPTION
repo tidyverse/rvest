@@ -22,7 +22,7 @@ Imports:
     magrittr,
     rlang,
     selectr,
-    xml2
+    xml2 (>= 1.3)
 Suggests:
     covr,
     knitr,
