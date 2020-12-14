@@ -112,7 +112,7 @@
 <p>rvest helps you scrape information from web pages. It is designed to work with <a href="https://github.com/smbache/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
-<span class="va">lego_movie</span> <span class="op">&lt;-</span> <span class="fu">read_html</span><span class="op">(</span><span class="st">"http://www.imdb.com/title/tt1490017/"</span><span class="op">)</span>
+<span class="va">lego_movie</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"http://www.imdb.com/title/tt1490017/"</span><span class="op">)</span>
 
 <span class="va">rating</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"strong span"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -150,7 +150,7 @@
 <div id="key-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#key-functions" class="anchor"></a>Key functions</h2>
-<p>Once you have read a HTML document with <code>read_html()</code>, you can:</p>
+<p>Once you have read a HTML document with <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, you can:</p>
 <ul>
 <li><p>Select parts of a document using CSS selectors: <code><a href="reference/html_nodes.html">html_nodes(doc, "table td")</a></code> (or if you’ve a glutton for punishment, use XPath selectors with <code><a href="reference/html_nodes.html">html_nodes(doc, xpath = "//table//td")</a></code>). If you haven’t heard of <a href="http://selectorgadget.com/">selectorgadget</a>, make sure to read <code><a href="articles/selectorgadget.html">vignette("selectorgadget")</a></code> to learn about it.</p></li>
 <li><p>Extract components with <code><a href="reference/html_text.html">html_name()</a></code> (the name of the tag), <code><a href="reference/html_text.html">html_text()</a></code> (all text inside the tag), <code><a href="reference/html_text.html">html_attr()</a></code> (contents of a single attribute) and <code><a href="reference/html_text.html">html_attrs()</a></code> (all attributes).</p></li>

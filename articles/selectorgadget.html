@@ -156,9 +156,8 @@ outline: 0 ;
 <p>Once we’ve determined the css selector, we can use it in R to extract the values we want:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: xml2</span>
 <span class="va">lego_url</span> <span class="op">&lt;-</span> <span class="st">"http://www.imdb.com/title/tt1490017/"</span>
-<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu">read_html</span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
 <span class="va">cast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".primary_photo+ td a"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">cast</span><span class="op">)</span>
 <span class="co">#&gt; [1] 15</span>
@@ -187,7 +186,7 @@ outline: 0 ;
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt;                             href </span>
 <span class="co">#&gt; "/name/nm0006969/?ref_=tt_cl_t2"</span></code></pre></div>
-<p>As we can see there’s only one attribute called <code>href</code> which contains relative url to the actor’s page. We can extract it using <code><a href="../reference/html_text.html">html_attr()</a></code>, indicating the name of the attribute of interest. Relative urls can be turned to absolute urls using <code>url_absolute()</code>.</p>
+<p>As we can see there’s only one attribute called <code>href</code> which contains relative url to the actor’s page. We can extract it using <code><a href="../reference/html_text.html">html_attr()</a></code>, indicating the name of the attribute of interest. Relative urls can be turned to absolute urls using <code><a href="http://xml2.r-lib.org/reference/url_absolute.html">url_absolute()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cast_rel_urls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="va">cast</span>, <span class="st">"href"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">cast_rel_urls</span><span class="op">)</span>
@@ -196,7 +195,7 @@ outline: 0 ;
 <span class="co">#&gt; [1] "/name/nm0004715/?ref_=tt_cl_t1" "/name/nm0006969/?ref_=tt_cl_t2"</span>
 
 <span class="va">cast_abs_urls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="va">cast</span>, <span class="st">"href"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">url_absolute</span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
+  <span class="fu"><a href="http://xml2.r-lib.org/reference/url_absolute.html">url_absolute</a></span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
 <span class="va">cast_abs_urls</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
 <span class="co">#&gt; [1] "http://www.imdb.com/name/nm0004715/?ref_=tt_cl_t1"</span>
 <span class="co">#&gt; [2] "http://www.imdb.com/name/nm0006969/?ref_=tt_cl_t2"</span></code></pre></div>

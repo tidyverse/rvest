@@ -154,9 +154,8 @@ outline: 0 ;
 <p>Once the required section of the HTML document is located, it can be extracted with <code>rvest</code>. Let’s look at the IMDB page for the <a href="https://www.imdb.com/title/tt1490017/">Lego Movie</a> and extract the names of the characters the actors play.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: xml2</span>
 <span class="va">lego_url</span> <span class="op">&lt;-</span> <span class="st">"http://www.imdb.com/title/tt1490017/"</span>
-<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu">read_html</span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">lego_url</span><span class="op">)</span>
 
 <span class="va">characters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span>
 

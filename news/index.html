@@ -155,6 +155,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>rvest now imports xml2 rather than depending on it. This is cleaner because it avoids attaching all the xml2 functions that you’re less likely to use. To make it as backward compatible as possible, rvest re-exports xml2 functions <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, <code>xml_absolute()</code>.</p></li>
 <li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
 <li><p><code><a href="../reference/repair_encoding.html">repair_encoding()</a></code> has been deprecated because it doesn’t appear to work.</p></li>
 <li><p><code>pluck()</code> is no longer exported; if you need it use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_chr()</a></code> and friends instead (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
@@ -216,7 +217,7 @@
 <ul>
 <li><p>Fix invalid link for SSA example.</p></li>
 <li><p>Parse <code>&lt;options&gt;</code> that don’t have value attribute (<a href='https://github.com/tidyverse/rvest/issues/85'>#85</a>).</p></li>
-<li><p>Remove all remaining uses of <code>html()</code> in favor of <code>read_html()</code> (<a href='https://github.com/jimhester'>@jimhester</a>, <a href='https://github.com/tidyverse/rvest/issues/113'>#113</a>).</p></li>
+<li><p>Remove all remaining uses of <code>html()</code> in favor of <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code> (<a href='https://github.com/jimhester'>@jimhester</a>, <a href='https://github.com/tidyverse/rvest/issues/113'>#113</a>).</p></li>
 </ul>
 </div>
     <div id="rvest-030" class="section level1">
@@ -232,7 +233,7 @@
 <code>html_tag()</code> -&gt; <code><a href="../reference/html_text.html">html_name()</a></code>
 </li>
 <li>
-<code>html()</code> -&gt; <code>read_html()</code>
+<code>html()</code> -&gt; <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>
 </li>
 </ul>
 </li>

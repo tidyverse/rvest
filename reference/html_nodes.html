@@ -223,7 +223,7 @@ simple selector.</p></li>
   <span class='st'>"https://web.archive.org/web/20190202054736/"</span>,
   <span class='st'>"https://www.boxofficemojo.com/movies/?id=ateam.htm"</span>
 <span class='op'>)</span>
-<span class='va'>ateam</span> <span class='op'>&lt;-</span> <span class='fu'>read_html</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
+<span class='va'>ateam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
 <span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;center&gt;&lt;table border="0" cellspacing="1" cellpadding="4" bgcolor="#dcdcd ...</div><div class='input'><span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center font"</span><span class='op'>)</span>
