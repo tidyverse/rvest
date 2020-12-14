@@ -1,5 +1,3 @@
-context("table parsing")
-
 test_that("a simple table is parsed as a data frame", {
   select <- minimal_html("table parsing", '
     <table class="reference" style="width:100%">

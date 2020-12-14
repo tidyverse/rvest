@@ -1,5 +1,3 @@
-context("form parsing")
-
 test_that("select options are named character vector", {
   select <- minimal_html("select parsing", '
     <form>
