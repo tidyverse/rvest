@@ -1,23 +1,28 @@
-#' Work with xml.
+#' Deprecated XML functions
 #'
-#' Deprecated. Please use just xml2 directly
+#' `r lifecycle::badge('deprecated')`
 #'
-#' @export
 #' @keywords internal
-#' @inheritParams html
-#' @inheritParams html_tag
-#' @inheritParams html_node
-xml <- function(x, ..., encoding = "") {
-  .Deprecated("read_xml")
-  xml2::read_xml(x, ..., encoding = encoding)
+#' @name xml
+NULL
+
+#' @export
+#' @rdname xml
+xml_tag <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "xml_tag()", "html_name()")
+  html_name(x)
 }
 
 #' @export
 #' @rdname xml
-xml_tag <- html_tag
+xml_node <- function(...) {
+  lifecycle::deprecate_warn("1.0.0", "xml_node()", "html_node()")
+  html_node(...)
+}
+
 #' @export
 #' @rdname xml
-xml_node <- html_node
-#' @export
-#' @rdname xml
-xml_nodes <- html_nodes
+xml_nodes <- function(...) {
+  lifecycle::deprecate_warn("1.0.0", "xml_nodes()", "html_nodes()")
+  html_nodes(...)
+}

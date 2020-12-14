@@ -1,5 +1,11 @@
 # rvest (development version)
 
+* Long deprecated functions have been removed: `html()`,
+  `html_tag()`, `xml()`. 
+
+* `xml_tag()`, `xml_node()`, and `xml_nodes()` have been
+  formally deprecated and will go away in a future version.
+
 * rvest is now licensed as MIT (#287).
 
 # rvest 0.3.6

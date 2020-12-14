@@ -19,6 +19,7 @@ Depends:
     xml2
 Imports:
     httr (>= 0.5),
+    lifecycle,
     magrittr,
     selectr
 Suggests:
