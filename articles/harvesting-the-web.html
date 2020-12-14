@@ -125,7 +125,7 @@ outline: 0 ;
 <a href="#introduction-to-html-elements" class="anchor"></a>Introduction to HTML elements</h2>
 <p>HTML stand for “Hyper Text Markup Language”. HTML page consists of series of elements which browsers use to interpret how to display the content. HTML tags are names of the elements surrounded by angle brackets like so: <code>&lt;tagname&gt; content goes here... &lt;/tagname&gt;</code>. Most HTML tags come in pairs and consist of opening and a closing tag, known as <em>start tag</em> and <em>end tag</em>, where the <em>end tag</em> name is preceded by the forward slash <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>.</p>
 <p>Below is a visualization of a simple HTML page structure:</p>
-<p><img src="harvesting-web-1-s.png" width="481" height="540"></p>
+<p><img src="harvesting-web-1-s.png" width="240"></p>
 <p>It is possible to define HTML attributes inside HTML tags. Attributes provide additional information about HTML elements, such as hyperlinks for text, and width and height for images. Attributes are always defined in the start tag and come in <code>name="value"</code> pairs, like so: <code>&lt;a href="https://www.example.com"&gt;This is a link&lt;/a&gt;</code></p>
 <p>You can learn more about HTML tags and attributes from online resources, such as <a href="https://www.w3schools.com/html/default.asp">W3schools</a></p>
 </div>
@@ -134,18 +134,18 @@ outline: 0 ;
 <a href="#css-selectors" class="anchor"></a>CSS Selectors</h2>
 <p>CSS is a language that describes how HTML elements should be displayed. One of the ways to define useful shortcuts for selecting HTML elements to style is <strong>CSS selectors</strong>. CSS selectors represent <em>patterns</em> for locating HTML elements. They can be used not only for styling, but also for extracting the content of these elements. SelectorGadget (see <code><a href="../articles/selectorgadget.html">vignette("selectorgadget")</a></code>) implements a quick way of plucking HTML elements using CSS selectors.</p>
 <p>Lets have a look at the IMDB page for the <a href="https://www.imdb.com/title/tt1490017/">Lego Movie</a> and inspect the content of the page behind the fist entry in the Cast table. You can right-click the element you want to inspect and select Inspect or Inspect Element, depending on your browser.</p>
-<p><img src="harvesting-web-2-s.png" width="509" height="540"></p>
+<p><img src="harvesting-web-2-s.png" width="254"></p>
 <p>This will open Developer Tools with the Elements tab containing full HTML content of the page in the tree view, focused on the element you chose to inspect.</p>
-<p><img src="harvesting-web-3-s.png" width="height="></p>
+<p><img src="harvesting-web-3-s.png" width="254"></p>
 <p>Two of very common HTML attributes are <code>class</code> and <code>id</code>. They are used for grouping and identifying HTML tags. In the screenshot above you can find examples of both of them.</p>
 <p>The tags containing <code>class</code> attribute can be selected using <code>.</code> followed by the name of the class. For example, you can open SelectorGadget and try selecting tags with classes “odd”(or “even”) like so:</p>
-<p><img src="harvesting-web-4-s.png" width="height="></p>
+<p><img src="harvesting-web-4-s.png" width="254"></p>
 <p>In order to search inside specific tag, selectors can be separated by space. Here, for example, we are locating tags with class “character” inside tags with class “odd” (i.e. we are searching for tags with class “character” among the descendants of tags with class “odd”).</p>
-<p><img src="harvesting-web-5-s.png" width="height="></p>
+<p><img src="harvesting-web-5-s.png" width="254"></p>
 <p>Another useful selector is for tags with a special attribute “id”. Selector for the tags with this attribute can be composed with symbol <code>#</code> prepending the attribute value. This selector can be combined with another one as in the example below.</p>
-<p><img src="harvesting-web-6-s.png" width="height="></p>
+<p><img src="harvesting-web-6-s.png" width="254"></p>
 <p>Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combination, but you can always inspect the page and adjust CSS selector as needed. Here’s more realistic example of CSS selector suggested by SelectorGadget (from <code>vignette("selectogadget")</code>) which might be interpreted as: “Select tag <code>a</code> which is descendant of a tag <code>td</code> immediately following a tag with a class set to <code>.primary_photo</code>”.</p>
-<p><img src="harvesting-web-7-s.png" width="height="></p>
+<p><img src="harvesting-web-7-s.png" width="254"></p>
 <p>The tag with <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> sign indicates that we are interested not in the one identified by the selector, but the one “immediately following” it. In the example above, the tag containing the actor name does not have the “class” attribute, but it is located between (on the same level with) two other <code>td</code> tags: <code>td</code> tag with class set to <code>primary_photo</code> and <code>td</code> tag with class set to <code>character</code>. Therefore, SelectorGadget suggested the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> syntax to locate the exact tag we need.</p>
 <p>Overview of other useful CSS selectors can be found online, for example <a href="https://www.w3schools.com/cssref/css_selectors.asp">here</a></p>
 </div>
@@ -280,7 +280,7 @@ outline: 0 ;
 <li>node <code>a</code> containing words “Bruce Wayne” with another hyperlink</li>
 <li>text “(voice)”</li>
 </ul>
-<p><img src="harvesting-web-8-s.png" width="height="></p>
+<p><img src="harvesting-web-8-s.png" width="254"></p>
 <p>The following <code>rvest</code> code will separate “children” text from “parent” text and return only text from the “child” node(s).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 

@@ -155,7 +155,9 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li>rvest is now licensed as MIT (<a href='https://github.com/tidyverse/rvest/issues/287'>#287</a>).</li>
+<li><p>Long deprecated functions have been removed: <code>html()</code>, <code>html_tag()</code>, <code><a href="../reference/xml.html">xml()</a></code>.</p></li>
+<li><p><code><a href="../reference/xml.html">xml_tag()</a></code>, <code><a href="../reference/xml.html">xml_node()</a></code>, and <code><a href="../reference/xml.html">xml_nodes()</a></code> have been formally deprecated and will go away in a future version.</p></li>
+<li><p>rvest is now licensed as MIT (<a href='https://github.com/tidyverse/rvest/issues/287'>#287</a>).</p></li>
 </ul>
 </div>
     <div id="rvest-036" class="section level1">
@@ -210,7 +212,7 @@
 <ul>
 <li><p>Fix invalid link for SSA example.</p></li>
 <li><p>Parse <code>&lt;options&gt;</code> that don’t have value attribute (<a href='https://github.com/tidyverse/rvest/issues/85'>#85</a>).</p></li>
-<li><p>Remove all remaining uses of <code><a href="../reference/html.html">html()</a></code> in favor of <code>read_html()</code> (<a href='https://github.com/jimhester'>@jimhester</a>, <a href='https://github.com/tidyverse/rvest/issues/113'>#113</a>).</p></li>
+<li><p>Remove all remaining uses of <code>html()</code> in favor of <code>read_html()</code> (<a href='https://github.com/jimhester'>@jimhester</a>, <a href='https://github.com/tidyverse/rvest/issues/113'>#113</a>).</p></li>
 </ul>
 </div>
     <div id="rvest-030" class="section level1">
@@ -223,10 +225,10 @@
 <p>A number of functions have change names. The old versions still work, but are deprecated and will be removed in rvest 0.4.0.</p>
 <ul>
 <li>
-<code><a href="../reference/html_tag.html">html_tag()</a></code> -&gt; <code><a href="../reference/html_text.html">html_name()</a></code>
+<code>html_tag()</code> -&gt; <code><a href="../reference/html_text.html">html_name()</a></code>
 </li>
 <li>
-<code><a href="../reference/html.html">html()</a></code> -&gt; <code>read_html()</code>
+<code>html()</code> -&gt; <code>read_html()</code>
 </li>
 </ul>
 </li>
@@ -245,7 +247,7 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li><p><code><a href="../reference/html.html">html()</a></code> and <code><a href="../reference/xml.html">xml()</a></code> pass <code>...</code> on to <code><a href="https://httr.r-lib.org/reference/GET.html">httr::GET()</a></code> so you can more finely control the request (<a href='https://github.com/tidyverse/rvest/issues/48'>#48</a>).</p></li>
+<li><p><code>html()</code> and <code><a href="../reference/xml.html">xml()</a></code> pass <code>...</code> on to <code><a href="https://httr.r-lib.org/reference/GET.html">httr::GET()</a></code> so you can more finely control the request (<a href='https://github.com/tidyverse/rvest/issues/48'>#48</a>).</p></li>
 <li><p>Add xml support: parse with <code><a href="../reference/xml.html">xml()</a></code>, then work with using <code><a href="../reference/xml.html">xml_node()</a></code>, <code>xml_attr()</code>, <code>xml_attrs()</code>, <code>xml_text()</code> and <code><a href="../reference/xml.html">xml_tag()</a></code> (<a href='https://github.com/tidyverse/rvest/issues/24'>#24</a>).</p></li>
 <li><p><code>xml_structure()</code>: new function that displays the structure (i.e. tag and attribute names) of a xml/html object (<a href='https://github.com/tidyverse/rvest/issues/10'>#10</a>).</p></li>
 </ul>
@@ -255,7 +257,7 @@
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code><a href="../reference/jump_to.html">follow_link()</a></code> now accepts css and xpath selectors. (<a href='https://github.com/tidyverse/rvest/issues/38'>#38</a>, <a href='https://github.com/tidyverse/rvest/issues/41'>#41</a>, <a href='https://github.com/tidyverse/rvest/issues/42'>#42</a>)</p></li>
-<li><p><code><a href="../reference/html.html">html()</a></code> does a better job of dealing with encodings (passing the problem on to <code>XML::parseHTML()</code>) instead of trying to do it itself (<a href='https://github.com/tidyverse/rvest/issues/25'>#25</a>, <a href='https://github.com/tidyverse/rvest/issues/50'>#50</a>).</p></li>
+<li><p><code>html()</code> does a better job of dealing with encodings (passing the problem on to <code>XML::parseHTML()</code>) instead of trying to do it itself (<a href='https://github.com/tidyverse/rvest/issues/25'>#25</a>, <a href='https://github.com/tidyverse/rvest/issues/50'>#50</a>).</p></li>
 <li><p><code><a href="../reference/html_text.html">html_attr()</a></code> returns default value when input is NULL (<a href='https://github.com/tidyverse/rvest/issues/49'>#49</a>)</p></li>
 <li><p>Add missing <code><a href="../reference/html_nodes.html">html_node()</a></code> method for session.</p></li>
 <li><p><code><a href="../reference/html_nodes.html">html_nodes()</a></code> now returns an empty list if no elements are found (<a href='https://github.com/tidyverse/rvest/issues/31'>#31</a>).</p></li>
