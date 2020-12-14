@@ -258,6 +258,10 @@ set_values <- function(form, ...) {
 #' @export
 submit_form <- function(session, form, submit = NULL, ...) {
   request <- submit_request(form, submit)
+
+  if (is.null(form$url)) {
+    abort("`form` doesn't contain a `url` attribute")
+  }
   url <- xml2::url_absolute(form$url, session$url)
 
   # Make request
@@ -286,7 +290,7 @@ submit_request <- function(form, submit = NULL) {
 
   if (is.null(submit)) {
     submit <- names(submits)[[1]]
-    message("Submitting with '", submit, "'")
+    inform(paste0("Submitting with '", submit, "'"))
   }
   if (!(submit %in% names(submits))) {
     stop(

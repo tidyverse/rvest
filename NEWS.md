@@ -5,6 +5,16 @@
   To make it as backward compatible as possible, rvest re-exports xml2 functions
   `read_html()`, `xml_absolute()`.
 
+* `guess_encoding()` has been renamed to `html_encoding_guess()` to avoid
+   a clash with `stringr::guess_encoding()` (#209).
+   
+* `repair_encoding()` has been deprecated because it doesn't appear to work.
+
+* `pluck()` is no longer exported; if you need it use `purrr::map_chr()` 
+  and friends instead (#209).
+
+* `submit_form()` errors if `form` doesn't have a `url` (#288).
+
 * Long deprecated functions have been removed: `html()`,
   `html_tag()`, `xml()`. 
 

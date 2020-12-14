@@ -134,7 +134,7 @@ follow_link <- function(x, i, css, xpath, ...) {
   }
 
   url <- html_attr(a, "href")
-  message("Navigating to ", url)
+  inform(paste0("Navigating to ", url))
   jump_to(x, url, ...)
 }
 
