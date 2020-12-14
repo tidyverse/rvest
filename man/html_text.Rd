@@ -31,7 +31,7 @@ A character vector (for \code{html_attr()}, \code{html_tag()}, and
 }
 \description{
 \code{html_text()} extracts text inside a node, \code{html_attr()} extract a
-single attribute, \code{html_attr()} extract all attributes, and \code{html_tag()}
+single attribute, \code{html_attr()} extract all attributes, and \code{html_name()}
 gives the tag name.
 }
 \examples{

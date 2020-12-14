@@ -1,7 +1,7 @@
 #' Extract attributes, text, or tag name
 #'
 #' `html_text()` extracts text inside a node, `html_attr()` extract a
-#' single attribute, `html_attr()` extract all attributes, and `html_tag()`
+#' single attribute, `html_attr()` extract all attributes, and `html_name()`
 #' gives the tag name.
 #'
 #' @inheritParams xml2::xml_text
