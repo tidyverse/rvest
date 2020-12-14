@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `submit_form()` errors if `form` doesn't have a `url` (#288).
+
 * Long deprecated functions have been removed: `html()`,
   `html_tag()`, `xml()`. 
 
