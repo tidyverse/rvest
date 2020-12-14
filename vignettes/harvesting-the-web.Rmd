@@ -9,18 +9,6 @@ vignette: >
 ---
 
 ```{r, echo=FALSE}
-embed_png <- function(path, dpi = NULL) {
-  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
-  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
-
-  knitr::asis_output(paste0(
-    "<img src='", path, "'",
-    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
-    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
-    " />"
-  ))
-}
-
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
@@ -44,7 +32,7 @@ HTML stand for "Hyper Text Markup Language". HTML page consists of series of ele
 Below is a visualization of a simple HTML page structure:
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-1-s.png")
+knitr::include_graphics("harvesting-web-1-s.png")
 ```
 
 It is possible to define HTML attributes inside HTML tags. Attributes provide additional information about HTML elements, such as hyperlinks for text, and width and height for images. Attributes are always defined in the start tag and come in `name="value"` pairs, like so: `<a href="https://www.example.com">This is a link</a>`
@@ -58,13 +46,13 @@ CSS is a language that describes how HTML elements should be displayed. One of t
 Lets have a look at the IMDB page for the [Lego Movie](https://www.imdb.com/title/tt1490017/) and inspect the content of the page behind the fist entry in the Cast table. You can right-click the element you want to inspect and select Inspect or Inspect Element, depending on your browser. 
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-2-s.png")
+knitr::include_graphics("harvesting-web-2-s.png")
 ```
 
 This will open Developer Tools with the Elements tab containing full HTML content of the page in the tree view, focused on the element you chose to inspect.
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-3-s.png")
+knitr::include_graphics("harvesting-web-3-s.png")
 ```
 
 Two of very common HTML attributes are `class` and `id`. They are used for grouping and identifying HTML tags. In the screenshot above you can find examples of both of them. 
@@ -72,25 +60,25 @@ Two of very common HTML attributes are `class` and `id`. They are used for group
 The tags containing `class` attribute can be selected using `.` followed by the name of the class. For example, you can open SelectorGadget and try selecting tags with classes "odd"(or "even") like so:
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-4-s.png")
+knitr::include_graphics("harvesting-web-4-s.png")
 ```
 
 In order to search inside specific tag, selectors can be separated by space. Here, for example, we are locating tags with class "character" inside tags with class "odd" (i.e. we are searching for tags with class "character" among the descendants of tags with class "odd").
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-5-s.png")
+knitr::include_graphics("harvesting-web-5-s.png")
 ```
 
 Another useful selector is for tags with a special attribute "id". Selector for the tags with this attribute can be composed with symbol `#` prepending the attribute value. This selector can be combined with another one as in the example below.
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-6-s.png")
+knitr::include_graphics("harvesting-web-6-s.png")
 ```
 
 Other tags can be simply identified by name. SelectorGadget will usually do a fairly good job guessing CSS selector combination, but you can always inspect the page and adjust CSS selector as needed. Here's more realistic example of CSS selector suggested by SelectorGadget (from `vignette("selectogadget")`) which might be interpreted as: "Select tag `a` which is descendant of a tag `td` immediately following a tag with a class set to `.primary_photo`".
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-7-s.png")
+knitr::include_graphics("harvesting-web-7-s.png")
 ```
 
 The tag with `+` sign indicates that we are interested not in the one identified by the selector, but the one "immediately following" it. In the example above, the tag containing the actor name does not have the "class" attribute, but it is located between (on the same level with) two other `td` tags: `td` tag with class set to `primary_photo` and `td` tag with class set to `character`. Therefore, SelectorGadget suggested the `+` syntax to locate the exact tag we need.
@@ -160,7 +148,7 @@ Say we want to extract text from the character column of the Cast table, but onl
 - text "(voice)"
 
 ```{r, echo=FALSE}
-embed_png("harvesting-web-8-s.png")
+knitr::include_graphics("harvesting-web-8-s.png")
 ```
 
 The following `rvest` code will separate "children" text from "parent" text and return only text from the "child" node(s).

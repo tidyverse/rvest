@@ -9,20 +9,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE}
-embed_png <- function(path, dpi = NULL) {
-  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
-  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
-
-  knitr::asis_output(paste0(
-    "<img src='", path, "'",
-    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
-    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
-    " />"
-  ))
-}
-
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
-
 ```
 
 ```{r results="asis", echo=FALSE}
@@ -64,7 +51,7 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
 1.  Navigate to the page and scroll to the actors list.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-1-s.png")
+    knitr::include_graphics("selectorgadget-1-s.png")
     ```
 
 2. Click on the SelectorGadget link in the bookmarks. The SelectorGadget
@@ -72,7 +59,7 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
    under the mouse will be highlighted in orange.
    
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-2-s.png")
+    knitr::include_graphics("selectorgadget-2-s.png")
     ```
 
 3.  Click on the element you want to select (the name of an actor). The 
@@ -82,7 +69,7 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
     on the "Clear" button). This seems to be a little too excessive.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-3-s.png")
+    knitr::include_graphics("selectorgadget-3-s.png")
     ```
 
 4.  Scroll around the document to find elements that you don't want to match 
@@ -91,8 +78,8 @@ For example, imagine we want to find the actors listed on an IMDB movie page, e.
     `.primary_photo+ td a`.
 
     ```{r, echo = FALSE}
-    embed_png("selectorgadget-4-s.png")
-    embed_png("selectorgadget-5-s.png")
+    knitr::include_graphics("selectorgadget-4-s.png")
+    knitr::include_graphics("selectorgadget-5-s.png")
     ```
 
 Once we've determined the css selector, we can use it in R to extract the values we want:

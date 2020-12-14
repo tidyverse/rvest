@@ -25,7 +25,6 @@ Imports:
 Suggests:
     covr,
     knitr,
-    png,
     rmarkdown,
     spelling,
     stringi (>= 0.3.1),
