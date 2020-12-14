@@ -31,12 +31,6 @@ format_list <- function(x, indent = 0) {
 NULL
 
 
-#' Extract elements of a list by position.
-#'
-#' @param x A list
-#' @param i A string or integer.
-#' @param type Type of output, if known
-#' @export
 pluck <- function(x, i, type) {
   if (missing(type)) {
     lapply(x, .subset2, i)

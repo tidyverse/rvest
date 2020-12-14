@@ -1,35 +1,23 @@
-#' Guess and repair faulty character encoding.
+#' Guess faulty character encoding
 #'
-#' These functions help you respond to web pages that declare incorrect
-#' encodings. You can use `guess_encoding` to figure out what
-#' the real encoding is (and then supply that to the `encoding` argument of
-#' html), or use `repair_encoding` to fix character vectors after the
-#' fact.
-#'
-#' @section stringi:
-#'
-#' These function are wrappers around tools from the fantastic stringi
-#' package, so you'll need to make sure to have that installed.
+#' `html_encoding_guess()` helps you handle web pages that declare an incorrect
+#' encoding. Use `html_encoding_guess()` to generate a list of possible
+#' encodings, then try each out by using `encoding` argument of `read_html()`.
+#' `html_encoding_guess()` replaces the deprecated `guess_encoding()`.
 #'
 #' @param x A character vector.
-#' @param from The encoding that the string is actually in. If `NULL`,
-#'   `guess_encoding` will be used.
-#' @name encoding
+#' @export
 #' @examples
 #' # A file with bad encoding included in the package
 #' path <- system.file("html-ex", "bad-encoding.html", package = "rvest")
 #' x <- read_html(path)
 #' x %>% html_nodes("p") %>% html_text()
 #'
-#' guess_encoding(x)
+#' html_encoding_guess(x)
 #' # Two valid encodings, only one of which is correct
 #' read_html(path, encoding = "ISO-8859-1") %>% html_nodes("p") %>% html_text()
 #' read_html(path, encoding = "ISO-8859-2") %>% html_nodes("p") %>% html_text()
-NULL
-
-#' @rdname encoding
-#' @export
-guess_encoding <- function(x) {
+html_encoding_guess <- function(x) {
   if (!requireNamespace("stringi", quietly = TRUE)) {
     stop("stringi package required for encoding operations")
   }
@@ -41,15 +29,35 @@ guess_encoding <- function(x) {
   df
 }
 
-#' @rdname encoding
 #' @export
+#' @rdname html_encoding_guess
+#' @usage NULL
+guess_encoding <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "guess_encoding()", "html_encoding_guess()")
+  html_encoding_guess(x)
+}
+
+#' Repair faulty encoding
+#'
+#' `r lifecycle::badge("deprecated")`
+#' This function has been deprecated because it doesn't work. Instead
+#' re-read the HTML file with correct `encoding` argument.
+#'
+#' @export
+#' @keywords internal
+#' @param from The encoding that the string is actually in. If `NULL`,
+#'   `guess_encoding` will be used.
 repair_encoding <- function(x, from = NULL) {
+  lifecycle::deprecate_warn("1.0.0", "html_encoding_repair()",
+    details = "Instead, re-load using the `encoding` argument of `read_html()`"
+  )
+
   if (!requireNamespace("stringi", quietly = TRUE)) {
     stop("stringi package required for encoding operations")
   }
 
   if (is.null(from)) {
-    best_guess <- guess_encoding(x)[1, , drop = FALSE]
+    best_guess <- html_encoding_guess(x)[1, , drop = FALSE]
     from <- best_guess$encoding
     conf <- best_guess$confidence * 100
     if (conf < 50) {
@@ -59,5 +67,12 @@ repair_encoding <- function(x, from = NULL) {
     inform(paste0("Best guess: ", from, " (", conf, "% confident)"))
   }
 
-  stringi::stri_conv(x, from = from)
+  stringi::stri_conv(x, from)
 }
+
+#' Deprecated encoding functions
+#'
+#' `r lifecycle::badge("deprecated")`
+#' These functions have been replaced by [html_encoding_guess()] and
+#' [html_encoding_repair()].
+#'

@@ -14,6 +14,7 @@ reference:
   - html_nodes
   - html_table
   - html_text
+  - html_encoding_guess
 
 - title: Manage a scraping session
   contents:
@@ -25,6 +26,4 @@ reference:
 
 - title: Utilities
   contents:
-  - encoding
-  - pluck
   - google_form
