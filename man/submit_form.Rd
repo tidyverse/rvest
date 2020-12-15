@@ -11,8 +11,12 @@ submit_form(session, form, submit = NULL, ...)
 
 \item{form}{Form to submit}
 
-\item{submit}{Name of submit button to use. If not supplied, defaults to
-first submission button on the form (with a message).}
+\item{submit}{Which button should be used?
+\itemize{
+\item \code{NULL}, the default, uses the first.
+\item A string selects a button by its name.
+\item A number selects a button based on it relative position.
+}}
 
 \item{...}{Additional arguments passed on to \code{\link[httr:GET]{httr::GET()}}
 or \code{\link[httr:POST]{httr::POST()}}}

@@ -1,4 +1,3 @@
-
 #' Set values in a form
 #'
 #' @param form Form to modify
@@ -44,20 +43,17 @@ set_values <- function(form, ...) {
 #'
 #' @param session Session to submit form to.
 #' @param form Form to submit
-#' @param submit Name of submit button to use. If not supplied, defaults to
-#'   first submission button on the form (with a message).
+#' @param submit Which button should be used?
+#'   * `NULL`, the default, uses the first.
+#'   * A string selects a button by its name.
+#'   * A number selects a button based on it relative position.
 #' @param ... Additional arguments passed on to [httr::GET()]
 #'   or [httr::POST()]
 #' @return If successful, the parsed html response. Throws an error if http
 #'   request fails.
 #' @export
 submit_form <- function(session, form, submit = NULL, ...) {
-  request <- submit_request(form, submit)
-
-  if (is.null(form$url)) {
-    abort("`form` doesn't contain a `action` attribute")
-  }
-  url <- xml2::url_absolute(form$url, session$url)
+  request <- submission_build(form, submit, base_url = session$url)
 
   if (request$method == "GET") {
     request_GET(session,
@@ -77,52 +73,76 @@ submit_form <- function(session, form, submit = NULL, ...) {
   }
 }
 
-submit_request <- function(form, submit = NULL) {
-  is_submit <- function(x) {
-    if (length(x$type) == 0L) {
-      return(FALSE)
-    }
-    tolower(x$type) %in% c("submit", "image", "button")
-  }
-
-  submits <- Filter(is_submit, form$fields)
-  if (length(submits) == 0) {
-    stop("Could not find possible submission target.", call. = FALSE)
-  }
-
-  if (is.null(submit)) {
-    submit <- names(submits)[[1]]
-    inform(paste0("Submitting with '", submit, "'"))
-  }
-  if (!(submit %in% names(submits))) {
-    stop(
-      "Unknown submission name '", submit, "'.\n",
-      "Possible values: ", paste0(names(submits), collapse = ", "),
-      call. = FALSE
-    )
-  }
-  other_submits <- setdiff(names(submits), submit)
-
-  # Parameters needed for http request -----------------------------------------
+submission_build <- function(form, submit, base_url) {
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
-    warning("Invalid method (", method, "), defaulting to GET", call. = FALSE)
+    warn(paste0("Invalid method (", method, "), defaulting to GET"))
     method <- "GET"
   }
 
   url <- form$url
-
-  fields <- form$fields
-  fields <- Filter(function(x) length(x$value) > 0, fields)
-  fields <- fields[setdiff(names(fields), other_submits)]
-
-  values <- pluck(fields, "value")
-  names(values) <- names(fields)
+  if (is.null(form$url)) {
+    abort("`form` doesn't contain a `action` attribute")
+  }
+  url <- xml2::url_absolute(form$url, base_url)
 
   list(
     method = method,
     encode = form$enctype,
     url = url,
-    values = values
+    values = submission_build_values(form, submit)
   )
+}
+
+submission_build_values <- function(form, submit = NULL) {
+  fields <- form$fields
+  submit <- submission_find_submit(fields, submit)
+  entry_list <- c(Filter(Negate(is_button), fields), list(submit))
+  entry_list <- Filter(is_entry, entry_list)
+
+  values <- map_chr(entry_list, "[[", "value")
+  names(values) <- map_chr(entry_list, "[[", "name")
+  values
+}
+
+submission_find_submit <- function(fields, idx) {
+  buttons <- Filter(is_button, fields)
+
+  if (is.null(idx)) {
+    if (length(buttons) == 0) {
+      list()
+    } else {
+      if (length(buttons) > 1) {
+        inform(paste0("Submitting with '", buttons[[1]]$name, "'"))
+      }
+      buttons[[1]]
+    }
+  } else if (is.numeric(idx) && length(idx) == 1) {
+    if (idx < 1 || idx > length(buttons)) {
+      abort("Numeric `submit` out of range")
+    }
+    buttons[[idx]]
+  } else if (is.character(idx) && length(idx) == 1) {
+    if (!idx %in% names(buttons)) {
+      abort(c(
+        paste0("No <input> found with name '", idx, "'."),
+        i = paste0("Possible values: ", paste0(names(buttons), collapse = ", "))
+      ))
+    }
+    buttons[[idx]]
+  } else {
+    abort("`submit` must be NULL, a string, or a number.")
+  }
+}
+
+# https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#constructing-the-form-data-set
+is_entry <- function(x) {
+  length(x$value) == 1 && !is.null(x$name)
+}
+
+is_button <- function(x) {
+  if (length(x$type) == 0L) {
+    return(FALSE)
+  }
+  tolower(x$type) %in% c("submit", "image", "button")
 }

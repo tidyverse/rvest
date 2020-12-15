@@ -30,7 +30,7 @@ html_form.xml_node <- function(x) {
 
   attr <- as.list(xml2::xml_attrs(x))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
-  method <- toupper(attr$method) %||% "GET"
+  method <- toupper(attr$method %||% "GET")
   enctype <- convert_enctype(attr$enctype)
 
   fields <- parse_fields(x)
@@ -148,9 +148,9 @@ parse_options <- function(options) {
   }
 
   parsed <- lapply(options, parse_option)
-  value <- pluck(parsed, "value", character(1))
-  name <- pluck(parsed, "name", character(1))
-  selected <- pluck(parsed, "selected", logical(1))
+  value <-  map_chr(parsed, "[[", "value")
+  name <- map_chr(parsed, "[[", "name")
+  selected <- map_lgl(parsed, "[[", "selected")
 
   list(
     value = value[selected],
@@ -195,7 +195,7 @@ parse_button <- function(button) {
 
 #' @export
 format.button <- function(x, ...) {
-  paste0("<button ", x$type, "> '", x$name)
+  paste0("<button ", x$type, "> '", x$name, "'")
 }
 
 
@@ -225,3 +225,11 @@ convert_enctype <- function(x) {
     "form"
   }
 }
+
+format_list <- function(x, indent = 0) {
+  spaces <- paste(rep("  ", indent), collapse = "")
+
+  formatted <- vapply(x, format, character(1))
+  paste0(spaces, formatted, collapse = "\n")
+}
+

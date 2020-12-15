@@ -17,22 +17,65 @@ test_that("can set values of inputs", {
   expect_equal(form$fields$hidden$value, "abc")
 })
 
-# submit_request ----------------------------------------------------------
+# submission_build ----------------------------------------------------------
 
-test_that("submit_request detects submit-buttons correctly", {
-  select <- minimal_html("submit test", '
-    <form id="suchparameterForm" method="post" action="/test-path">
-      <select name="elementWithoutType" size="1">
-        <option value="10">10</option>
-        <option value="25">25</option>
-      </select>
+test_that("works as expected in simple case", {
+  html <- minimal_html("test", '
+    <form method="post" action="/test-path">
+    <input name="x" value="1">
     <button type="submit" name="clickMe">Click me</button>
     </form>
   ')
-  form <- select %>% html_node("form") %>% html_form()
+  form <- html_form(html)[[1]]
 
-  req <- submit_request(form, "clickMe")
-  expect_length(req, 4L)
-  expect_equal(req$method, "POST")
-  expect_equal(req$url, "/test-path")
+  sub <- submission_build(form, "clickMe", "http://here.com")
+  expect_equal(sub$method, "POST")
+  expect_equal(sub$url, "http://here.com/test-path")
+  expect_equal(sub$values, c(x = "1"))
+})
+
+test_that("useful feedback on invalid forms", {
+  html <- minimal_html("test", "<form></form>")
+  form <- html_form(html)[[1]]
+  expect_snapshot(submission_build(form, NULL, base_url = "http://"), error = TRUE)
+
+  html <- minimal_html("test", "<form action='/' method='foo'></form>")
+  form <- html_form(html)[[1]]
+  expect_snapshot(x <- submission_build(form, NULL, base_url = "http://"))
+})
+
+test_that("handles multiple buttons", {
+  html <- minimal_html("test", '
+    <form action="/">
+    <button type="submit" name="one" value="1">Click me</button>
+    <button type="submit" name="two" value="2">Click me</button>
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  # Messages when picking automatically
+  expect_snapshot(vals <- submission_build_values(form, NULL))
+  expect_equal(vals, c(one = "1"))
+
+  expect_equal(submission_build_values(form, "two"), c(two = "2"))
+  expect_equal(submission_build_values(form, 2L), c(two = "2"))
+
+  # Useful failure messages
+  expect_snapshot(submission_build_values(form, 3L), error = TRUE)
+  expect_snapshot(submission_build_values(form, "three"), error = TRUE)
+  expect_snapshot(submission_build_values(form, TRUE), error = TRUE)
+})
+
+test_that("handles no buttons", {
+  html <- minimal_html("test", '
+    <form action="/">
+    <input type="text", name="x" value="1">
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  expect_equal(
+    submission_build_values(form),
+    c(x = "1")
+  )
 })

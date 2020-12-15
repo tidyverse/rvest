@@ -1,22 +1,3 @@
-"%||%" <- function(a, b) if (length(a) == 0) b else a
-
-vpluck_with_default <- function(xs, i, default) {
-  extract <- function(x) {
-    if (i %in% names(x)) {
-      x[[i]]
-    } else {
-      default
-    }
-  }
-  vapply(xs, extract, FUN.VALUE = default)
-}
-
-format_list <- function(x, indent = 0) {
-  spaces <- paste(rep("  ", indent), collapse = "")
-
-  formatted <- vapply(x, format, character(1))
-  paste0(spaces, formatted, collapse = "\n")
-}
 
 #' Pipe operator
 #'
@@ -30,11 +11,17 @@ format_list <- function(x, indent = 0) {
 #' @usage lhs \%>\% rhs
 NULL
 
-
 pluck <- function(x, i, type) {
   if (missing(type)) {
     lapply(x, .subset2, i)
   } else {
     vapply(x, .subset2, i, FUN.VALUE = type)
   }
+}
+
+map_chr <- function(.x, .f, ...) {
+  vapply(.x, .f, ..., FUN.VALUE = character(1))
+}
+map_lgl <- function(.x, .f, ...) {
+  vapply(.x, .f, ..., FUN.VALUE = logical(1))
 }
