@@ -155,6 +155,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> now allows you to pick the submission button by position (<a href='https://github.com/tidyverse/rvest/issues/156'>#156</a>).</p></li>
 <li><p><code><a href="../reference/set_values.html">set_values()</a></code> now uses dynamic dots so that you can use <code>!!!</code> if you have a list of values (<a href='https://github.com/tidyverse/rvest/issues/189'>#189</a>).</p></li>
 <li><p>rvest now imports xml2 rather than depending on it. This is cleaner because it avoids attaching all the xml2 functions that you’re less likely to use. To make it as backward compatible as possible, rvest re-exports xml2 functions <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, <code>xml_absolute()</code>.</p></li>
 <li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
