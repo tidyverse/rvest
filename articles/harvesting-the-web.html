@@ -242,7 +242,7 @@ outline: 0 ;
 <p>Finally attributes of HTML tags can be extracted using <code><a href="../reference/html_text.html">html_attrs()</a></code>(or <code><a href="../reference/html_text.html">html_attr()</a></code> for extracting a single attribute from a node/nodeset, given its name). Let’s fetch urls of the actors’ pages.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_text.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_children.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
 <span class="co">#&gt;  [2] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
@@ -282,7 +282,7 @@ outline: 0 ;
 <p>The following <code>rvest</code> code will separate “children” text from “parent” text and return only text from the “child” node(s).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_text.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_children.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Batman"      "Bruce Wayne"</span></code></pre></div>
 <p>However, there’s no suitable “CSS selector” to exclude child nodes and extract only text from the “parent” node. This is the situation where <code>xpath</code> selector can be more powerful. In addition to traversing the html/xml tree, <code>xpath</code> also has its own “extractor” functions, similar to those of <code>rvest</code>. In particular, here will will use <code><a href="https://rdrr.io/r/graphics/text.html">text()</a></code> applied to “current node only” (this is the meaning of <code>./</code> in the following code). We also use <code>normalize-space()</code> function, which drops empty strings.</p>

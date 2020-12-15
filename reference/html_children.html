@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract attributes, text, or tag name — html_text • rvest</title>
+<title>Find all child elements — html_children • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,10 +49,8 @@
 
 
 
-<meta property="og:title" content="Extract attributes, text, or tag name — html_text" />
-<meta property="og:description" content="html_text() extracts text inside a node, html_attr() extract a
-single attribute, html_attr() extract all attributes, and html_name()
-gives the tag name." />
+<meta property="og:title" content="Find all child elements — html_children" />
+<meta property="og:description" content="Find all child elements" />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -149,24 +147,16 @@ gives the tag name." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract attributes, text, or tag name</h1>
+    <h1>Find all child elements</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/html.R'><code>R/html.R</code></a></small>
-    <div class="hidden name"><code>html_text.Rd</code></div>
+    <div class="hidden name"><code>html_children.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>html_text()</code> extracts text inside a node, <code>html_attr()</code> extract a
-single attribute, <code>html_attr()</code> extract all attributes, and <code>html_name()</code>
-gives the tag name.</p>
+    <p>Find all child elements</p>
     </div>
 
-    <pre class="usage"><span class='fu'>html_text</span><span class='op'>(</span><span class='va'>x</span>, trim <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='fu'>html_name</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='fu'>html_attrs</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>name</span>, default <span class='op'>=</span> <span class='cn'>NA_character_</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>html_children</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,86 +165,23 @@ gives the tag name.</p>
       <th>x</th>
       <td><p>A document, node, or node set.</p></td>
     </tr>
-    <tr>
-      <th>trim</th>
-      <td><p>If <code>TRUE</code> will trim leading and trailing spaces.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>Name of attribute to retrieve.</p></td>
-    </tr>
-    <tr>
-      <th>default</th>
-      <td><p>A string used as a default value when the attribute does
-not exist in every node.</p></td>
-    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A character vector (for <code>html_attr()</code>, <code>html_tag()</code>, and
-<code>html_text()</code>) or list (<code>html_attrs()</code>) the same length as <code>x</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='st'>"https://en.wikipedia.org/wiki/The_Lego_Movie"</span>
-<span class='va'>movie</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
-<span class='va'>cast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>movie</span>, <span class='st'>"tr:nth-child(8) .plainlist a"</span><span class='op'>)</span>
-
-<span class='fu'>html_text</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Chris Pratt"     "Will Ferrell"    "Elizabeth Banks" "Will Arnett"    
-#&gt; [5] "Nick Offerman"   "Alison Brie"     "Charlie Day"     "Liam Neeson"    
-#&gt; [9] "Morgan Freeman" </div><div class='input'><span class='fu'>html_name</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "a" "a" "a" "a" "a" "a" "a" "a" "a"</div><div class='input'><span class='fu'>html_attrs</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt;                href               title 
-#&gt; "/wiki/Chris_Pratt"       "Chris Pratt" 
-#&gt; 
-#&gt; [[2]]
-#&gt;                 href                title 
-#&gt; "/wiki/Will_Ferrell"       "Will Ferrell" 
-#&gt; 
-#&gt; [[3]]
-#&gt;                    href                   title 
-#&gt; "/wiki/Elizabeth_Banks"       "Elizabeth Banks" 
-#&gt; 
-#&gt; [[4]]
-#&gt;                href               title 
-#&gt; "/wiki/Will_Arnett"       "Will Arnett" 
-#&gt; 
-#&gt; [[5]]
-#&gt;                  href                 title 
-#&gt; "/wiki/Nick_Offerman"       "Nick Offerman" 
-#&gt; 
-#&gt; [[6]]
-#&gt;                href               title 
-#&gt; "/wiki/Alison_Brie"       "Alison Brie" 
-#&gt; 
-#&gt; [[7]]
-#&gt;                href               title 
-#&gt; "/wiki/Charlie_Day"       "Charlie Day" 
-#&gt; 
-#&gt; [[8]]
-#&gt;                href               title 
-#&gt; "/wiki/Liam_Neeson"       "Liam Neeson" 
-#&gt; 
-#&gt; [[9]]
-#&gt;                   href                  title 
-#&gt; "/wiki/Morgan_Freeman"       "Morgan Freeman" 
-#&gt; </div><div class='input'><span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>cast</span>, <span class='st'>"href"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/wiki/Chris_Pratt"     "/wiki/Will_Ferrell"    "/wiki/Elizabeth_Banks"
-#&gt; [4] "/wiki/Will_Arnett"     "/wiki/Nick_Offerman"   "/wiki/Alison_Brie"    
-#&gt; [7] "/wiki/Charlie_Day"     "/wiki/Liam_Neeson"     "/wiki/Morgan_Freeman" </div><div class='input'>
-<span class='co'># If needed, use url_absolute() to convert to complete urls</span>
-<span class='fu'><a href='http://xml2.r-lib.org/reference/url_absolute.html'>url_absolute</a></span><span class='op'>(</span><span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>cast</span>, <span class='st'>"href"</span><span class='op'>)</span>, <span class='va'>url</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "https://en.wikipedia.org/wiki/Chris_Pratt"    
-#&gt; [2] "https://en.wikipedia.org/wiki/Will_Ferrell"   
-#&gt; [3] "https://en.wikipedia.org/wiki/Elizabeth_Banks"
-#&gt; [4] "https://en.wikipedia.org/wiki/Will_Arnett"    
-#&gt; [5] "https://en.wikipedia.org/wiki/Nick_Offerman"  
-#&gt; [6] "https://en.wikipedia.org/wiki/Alison_Brie"    
-#&gt; [7] "https://en.wikipedia.org/wiki/Charlie_Day"    
-#&gt; [8] "https://en.wikipedia.org/wiki/Liam_Neeson"    
-#&gt; [9] "https://en.wikipedia.org/wiki/Morgan_Freeman" </div></pre>
+    <pre class="examples"><div class='input'><span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"A list"</span>, <span class='st'>"&lt;ul&gt;&lt;li&gt;1&lt;li&gt;2&lt;li&gt;3&lt;/ul&gt;"</span><span class='op'>)</span>
+<span class='va'>ul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>html</span>, <span class='st'>"ul"</span><span class='op'>)</span>
+<span class='fu'>html_children</span><span class='op'>(</span><span class='va'>ul</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;li&gt;1&lt;/li&gt;\n
+#&gt; [2] &lt;li&gt;2&lt;/li&gt;\n
+#&gt; [3] &lt;li&gt;3&lt;/li&gt;</div><div class='input'>
+<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"A paragraph"</span>, <span class='st'>"&lt;p&gt;Hello &lt;b&gt;Hadley&lt;/b&gt;&lt;i&gt;!&lt;/i&gt;"</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>html</span>, <span class='st'>"p"</span><span class='op'>)</span>
+<span class='fu'>html_children</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {xml_nodeset (2)}
+#&gt; [1] &lt;b&gt;Hadley&lt;/b&gt;
+#&gt; [2] &lt;i&gt;!&lt;/i&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
