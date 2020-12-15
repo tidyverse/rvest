@@ -1,8 +1,9 @@
 
-#' Set values in a form.
+#' Set values in a form
 #'
 #' @param form Form to modify
-#' @param ... Name-value pairs giving fields to modify
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
+#'   fields to modify.
 #' @return An updated form object
 #' @export
 #' @examples
@@ -10,8 +11,12 @@
 #' set_values(search, q = "My little pony")
 #' set_values(search, hl = "fr")
 #' \dontrun{set_values(search, btnI = "blah")}
+#'
+#' # If you have a list of values, use !!!
+#' vals <- list(q = "web scraping", hl = "en")
+#' set_values(search, !!!vals)
 set_values <- function(form, ...) {
-  new_values <- list(...)
+  new_values <- list2(...)
 
   # check for valid names
   no_match <- setdiff(names(new_values), names(form$fields))

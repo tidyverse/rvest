@@ -2,24 +2,29 @@
 % Please edit documentation in R/form-submit.R
 \name{set_values}
 \alias{set_values}
-\title{Set values in a form.}
+\title{Set values in a form}
 \usage{
 set_values(form, ...)
 }
 \arguments{
 \item{form}{Form to modify}
 
-\item{...}{Name-value pairs giving fields to modify}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Name-value pairs giving
+fields to modify.}
 }
 \value{
 An updated form object
 }
 \description{
-Set values in a form.
+Set values in a form
 }
 \examples{
 search <- html_form(read_html("http://www.google.com"))[[1]]
 set_values(search, q = "My little pony")
 set_values(search, hl = "fr")
 \dontrun{set_values(search, btnI = "blah")}
+
+# If you have a list of values, use !!!
+vals <- list(q = "web scraping", hl = "en")
+set_values(search, !!!vals)
 }
