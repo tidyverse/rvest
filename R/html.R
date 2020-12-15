@@ -49,6 +49,7 @@ html_attr <- function(x, name, default = NA_character_) {
 #' Find all child elements
 #'
 #' @export
+#' @inheritParams xml2::xml_text
 #' @examples
 #' html <- minimal_html("A list", "<ul><li>1<li>2<li>3</ul>")
 #' ul <- html_nodes(html, "ul")

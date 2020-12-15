@@ -6,6 +6,9 @@
 \usage{
 html_children(x)
 }
+\arguments{
+\item{x}{A document, node, or node set.}
+}
 \description{
 Find all child elements
 }
