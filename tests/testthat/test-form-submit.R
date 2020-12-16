@@ -17,6 +17,18 @@ test_that("can set values of inputs", {
   expect_equal(form$fields$hidden$value, "abc")
 })
 
+test_that("has informative errors", {
+  html <- minimal_html("test", '
+    <form id="test" method="post" action="/test-path">
+      <input type="submit" name="text" />
+    </form>
+  ')
+
+  form <- html_form(html)[[1]]
+  expect_snapshot(form_set_values(form, text = "x"), error = TRUE)
+  expect_snapshot(form_set_values(form, missing = "x"), error = TRUE)
+})
+
 test_that("set_values() is deprecated", {
   html <- minimal_html("test", '
     <form><input type="text" name="text" /></form>

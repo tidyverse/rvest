@@ -2,8 +2,22 @@
 
     Code
       form <- form_set_values(form, hidden = "abc")
-    Warning <simpleWarning>
+    Warning <warning>
       Setting value of hidden field 'hidden'.
+
+# has informative errors
+
+    Code
+      form_set_values(form, text = "x")
+    Error <rlang_error>
+      Can't change value of input with type submit: 'text'.
+
+---
+
+    Code
+      form_set_values(form, missing = "x")
+    Error <rlang_error>
+      Can't set value of fields that don't exist: ' missing '
 
 # set_values() is deprecated
 

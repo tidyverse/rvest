@@ -37,16 +37,16 @@ form_set_values <- function(form, ...) {
   # check for valid names
   no_match <- setdiff(names(new_values), names(form$fields))
   if (length(no_match) > 0) {
-    stop("Unknown field names: ", paste(no_match, collapse = ", "),
-      call. = FALSE)
+    str <- paste("'", no_match, "'", collapse = ", ")
+    abort(paste0("Can't set value of fields that don't exist: ", str))
   }
 
   for (field in names(new_values)) {
     type <- form$fields[[field]]$type %||% "non-input"
     if (type == "hidden") {
-      warning("Setting value of hidden field '", field, "'.", call. = FALSE)
+      warn(paste0("Setting value of hidden field '", field, "'."))
     } else if (type == "submit") {
-      stop("Can't change value of submit input '", field, "'.", call. = FALSE)
+      abort(paste0("Can't change value of input with type submit: '", field, "'."))
     }
 
     form$fields[[field]]$value <- new_values[[field]]
