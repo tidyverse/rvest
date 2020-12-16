@@ -2,27 +2,50 @@
 % Please edit documentation in R/form-submit.R
 \name{set_values}
 \alias{set_values}
-\title{Set values in a form}
+\alias{submit_form}
+\title{Modify and submit a form}
 \usage{
 set_values(form, ...)
+
+submit_form(session, form, submit = NULL, config = list(), ...)
 }
 \arguments{
-\item{form}{Form to modify}
+\item{form}{An \code{\link[=html_form]{html_form()}}.}
 
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Name-value pairs giving
 fields to modify.}
+
+\item{session}{An \code{\link[=html_session]{html_session()}}.}
+
+\item{submit}{Which button should be used?
+\itemize{
+\item \code{NULL}, the default, uses the first.
+\item A string selects a button by its name.
+\item A number selects a button based on it relative position.
+}}
+
+\item{config}{Additional config passed on to \code{\link[httr:GET]{httr::GET()}}
+or \code{\link[httr:POST]{httr::POST()}}}
 }
 \value{
-An updated form object
+\code{set_values()} returns an updated form object;
+\code{submit_form()} returns the prsed HTML response (or an error if the
+HTTP request fails).
 }
 \description{
-Set values in a form
+Once you've extracted a form from a page with \code{\link[=html_form]{html_form()}} use
+\code{\link[=set_values]{set_values()}} to modify its values and \code{\link[=submit_form]{submit_form()}} to submit it.
 }
 \examples{
-search <- html_form(read_html("http://www.google.com"))[[1]]
-set_values(search, q = "My little pony")
-set_values(search, hl = "fr")
-\dontrun{set_values(search, btnI = "blah")}
+session <- html_session("http://www.google.com")
+
+search <- html_form(session)[[1]]
+search <- set_values(search, q = "My little pony")
+search <- set_values(search, hl = "fr")
+
+\dontrun{
+submit_form(session, search)
+}
 
 # If you have a list of values, use !!!
 vals <- list(q = "web scraping", hl = "en")

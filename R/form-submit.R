@@ -1,15 +1,25 @@
-#' Set values in a form
+#' Modify and submit a form
 #'
-#' @param form Form to modify
+#' Once you've extracted a form from a page with [html_form()] use
+#' [set_values()] to modify its values and [submit_form()] to submit it.
+#'
+#' @param form An [html_form()].
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
 #'   fields to modify.
-#' @return An updated form object
+#' @return `set_values()` returns an updated form object;
+#'   `submit_form()` returns the prsed HTML response (or an error if the
+#'   HTTP request fails).
 #' @export
 #' @examples
-#' search <- html_form(read_html("http://www.google.com"))[[1]]
-#' set_values(search, q = "My little pony")
-#' set_values(search, hl = "fr")
-#' \dontrun{set_values(search, btnI = "blah")}
+#' session <- html_session("http://www.google.com")
+#'
+#' search <- html_form(session)[[1]]
+#' search <- set_values(search, q = "My little pony")
+#' search <- set_values(search, hl = "fr")
+#'
+#' \dontrun{
+#' submit_form(session, search)
+#' }
 #'
 #' # If you have a list of values, use !!!
 #' vals <- list(q = "web scraping", hl = "en")
@@ -39,34 +49,39 @@ set_values <- function(form, ...) {
 
 }
 
-#' Submit a form back to the server.
-#'
-#' @param session Session to submit form to.
-#' @param form Form to submit
+#' @param session An [html_session()].
 #' @param submit Which button should be used?
 #'   * `NULL`, the default, uses the first.
 #'   * A string selects a button by its name.
 #'   * A number selects a button based on it relative position.
-#' @param ... Additional arguments passed on to [httr::GET()]
+#' @param config Additional config passed on to [httr::GET()]
 #'   or [httr::POST()]
-#' @return If successful, the parsed html response. Throws an error if http
-#'   request fails.
+#' @rdname set_values
 #' @export
-submit_form <- function(session, form, submit = NULL, ...) {
+submit_form <- function(session, form, submit = NULL, config = list(), ...) {
   request <- submission_build(form, submit, base_url = session$url)
+
+  if (!missing(...)) {
+    lifecycle::deprecate_warn("1.0.0",
+      "submit_form(... = )",
+      "submit_form(config = )"
+    )
+  }
 
   if (request$method == "GET") {
     request_GET(session,
       url = url,
       query = request$values,
-      ...
+      ...,
+      config
     )
   } else if (request$method == "POST") {
     request_POST(session,
       url = url,
       body = request$values,
       encode = request$encode,
-      ...
+      ...,
+      config
     )
   } else {
     stop("Unknown method: ", request$method, call. = FALSE)

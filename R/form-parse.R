@@ -1,4 +1,6 @@
-#' Parse forms in a page.
+#' Parse forms in a page
+#'
+#'
 #'
 #' @export
 #' @param x A node, node set or document.
@@ -92,7 +94,7 @@ print.fields <- function(x, ..., indent = 0) {
 # * submit:
 # * image: not supported
 # * reset: ignored (client side only)
-# * button: ignored (client side only)
+# * button:
 # * hidden
 # * file
 # * number/range (min, max, step)

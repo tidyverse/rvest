@@ -1,7 +1,7 @@
 # rvest (development version)
 
 * `submit_form()` now allows you to pick the submission button by position
-  (#156).
+  (#156). The `...` argument is deprecated; please use `config` instead.
 
 * `set_values()` now uses dynamic dots so that you can use `!!!` if you have
   a list of values (#189).

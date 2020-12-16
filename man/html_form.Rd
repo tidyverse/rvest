@@ -2,7 +2,7 @@
 % Please edit documentation in R/form-parse.R
 \name{html_form}
 \alias{html_form}
-\title{Parse forms in a page.}
+\title{Parse forms in a page}
 \usage{
 html_form(x)
 }
@@ -10,7 +10,7 @@ html_form(x)
 \item{x}{A node, node set or document.}
 }
 \description{
-Parse forms in a page.
+Parse forms in a page
 }
 \examples{
 \donttest{
