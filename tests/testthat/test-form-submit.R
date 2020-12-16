@@ -9,11 +9,11 @@ test_that("can set values of inputs", {
   ')
   form <- html_form(html)[[1]]
 
-  form <- form_set_values(form, text = "abc")
+  form <- form_set(form, text = "abc")
   expect_equal(form$fields$text$value, "abc")
 
   # warns that setting hidden field
-  expect_snapshot(form <- form_set_values(form, hidden = "abc"))
+  expect_snapshot(form <- form_set(form, hidden = "abc"))
   expect_equal(form$fields$hidden$value, "abc")
 })
 
@@ -25,8 +25,8 @@ test_that("has informative errors", {
   ')
 
   form <- html_form(html)[[1]]
-  expect_snapshot(form_set_values(form, text = "x"), error = TRUE)
-  expect_snapshot(form_set_values(form, missing = "x"), error = TRUE)
+  expect_snapshot(form_set(form, text = "x"), error = TRUE)
+  expect_snapshot(form_set(form, missing = "x"), error = TRUE)
 })
 
 test_that("set_values() is deprecated", {

@@ -1,13 +1,13 @@
 #' Modify and submit a form
 #'
 #' Once you've extracted a form from a page with [html_form()] use
-#' [form_set_values()] to modify its values and [form_submit()] to submit it.
+#' [form_set()] to modify its values and [form_submit()] to submit it.
 #'
 #' @section rvest 1.0.0:
 #' `r lifecycle::badge("deprecated")`
 #'
 #' In rvest 1.0.0, `set_values()` was deprecated in favor of
-#' `form_set_values()` and `submit_form()` in favor of `form_submit()`.
+#' `form_set()` and `submit_form()` in favor of `form_submit()`.
 #' Note that the argument order of `form_submit()` is different in order
 #' to facilitate use in a pipe
 #'
@@ -31,7 +31,7 @@
 #' # If you have a list of values, use !!!
 #' vals <- list(q = "web scraping", hl = "en")
 #' search %>% set_values(!!!vals)
-form_set_values <- function(form, ...) {
+form_set <- function(form, ...) {
   new_values <- list2(...)
 
   # check for valid names
@@ -62,7 +62,7 @@ form_set_values <- function(form, ...) {
 #'   * A number selects a button based on it relative position.
 #' @param config Additional config passed on to [httr::GET()]
 #'   or [httr::POST()]
-#' @rdname form_set_values
+#' @rdname form_set
 #' @export
 form_submit <- function(form, session, submit = NULL, config = list(), ...) {
   request <- submission_build(form, submit, base_url = session$url)
@@ -94,18 +94,18 @@ form_submit <- function(form, session, submit = NULL, config = list(), ...) {
   }
 }
 
-#' @rdname form_set_values
+#' @rdname form_set
 #' @export
 set_values <- function(form, ...) {
-  lifecycle::deprecate_warn("1.0.0", "set_values()", "form_set_values()")
-  form_set_values(form = form, ...)
+  lifecycle::deprecate_warn("1.0.0", "set_values()", "form_set()")
+  form_set(form = form, ...)
 }
 
-#' @rdname form_set_values
+#' @rdname form_set
 #' @export
 submit_form <- function(session, form, submit = NULL, config = list(), ...) {
   lifecycle::deprecate_warn("1.0.0", "submit_form()", "form_submit()")
-  form_set_values(form = form, session = session, submit = submit, config = list(), ...)
+  form_set(form = form, session = session, submit = submit, config = list(), ...)
 }
 
 
