@@ -33,13 +33,7 @@
 #' search %>% set_values(!!!vals)
 form_set <- function(form, ...) {
   new_values <- list2(...)
-
-  # check for valid names
-  no_match <- setdiff(names(new_values), names(form$fields))
-  if (length(no_match) > 0) {
-    str <- paste("'", no_match, "'", collapse = ", ")
-    abort(paste0("Can't set value of fields that don't exist: ", str))
-  }
+  check_fields(form, new_values)
 
   for (field in names(new_values)) {
     type <- form$fields[[field]]$type %||% "non-input"
@@ -181,4 +175,12 @@ is_button <- function(x) {
     return(FALSE)
   }
   tolower(x$type) %in% c("submit", "image", "button")
+}
+
+check_fields <- function(form, values) {
+  no_match <- setdiff(names(values), names(form$fields))
+  if (length(no_match) > 0) {
+    str <- paste("'", no_match, "'", collapse = ", ")
+    abort(paste0("Can't set value of fields that don't exist: ", str))
+  }
 }
