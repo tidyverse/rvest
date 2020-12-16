@@ -1,5 +1,8 @@
 # rvest (development version)
 
+* Rename `submit_form()` to `form_submit()` and `set_values()` to 
+  `form_set_values()`.
+
 * `submit_form()` now allows you to pick the submission button by position
   (#156). The `...` argument is deprecated; please use `config` instead.
 

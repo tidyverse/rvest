@@ -1,9 +1,20 @@
 # can set values of inputs
 
     Code
-      form <- set_values(form, hidden = "abc")
+      form <- form_set_values(form, hidden = "abc")
     Warning <simpleWarning>
       Setting value of hidden field 'hidden'.
+
+# set_values() is deprecated
+
+    Code
+      set_values(form, text = "abc")
+    Warning <lifecycle_warning_deprecated>
+      `set_values()` is deprecated as of rvest 1.0.0.
+      Please use `form_set_values()` instead.
+    Output
+      <form> '<unnamed>' (GET )
+        <input text> 'text': abc
 
 # useful feedback on invalid forms
 

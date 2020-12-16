@@ -21,8 +21,7 @@ reference:
   - html_session
   - jump_to
   - back
-  - set_values
-  - submit_form
+  - form_submit
 
 - title: Utilities
   contents:

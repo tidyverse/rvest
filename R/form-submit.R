@@ -1,30 +1,37 @@
 #' Modify and submit a form
 #'
 #' Once you've extracted a form from a page with [html_form()] use
-#' [set_values()] to modify its values and [submit_form()] to submit it.
+#' [form_set_values()] to modify its values and [form_submit()] to submit it.
+#'
+#' @section rvest 1.0.0:
+#' `r lifecycle::badge("deprecated")`
+#'
+#' In rvest 1.0.0, `set_values()` was deprecated in favor of
+#' `form_set_values()` and `submit_form()` in favor of `form_submit()`.
+#' Note that the argument order of `form_submit()` is different in order
+#' to facilitate use in a pipe
 #'
 #' @param form An [html_form()].
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
 #'   fields to modify.
 #' @return `set_values()` returns an updated form object;
-#'   `submit_form()` returns the prsed HTML response (or an error if the
+#'   `submit_form()` returns the parsed HTML response (or an error if the
 #'   HTTP request fails).
 #' @export
 #' @examples
 #' session <- html_session("http://www.google.com")
-#'
 #' search <- html_form(session)[[1]]
-#' search <- set_values(search, q = "My little pony")
-#' search <- set_values(search, hl = "fr")
 #'
 #' \dontrun{
-#' submit_form(session, search)
+#' search %>%
+#'   set_values(q = "My little pony", hl = "fr") %>%
+#'   submit_form(session)
 #' }
 #'
 #' # If you have a list of values, use !!!
 #' vals <- list(q = "web scraping", hl = "en")
-#' set_values(search, !!!vals)
-set_values <- function(form, ...) {
+#' search %>% set_values(!!!vals)
+form_set_values <- function(form, ...) {
   new_values <- list2(...)
 
   # check for valid names
@@ -46,7 +53,6 @@ set_values <- function(form, ...) {
   }
 
   form
-
 }
 
 #' @param session An [html_session()].
@@ -56,9 +62,9 @@ set_values <- function(form, ...) {
 #'   * A number selects a button based on it relative position.
 #' @param config Additional config passed on to [httr::GET()]
 #'   or [httr::POST()]
-#' @rdname set_values
+#' @rdname form_set_values
 #' @export
-submit_form <- function(session, form, submit = NULL, config = list(), ...) {
+form_submit <- function(form, session, submit = NULL, config = list(), ...) {
   request <- submission_build(form, submit, base_url = session$url)
 
   if (!missing(...)) {
@@ -87,6 +93,21 @@ submit_form <- function(session, form, submit = NULL, config = list(), ...) {
     stop("Unknown method: ", request$method, call. = FALSE)
   }
 }
+
+#' @rdname form_set_values
+#' @export
+set_values <- function(form, ...) {
+  lifecycle::deprecate_warn("1.0.0", "set_values()", "form_set_values()")
+  form_set_values(form = form, ...)
+}
+
+#' @rdname form_set_values
+#' @export
+submit_form <- function(session, form, submit = NULL, config = list(), ...) {
+  lifecycle::deprecate_warn("1.0.0", "submit_form()", "form_submit()")
+  form_set_values(form = form, session = session, submit = submit, config = list(), ...)
+}
+
 
 submission_build <- function(form, submit, base_url) {
   method <- form$method
