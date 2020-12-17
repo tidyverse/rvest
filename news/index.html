@@ -155,13 +155,15 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> now allows you to pick the submission button by position (<a href='https://github.com/tidyverse/rvest/issues/156'>#156</a>).</p></li>
-<li><p><code><a href="../reference/set_values.html">set_values()</a></code> now uses dynamic dots so that you can use <code>!!!</code> if you have a list of values (<a href='https://github.com/tidyverse/rvest/issues/189'>#189</a>).</p></li>
+<li><p>Objects within a <code><a href="../reference/html_form.html">html_form()</a></code> now have class <code>rvest_field</code>, instead of a variety of classes that were lacking the <code>rvest_</code> prefix.</p></li>
+<li><p>Rename <code><a href="../reference/form_set.html">submit_form()</a></code> to <code><a href="../reference/form_set.html">form_submit()</a></code> and <code><a href="../reference/form_set.html">set_values()</a></code> to <code><a href="../reference/form_set.html">form_set()</a></code>.</p></li>
+<li><p><code><a href="../reference/form_set.html">submit_form()</a></code> now allows you to pick the submission button by position (<a href='https://github.com/tidyverse/rvest/issues/156'>#156</a>). The <code>...</code> argument is deprecated; please use <code>config</code> instead.</p></li>
+<li><p><code><a href="../reference/form_set.html">set_values()</a></code> now uses dynamic dots so that you can use <code>!!!</code> if you have a list of values (<a href='https://github.com/tidyverse/rvest/issues/189'>#189</a>).</p></li>
 <li><p>rvest now imports xml2 rather than depending on it. This is cleaner because it avoids attaching all the xml2 functions that you’re less likely to use. To make it as backward compatible as possible, rvest re-exports xml2 functions <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, <code>xml_absolute()</code>.</p></li>
 <li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
 <li><p><code><a href="../reference/repair_encoding.html">repair_encoding()</a></code> has been deprecated because it doesn’t appear to work.</p></li>
 <li><p><code>pluck()</code> is no longer exported; if you need it use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_chr()</a></code> and friends instead (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
-<li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> errors if <code>form</code> doesn’t have a <code>url</code> (<a href='https://github.com/tidyverse/rvest/issues/288'>#288</a>).</p></li>
+<li><p><code><a href="../reference/form_set.html">submit_form()</a></code> errors if <code>form</code> doesn’t have a <code>url</code> (<a href='https://github.com/tidyverse/rvest/issues/288'>#288</a>).</p></li>
 <li><p>Long deprecated functions have been removed: <code>html()</code>, <code>html_tag()</code>, <code><a href="../reference/xml.html">xml()</a></code>.</p></li>
 <li><p><code><a href="../reference/xml.html">xml_tag()</a></code>, <code><a href="../reference/xml.html">xml_node()</a></code>, and <code><a href="../reference/xml.html">xml_nodes()</a></code> have been formally deprecated and will go away in a future version.</p></li>
 <li><p>rvest is now licensed as MIT (<a href='https://github.com/tidyverse/rvest/issues/287'>#287</a>).</p></li>
@@ -241,9 +243,9 @@
 </li>
 <li><p><code><a href="../reference/html_nodes.html">html_node()</a></code> now throws an error if there are no matches, and a warning if there’s more than one match. I think this should make it more likely to fail clearly when the structure of the page changes.</p></li>
 <li><p><code>xml_structure()</code> has been moved to xml2. New <code>html_structure()</code> (also in xml2) highlights id and class attributes (<a href='https://github.com/tidyverse/rvest/issues/78'>#78</a>).</p></li>
-<li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> now works with forms that use GET (<a href='https://github.com/tidyverse/rvest/issues/66'>#66</a>).</p></li>
-<li><p><code>submit_request()</code> (and hence <code><a href="../reference/submit_form.html">submit_form()</a></code>) is now case-insensitive, and so will find <code>&lt;input type=SUBMIT&gt;</code> as well as<code>&lt;input type="submit"&gt;</code>.</p></li>
-<li><p><code>submit_request()</code> (and hence <code><a href="../reference/submit_form.html">submit_form()</a></code>) recognizes forms with <code>&lt;input type="image"&gt;</code> as a valid form submission button.</p></li>
+<li><p><code><a href="../reference/form_set.html">submit_form()</a></code> now works with forms that use GET (<a href='https://github.com/tidyverse/rvest/issues/66'>#66</a>).</p></li>
+<li><p><code>submit_request()</code> (and hence <code><a href="../reference/form_set.html">submit_form()</a></code>) is now case-insensitive, and so will find <code>&lt;input type=SUBMIT&gt;</code> as well as<code>&lt;input type="submit"&gt;</code>.</p></li>
+<li><p><code>submit_request()</code> (and hence <code><a href="../reference/form_set.html">submit_form()</a></code>) recognizes forms with <code>&lt;input type="image"&gt;</code> as a valid form submission button.</p></li>
 </ul>
 </div>
     <div id="rvest-020" class="section level1">
@@ -268,7 +270,7 @@
 <li><p><code><a href="../reference/html_text.html">html_attr()</a></code> returns default value when input is NULL (<a href='https://github.com/tidyverse/rvest/issues/49'>#49</a>)</p></li>
 <li><p>Add missing <code><a href="../reference/html_nodes.html">html_node()</a></code> method for session.</p></li>
 <li><p><code><a href="../reference/html_nodes.html">html_nodes()</a></code> now returns an empty list if no elements are found (<a href='https://github.com/tidyverse/rvest/issues/31'>#31</a>).</p></li>
-<li><p><code><a href="../reference/submit_form.html">submit_form()</a></code> converts relative paths to absolute URLs (<a href='https://github.com/tidyverse/rvest/issues/52'>#52</a>). It also deals better with 0-length inputs (<a href='https://github.com/tidyverse/rvest/issues/29'>#29</a>).</p></li>
+<li><p><code><a href="../reference/form_set.html">submit_form()</a></code> converts relative paths to absolute URLs (<a href='https://github.com/tidyverse/rvest/issues/52'>#52</a>). It also deals better with 0-length inputs (<a href='https://github.com/tidyverse/rvest/issues/29'>#29</a>).</p></li>
 </ul>
 </div>
 </div>

@@ -4,6 +4,9 @@
     <loc>https://rvest.tidyverse.org/index.html</loc>
   </url>
   <url>
+    <loc>https://rvest.tidyverse.org/reference/form_set.html</loc>
+  </url>
+  <url>
     <loc>https://rvest.tidyverse.org/reference/google_form.html</loc>
   </url>
   <url>
@@ -47,12 +50,6 @@
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/session_history.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/set_values.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/submit_form.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/xml.html</loc>

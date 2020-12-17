@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make link to google form given id — google_form • rvest</title>
+<title>Modify and submit a form — form_set • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,9 @@
 
 
 
-<meta property="og:title" content="Make link to google form given id — google_form" />
-<meta property="og:description" content="Make link to google form given id" />
+<meta property="og:title" content="Modify and submit a form — form_set" />
+<meta property="og:description" content="Once you've extracted a form from a page with html_form() use
+form_set() to modify its values and form_submit() to submit it." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -147,33 +148,92 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make link to google form given id</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>google_form.Rd</code></div>
+    <h1>Modify and submit a form</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/form-submit.R'><code>R/form-submit.R</code></a></small>
+    <div class="hidden name"><code>form_set.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make link to google form given id</p>
+    <p>Once you've extracted a form from a page with <code><a href='html_form.html'>html_form()</a></code> use
+<code>form_set()</code> to modify its values and <code>form_submit()</code> to submit it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>google_form</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>form_set</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>form_submit</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>session</span>, submit <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>set_values</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>submit_form</span><span class='op'>(</span><span class='va'>session</span>, <span class='va'>form</span>, submit <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Unique identifier for form</p></td>
+      <th>form</th>
+      <td><p>An <code><a href='html_form.html'>html_form()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>&lt;<code><a href='https://rlang.r-lib.org/reference/dyn-dots.html'>dynamic-dots</a></code>&gt; Name-value pairs giving
+fields to modify.</p></td>
+    </tr>
+    <tr>
+      <th>session</th>
+      <td><p>An <code><a href='html_session.html'>html_session()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>submit</th>
+      <td><p>Which button should be used?</p><ul>
+<li><p><code>NULL</code>, the default, uses the first.</p></li>
+<li><p>A string selects a button by its name.</p></li>
+<li><p>A number selects a button based on it relative position.</p></li>
+</ul></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>set_values()</code> returns an updated form object;
+<code>submit_form()</code> returns the parsed HTML response (or an error if the
+HTTP request fails).</p>
+    <h2 class="hasAnchor" id="rvest-"><a class="anchor" href="#rvest-"></a>rvest 1.0.0</h2>
+
+    
+
+<p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>In rvest 1.0.0, <code>set_values()</code> was deprecated in favor of
+<code>form_set()</code> and <code>submit_form()</code> in favor of <code>form_submit()</code>.
+Note that the argument order of <code>form_submit()</code> is different in order
+to facilitate use in a pipe</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>google_form</span><span class='op'>(</span><span class='st'>"1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {html_document}
-#&gt; &lt;html lang="en" class="m2"&gt;
-#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-#&gt; [2] &lt;body dir="ltr" itemscope itemtype="http://schema.org/CreativeWork/FormOb ...</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>session</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_session.html'>html_session</a></span><span class='op'>(</span><span class='st'>"http://www.google.com"</span><span class='op'>)</span>
+<span class='va'>search</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_form.html'>html_form</a></span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>search</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>set_values</span><span class='op'>(</span>q <span class='op'>=</span> <span class='st'>"My little pony"</span>, hl <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>submit_form</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># If you have a list of values, use !!!</span>
+<span class='va'>vals</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>q <span class='op'>=</span> <span class='st'>"web scraping"</span>, hl <span class='op'>=</span> <span class='st'>"en"</span><span class='op'>)</span>
+<span class='va'>search</span> <span class='op'>%&gt;%</span> <span class='fu'>set_values</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>vals</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `set_values()` is deprecated as of rvest 1.0.0.</span>
+#&gt; <span class='warning'>Please use `form_set()` instead.</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='warning'>Warning: Setting value of hidden field 'hl'.</span></div><div class='output co'>#&gt; &lt;form&gt; 'f' (GET /search)
+#&gt;   &lt;field&gt; (hidden) ie: ISO-8859-1
+#&gt;   &lt;field&gt; (hidden) hl: en
+#&gt;   &lt;field&gt; (hidden) source: hp
+#&gt;   &lt;field&gt; (hidden) biw: 
+#&gt;   &lt;field&gt; (hidden) bih: 
+#&gt;   &lt;field&gt; (text) q: web scraping
+#&gt;   &lt;field&gt; (submit) btnG: Google Search
+#&gt;   &lt;field&gt; (submit) btnI: I'm Feeling Lucky
+#&gt;   &lt;field&gt; (hidden) iflsig: AINFCbYAAAAAX9u3Z...
+#&gt;   &lt;field&gt; (hidden) gbv: 1</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
