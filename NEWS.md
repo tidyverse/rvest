@@ -1,5 +1,8 @@
 # rvest (development version)
 
+* Objects within a `html_form()` now have class `rvest_field`, instead of a
+  variety of classes that were lacking the `rvest_` prefix.
+
 * Rename `submit_form()` to `form_submit()` and `set_values()` to 
   `form_set()`.
 

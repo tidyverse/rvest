@@ -28,7 +28,7 @@
       Please use `form_set()` instead.
     Output
       <form> '<unnamed>' (GET )
-        <input text> 'text': abc
+        <field> (text) text: abc
 
 # useful feedback on invalid forms
 
@@ -72,4 +72,53 @@
       submission_build_values(form, TRUE)
     Error <rlang_error>
       `submit` must be NULL, a string, or a number.
+
+# can submit using three primary techniques
+
+    Code
+      show_response(form_submit(form, session))
+    Output
+      GET 
+      Query string: x=1&x=2&y=3
+      
+    Code
+      # deprecated but still works
+    Code
+      show_response(submit_form(session, form))
+    Warning <lifecycle_warning_deprecated>
+      `submit_form()` is deprecated as of rvest 1.0.0.
+      Please use `form_submit()` instead.
+    Output
+      GET 
+      Query string: x=1&x=2&y=3
+      
+    Code
+      form$method <- "POST"
+    Code
+      show_response(form_submit(form, session))
+    Output
+      POST application/x-www-form-urlencoded
+      Query string: 
+      x=1&x=2&y=3
+    Code
+      form$enctype <- "multipart"
+    Code
+      show_response(form_submit(form, session))
+    Output
+      POST multipart/form-data; boundary=---<divider>
+      Query string: 
+      ---<divider>
+      Content-Disposition: form-data; name="x"
+      
+      1
+      ---<divider>
+      Content-Disposition: form-data; name="x"
+      
+      2
+      ---<divider>
+      Content-Disposition: form-data; name="y"
+      
+      3
+      ---<divider>--
+      
 

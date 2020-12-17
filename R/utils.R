@@ -25,3 +25,26 @@ map_chr <- function(.x, .f, ...) {
 map_lgl <- function(.x, .f, ...) {
   vapply(.x, .f, ..., FUN.VALUE = logical(1))
 }
+
+str_trunc <- function(x, width) {
+  if (nchar(x) <= width) {
+    x
+  } else {
+    paste0(substr(x, 1, width - 3), "...")
+  }
+}
+
+#' Make link to google form given id
+#'
+#' @param x Unique identifier for form
+#' @export
+#' @keywords internal
+#' @examples
+#' google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
+google_form <- function(x) {
+  xml2::read_html(httr::GET(paste0("https://docs.google.com/forms/d/", x, "/viewform")))
+}
+
+cat_line <- function(...) {
+  cat(paste0(..., "\n", collapse = ""))
+}

@@ -22,7 +22,3 @@ reference:
   - jump_to
   - back
   - form_submit
-
-- title: Utilities
-  contents:
-  - google_form

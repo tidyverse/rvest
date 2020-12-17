@@ -13,7 +13,7 @@ test_that("can find from from doc, nodes, and node", {
   expect_length(forms, 2)
 
   form <- html_form(html_node(html, "form"))
-  expect_s3_class(form, "form")
+  expect_s3_class(form, "rvest_form")
 })
 
 test_that("has useful print method", {
@@ -27,6 +27,7 @@ test_that("has useful print method", {
     </form>
   ')
   expect_snapshot(html_form(html)[[1]])
+  expect_snapshot(html_form(html)[[1]]$fields[[2]])
 })
 
 
@@ -64,5 +65,13 @@ test_that("parse_fields gets the button", {
   ')
 
   form <- select %>% html_node("form") %>% html_form()
-  expect_equal(form$fields[[1]]$type, "submit")
+  expect_equal(form$fields[[1]]$type, "button")
+})
+
+test_that("handles different encoding types", {
+  expect_equal(convert_enctype(NULL), "form")
+  expect_equal(convert_enctype("application/x-www-form-urlencoded"), "form")
+  expect_equal(convert_enctype("multipart/form-data"), "multipart")
+
+  expect_snapshot(convert_enctype("unknown"))
 })

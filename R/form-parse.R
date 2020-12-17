@@ -35,39 +35,8 @@ html_form.xml_node <- function(x) {
   method <- toupper(attr$method %||% "GET")
   enctype <- convert_enctype(attr$enctype)
 
-  fields <- parse_fields(x)
-
-  structure(
-    list(
-      name = name,
-      method = method,
-      url = attr$action,
-      enctype = enctype,
-      fields = fields
-    ),
-    class = "form")
-}
-
-#' @export
-print.form <- function(x, indent = 0, ...) {
-  cat("<form> '", x$name, "' (", x$method, " ", x$url, ")\n", sep = "")
-  print(x$fields, indent = indent + 1)
-}
-
-#' @export
-format.input <- function(x, ...) {
-  if (x$type == "password") {
-    value <- paste0(rep("*", nchar(x$value) %||% 0), collapse = "")
-  } else {
-    value <- x$value
-  }
-  paste0("<input ", x$type, "> '", x$name, "': ", value)
-}
-
-parse_fields <- function(form) {
-  raw <- html_nodes(form, "input, select, textarea, button")
-
-  fields <- lapply(raw, function(x) {
+  nodes <- html_nodes(x, "input, select, textarea, button")
+  fields <- lapply(nodes, function(x) {
     switch(xml2::xml_name(x),
       textarea = parse_textarea(x),
       input = parse_input(x),
@@ -75,70 +44,80 @@ parse_fields <- function(form) {
       button = parse_button(x)
     )
   })
-  names(fields) <- pluck(fields, "name")
-  class(fields) <- "fields"
-  fields
+  names(fields) <- map_chr(fields, function(x) x$name %||% "")
+
+  structure(
+    list(
+      name = name,
+      method = method,
+      action = attr$action,
+      enctype = enctype,
+      fields = fields
+    ),
+    class = "rvest_form")
 }
 
 #' @export
-print.fields <- function(x, ..., indent = 0) {
-  cat(format_list(x, indent = indent), "\n", sep = "")
+print.rvest_form <- function(x, ...) {
+  cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
+  cat(format_list(x$fields, indent = 1), "\n", sep = "")
 }
 
-# <input>: type, name, value, checked, maxlength, id, disabled, readonly, required
-# Input types:
-# * text/email/url/search
-# * password: don't print
-# * checkbox:
-# * radio:
-# * submit:
-# * image: not supported
-# * reset: ignored (client side only)
-# * button:
-# * hidden
-# * file
-# * number/range (min, max, step)
-# * date/datetime/month/week/time
-# * (if unknown treat as text)
-parse_input <- function(input) {
-  stopifnot(inherits(input, "xml_node"), xml2::xml_name(input) == "input")
-  attr <- as.list(xml2::xml_attrs(input))
+# Field parsing -----------------------------------------------------------
 
+rvest_field <- function(type, name, value, attr, ...) {
   structure(
     list(
-      name = attr$name,
-      type = attr$type %||% "text",
-      value = attr$value %||% NULL,
-      checked = attr$checked,
-      disabled = attr$disabled,
-      readonly = attr$readonly,
-      required = attr$required %||% FALSE
+      type = type,
+      name = name,
+      value = value,
+      attr = attr,
+      ...
     ),
-    class = "input"
-  )
-}
-
-parse_select <- function(select) {
-  stopifnot(inherits(select, "xml_node"), xml2::xml_name(select) == "select")
-
-  attr <- as.list(xml2::xml_attrs(select))
-  options <- parse_options(html_nodes(select, "option"))
-
-  structure(
-    list(
-      name = attr$name,
-      value = options$value,
-      options = options$options
-    ),
-    class = "select"
+    class = "rvest_field"
   )
 }
 
 #' @export
-format.select <- function(x, ...) {
-  paste0("<select> '", x$name, "' [", length(x$value), "/", length(x$options), "]")
+format.rvest_field <- function(x, ...) {
+  if (x$type == "password") {
+    value <- paste0(rep("*", nchar(x$value %||% "")), collapse = "")
+  } else {
+    value <- paste(x$value, collapse = ", ")
+    value <- str_trunc(encodeString(value), 20)
+  }
+
+  paste0("<field> (", x$type, ") ", x$name, ": ", value)
 }
 
+#' @export
+print.rvest_field <- function(x, ...) {
+  cat(format(x, ...), "\n", sep = "")
+  invisible(x)
+}
+
+parse_input <- function(x) {
+  attr <- as.list(xml2::xml_attrs(x))
+  rvest_field(
+    type = attr$type %||% "text",
+    name = attr$name,
+    value = attr$value,
+    attr = attr
+  )
+}
+
+parse_select <- function(x) {
+  attr <- as.list(xml2::xml_attrs(x))
+  options <- parse_options(html_nodes(x, "option"))
+
+  rvest_field(
+    type = "select",
+    name = attr$name,
+    value = options$value,
+    attr = attr,
+    options = options$options
+  )
+}
 parse_options <- function(options) {
   parse_option <- function(option) {
     name <- xml2::xml_text(option)
@@ -160,58 +139,27 @@ parse_options <- function(options) {
   )
 }
 
-parse_textarea <- function(textarea) {
-  attr <- as.list(xml2::xml_attrs(textarea))
+parse_textarea <- function(x) {
+  attr <- as.list(xml2::xml_attrs(x))
 
-  structure(
-    list(
-      name = attr$name,
-      value = xml2::xml_text(textarea)
-    ),
-    class = "textarea"
+  rvest_field(
+    type = "textarea",
+    name = attr$name,
+    value = xml2::xml_text(x),
+    attr = attr
   )
 }
 
-#' @export
-format.textarea <- function(x, ...) {
-  paste0("<textarea> '", x$name, "' [", nchar(x$value), " char]")
-}
+parse_button <- function(x) {
+  attr <- as.list(xml2::xml_attrs(x))
 
-parse_button <- function(button) {
-  stopifnot(inherits(button, "xml_node"), xml2::xml_name(button) == "button")
-  attr <- as.list(xml2::xml_attrs(button))
-
-  structure(
-    list(
-      name = attr$name %||% "<unnamed>",
-      type = attr$type,
-      value = attr$value,
-      checked = attr$checked,
-      disabled = attr$disabled,
-      readonly = attr$readonly,
-      required = attr$required %||% FALSE
-    ),
-    class = "button"
+  rvest_field(
+    type = "button",
+    name = attr$name,
+    value = attr$value,
+    attr = attr
   )
 }
-
-#' @export
-format.button <- function(x, ...) {
-  paste0("<button ", x$type, "> '", x$name, "'")
-}
-
-
-
-#' Make link to google form given id
-#'
-#' @param x Unique identifier for form
-#' @export
-#' @examples
-#' google_form("1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI")
-google_form <- function(x) {
-  xml2::read_html(httr::GET(paste0("https://docs.google.com/forms/d/", x, "/viewform")))
-}
-
 
 # Helpers -----------------------------------------------------------------
 
