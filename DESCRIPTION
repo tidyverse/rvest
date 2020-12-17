@@ -29,7 +29,8 @@ Suggests:
     rmarkdown,
     spelling,
     stringi (>= 0.3.1),
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    webfakes
 VignetteBuilder: 
     knitr
 Remotes: r-lib/testthat

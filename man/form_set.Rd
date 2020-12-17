@@ -9,11 +9,11 @@
 \usage{
 form_set(form, ...)
 
-form_submit(form, session, submit = NULL, config = list(), ...)
+form_submit(form, session, submit = NULL, ...)
 
 set_values(form, ...)
 
-submit_form(session, form, submit = NULL, config = list(), ...)
+submit_form(session, form, submit = NULL, ...)
 }
 \arguments{
 \item{form}{An \code{\link[=html_form]{html_form()}}.}
@@ -29,9 +29,6 @@ fields to modify.}
 \item A string selects a button by its name.
 \item A number selects a button based on it relative position.
 }}
-
-\item{config}{Additional config passed on to \code{\link[httr:GET]{httr::GET()}}
-or \code{\link[httr:POST]{httr::POST()}}}
 }
 \value{
 \code{set_values()} returns an updated form object;

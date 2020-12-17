@@ -54,37 +54,30 @@ form_set <- function(form, ...) {
 #'   * `NULL`, the default, uses the first.
 #'   * A string selects a button by its name.
 #'   * A number selects a button based on it relative position.
-#' @param config Additional config passed on to [httr::GET()]
-#'   or [httr::POST()]
 #' @rdname form_set
 #' @export
-form_submit <- function(form, session, submit = NULL, config = list(), ...) {
+form_submit <- function(form, session, submit = NULL, ...) {
+  if (!inherits(form, "rvest_form")) {
+    abort("`form` must be produced by rvest_form()")
+  }
+
   request <- submission_build(form, submit, base_url = session$url)
 
   if (!missing(...)) {
-    lifecycle::deprecate_warn("1.0.0",
-      "submit_form(... = )",
-      "submit_form(config = )"
-    )
+    abort(paste0("`...` no longer supported; please set httr options in html_sessions()"))
   }
 
-  if (request$method == "GET") {
-    request_GET(session,
-      url = url,
-      query = request$values,
-      ...,
-      config
-    )
-  } else if (request$method == "POST") {
+  if (request$method == "POST") {
     request_POST(session,
-      url = url,
-      body = request$values,
-      encode = request$encode,
-      ...,
-      config
+      url = request$url,
+      body = as.list(request$values),
+      encode = request$enctype
     )
   } else {
-    stop("Unknown method: ", request$method, call. = FALSE)
+    request_GET(session,
+      url = request$url,
+      query = as.list(request$values)
+    )
   }
 }
 
@@ -97,9 +90,9 @@ set_values <- function(form, ...) {
 
 #' @rdname form_set
 #' @export
-submit_form <- function(session, form, submit = NULL, config = list(), ...) {
+submit_form <- function(session, form, submit = NULL, ...) {
   lifecycle::deprecate_warn("1.0.0", "submit_form()", "form_submit()")
-  form_set(form = form, session = session, submit = submit, config = list(), ...)
+  form_submit(form = form, session = session, submit = submit, ...)
 }
 
 
@@ -110,15 +103,14 @@ submission_build <- function(form, submit, base_url) {
     method <- "GET"
   }
 
-  url <- form$url
-  if (is.null(form$url)) {
+  if (is.null(form$action)) {
     abort("`form` doesn't contain a `action` attribute")
   }
-  url <- xml2::url_absolute(form$url, base_url)
+  url <- xml2::url_absolute(form$action, base_url)
 
   list(
     method = method,
-    encode = form$enctype,
+    enctype = form$enctype,
     url = url,
     values = submission_build_values(form, submit)
   )
@@ -171,9 +163,6 @@ is_entry <- function(x) {
 }
 
 is_button <- function(x) {
-  if (length(x$type) == 0L) {
-    return(FALSE)
-  }
   tolower(x$type) %in% c("submit", "image", "button")
 }
 

@@ -99,3 +99,34 @@ test_that("handles no buttons", {
     c(x = "1")
   )
 })
+
+
+# form_submit -------------------------------------------------------------
+
+test_that("can submit using three primary techniques", {
+  html <- minimal_html("test", '
+    <form action="/">
+    <input type="text", name="x" value="1">
+    <input type="text", name="x" value="2">
+    <input type="text", name="y" value="3">
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  app <- webfakes::local_app_process(app_request())
+  session <- html_session(app$url())
+
+  expect_snapshot({
+    show_response(form_submit(form, session))
+
+    "deprecated but still works"
+    show_response(submit_form(session, form))
+
+    form$method <- "POST"
+    show_response(form_submit(form, session))
+
+    form$enctype <- "multipart"
+    show_response(form_submit(form, session))
+  })
+})
+

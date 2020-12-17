@@ -49,7 +49,6 @@ request_GET <- function(x, url, ...) {
   x$url <- x$response$url
 
   httr::warn_for_status(x$response)
-
   x
 }
 
