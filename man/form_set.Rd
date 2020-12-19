@@ -19,7 +19,10 @@ submit_form(session, form, submit = NULL, ...)
 \item{form}{An \code{\link[=html_form]{html_form()}}.}
 
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Name-value pairs giving
-fields to modify.}
+fields to modify.
+
+Provide a character vector to set multiple checkboxes in a set or
+select multiple values from a multi-select.}
 
 \item{session}{An \code{\link[=html_session]{html_session()}}.}
 

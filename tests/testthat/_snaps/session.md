@@ -1,11 +1,11 @@
-# multiplication works
+# basic session process works as expected
 
     Code
-      s <- html_session("http://hadley.nz")
+      s <- html_session("http://hadley.nz/")
     Code
       s
     Output
-      <session> http://hadley.nz
+      <session> http://hadley.nz/
         Status: 200
         Type:   text/html
         Size:   9090
@@ -14,17 +14,17 @@
     Code
       session_history(s)
     Output
-        http://hadley.nz
+        http://hadley.nz/
       - http://hadley.nz/hadley-wickham.jpg
     Code
       s <- back(s)
     Code
-      s <- follow_link(s, 2)
+      s <- follow_link(s, css = "p a")
     Message <message>
-      Navigating to #page-top
+      Navigating to http://rstudio.com
     Code
       session_history(s)
     Output
-        http://hadley.nz
-      - http://hadley.nz#page-top
+        http://hadley.nz/
+      - https://rstudio.com/
 

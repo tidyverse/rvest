@@ -12,10 +12,10 @@
 NULL
 
 map_chr <- function(.x, .f, ...) {
-  vapply(.x, .f, ..., FUN.VALUE = character(1))
+  vapply(.x, .f, ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
 }
 map_lgl <- function(.x, .f, ...) {
-  vapply(.x, .f, ..., FUN.VALUE = logical(1))
+  vapply(.x, .f, ..., FUN.VALUE = logical(1), USE.NAMES = FALSE)
 }
 
 str_trunc <- function(x, width) {
