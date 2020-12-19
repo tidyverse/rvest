@@ -22,6 +22,7 @@ Imports:
     magrittr,
     rlang,
     selectr,
+    tibble,
     xml2 (>= 1.3)
 Suggests:
     covr,
@@ -33,7 +34,8 @@ Suggests:
     webfakes
 VignetteBuilder: 
     knitr
-Remotes: r-lib/testthat
+Remotes: 
+    r-lib/testthat
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
