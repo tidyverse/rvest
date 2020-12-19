@@ -1,5 +1,9 @@
 # rvest (development version)
 
+* `form_set()` can now accept character vectors allowing you to select
+  multiple checkboxes in a set or select multiple values from a multi-`<select>`
+  (#127, with help from @juba).
+
 * Objects within a `html_form()` now have class `rvest_field`, instead of a
   variety of classes that were lacking the `rvest_` prefix.
 

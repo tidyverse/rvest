@@ -14,6 +14,9 @@
 #' @param form An [html_form()].
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
 #'   fields to modify.
+#'
+#'   Provide a character vector to set multiple checkboxes in a set or
+#'   select multiple values from a multi-select.
 #' @return `set_values()` returns an updated form object;
 #'   `submit_form()` returns the parsed HTML response (or an error if the
 #'   HTTP request fails).
@@ -70,13 +73,13 @@ form_submit <- function(form, session, submit = NULL, ...) {
   if (request$method == "POST") {
     request_POST(session,
       url = request$url,
-      body = as.list(request$values),
+      body = request$values,
       encode = request$enctype
     )
   } else {
     request_GET(session,
       url = request$url,
-      query = as.list(request$values)
+      query = request$values
     )
   }
 }
@@ -120,11 +123,17 @@ submission_build_values <- function(form, submit = NULL) {
   fields <- form$fields
   submit <- submission_find_submit(fields, submit)
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
-  entry_list <- Filter(is_entry, entry_list)
+  entry_list <- Filter(function(x) !is.null(x$name), entry_list)
 
-  values <- map_chr(entry_list, "[[", "value")
-  names(values) <- map_chr(entry_list, "[[", "name")
-  values
+  if (length(entry_list) == 0) {
+    return(list())
+  }
+
+  values <- lapply(entry_list, function(x) as.character(x$value))
+  names <- map_chr(entry_list, "[[", "name")
+
+  out <- set_names(unlist(values, use.names = FALSE), rep(names, lengths(values)))
+  as.list(out)
 }
 
 submission_find_submit <- function(fields, idx) {
@@ -155,11 +164,6 @@ submission_find_submit <- function(fields, idx) {
   } else {
     abort("`submit` must be NULL, a string, or a number.")
   }
-}
-
-# https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#constructing-the-form-data-set
-is_entry <- function(x) {
-  length(x$value) == 1 && !is.null(x$name)
 }
 
 is_button <- function(x) {

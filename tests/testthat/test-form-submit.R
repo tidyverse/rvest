@@ -51,8 +51,9 @@ test_that("works as expected in simple case", {
   sub <- submission_build(form, "clickMe", "http://here.com")
   expect_equal(sub$method, "POST")
   expect_equal(sub$url, "http://here.com/test-path")
-  expect_equal(sub$values, c(x = "1"))
+  expect_equal(sub$values, list(x = "1"))
 })
+
 
 test_that("useful feedback on invalid forms", {
   html <- minimal_html("test", "<form></form>")
@@ -62,6 +63,22 @@ test_that("useful feedback on invalid forms", {
   html <- minimal_html("test", "<form action='/' method='foo'></form>")
   form <- html_form(html)[[1]]
   expect_snapshot(x <- submission_build(form, NULL, base_url = "http://"))
+})
+
+test_that("can handle multiple values", {
+  html <- minimal_html("test", '
+    <form method="post" action="/">
+    <input type="text" name="x">
+    <input type="text" name="y">
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+  form <- form_set(form, x = c("1", "2", "3"), y = character())
+
+  expect_equal(
+    submission_build_values(form),
+    list(x = "1", x = "2", x = "3")
+  )
 })
 
 test_that("handles multiple buttons", {
@@ -75,10 +92,10 @@ test_that("handles multiple buttons", {
 
   # Messages when picking automatically
   expect_snapshot(vals <- submission_build_values(form, NULL))
-  expect_equal(vals, c(one = "1"))
+  expect_equal(vals, list(one = "1"))
 
-  expect_equal(submission_build_values(form, "two"), c(two = "2"))
-  expect_equal(submission_build_values(form, 2L), c(two = "2"))
+  expect_equal(submission_build_values(form, "two"), list(two = "2"))
+  expect_equal(submission_build_values(form, 2L), list(two = "2"))
 
   # Useful failure messages
   expect_snapshot(submission_build_values(form, 3L), error = TRUE)
@@ -96,7 +113,7 @@ test_that("handles no buttons", {
 
   expect_equal(
     submission_build_values(form),
-    c(x = "1")
+    list(x = "1")
   )
 })
 
@@ -129,4 +146,3 @@ test_that("can submit using three primary techniques", {
     show_response(form_submit(form, session))
   })
 })
-
