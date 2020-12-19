@@ -1,5 +1,6 @@
 #' @keywords internal
 #' @import rlang
+#' @importFrom lifecycle deprecated
 "_PACKAGE"
 
 # The following block is used by usethis to automatically manage

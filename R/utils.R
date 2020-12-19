@@ -26,6 +26,10 @@ map_lgl <- function(.x, .f, ...) {
   vapply(.x, .f, ..., FUN.VALUE = logical(1))
 }
 
+map_int <- function(.x, .f, ...) {
+  vapply(.x, .f, ..., FUN.VALUE = integer(1))
+}
+
 str_trunc <- function(x, width) {
   if (nchar(x) <= width) {
     x

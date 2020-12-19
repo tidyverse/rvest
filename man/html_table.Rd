@@ -4,7 +4,7 @@
 \alias{html_table}
 \title{Parse an html table into a data frame.}
 \usage{
-html_table(x, header = NA, trim = TRUE, fill = FALSE, dec = ".")
+html_table(x, header = NA, trim = TRUE, fill = deprecated(), dec = ".")
 }
 \arguments{
 \item{x}{A node, node set or document.}
