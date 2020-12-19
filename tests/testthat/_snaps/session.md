@@ -19,12 +19,12 @@
     Code
       s <- back(s)
     Code
-      s <- follow_link(s, 2)
+      s <- follow_link(s, css = "p a")
     Message <message>
-      Navigating to #page-top
+      Navigating to http://rstudio.com
     Code
       session_history(s)
     Output
         http://hadley.nz/
-      - http://hadley.nz/#page-top
+      - https://rstudio.com/
 

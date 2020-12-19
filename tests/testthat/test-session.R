@@ -9,7 +9,7 @@ test_that("basic session process works as expected", {
     session_history(s)
 
     s <- back(s)
-    s <- follow_link(s, 2)
+    s <- follow_link(s, css = "p a")
     session_history(s)
   })
 })
