@@ -88,9 +88,18 @@ test_that("defaults to minimal name repair", {
   html <- minimal_html("test", '
     <table>
       <tr><th>x</th><th>x</th><th></th></tr>
-      </tr>
     </table>
   ')
   table <- html_table(html)[[1]]
   expect_named(table, c("x", "x", ""))
+})
+
+test_that("adds names if needed", {
+  html <- minimal_html("test", '
+    <table>
+      <tr><td>1</td><td>2</td></tr>
+    </table>
+  ')
+  table <- html_table(html)[[1]]
+  expect_named(table, c("X1", "X2"))
 })
