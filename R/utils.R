@@ -11,14 +11,6 @@
 #' @usage lhs \%>\% rhs
 NULL
 
-pluck <- function(x, i, type) {
-  if (missing(type)) {
-    lapply(x, .subset2, i)
-  } else {
-    vapply(x, .subset2, i, FUN.VALUE = type)
-  }
-}
-
 map_chr <- function(.x, .f, ...) {
   vapply(.x, .f, ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
 }

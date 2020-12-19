@@ -1,5 +1,12 @@
 # rvest (development version)
 
+* `html_table()` has been re-written from scratch to more closely mimic the
+  algorithm that browsers use for parsing tables. This should mean that there
+  are far fewer tables for which it fails to produce some output (#63, #204,
+  #215). The `fill` argument has been deprecated since it is no longer needed.
+  `html_table()` now returns a tibble rather than a data frame to be compatible
+  with the rest of the tidyverse (#199).
+
 * `form_set()` can now accept character vectors allowing you to select
   multiple checkboxes in a set or select multiple values from a multi-`<select>`
   (#127, with help from @juba).

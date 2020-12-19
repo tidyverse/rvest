@@ -1,23 +1,20 @@
-#' Parse an html table into a data frame.
+#' Parse an html table into a data frame
 #'
-#' @section Assumptions:
+#' The algorithm mimics what a browser does, but repeats the values of merged
+#' cells in every cell that cover.
 #'
-#' `html_table` currently makes a few assumptions:
-#'
-#' \itemize{
-#' \item No cells span multiple rows
-#' \item Headers are in the first row
-#' }
 #' @param x A node, node set or document.
 #' @param header Use first row as header? If `NA`, will use first row
 #'   if it consists of `<th>` tags.
 #' @param trim Remove leading and trailing whitespace within each cell?
-#' @param fill If `TRUE`, automatically fill rows with fewer than
-#'   the maximum number of columns with `NA`s.
+#' @param fill Deprecated - missing cells in tables are now always
+#'    automatically filled with `NA`.
 #' @param dec The character used as decimal mark.
+#' @return A tibble. Note that the column names are left exactly as is in the
+#'   source document, which may not generate a valid data frame.
 #' @export
 #' @examples
-#' sample1 <- minimal_html("<table>
+#' sample1 <- minimal_html("table", "<table>
 #'   <tr><th>Col A</th><th>Col B</th></tr>
 #'   <tr><td>1</td><td>x</td></tr>
 #'   <tr><td>4</td><td>y</td></tr>
@@ -28,35 +25,44 @@
 #'   html_table()
 #'
 #' # Values in merged cells will be duplicated
-#' sample2 <- minimal_html("<table>
+#' sample2 <- minimal_html("table", "<table>
 #'   <tr><th>A</th><th>B</th><th>C</th></tr>
 #'   <tr><td>1</td><td>2</td><td>3</td></tr>
 #'   <tr><td colspan='2'>4</td><td>5</td></tr>
 #'   <tr><td>6</td><td colspan='2'>7</td></tr>
 #' </table>")
-#'
 #' sample2 %>%
 #'   html_node("table") %>%
 #'   html_table()
 #'
-#' # If the table is badly formed, and has different number of columns
-#' # in each row, use `fill = TRUE` to fill in the missing values
-#' sample3 <- minimal_html("<table>
+#' # If a row is missing cells, they'll be filled with NAs
+#' sample3 <- minimal_html("table", "<table>
 #'   <tr><th>A</th><th>B</th><th>C</th></tr>
 #'   <tr><td colspan='2'>1</td><td>2</td></tr>
 #'   <tr><td colspan='2'>3</td></tr>
 #'   <tr><td>4</td></tr>
 #' </table>")
-#'
 #' sample3 %>%
 #'   html_node("table") %>%
-#'   html_table(fill = TRUE)
-html_table <- function(x, header = NA, trim = TRUE, fill = FALSE, dec = ".") {
+#'   html_table()
+html_table <- function(x,
+                       header = NA,
+                       trim = TRUE,
+                       fill = deprecated(),
+                       dec = ".") {
+
+  if (lifecycle::is_present(fill)) {
+    warn("`fill` is now ignored and always happens")
+  }
+
   UseMethod("html_table")
 }
 
 #' @export
-html_table.xml_document <- function(x, header = NA, trim = TRUE, fill = FALSE,
+html_table.xml_document <- function(x,
+                                    header = NA,
+                                    trim = TRUE,
+                                    fill = deprecated(),
                                     dec = ".") {
   tables <- xml2::xml_find_all(x, ".//table")
   lapply(tables, html_table, header = header, trim = trim, fill = fill, dec = dec)
@@ -64,74 +70,25 @@ html_table.xml_document <- function(x, header = NA, trim = TRUE, fill = FALSE,
 
 
 #' @export
-html_table.xml_nodeset <- function(x, header = NA, trim = TRUE, fill = FALSE,
-                                  dec = ".") {
+html_table.xml_nodeset <- function(x,
+                                   header = NA,
+                                   trim = TRUE,
+                                   fill = deprecated(),
+                                   dec = ".") {
   # FIXME: guess useful names
   lapply(x, html_table, header = header, trim = trim, fill = fill, dec = dec)
 }
 
 #' @export
-html_table.xml_node <- function(x, header = NA, trim = TRUE,
-                                              fill = FALSE, dec = ".") {
+html_table.xml_node <- function(x,
+                                header = NA,
+                                trim = TRUE,
+                                fill = deprecated(),
+                                dec = ".") {
 
-  stopifnot(html_name(x) == "table")
-
-  # Throw error if any rowspan/colspan present
   rows <- html_nodes(x, "tr")
-  n <- length(rows)
   cells <- lapply(rows, "html_nodes", xpath = ".//td|.//th")
-
-  ncols <- lapply(cells, html_attr, "colspan", default = "1")
-  ncols <- lapply(ncols, as.integer)
-  nrows <- lapply(cells, html_attr, "rowspan", default = "1")
-  nrows <- lapply(nrows, as.integer)
-
-  p <- unique(vapply(ncols, sum, integer(1)))
-  maxp <- max(p)
-
-  if (length(p) > 1 & maxp * n != sum(unlist(nrows)) &
-      maxp * n != sum(unlist(ncols))) {
-    # then malformed table is not parsable by smart filling solution
-    if (!fill) { # fill must then be specified to allow filling with NAs
-      stop("Table has inconsistent number of columns. ",
-           "Do you want fill = TRUE?", call. = FALSE)
-    }
-  }
-
-  values <- lapply(cells, html_text, trim = trim)
-  out <- matrix(NA_character_, nrow = n, ncol = maxp)
-
-  # fill colspans right with repetition
-  for (i in seq_len(n)) {
-    row <- values[[i]]
-    ncol <- ncols[[i]]
-    col <- 1
-    for (j in seq_len(length(ncol))) {
-      out[i, col:(col+ncol[j]-1)] <- row[[j]]
-      col <- col + ncol[j]
-    }
-  }
-
-  # fill rowspans down with repetition
-  for (i in seq_len(maxp)) {
-    for (j in seq_len(n)) {
-      rowspan <- nrows[[j]][i]; colspan <- ncols[[j]][i]
-      if (!is.na(rowspan) & (rowspan > 1)) {
-        if (!is.na(colspan) & (colspan > 1)) {
-          # special case of colspan and rowspan in same cell
-          nrows[[j]] <- c(utils::head(nrows[[j]], i),
-                          rep(rowspan, colspan-1),
-                          utils::tail(nrows[[j]], length(rowspan)-(i+1)))
-          rowspan <- nrows[[j]][i]
-        }
-        for (k in seq_len(rowspan - 1)) {
-          l <- utils::head(out[j+k, ], i-1)
-          r <- utils::tail(out[j+k, ], maxp-i+1)
-          out[j + k, ] <- utils::head(c(l, out[j, i], r), maxp)
-        }
-      }
-    }
-  }
+  out <- table_fill(cells, trim = trim)
 
   if (is.na(header)) {
     header <- all(html_name(cells[[1]]) == "th")
@@ -144,16 +101,124 @@ html_table.xml_node <- function(x, header = NA, trim = TRUE,
   }
 
   # Convert matrix to list to data frame
-  df <- lapply(seq_len(maxp), function(i) {
+  df <- lapply(seq_len(ncol(out)), function(i) {
     utils::type.convert(out[, i], as.is = TRUE, dec = dec)
   })
   names(df) <- col_names
-  class(df) <- "data.frame"
-  attr(df, "row.names") <- .set_row_names(length(df[[1]]))
+  tibble::as_tibble(df, .name_repair = "minimal")
+}
 
-  if (length(unique(col_names)) < length(col_names)) {
-    warning('At least two columns have the same name')
+# Table fillng algorithm --------------------------------------------------
+# Base on https://html.spec.whatwg.org/multipage/tables.html#forming-a-table
+
+table_fill <- function(cells, trim = TRUE) {
+  width <- 0
+  height <- length(cells) # initial estimate
+  values <- vector("list", height)
+
+  # list of downward spanning cells
+  dw <- dw_init()
+
+  # https://html.spec.whatwg.org/multipage/tables.html#algorithm-for-processing-rows
+  for (i in seq_along(cells)) {
+    row <- cells[[i]]
+    if (length(row) == 0) {
+      next
+    }
+
+    rowspan <- as.integer(html_attr(row, "rowspan", default = "1"))
+    colspan <- as.integer(html_attr(row, "colspan", default = "1"))
+    text <- html_text(row, trim = trim)
+
+    vals <- rep(NA_character_, width)
+    col <- 1
+    j <- 1
+    while(j <= length(row)) {
+      if (col %in% dw$col) {
+        cell <- dw_find(dw, col)
+        cell_text <- cell$text
+        cell_colspan <- cell$colspan
+      } else {
+        cell_text <- text[[j]]
+        cell_colspan <- colspan[[j]]
+
+        if (rowspan[[j]] > 1) {
+          dw <- dw_add(dw, col, rowspan[[j]], colspan[[j]], text[[j]])
+        }
+
+        j <- j + 1
+      }
+      vals[col:(col + cell_colspan - 1L)] <- cell_text
+      col <- col + cell_colspan
+    }
+
+    # Add any downward cells after last <td>
+    for(j in seq2(col - 1L, width)) {
+      if (j %in% dw$col) {
+        cell <- dw_find(dw, j)
+        vals[j:(j + cell$colspan - 1L)] <- cell$text
+      }
+    }
+
+    dw <- dw_prune(dw)
+    values[[i]] <- vals
+
+    height <- max(height, i + max(rowspan) - 1L)
+    width <- max(width, col - 1L)
   }
 
-  df
+  # Add any downward cells after <tr>
+  i <- length(values) + 1
+  length(values) <- height
+  while (length(dw$col) > 0) {
+    vals <- rep(NA_character_, width)
+    for (col in dw$col) {
+      cell <- dw_find(dw, col)
+      vals[col:(col + cell$colspan - 1L)] <- cell$text
+    }
+    values[[i]] <- vals
+    i <- i + 1
+    dw <- dw_prune(dw)
+  }
+
+  values <- lapply(values, `[`, seq_len(width))
+  matrix(unlist(values), ncol = width, byrow = TRUE)
+}
+
+dw_find <- function(dw, col) {
+  match <- col == dw$col
+  list(
+    col = dw$col[match],
+    rowspan = dw$rowspan[match],
+    colspan = dw$colspan[match],
+    text = dw$text[match]
+  )
+}
+
+dw_init <- function() {
+  list(
+    col = integer(),
+    rowspan = integer(),
+    colspan = integer(),
+    text = character()
+  )
+}
+
+dw_add <- function(dw, col, rowspan, colspan, text) {
+  dw$col <-     c(dw$col, col)
+  dw$text <-    c(dw$text, text)
+  dw$rowspan <- c(dw$rowspan, rowspan)
+  dw$colspan <- c(dw$colspan, colspan)
+  dw
+}
+
+dw_prune <- function(dw) {
+  dw$rowspan <- dw$rowspan - 1L
+  keep <- dw$rowspan > 0L
+
+  dw$col <-     dw$col[keep]
+  dw$text <-    dw$text[keep]
+  dw$rowspan <- dw$rowspan[keep]
+  dw$colspan <- dw$colspan[keep]
+  dw
 }
