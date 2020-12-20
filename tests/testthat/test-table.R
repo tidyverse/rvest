@@ -11,6 +11,21 @@ test_that("can parse simple table", {
   expect_snapshot_output(table)
 })
 
+test_that("strips whitespace", {
+  html <- minimal_html("test", '
+    <table>
+      <tr><th>x</th></tr>
+      <tr><td>    x</td></tr>
+      <tr><td>x  </td></tr>
+      <tr><td>  x  </td></tr>
+      </tr>
+    </table>
+  ')
+  table <- html_table(html)[[1]]
+  expect_equal(table$x, c("x", "x", "x"))
+})
+
+
 test_that("can parse with colspan", {
   html <- minimal_html("test", '
     <table>

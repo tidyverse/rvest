@@ -20,20 +20,23 @@
 #'
 #' # If needed, use url_absolute() to convert to complete urls
 #' url_absolute(html_attr(cast, "href"), url)
+#' @importFrom xml2 xml_text
 html_text <- function(x, trim = FALSE) {
-  xml2::xml_text(x, trim = trim)
+  xml_text(x, trim = trim)
 }
 
 #' @rdname html_text
 #' @export
+#' @importFrom xml2 xml_name
 html_name <- function(x) {
-  xml2::xml_name(x)
+  xml_name(x)
 }
 
 #' @rdname html_text
 #' @export
+#' @importFrom xml2 xml_attrs
 html_attrs <- function(x) {
-  xml2::xml_attrs(x)
+  xml_attrs(x)
 }
 
 #' @rdname html_text
@@ -41,8 +44,9 @@ html_attrs <- function(x) {
 #' @param default A string used as a default value when the attribute does
 #'   not exist in every node.
 #' @export
+#' @importFrom xml2 xml_attr
 html_attr <- function(x, name, default = NA_character_) {
-  xml2::xml_attr(x, name, default = default)
+  xml_attr(x, name, default = default)
 }
 
 
@@ -58,6 +62,7 @@ html_attr <- function(x, name, default = NA_character_) {
 #' html <- minimal_html("A paragraph", "<p>Hello <b>Hadley</b><i>!</i>")
 #' p <- html_nodes(html, "p")
 #' html_children(p)
+#' @importFrom xml2 xml_children
 html_children <- function(x) {
-  xml2::xml_children(x)
+  xml_children(x)
 }

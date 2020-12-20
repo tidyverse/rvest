@@ -86,8 +86,9 @@ html_table.xml_node <- function(x,
                                 fill = deprecated(),
                                 dec = ".") {
 
-  rows <- html_nodes(x, "tr")
-  cells <- lapply(rows, "html_nodes", xpath = ".//td|.//th")
+  ns <- xml2::xml_ns(x)
+  rows <- xml2::xml_find_all(x, ".//tr", ns = ns)
+  cells <- lapply(rows, xml2::xml_find_all, ".//td|.//th", ns = ns)
   out <- table_fill(cells, trim = trim)
 
   if (is.na(header)) {
@@ -128,7 +129,10 @@ table_fill <- function(cells, trim = TRUE) {
 
     rowspan <- as.integer(html_attr(row, "rowspan", default = "1"))
     colspan <- as.integer(html_attr(row, "colspan", default = "1"))
-    text <- html_text(row, trim = trim)
+    text <- html_text(row)
+    if (isTRUE(trim)) {
+      text <- gsub("^[[:space:]\u00a0]+|[[:space:]\u00a0]+$", "", text)
+    }
 
     vals <- rep(NA_character_, width)
     col <- 1
