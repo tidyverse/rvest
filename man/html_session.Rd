@@ -28,8 +28,6 @@ and \code{\link[=html_nodes]{html_nodes()}} to access the html.
 }
 
 \examples{
-# http://stackoverflow.com/questions/15853204
-
 s <- html_session("http://hadley.nz")
 s \%>\% jump_to("hadley-wickham.jpg") \%>\% jump_to("/") \%>\% session_history()
 s \%>\% jump_to("hadley-wickham.jpg") \%>\% back() \%>\% session_history()
