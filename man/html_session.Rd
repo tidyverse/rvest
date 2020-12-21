@@ -6,6 +6,7 @@
 \alias{jump_to}
 \alias{follow_link}
 \alias{back}
+\alias{forward}
 \alias{session_history}
 \title{Simulate a session in web browser}
 \usage{
@@ -18,6 +19,8 @@ jump_to(x, url, ...)
 follow_link(x, i, css, xpath, ...)
 
 back(x)
+
+forward(x)
 
 session_history(x)
 }
@@ -45,8 +48,8 @@ website, using forms and navigating from page to page.
 \item Navigate to a specified url with \code{jump_to()}, or follow a link on the
 page with \code{follow_link()}.
 \item Submit a form with \code{\link[=form_submit]{form_submit()}}.
-\item View the history with \code{session_history()} and return to the previous page
-with \code{back()}
+\item View the history with \code{session_history()} and navigate back and forward
+with \code{back()} and \code{forward()}.
 \item Extract page contents with \code{\link[=html_node]{html_node()}} and \code{\link[=html_nodes]{html_nodes()}}, or get the
 complete HTML document with \code{\link[=read_html]{read_html()}}.
 \item Inspect the HTTP response with \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},

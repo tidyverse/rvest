@@ -4,14 +4,31 @@ test_that("basic session process works as expected", {
     s
     expect_true(is.session(s))
 
-    s <- jump_to(s, "hadley-wickham.jpg")
-    session_history(s)
-
-    s <- back(s)
     s <- follow_link(s, css = "p a")
     session_history(s)
   })
 })
+
+test_that("can navigate back and forward", {
+  s <- html_session("http://hadley.nz/")
+  expect_equal(s$back, character())
+  expect_equal(s$forward, character())
+  expect_snapshot_error(back(s))
+  expect_snapshot_error(forward(s))
+
+  s <- jump_to(s, "hadley-wickham.jpg")
+  expect_equal(s$back, "http://hadley.nz/")
+  expect_equal(s$forward, character())
+
+  s <- back(s)
+  expect_equal(s$back, character())
+  expect_equal(s$forward, "http://hadley.nz/")
+
+  s <- forward(s)
+  expect_equal(s$back, "http://hadley.nz/")
+  expect_equal(s$forward, character())
+})
+
 
 test_that("session caches xml parsing", {
   s <- html_session("https://rvest.tidyverse.org/")

@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* New `forward()` function to complement `back()`.
+
 * `html_session()` has had a thorough overhaul and now returns an object of
   class `rvest_session` rather than `session`.
 

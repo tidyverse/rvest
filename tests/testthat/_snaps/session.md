@@ -12,24 +12,22 @@
     Code
       expect_true(is.session(s))
     Code
-      s <- jump_to(s, "hadley-wickham.jpg")
-    Code
-      session_history(s)
-    Output
-        http://hadley.nz/
-      - http://hadley.nz/hadley-wickham.jpg
-    Code
-      s <- back(s)
-    Code
       s <- follow_link(s, css = "p a")
     Message <message>
       Navigating to http://rstudio.com
     Code
       session_history(s)
     Output
-        http://hadley.nz/hadley-wickham.jpg
         http://hadley.nz/
       - https://rstudio.com/
+
+# can navigate back and forward
+
+    Can't go back any further
+
+---
+
+    Can't go forward any further
 
 # errors if try to access HTML from non-HTML page
 

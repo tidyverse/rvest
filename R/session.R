@@ -8,8 +8,8 @@
 #' * Navigate to a specified url with `jump_to()`, or follow a link on the
 #'   page with `follow_link()`.
 #' * Submit a form with [form_submit()].
-#' * View the history with `session_history()` and return to the previous page
-#'   with `back()`
+#' * View the history with `session_history()` and navigate back and forward
+#'   with `back()` and `forward()`.
 #' * Extract page contents with [html_node()] and [html_nodes()], or get the
 #'   complete HTML document with [read_html()].
 #' * Inspect the HTTP response with [httr::cookies()], [httr::headers()],
@@ -44,8 +44,8 @@ html_session <- function(url, ...) {
       config   = c(..., httr::config(autoreferer = 1L)),
       response = NULL,
       url      = NULL,
-      back     = NULL,
-      forward  = NULL,
+      back     = character(),
+      forward  = character(),
       cache    = new_environment()
     ),
     class = "rvest_session"
@@ -72,9 +72,6 @@ session_request <- function(x, method, url, ...) {
     x$response <- httr::POST(url, x$config, ..., handle = x$handle)
   }
   httr::warn_for_status(x$response)
-
-  x$back <- c(x$url, x$back)
-  x$forward <- character()
   x$url <- x$response$url
 
   x$cache <- new_environment()
@@ -89,7 +86,12 @@ session_request <- function(x, method, url, ...) {
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
   url <- xml2::url_absolute(url, x$url)
-  session_request(x, "GET", url, ...)
+  last_url <- x$url
+
+  x <- session_request(x, "GET", url, ...)
+  x$back <- c(last_url, x$back)
+  x$forward <- character()
+  x
 }
 
 #' @param i A integer to select the ith link or a string to match the
@@ -144,15 +146,32 @@ back <- function(x) {
   stopifnot(is.session(x))
 
   if (length(x$back) == 0) {
-    abort()
-    stop("Can't go back any further", call. = FALSE)
+    abort("Can't go back any further")
   }
 
   url <- x$back[[1]]
   x$back <- x$back[-1]
-  x$forward <- c(x$url, x$forward)
 
-  session_request(x, "GET", url)
+  x <- session_request(x, "GET", url)
+  x$forward <- c(x$url, x$forward)
+  x
+}
+
+#' @export
+#' @rdname html_session
+forward <- function(x) {
+  stopifnot(is.session(x))
+
+  if (length(x$forward) == 0) {
+    abort("Can't go forward any further")
+  }
+
+  url <- x$forward[[1]]
+
+  x <- session_request(x, "GET", url)
+  x$forward <- x$forward[-1]
+  x$back <- c(x$url, x$backs)
+  x
 }
 
 #' @export
