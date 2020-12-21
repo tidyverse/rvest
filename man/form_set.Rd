@@ -3,17 +3,11 @@
 \name{form_set}
 \alias{form_set}
 \alias{form_submit}
-\alias{set_values}
-\alias{submit_form}
 \title{Modify and submit a form}
 \usage{
 form_set(form, ...)
 
 form_submit(form, session, submit = NULL, ...)
-
-set_values(form, ...)
-
-submit_form(session, form, submit = NULL, ...)
 }
 \arguments{
 \item{form}{An \code{\link[=html_form]{html_form()}}.}

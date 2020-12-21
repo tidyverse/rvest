@@ -29,14 +29,6 @@ test_that("has informative errors", {
   expect_snapshot(form_set(form, missing = "x"), error = TRUE)
 })
 
-test_that("set_values() is deprecated", {
-  html <- minimal_html("test", '
-    <form><input type="text" name="text" /></form>
-  ')
-  form <- html_form(html)[[1]]
-  expect_snapshot(set_values(form, text = "abc"))
-})
-
 # submission_build ----------------------------------------------------------
 
 test_that("works as expected in simple case", {

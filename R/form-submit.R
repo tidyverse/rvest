@@ -86,21 +86,6 @@ form_submit <- function(form, session, submit = NULL, ...) {
   }
 }
 
-#' @rdname form_set
-#' @export
-set_values <- function(form, ...) {
-  lifecycle::deprecate_warn("1.0.0", "set_values()", "form_set()")
-  form_set(form = form, ...)
-}
-
-#' @rdname form_set
-#' @export
-submit_form <- function(session, form, submit = NULL, ...) {
-  lifecycle::deprecate_warn("1.0.0", "submit_form()", "form_submit()")
-  form_submit(form = form, session = session, submit = submit, ...)
-}
-
-
 submission_build <- function(form, submit, base_url) {
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
