@@ -144,6 +144,7 @@ back <- function(x) {
   stopifnot(is.session(x))
 
   if (length(x$back) == 0) {
+    abort()
     stop("Can't go back any further", call. = FALSE)
   }
 
@@ -157,23 +158,10 @@ back <- function(x) {
 #' @export
 #' @rdname html_session
 session_history <- function(x) {
-  structure(
-    list(
-      back    = rev(x$back),
-      url     = x$url,
-      forward = x$forward
-    ),
-    class = "history"
-  )
-}
-
-#' @export
-print.history <- function(x, ...) {
+  urls <- c(rev(x$back), x$url, x$forward)
   prefix <- rep(c("  ", "- ", "  "), c(length(x$back), 1, length(x$forward)))
-
-  cat(paste0(prefix, unlist(x), collapse = "\n"), "\n", sep = "")
+  cat_line(prefix, urls)
 }
-
 
 # xml2 methods ------------------------------------------------------------
 
