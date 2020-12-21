@@ -50,12 +50,8 @@
 
 
 <meta property="og:title" content="Select nodes from an HTML document — html_nodes" />
-<meta property="og:description" content="More easily extract pieces out of HTML documents using XPath and CSS
-selectors. CSS selectors are particularly useful in conjunction with
-http://selectorgadget.com/: it makes it easy to find exactly
-which selector you should be using. If you haven't used CSS selectors
-before, work your way through the fun tutorial at
-http://flukeout.github.io/" />
+<meta property="og:description" content="html_node() and html_nodes() find HTML tags (nodes) using CSS selectors
+XPath expressions." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -158,12 +154,8 @@ http://flukeout.github.io/" />
     </div>
 
     <div class="ref-description">
-    <p>More easily extract pieces out of HTML documents using XPath and CSS
-selectors. CSS selectors are particularly useful in conjunction with
-<a href='http://selectorgadget.com/'>http://selectorgadget.com/</a>: it makes it easy to find exactly
-which selector you should be using. If you haven't used CSS selectors
-before, work your way through the fun tutorial at
-<a href='http://flukeout.github.io/'>http://flukeout.github.io/</a></p>
+    <p><code>html_node()</code> and <code>html_nodes()</code> find HTML tags (nodes) using CSS selectors
+XPath expressions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>css</span>, <span class='va'>xpath</span><span class='op'>)</span>
@@ -184,14 +176,17 @@ depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="html-node-vs-html-nodes"><a class="anchor" href="#html-node-vs-html-nodes"></a><code>html_node</code> vs <code>html_nodes</code></h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p><code>html_node()</code> returns a nodeset the same length as the input.
+<code>html_nodes()</code> flattens the output so there's no direct way to map
+the output to the input.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-<p><code>html_node</code> is like <code><a href='https://rdrr.io/r/base/Extract.html'>[[</a></code> it always extracts exactly one
-element. When given a list of nodes, <code>html_node</code> will always return
-a list of the same length, the length of <code>html_nodes</code> might be longer
-or shorter.</p>
+    <p>CSS selectors are particularly useful in conjunction with
+<a href='https://selectorgadget.com/'>https://selectorgadget.com/</a>, which makes it very easy to discover the
+selector you need. If you haven't used CSS selectors before, I'd recommend
+starting with the the fun tutorial at <a href='http://flukeout.github.io/'>http://flukeout.github.io/</a>.</p>
     <h2 class="hasAnchor" id="css-selector-support"><a class="anchor" href="#css-selector-support"></a>CSS selector support</h2>
 
     
@@ -202,24 +197,21 @@ package, which is a port of the python <span class="pkg">cssselect</span> librar
 <a href='https://pythonhosted.org/cssselect/'>https://pythonhosted.org/cssselect/</a>.</p>
 <p>It implements the majority of CSS3 selectors, as described in
 <a href='http://www.w3.org/TR/2011/REC-css3-selectors-20110929/'>http://www.w3.org/TR/2011/REC-css3-selectors-20110929/</a>. The
-exceptions are listed below:</p>
-<ul>
+exceptions are listed below:</p><ul>
 <li><p>Pseudo selectors that require interactivity are ignored:
-<code>:hover</code>, <code>:active</code>, <code>:focus</code>, <code>:target</code>,
-<code>:visited</code></p></li>
+<code>:hover</code>, <code>:active</code>, <code>:focus</code>, <code>:target</code>, <code>:visited</code>.</p></li>
 <li><p>The following pseudo classes don't work with the wild card element, *:
 <code>*:first-of-type</code>, <code>*:last-of-type</code>, <code>*:nth-of-type</code>,
 <code>*:nth-last-of-type</code>, <code>*:only-of-type</code></p></li>
 <li><p>It supports <code>:contains(text)</code></p></li>
 <li><p>You can use !=, <code>[foo!=bar]</code> is the same as <code>:not([foo=bar])</code></p></li>
-<li><p><code>:not()</code> accepts a sequence of simple selectors, not just single
+<li><p><code>:not()</code> accepts a sequence of simple selectors, not just a single
 simple selector.</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># CSS selectors ----------------------------------------------</span>
-<span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
+    <pre class="examples"><div class='input'><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
   <span class='st'>"https://web.archive.org/web/20190202054736/"</span>,
   <span class='st'>"https://www.boxofficemojo.com/movies/?id=ateam.htm"</span>
 <span class='op'>)</span>
@@ -231,8 +223,7 @@ simple selector.</p></li>
 #&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'><span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center font b"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;b&gt;$77,222,099&lt;/b&gt;</div><div class='input'>
-<span class='co'># But html_node is best used in conjunction with %&gt;% from magrittr</span>
-<span class='co'># You can chain subsetting:</span>
+<span class='co'># html_nodes() well suited to use with the pipe</span>
 <span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"td"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (7)}
 #&gt; [1] &lt;td align="center" colspan="2"&gt;&lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$7 ...
@@ -253,11 +244,12 @@ simple selector.</p></li>
 #&gt; [4] &lt;td valign="top"&gt;Genre: &lt;b&gt;Action&lt;/b&gt;\n&lt;/td&gt;\n
 #&gt; [5] &lt;td valign="top"&gt;Runtime: &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;\n&lt;/td&gt;
 #&gt; [6] &lt;td valign="top"&gt;MPAA Rating: &lt;b&gt;PG-13&lt;/b&gt;\n&lt;/td&gt;\n
-#&gt; [7] &lt;td valign="top"&gt;Production Budget: &lt;b&gt;$110 million&lt;/b&gt;\n&lt;/td&gt;</div><div class='input'><span class='co'># When applied to a list of nodes, html_nodes() returns all nodes,</span>
-<span class='co'># collapsing results into a new nodelist.</span>
+#&gt; [7] &lt;td valign="top"&gt;Production Budget: &lt;b&gt;$110 million&lt;/b&gt;\n&lt;/td&gt;</div><div class='input'><span class='co'># When applied to a list of nodes, html_nodes() returns all matching nodes</span>
+<span class='co'># beneath any of the elements, flattening results into a new nodelist.</span>
 <span class='va'>td</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'><span class='co'># html_node() returns the first matching node. If there are no matching</span>
+#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'>
+<span class='co'># html_node() returns the first matching node. If there are no matching</span>
 <span class='co'># nodes, it returns a "missing" node</span>
 <span class='va'>td</span> <span class='op'>%&gt;%</span> <span class='fu'>html_node</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (7)}
@@ -268,69 +260,22 @@ simple selector.</p></li>
 #&gt; [5] &lt;NA&gt;
 #&gt; [6] &lt;NA&gt;
 #&gt; [7] &lt;NA&gt;</div><div class='input'>
-<span class='co'># To pick out an element at specified position, use magrittr::extract2</span>
-<span class='co'># which is an alias for [[</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>
-<span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://magrittr.tidyverse.org/reference/aliases.html'>extract2</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
+<span class='co'># To pick out an element or elements at specified positions, use [[ and [</span>
+<span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>.</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (6)}
 #&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
 #&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
 #&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
 #&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
 #&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>`[[`</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>.</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (6)}
 #&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
 #&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
 #&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
 #&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
 #&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'>
-<span class='co'># Find all images contained in the first two tables</span>
-<span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>`[`</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
-#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
-#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://magrittr.tidyverse.org/reference/aliases.html'>extract</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_nodes</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
-#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
-#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'>
-<span class='co'># XPath selectors ---------------------------------------------</span>
-<span class='co'># chaining with XPath is a little trickier - you may need to vary</span>
-<span class='co'># the prefix you're using - // always selects from the root node</span>
-<span class='co'># regardless of where you currently are in the doc</span>
-<span class='va'>ateam</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>html_nodes</span><span class='op'>(</span>xpath <span class='op'>=</span> <span class='st'>"//center//font//b"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>html_nodes</span><span class='op'>(</span>xpath <span class='op'>=</span> <span class='st'>"//b"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (21)}
-#&gt;  [1] &lt;b&gt;Adjuster:&lt;/b&gt;
-#&gt;  [2] &lt;b&gt;The A-Team&lt;/b&gt;
-#&gt;  [3] &lt;b&gt;$77,222,099&lt;/b&gt;
-#&gt;  [4] &lt;b&gt;&lt;a href="/web/20190202054736/https://www.boxofficemojo.com/studio/cha ...
-#&gt;  [5] &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/https://www.boxofficemojo.com/sche ...
-#&gt;  [6] &lt;b&gt;Action&lt;/b&gt;
-#&gt;  [7] &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;
-#&gt;  [8] &lt;b&gt;PG-13&lt;/b&gt;
-#&gt;  [9] &lt;b&gt;$110 million&lt;/b&gt;
-#&gt; [10] &lt;b&gt;Domestic:&lt;/b&gt;
-#&gt; [11] &lt;b&gt;$77,222,099&lt;/b&gt;
-#&gt; [12] &lt;b&gt;43.6%&lt;/b&gt;
-#&gt; [13] &lt;b&gt;Worldwide:&lt;/b&gt;
-#&gt; [14] &lt;b&gt;$177,238,796&lt;/b&gt;
-#&gt; [15] &lt;b&gt;&amp;gt; View All 14 Weekends&lt;/b&gt;
-#&gt; [16] &lt;b&gt;Showdown: 'Men-on-a-Mission'&lt;/b&gt;
-#&gt; [17] &lt;b&gt;4&lt;/b&gt;
-#&gt; [18] &lt;b&gt;Chart&lt;/b&gt;
-#&gt; [19] &lt;b&gt;Rank&lt;/b&gt;
-#&gt; [20] &lt;b&gt;Charts (Premier Pass Users Only)&lt;/b&gt;
-#&gt; ...</div></pre>
+#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

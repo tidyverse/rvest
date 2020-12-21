@@ -155,6 +155,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/html_session.html">html_session()</a></code> has had a thorough overhaul and now returns an object of class <code>rvest_session</code> rather than <code>session</code>.</p></li>
 <li>
 <p><code><a href="../reference/html_table.html">html_table()</a></code> has been re-written from scratch to more closely mimic the algorithm that browsers use for parsing tables. This should mean that there are far fewer tables for which it fails to produce some output (<a href='https://github.com/tidyverse/rvest/issues/63'>#63</a>, <a href='https://github.com/tidyverse/rvest/issues/204'>#204</a>,</p>
 <p><a href='https://github.com/tidyverse/rvest/issues/215'>#215</a>). The <code>fill</code> argument has been deprecated since it is no longer needed. <code><a href="../reference/html_table.html">html_table()</a></code> now returns a tibble rather than a data frame to be compatible with the rest of the tidyverse (<a href='https://github.com/tidyverse/rvest/issues/199'>#199</a>). Its performance has been considerably improved (<a href='https://github.com/tidyverse/rvest/issues/237'>#237</a>).</p>
@@ -212,7 +213,7 @@
 <a href="#rvest-032" class="anchor"></a>rvest 0.3.2<small> 2016-06-17 </small>
 </h1>
 <ul>
-<li><p>Fixes to <code><a href="../reference/jump_to.html">follow_link()</a></code> and <code><a href="../reference/session_history.html">back()</a></code> to correctly manage session history.</p></li>
+<li><p>Fixes to <code><a href="../reference/jump_to.html">follow_link()</a></code> and <code><a href="../reference/back.html">back()</a></code> to correctly manage session history.</p></li>
 <li><p>If you’re using xml2 1.0.0, <code><a href="../reference/html_nodes.html">html_node()</a></code> will now return a “missing node”.</p></li>
 <li><p>Parse rowspans and colspans effectively by filling using repetition from left to right (for colspan) and top to bottom (rowspan) (<a href='https://github.com/tidyverse/rvest/issues/111'>#111</a>)</p></li>
 <li><p>Updated a few examples and demos where the website structure has changed.</p></li>

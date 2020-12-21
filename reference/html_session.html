@@ -169,7 +169,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Any additional httr config to use throughout session.</p></td>
+      <td><p>Any additional httr config to use throughout the session.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -187,15 +187,13 @@ and <code><a href='https://httr.r-lib.org/reference/status_code.html'>httr::stat
 and <code><a href='html_nodes.html'>html_nodes()</a></code> to access the html.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># http://stackoverflow.com/questions/15853204</span>
-
-<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'>html_session</span><span class='op'>(</span><span class='st'>"http://hadley.nz"</span><span class='op'>)</span>
-<span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"/"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='session_history.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'>html_session</span><span class='op'>(</span><span class='st'>"http://hadley.nz"</span><span class='op'>)</span>
+<span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"/"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   http://hadley.nz
 #&gt;   http://hadley.nz/hadley-wickham.jpg
-#&gt; - http://hadley.nz/</div><div class='input'><span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='session_history.html'>back</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='session_history.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; - http://hadley.nz
-#&gt;   http://hadley.nz/hadley-wickham.jpg</div><div class='input'><span class='co'># \donttest{</span>
+#&gt; - http://hadley.nz/</div><div class='input'><span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>back</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   http://hadley.nz/hadley-wickham.jpg
+#&gt; - http://hadley.nz</div><div class='input'><span class='co'># \donttest{</span>
 <span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>follow_link</a></span><span class='op'>(</span>css <span class='op'>=</span> <span class='st'>"p a"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Navigating to http://rstudio.com</span></div><div class='output co'>#&gt; &lt;session&gt; https://rstudio.com/
 #&gt;   Status: 200
