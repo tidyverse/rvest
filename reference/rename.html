@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Objects exported from other packages — reexports • rvest</title>
+<title>Functions renamed in rvest 1.0.0 — rename • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,13 +49,16 @@
 
 
 
-<meta property="og:title" content="Objects exported from other packages — reexports" />
-<meta property="og:description" content="These objects are imported from other packages. Follow the links
-below to see their documentation.
-
-  magrittr%&amp;gt;%
-
-  xml2read_html, url_absolute
+<meta property="og:title" content="Functions renamed in rvest 1.0.0 — rename" />
+<meta property="og:description" content="
+rvest 1.0.0 renamed a number of functions to ensure that every function
+has a common prefix, matching tidyverse conventions that emerged since
+rvest was first created.
+set_values() -&amp;gt; form_set()
+submit_form(session, form) -&amp;gt; form_submit(form, session)
+xml_tag() -&amp;gt; html_name()
+xml_node() -&amp;gt; html_node()
+xml_nodes() -&amp;gt; html_nodes()
 
 " />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
@@ -154,22 +157,34 @@ below to see their documentation.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Objects exported from other packages</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/rvest-package.R'><code>R/rvest-package.R</code></a></small>
-    <div class="hidden name"><code>reexports.Rd</code></div>
+    <h1>Functions renamed in rvest 1.0.0</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/rename.R'><code>R/rename.R</code></a></small>
+    <div class="hidden name"><code>rename.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These objects are imported from other packages. Follow the links
-below to see their documentation.</p>
-<dl>
-  <dt>magrittr</dt><dd><p><code>%&gt;%</code></p></dd>
+    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+<p>rvest 1.0.0 renamed a number of functions to ensure that every function
+has a common prefix, matching tidyverse conventions that emerged since
+rvest was first created.</p><ul>
+<li><p><code>set_values()</code> -&gt; <code><a href='form_set.html'>form_set()</a></code></p></li>
+<li><p><code>submit_form(session, form)</code> -&gt; <code><a href='form_set.html'>form_submit(form, session)</a></code></p></li>
+<li><p><code>xml_tag()</code> -&gt; <code><a href='html_text.html'>html_name()</a></code></p></li>
+<li><p><code>xml_node()</code> -&gt; <code><a href='html_nodes.html'>html_node()</a></code></p></li>
+<li><p><code>xml_nodes()</code> -&gt; <code><a href='html_nodes.html'>html_nodes()</a></code></p></li>
+</ul>
 
-  <dt>xml2</dt><dd><p><code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></code>, <code><a href='http://xml2.r-lib.org/reference/url_absolute.html'>url_absolute</a></code></p></dd>
-
-</dl>
     </div>
 
+    <pre class="usage"><span class='fu'>set_values</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>submit_form</span><span class='op'>(</span><span class='va'>session</span>, <span class='va'>form</span>, submit <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>xml_tag</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>xml_node</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>xml_nodes</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
 
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulate a session in an html browser. — html_session • rvest</title>
+<title>Simulate a session in web browser — html_session • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,21 @@
 
 
 
-<meta property="og:title" content="Simulate a session in an html browser. — html_session" />
-<meta property="og:description" content="Simulate a session in an html browser." />
+<meta property="og:title" content="Simulate a session in web browser — html_session" />
+<meta property="og:description" content="This set of functions allows you to simulate a user interacting with a
+website, using forms and navigating from page to page.
+Create a session with html_session(url)
+Navigate to a specified url with jump_to(), or follow a link on the
+page with follow_link().
+Submit a form with form_submit().
+View the history with session_history() and navigate back and forward
+with back() and forward().
+Extract page contents with html_node() and html_nodes(), or get the
+complete HTML document with read_html().
+Inspect the HTTP response with httr::cookies(), httr::headers(),
+and httr::status_code().
+
+" />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -147,25 +160,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simulate a session in an html browser.</h1>
+    <h1>Simulate a session in web browser</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/session.R'><code>R/session.R</code></a></small>
     <div class="hidden name"><code>html_session.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simulate a session in an html browser.</p>
+    <p>This set of functions allows you to simulate a user interacting with a
+website, using forms and navigating from page to page.</p><ul>
+<li><p>Create a session with <code>html_session(url)</code></p></li>
+<li><p>Navigate to a specified url with <code>jump_to()</code>, or follow a link on the
+page with <code>follow_link()</code>.</p></li>
+<li><p>Submit a form with <code><a href='form_set.html'>form_submit()</a></code>.</p></li>
+<li><p>View the history with <code>session_history()</code> and navigate back and forward
+with <code>back()</code> and <code>forward()</code>.</p></li>
+<li><p>Extract page contents with <code><a href='html_nodes.html'>html_node()</a></code> and <code><a href='html_nodes.html'>html_nodes()</a></code>, or get the
+complete HTML document with <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>.</p></li>
+<li><p>Inspect the HTTP response with <code><a href='https://httr.r-lib.org/reference/cookies.html'>httr::cookies()</a></code>, <code><a href='https://httr.r-lib.org/reference/headers.html'>httr::headers()</a></code>,
+and <code><a href='https://httr.r-lib.org/reference/status_code.html'>httr::status_code()</a></code>.</p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>html_session</span><span class='op'>(</span><span class='va'>url</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>is.session</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>is.session</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>jump_to</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>url</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>follow_link</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>i</span>, <span class='va'>css</span>, <span class='va'>xpath</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>back</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>forward</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>session_history</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>url</th>
-      <td><p>Location to start session</p></td>
+      <td><p>A URL, either relative or absolute, to navigate to.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -173,32 +209,67 @@
     </tr>
     <tr>
       <th>x</th>
-      <td><p>An object to test to see if it's a session.</p></td>
+      <td><p>A session.</p></td>
+    </tr>
+    <tr>
+      <th>i</th>
+      <td><p>A integer to select the ith link or a string to match the
+first link containing that text (case sensitive).</p></td>
+    </tr>
+    <tr>
+      <th>css</th>
+      <td><p>Nodes to select. Supply one of <code>css</code> or <code>xpath</code>
+depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
+    </tr>
+    <tr>
+      <th>xpath</th>
+      <td><p>Nodes to select. Supply one of <code>css</code> or <code>xpath</code>
+depending on whether you want to use a CSS or XPath 1.0 selector.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>A session object responds to a combination of httr and html methods:
-use <code><a href='https://httr.r-lib.org/reference/cookies.html'>httr::cookies()</a></code>, <code><a href='https://httr.r-lib.org/reference/headers.html'>httr::headers()</a></code>,
-and <code><a href='https://httr.r-lib.org/reference/status_code.html'>httr::status_code()</a></code> to access properties of the request;
-and <code><a href='html_nodes.html'>html_nodes()</a></code> to access the html.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'>html_session</span><span class='op'>(</span><span class='st'>"http://hadley.nz"</span><span class='op'>)</span>
-<span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"/"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>s</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>jump_to</span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>jump_to</span><span class='op'>(</span><span class='st'>"/"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>session_history</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   http://hadley.nz
 #&gt;   http://hadley.nz/hadley-wickham.jpg
-#&gt; - http://hadley.nz/</div><div class='input'><span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>jump_to</a></span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>back</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='back.html'>session_history</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   http://hadley.nz/hadley-wickham.jpg
-#&gt; - http://hadley.nz</div><div class='input'><span class='co'># \donttest{</span>
-<span class='va'>s</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='jump_to.html'>follow_link</a></span><span class='op'>(</span>css <span class='op'>=</span> <span class='st'>"p a"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Navigating to http://rstudio.com</span></div><div class='output co'>#&gt; &lt;session&gt; https://rstudio.com/
-#&gt;   Status: 200
-#&gt;   Type:   text/html; charset=UTF-8
-#&gt;   Size:   86724</div><div class='input'><span class='co'># }</span>
+#&gt; - http://hadley.nz/</div><div class='input'>
+<span class='va'>s</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>jump_to</span><span class='op'>(</span><span class='st'>"hadley-wickham.jpg"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>back</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>session_history</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; - http://hadley.nz
+#&gt;   http://hadley.nz</div><div class='input'>
+<span class='co'># \donttest{</span>
+<span class='va'>s</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>follow_link</span><span class='op'>(</span>css <span class='op'>=</span> <span class='st'>"p a"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Navigating to http://rstudio.com</span></div><div class='output co'>#&gt; {xml_nodeset (59)}
+#&gt;  [1] &lt;p&gt;The premier IDE for R&lt;/p&gt;
+#&gt;  [2] &lt;p&gt;RStudio anywhere using a web browser&lt;/p&gt;
+#&gt;  [3] &lt;p&gt;Put Shiny applications online&lt;/p&gt;
+#&gt;  [4] &lt;p&gt;Shiny, R Markdown, Tidyverse and more&lt;/p&gt;
+#&gt;  [5] &lt;p&gt;Do, share, teach and learn data science&lt;/p&gt;
+#&gt;  [6] &lt;p&gt;An easy way to access R packages&lt;/p&gt;
+#&gt;  [7] &lt;p&gt;Let us host your Shiny applications&lt;/p&gt;
+#&gt;  [8] &lt;p&gt;The premier software bundle for data science teams&lt;/p&gt;
+#&gt;  [9] &lt;p&gt;RStudio for the Enterprise&lt;/p&gt;
+#&gt; [10] &lt;p&gt;Connect data scientists with decision makers&lt;/p&gt;
+#&gt; [11] &lt;p&gt;Control and distribute packages&lt;/p&gt;
+#&gt; [12] &lt;p&gt;RStudio&lt;/p&gt;
+#&gt; [13] &lt;p&gt;RStudio Server&lt;/p&gt;
+#&gt; [14] &lt;p&gt;Shiny Server&lt;/p&gt;
+#&gt; [15] &lt;p&gt;R Packages&lt;/p&gt;
+#&gt; [16] &lt;p&gt;RStudio Cloud&lt;/p&gt;
+#&gt; [17] &lt;p&gt;RStudio Public Package Manager&lt;/p&gt;
+#&gt; [18] &lt;p&gt;shinyapps.io&lt;/p&gt;
+#&gt; [19] &lt;p&gt;RStudio Team&lt;/p&gt;
+#&gt; [20] &lt;p&gt;RStudio Server Pro&lt;/p&gt;
+#&gt; ...</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
