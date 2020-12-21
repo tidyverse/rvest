@@ -7,7 +7,7 @@
 #' and [html_nodes()] to access the html.
 #'
 #' @param url Location to start session
-#' @param ... Any additional httr config to use throughout session.
+#' @param ... Any additional httr config to use throughout the session.
 #' @param x An object to test to see if it's a session.
 #' @export
 #' @examples

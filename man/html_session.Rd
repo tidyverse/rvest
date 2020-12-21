@@ -12,7 +12,7 @@ is.session(x)
 \arguments{
 \item{url}{Location to start session}
 
-\item{...}{Any additional httr config to use throughout session.}
+\item{...}{Any additional httr config to use throughout the session.}
 
 \item{x}{An object to test to see if it's a session.}
 }
