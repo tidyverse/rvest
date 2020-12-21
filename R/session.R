@@ -28,17 +28,17 @@ html_session <- function(url, ...) {
       forward  = NULL,
       cache    = new_environment()
     ),
-    class = "session"
+    class = "rvest_session"
   )
   session_request(session, "GET", url)
 }
 
 #' @export
 #' @rdname html_session
-is.session <- function(x) inherits(x, "session")
+is.session <- function(x) inherits(x, "rvest_session")
 
 #' @export
-print.session <- function(x, ...) {
+print.rvest_session <- function(x, ...) {
   cat("<session> ", x$url, "\n", sep = "")
   cat("  Status: ", httr::status_code(x), "\n", sep = "")
   cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
@@ -178,7 +178,7 @@ print.history <- function(x, ...) {
 
 #' @importFrom xml2 read_html
 #' @export
-read_html.session <- function(x, ...) {
+read_html.rvest_session <- function(x, ...) {
   if (!is_html(x)) {
     abort("Page doesn't appear to be html.")
   }
@@ -198,12 +198,12 @@ is_html <- function(x) {
 # rvest methods -----------------------------------------------------------------
 
 #' @export
-html_form.session <- function(x) {
+html_form.rvest_session <- function(x) {
   html_form(read_html(x))
 }
 
 #' @export
-html_table.session <- function(x,
+html_table.rvest_session <- function(x,
                                header = NA,
                                trim = TRUE,
                                fill = deprecated(),
@@ -212,12 +212,12 @@ html_table.session <- function(x,
 }
 
 #' @export
-html_node.session <- function(x, css, xpath) {
+html_node.rvest_session <- function(x, css, xpath) {
   html_node(read_html(x), css, xpath)
 }
 
 #' @export
-html_nodes.session <- function(x, css, xpath) {
+html_nodes.rvest_session <- function(x, css, xpath) {
   html_nodes(read_html(x), css, xpath)
 }
 
@@ -225,18 +225,18 @@ html_nodes.session <- function(x, css, xpath) {
 
 #' @importFrom httr status_code
 #' @export
-status_code.session <- function(x) {
+status_code.rvest_session <- function(x) {
   status_code(x$response)
 }
 
 #' @importFrom httr headers
 #' @export
-headers.session <- function(x) {
+headers.rvest_session <- function(x) {
   headers(x$response)
 }
 
 #' @importFrom httr cookies
 #' @export
-cookies.session <- function(x) {
+cookies.rvest_session <- function(x) {
   cookies(x$response)
 }

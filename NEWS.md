@@ -1,6 +1,7 @@
 # rvest (development version)
 
-* `html_session()` has had a thorough overhaul.
+* `html_session()` has had a thorough overhaul and now returns an object of
+  class `rvest_session` rather than `session`.
 
 * `html_table()` has been re-written from scratch to more closely mimic the
   algorithm that browsers use for parsing tables. This should mean that there
