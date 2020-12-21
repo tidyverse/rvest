@@ -18,9 +18,7 @@
 #' read_html(path, encoding = "ISO-8859-1") %>% html_nodes("p") %>% html_text()
 #' read_html(path, encoding = "ISO-8859-2") %>% html_nodes("p") %>% html_text()
 html_encoding_guess <- function(x) {
-  if (!requireNamespace("stringi", quietly = TRUE)) {
-    stop("stringi package required for encoding operations")
-  }
+  check_installed("stringi")
 
   guess <- stringi::stri_enc_detect(paste(x, collapse = ""))
 
@@ -52,9 +50,7 @@ repair_encoding <- function(x, from = NULL) {
     details = "Instead, re-load using the `encoding` argument of `read_html()`"
   )
 
-  if (!requireNamespace("stringi", quietly = TRUE)) {
-    stop("stringi package required for encoding operations")
-  }
+  check_installed("stringi")
 
   if (is.null(from)) {
     best_guess <- html_encoding_guess(x)[1, , drop = FALSE]
@@ -69,10 +65,3 @@ repair_encoding <- function(x, from = NULL) {
 
   stringi::stri_conv(x, from)
 }
-
-#' Deprecated encoding functions
-#'
-#' `r lifecycle::badge("deprecated")`
-#' These functions have been replaced by [html_encoding_guess()] and
-#' [html_encoding_repair()].
-#'
