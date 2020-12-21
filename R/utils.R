@@ -40,3 +40,13 @@ google_form <- function(x) {
 cat_line <- function(...) {
   cat(paste0(..., "\n", collapse = ""))
 }
+
+
+env_cache <- function(env, nm, value, inherit = FALSE) {
+  if (env_has(env, nm, inherit = inherit)) {
+    env_get(env, nm, inherit = TRUE)
+  } else {
+    env_poke(env, nm, value)
+    value
+  }
+}

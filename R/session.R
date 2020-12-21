@@ -18,72 +18,49 @@
 #' s %>% follow_link(css = "p a")
 #' }
 html_session <- function(url, ...) {
-  session <- structure(
+  session <-   structure(
     list(
       handle   = httr::handle(url),
       config   = c(..., httr::config(autoreferer = 1L)),
-      url      = NULL,
-      back     = character(),
-      forward  = character(),
       response = NULL,
-      html     = new.env(parent = emptyenv(), hash = FALSE)
+      url      = NULL,
+      back     = NULL,
+      forward  = NULL,
+      cache    = new_environment()
     ),
     class = "session"
   )
-  request_GET(session, url)
-}
-
-#' @export
-print.session <- function(x, ...) {
-  cat("<session> ", x$url, "\n", sep = "")
-  cat("  Status: ", httr::status_code(x$response), "\n", sep = "")
-  cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
-  cat("  Size:   ", length(x$response$content), "\n", sep = "")
-}
-
-request_GET <- function(x, url, ...) {
-  x$response <- httr::GET(url, x$config, ..., handle = x$handle)
-  x$html <- new.env(parent = emptyenv(), hash = FALSE)
-  x$url <- x$response$url
-
-  httr::warn_for_status(x$response)
-  x
-}
-
-request_POST <- function(x, url, ...) {
-  x$response <- httr::POST(url, x$config, ..., handle = x$handle)
-  x$html <- new.env(parent = emptyenv(), hash = FALSE)
-  x$url <- x$response$url
-  x$back <- character() # can't go back after a post
-
-  httr::warn_for_status(x$response)
-  x
-}
-
-#' @importFrom xml2 read_xml
-#' @export
-read_xml.session <- function(x, ..., as_html = FALSE) {
-  if (exists("cached", envir = x$html)) {
-    return(x$html$cached)
-  }
-
-  if (!is_html(x)) {
-    stop("Current page doesn't appear to be html.", call. = FALSE)
-  }
-
-  read_xml(x$response, ..., as_html = as_html)
-}
-
-
-show <- function(x) {
-  temp <- tempfile()
-  writeBin(httr::content(x$response, "raw"), temp)
-  utils::browseURL(temp)
+  session_request(session, "GET", url)
 }
 
 #' @export
 #' @rdname html_session
 is.session <- function(x) inherits(x, "session")
+
+#' @export
+print.session <- function(x, ...) {
+  cat("<session> ", x$url, "\n", sep = "")
+  cat("  Status: ", httr::status_code(x), "\n", sep = "")
+  cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
+  cat("  Size:   ", length(x$response$content), "\n", sep = "")
+}
+
+session_request <- function(x, method, url, ...) {
+  if (method == "GET") {
+    x$response <- httr::GET(url, x$config, ..., handle = x$handle)
+  } else {
+    x$response <- httr::POST(url, x$config, ..., handle = x$handle)
+  }
+  httr::warn_for_status(x$response)
+
+  x$back <- c(x$url, x$back)
+  x$forward <- character()
+  x$url <- x$response$url
+
+  x$cache <- new_environment()
+
+  x
+}
 
 #' Navigate to a new url.
 #'
@@ -104,13 +81,8 @@ is.session <- function(x) inherits(x, "session")
 #' }
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
-
-  x$back <- c(x$url, x$back)
-  x$forward <- character()
-
   url <- xml2::url_absolute(url, x$url)
-
-  request_GET(x, url, ...)
+  session_request(x, "GET", url, ...)
 }
 
 #' @param i You can select with: \describe{
@@ -123,31 +95,58 @@ jump_to <- function(x, url, ...) {
 follow_link <- function(x, i, css, xpath, ...) {
   stopifnot(is.session(x))
 
+  url <- find_href(x, i = i, css = css, xpath = xpath)
+  inform(paste0("Navigating to ", url))
+  jump_to(x, url, ...)
+}
+
+find_href <- function(x, i, css, xpath) {
+  if (sum(!missing(i), !missing(css), !missing(xpath)) != 1) {
+    abort("Must supply exactly one of `i`, `css`, or `xpath`")
+  }
+
   if (!missing(i)) {
     stopifnot(length(i) == 1)
+    a <- html_nodes(x, "a")
+
     if (is.numeric(i)) {
-      a <- html_nodes(x, "a")[[i]]
+      out <- a[[i]]
     } else if (is.character(i)) {
-      links <- html_nodes(x, "a")
-      text <- html_text(links)
+      text <- html_text(a)
       match <- grepl(i, text, fixed = TRUE)
       if (!any(match)) {
         stop("No links have text '", i, "'", call. = FALSE)
       }
 
-      a <- links[[which(match)[1]]]
+      out <- a[[which(match)[[1]]]]
+    } else {
+      abort("`i` must a string or integer")
     }
   } else {
-    links <- html_nodes(x, css = css, xpath = xpath)
-    if (length(links) == 0) {
-      stop("No links matched that expression", call. = FALSE)
+    a <- html_nodes(x, css = css, xpath = xpath)
+    if (length(a) == 0) {
+      abort("No links matched `css`/`xpath`")
     }
-    a <- links[[1]]
+    out <- a[[1]]
   }
 
-  url <- html_attr(a, "href")
-  inform(paste0("Navigating to ", url))
-  jump_to(x, url, ...)
+  html_attr(out, "href")
+}
+
+#' @export
+#' @rdname session_history
+back <- function(x) {
+  stopifnot(is.session(x))
+
+  if (length(x$back) == 0) {
+    stop("Can't go back any further", call. = FALSE)
+  }
+
+  url <- x$back[[1]]
+  x$back <- x$back[-1]
+  x$forward <- c(x$url, x$forward)
+
+  session_request(x, "GET", url)
 }
 
 # History navigation -----------------------------------------------------------
@@ -168,47 +167,22 @@ session_history <- function(x) {
 }
 
 #' @export
-#' @rdname session_history
-back <- function(x) {
-  stopifnot(is.session(x))
-
-  if (length(x$back) == 0) {
-    stop("Can't go back any further", call. = FALSE)
-  }
-
-  url <- x$back[[1]]
-  x$back <- x$back[-1]
-  x$forward <- c(x$url, x$forward)
-
-  request_GET(x, url)
-}
-
-#' @export
 print.history <- function(x, ...) {
   prefix <- rep(c("  ", "- ", "  "), c(length(x$back), 1, length(x$forward)))
 
   cat(paste0(prefix, unlist(x), collapse = "\n"), "\n", sep = "")
 }
 
-# html methods -----------------------------------------------------------------
 
-#' @export
-html_form.session <- function(x) html_form(xml2::read_html(x))
+# xml2 methods ------------------------------------------------------------
 
+#' @importFrom xml2 read_html
 #' @export
-html_table.session <- function(x, header = NA, trim = TRUE, fill = FALSE,
-                               dec = ".") {
-  html_table(xml2::read_html(x), header = header, trim = trim, fill = fill, dec = dec)
-}
-
-#' @export
-html_node.session <- function(x, css, xpath) {
-  html_node(xml2::read_html(x), css, xpath)
-}
-
-#' @export
-html_nodes.session <- function(x, css, xpath) {
-  html_nodes(xml2::read_html(x), css, xpath)
+read_html.session <- function(x, ...) {
+  if (!is_html(x)) {
+    abort("Page doesn't appear to be html.")
+  }
+  env_cache(x$cache, "html", read_html(x$response, ...))
 }
 
 is_html <- function(x) {
@@ -221,6 +195,32 @@ is_html <- function(x) {
   parsed$complete %in% c("text/html", "application/xhtml+xml")
 }
 
+# rvest methods -----------------------------------------------------------------
+
+#' @export
+html_form.session <- function(x) {
+  html_form(read_html(x))
+}
+
+#' @export
+html_table.session <- function(x,
+                               header = NA,
+                               trim = TRUE,
+                               fill = deprecated(),
+                               dec = ".") {
+  html_table(read_html(x), header = header, trim = trim, fill = fill, dec = dec)
+}
+
+#' @export
+html_node.session <- function(x, css, xpath) {
+  html_node(read_html(x), css, xpath)
+}
+
+#' @export
+html_nodes.session <- function(x, css, xpath) {
+  html_nodes(read_html(x), css, xpath)
+}
+
 # httr methods -----------------------------------------------------------------
 
 #' @importFrom httr status_code
@@ -228,11 +228,13 @@ is_html <- function(x) {
 status_code.session <- function(x) {
   status_code(x$response)
 }
+
 #' @importFrom httr headers
 #' @export
 headers.session <- function(x) {
   headers(x$response)
 }
+
 #' @importFrom httr cookies
 #' @export
 cookies.session <- function(x) {

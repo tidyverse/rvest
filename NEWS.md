@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `html_session()` has had a thorough overhaul.
+
 * `html_table()` has been re-written from scratch to more closely mimic the
   algorithm that browsers use for parsing tables. This should mean that there
   are far fewer tables for which it fails to produce some output (#63, #204,

@@ -71,13 +71,15 @@ form_submit <- function(form, session, submit = NULL, ...) {
   }
 
   if (request$method == "POST") {
-    request_POST(session,
+    session_request(session,
+      method = "POST",
       url = request$url,
       body = request$values,
       encode = request$enctype
     )
   } else {
-    request_GET(session,
+    session_request(session,
+      method = "GET",
       url = request$url,
       query = request$values
     )
