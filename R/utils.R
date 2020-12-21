@@ -1,16 +1,3 @@
-
-#' Pipe operator
-#'
-#' See [magrittr::%>%] for more details.
-#'
-#' @name %>%
-#' @rdname pipe
-#' @keywords internal
-#' @export
-#' @importFrom magrittr %>%
-#' @usage lhs \%>\% rhs
-NULL
-
 map_chr <- function(.x, .f, ...) {
   vapply(.x, .f, ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
 }
