@@ -1,21 +1,41 @@
-#' Simulate a session in an html browser.
+#' Simulate a session in web browser
 #'
-#' @section Methods:
-#' A session object responds to a combination of httr and html methods:
-#' use [httr::cookies()], [httr::headers()],
-#' and [httr::status_code()] to access properties of the request;
-#' and [html_nodes()] to access the html.
+#' @description
+#' This set of functions allows you to simulate a user interacting with a
+#' website, using forms and navigating from page to page.
 #'
-#' @param url Location to start session
+#' * Create a session with `html_session(url)`
+#' * Navigate to a specified url with `jump_to()`, or follow a link on the
+#'   page with `follow_link()`.
+#' * Submit a form with [form_submit()].
+#' * View the history with `session_history()` and return to the previous page
+#'   with `back()`
+#' * Extract page contents with [html_node()] and [html_nodes()], or get the
+#'   complete HTML document with [read_html()].
+#' * Inspect the HTTP response with [httr::cookies()], [httr::headers()],
+#'   and [httr::status_code()].
+#'
+#' @param url For `html_session()` location to start, for `jump_to()` location
+#'   to go to next.
 #' @param ... Any additional httr config to use throughout the session.
 #' @param x An object to test to see if it's a session.
 #' @export
 #' @examples
 #' s <- html_session("http://hadley.nz")
-#' s %>% jump_to("hadley-wickham.jpg") %>% jump_to("/") %>% session_history()
-#' s %>% jump_to("hadley-wickham.jpg") %>% back() %>% session_history()
+#' s %>%
+#'   jump_to("hadley-wickham.jpg") %>%
+#'   jump_to("/") %>%
+#'   session_history()
+#'
+#' s %>%
+#'   jump_to("hadley-wickham.jpg") %>%
+#'   back() %>%
+#'   session_history()
+#'
 #' \donttest{
-#' s %>% follow_link(css = "p a")
+#' s %>%
+#'   follow_link(css = "p a") %>%
+#'   html_nodes("p")
 #' }
 html_session <- function(url, ...) {
   session <-   structure(
@@ -62,36 +82,21 @@ session_request <- function(x, method, url, ...) {
   x
 }
 
-#' Navigate to a new url.
-#'
-#' `jump_to()` takes a url (either relative or absolute);
-#' `follow_link` takes an expression that refers to a link (an `<a>`
-#' tag) on the current page.
-#'
 #' @param x A session.
 #' @param url A URL, either relative or absolute, to navigate to.
-#' @param ... Any additional httr configs to apply to this request.
 #' @export
-#' @examples
-#' \donttest{
-#' s <- html_session("http://hadley.nz")
-#' s <- s %>% follow_link("github")
-#' s <- s %>% back()
-#' s %>% follow_link("readr")
-#' }
+#' @rdname html_session
 jump_to <- function(x, url, ...) {
   stopifnot(is.session(x))
   url <- xml2::url_absolute(url, x$url)
   session_request(x, "GET", url, ...)
 }
 
-#' @param i You can select with: \describe{
-#'   \item{an integer}{selects the ith link}
-#'   \item{a string}{first link containing that text (case sensitive)}
-#' }
+#' @param i A integer to select the ith link or a string to match the
+#'  first link containing that text (case sensitive).
 #' @inheritParams html_node
 #' @export
-#' @rdname jump_to
+#' @rdname html_session
 follow_link <- function(x, i, css, xpath, ...) {
   stopifnot(is.session(x))
 
@@ -134,7 +139,7 @@ find_href <- function(x, i, css, xpath) {
 }
 
 #' @export
-#' @rdname session_history
+#' @rdname html_session
 back <- function(x) {
   stopifnot(is.session(x))
 
@@ -149,12 +154,8 @@ back <- function(x) {
   session_request(x, "GET", url)
 }
 
-# History navigation -----------------------------------------------------------
-
-#' History navigation tools
-#'
 #' @export
-#' @param x A session.
+#' @rdname html_session
 session_history <- function(x) {
   structure(
     list(

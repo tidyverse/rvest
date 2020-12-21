@@ -12,13 +12,7 @@ reference:
   contents:
   - html_form
   - html_nodes
+  - html_session
   - html_table
   - html_text
   - html_encoding_guess
-
-- title: Manage a scraping session
-  contents:
-  - html_session
-  - jump_to
-  - back
-  - form_submit

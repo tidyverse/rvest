@@ -3,35 +3,71 @@
 \name{html_session}
 \alias{html_session}
 \alias{is.session}
-\title{Simulate a session in an html browser.}
+\alias{jump_to}
+\alias{follow_link}
+\alias{back}
+\alias{session_history}
+\title{Simulate a session in web browser}
 \usage{
 html_session(url, ...)
 
 is.session(x)
+
+jump_to(x, url, ...)
+
+follow_link(x, i, css, xpath, ...)
+
+back(x)
+
+session_history(x)
 }
 \arguments{
-\item{url}{Location to start session}
+\item{url}{A URL, either relative or absolute, to navigate to.}
 
 \item{...}{Any additional httr config to use throughout the session.}
 
-\item{x}{An object to test to see if it's a session.}
+\item{x}{A session.}
+
+\item{i}{A integer to select the ith link or a string to match the
+first link containing that text (case sensitive).}
+
+\item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
+
+\item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a CSS or XPath 1.0 selector.}
 }
 \description{
-Simulate a session in an html browser.
+This set of functions allows you to simulate a user interacting with a
+website, using forms and navigating from page to page.
+\itemize{
+\item Create a session with \code{html_session(url)}
+\item Navigate to a specified url with \code{jump_to()}, or follow a link on the
+page with \code{follow_link()}.
+\item Submit a form with \code{\link[=form_submit]{form_submit()}}.
+\item View the history with \code{session_history()} and return to the previous page
+with \code{back()}
+\item Extract page contents with \code{\link[=html_node]{html_node()}} and \code{\link[=html_nodes]{html_nodes()}}, or get the
+complete HTML document with \code{\link[=read_html]{read_html()}}.
+\item Inspect the HTTP response with \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},
+and \code{\link[httr:status_code]{httr::status_code()}}.
 }
-\section{Methods}{
-
-A session object responds to a combination of httr and html methods:
-use \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},
-and \code{\link[httr:status_code]{httr::status_code()}} to access properties of the request;
-and \code{\link[=html_nodes]{html_nodes()}} to access the html.
 }
-
 \examples{
 s <- html_session("http://hadley.nz")
-s \%>\% jump_to("hadley-wickham.jpg") \%>\% jump_to("/") \%>\% session_history()
-s \%>\% jump_to("hadley-wickham.jpg") \%>\% back() \%>\% session_history()
+s \%>\%
+  jump_to("hadley-wickham.jpg") \%>\%
+  jump_to("/") \%>\%
+  session_history()
+
+s \%>\%
+  jump_to("hadley-wickham.jpg") \%>\%
+  back() \%>\%
+  session_history()
+
 \donttest{
-s \%>\% follow_link(css = "p a")
+s \%>\%
+  follow_link(css = "p a") \%>\%
+  html_nodes("p")
 }
 }
