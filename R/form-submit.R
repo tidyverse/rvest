@@ -3,22 +3,14 @@
 #' Once you've extracted a form from a page with [html_form()] use
 #' [form_set()] to modify its values and [form_submit()] to submit it.
 #'
-#' @section rvest 1.0.0:
-#' `r lifecycle::badge("deprecated")`
-#'
-#' In rvest 1.0.0, `set_values()` was deprecated in favor of
-#' `form_set()` and `submit_form()` in favor of `form_submit()`.
-#' Note that the argument order of `form_submit()` is different in order
-#' to facilitate use in a pipe
-#'
 #' @param form An [html_form()].
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
 #'   fields to modify.
 #'
 #'   Provide a character vector to set multiple checkboxes in a set or
 #'   select multiple values from a multi-select.
-#' @return `set_values()` returns an updated form object;
-#'   `submit_form()` returns the parsed HTML response (or an error if the
+#' @return `form_set()` returns an updated form object;
+#'   `form_submit()` returns an HTML session object.
 #'   HTTP request fails).
 #' @export
 #' @examples
@@ -35,6 +27,8 @@
 #' vals <- list(q = "web scraping", hl = "en")
 #' search %>% set_values(!!!vals)
 form_set <- function(form, ...) {
+  check_form(form)
+
   new_values <- list2(...)
   check_fields(form, new_values)
 
@@ -60,9 +54,7 @@ form_set <- function(form, ...) {
 #' @rdname form_set
 #' @export
 form_submit <- function(form, session, submit = NULL, ...) {
-  if (!inherits(form, "rvest_form")) {
-    abort("`form` must be produced by rvest_form()")
-  }
+  check_form(form)
 
   request <- submission_build(form, submit, base_url = session$url)
 
@@ -162,5 +154,11 @@ check_fields <- function(form, values) {
   if (length(no_match) > 0) {
     str <- paste("'", no_match, "'", collapse = ", ")
     abort(paste0("Can't set value of fields that don't exist: ", str))
+  }
+}
+
+check_form <- function(x) {
+  if (!inherits(x, "rvest_form")) {
+    abort("`form` must be produced by rvest_form()")
   }
 }

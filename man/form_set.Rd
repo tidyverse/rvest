@@ -28,24 +28,14 @@ select multiple values from a multi-select.}
 }}
 }
 \value{
-\code{set_values()} returns an updated form object;
-\code{submit_form()} returns the parsed HTML response (or an error if the
+\code{form_set()} returns an updated form object;
+\code{form_submit()} returns an HTML session object.
 HTTP request fails).
 }
 \description{
 Once you've extracted a form from a page with \code{\link[=html_form]{html_form()}} use
 \code{\link[=form_set]{form_set()}} to modify its values and \code{\link[=form_submit]{form_submit()}} to submit it.
 }
-\section{rvest 1.0.0}{
-
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
-
-In rvest 1.0.0, \code{set_values()} was deprecated in favor of
-\code{form_set()} and \code{submit_form()} in favor of \code{form_submit()}.
-Note that the argument order of \code{form_submit()} is different in order
-to facilitate use in a pipe
-}
-
 \examples{
 session <- html_session("http://www.google.com")
 search <- html_form(session)[[1]]
