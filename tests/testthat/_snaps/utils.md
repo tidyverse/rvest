@@ -1,4 +1,4 @@
-# minimal html doesn't change unexpected
+# minimal html doesn't change unexpectedly
 
     Code
       cat(as.character(minimal_html("test", "<p>Hi")))
