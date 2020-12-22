@@ -38,6 +38,11 @@ test_that("session responds to httr and rvest methods", {
   expect_silent(cookies(s))
 })
 
+test_that("informative errors for bad inputs", {
+  expect_snapshot_error(check_form(1))
+  expect_snapshot_error(check_session(1))
+})
+
 # navigation --------------------------------------------------------------
 
 test_that("can navigate back and forward", {

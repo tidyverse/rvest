@@ -30,6 +30,14 @@
     Error <rlang_error>
       Page doesn't appear to be html.
 
+# informative errors for bad inputs
+
+    `form` must be produced by html_form()
+
+---
+
+    `x` must be produced by html_session()
+
 # can navigate back and forward
 
     Can't go back any further

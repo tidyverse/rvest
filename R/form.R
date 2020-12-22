@@ -222,3 +222,10 @@ format_list <- function(x, indent = 0) {
   paste0(spaces, formatted, collapse = "\n")
 }
 
+check_fields <- function(form, values) {
+  no_match <- setdiff(names(values), names(form$fields))
+  if (length(no_match) > 0) {
+    str <- paste("'", no_match, "'", collapse = ", ")
+    abort(paste0("Can't set value of fields that don't exist: ", str))
+  }
+}

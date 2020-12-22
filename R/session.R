@@ -63,6 +63,7 @@ print.rvest_session <- function(x, ...) {
   cat("  Status: ", httr::status_code(x), "\n", sep = "")
   cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
   cat("  Size:   ", length(x$response$content), "\n", sep = "")
+  invisible(x)
 }
 
 session_request <- function(x, method, url, ...) {
@@ -84,7 +85,7 @@ session_request <- function(x, method, url, ...) {
 #' @export
 #' @rdname html_session
 jump_to <- function(x, url, ...) {
-  stopifnot(is.session(x))
+  check_session(x)
   url <- xml2::url_absolute(url, x$url)
   last_url <- x$url
 
@@ -100,7 +101,7 @@ jump_to <- function(x, url, ...) {
 #' @export
 #' @rdname html_session
 follow_link <- function(x, i, css, xpath, ...) {
-  stopifnot(is.session(x))
+  check_session(x)
 
   url <- find_href(x, i = i, css = css, xpath = xpath)
   inform(paste0("Navigating to ", url))
@@ -143,7 +144,7 @@ find_href <- function(x, i, css, xpath) {
 #' @export
 #' @rdname html_session
 back <- function(x) {
-  stopifnot(is.session(x))
+  check_session(x)
 
   if (length(x$back) == 0) {
     abort("Can't go back any further")
@@ -160,7 +161,7 @@ back <- function(x) {
 #' @export
 #' @rdname html_session
 forward <- function(x) {
-  stopifnot(is.session(x))
+  check_session(x)
 
   if (length(x$forward) == 0) {
     abort("Can't go forward any further")
@@ -177,6 +178,8 @@ forward <- function(x) {
 #' @export
 #' @rdname html_session
 session_history <- function(x) {
+  check_session(x)
+
   urls <- c(rev(x$back), x$url, x$forward)
   prefix <- rep(c("  ", "- ", "  "), c(length(x$back), 1, length(x$forward)))
   cat_line(prefix, urls)
@@ -192,26 +195,24 @@ session_history <- function(x) {
 #' @rdname html_session
 #' @export
 session_submit <- function(x, form, submit = NULL, ...) {
+  check_session(x)
   check_form(form)
-
   request <- submission_build(form, submit, base_url = x$url)
-
-  if (!missing(...)) {
-    abort(paste0("`...` no longer supported; please set httr options in html_sessions()"))
-  }
 
   if (request$method == "POST") {
     session_request(x,
       method = "POST",
       url = request$url,
       body = request$values,
-      encode = request$enctype
+      encode = request$enctype,
+      ...
     )
   } else {
     session_request(x,
       method = "GET",
       url = request$url,
-      query = request$values
+      query = request$values,
+      ...
     )
   }
 }
@@ -287,21 +288,6 @@ is_button <- function(x) {
   tolower(x$type) %in% c("submit", "image", "button")
 }
 
-check_fields <- function(form, values) {
-  no_match <- setdiff(names(values), names(form$fields))
-  if (length(no_match) > 0) {
-    str <- paste("'", no_match, "'", collapse = ", ")
-    abort(paste0("Can't set value of fields that don't exist: ", str))
-  }
-}
-
-check_form <- function(x) {
-  if (!inherits(x, "rvest_form")) {
-    abort("`form` must be produced by rvest_form()")
-  }
-}
-
-
 # xml2 methods ------------------------------------------------------------
 
 #' @importFrom xml2 read_html
@@ -367,4 +353,17 @@ headers.rvest_session <- function(x) {
 #' @export
 cookies.rvest_session <- function(x) {
   cookies(x$response)
+}
+
+# helpers -----------------------------------------------------------------
+
+check_form <- function(x) {
+  if (!inherits(x, "rvest_form")) {
+    abort("`form` must be produced by html_form()")
+  }
+}
+check_session <- function(x) {
+  if (!inherits(x, "rvest_session")) {
+    abort("`x` must be produced by html_session()")
+  }
 }
