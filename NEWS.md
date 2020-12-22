@@ -13,20 +13,20 @@
   with the rest of the tidyverse (#199). Its performance has been considerably
   improved (#237).
 
-* `form_set()` can now accept character vectors allowing you to select
+* `html_form_set()` can now accept character vectors allowing you to select
   multiple checkboxes in a set or select multiple values from a multi-`<select>`
   (#127, with help from @juba).
 
 * Objects within a `html_form()` now have class `rvest_field`, instead of a
   variety of classes that were lacking the `rvest_` prefix.
 
-* Rename `submit_form()` to `form_submit()` and `set_values()` to 
-  `form_set()`.
+* Renamed `submit_form()` to `session_submit()` and `set_values()` to 
+  `html_form_set()`.
 
-* `submit_form()` now allows you to pick the submission button by position
+* `session_submit()` now allows you to pick the submission button by position
   (#156). The `...` argument is deprecated; please use `config` instead.
 
-* `set_values()` now uses dynamic dots so that you can use `!!!` if you have
+* `html_form_set()` now uses dynamic dots so that you can use `!!!` if you have
   a list of values (#189).
 
 * rvest now imports xml2 rather than depending on it. This is cleaner because
@@ -42,13 +42,11 @@
 * `pluck()` is no longer exported; if you need it use `purrr::map_chr()` 
   and friends instead (#209).
 
-* `submit_form()` errors if `form` doesn't have a `url` (#288).
+* `session_submit()` errors if `form` doesn't have a `url` (#288).
 
-* Long deprecated functions have been removed: `html()`,
-  `html_tag()`, `xml()`. 
+* Long deprecated functions have been removed: `html()`, `html_tag()`, `xml()`. 
 
-* `xml_tag()`, `xml_node()`, and `xml_nodes()` have been
-  formally deprecated and will go away in a future version.
+* `xml_tag()`, `xml_node()`, and `xml_nodes()` have been formally deprecated.
 
 * rvest is now licensed as MIT (#287).
 

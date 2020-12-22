@@ -25,8 +25,8 @@ rvest 1.0.0 renamed a number of functions to ensure that every function
 has a common prefix, matching tidyverse conventions that emerged since
 rvest was first created.
 \itemize{
-\item \code{set_values()} -> \code{form_set()}
-\item \code{submit_form(session, form)} -> \code{form_submit(form, session)}
+\item \code{set_values()} -> \code{html_form_set()}
+\item \code{submit_form()} -> \code{session_submit()}
 \item \code{xml_tag()} -> \code{html_name()}
 \item \code{xml_node()} -> \code{html_node()}
 \item \code{xml_nodes()} -> \code{html_nodes()}

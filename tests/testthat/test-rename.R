@@ -14,4 +14,4 @@ test_that("set_values() is deprecated", {
   expect_snapshot(set_values(form, text = "abc"))
 })
 
-# submit_form() is tested in form-submit because it needs a test server
+# session_submit() is tested in form-submit because it needs a test server

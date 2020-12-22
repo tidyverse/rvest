@@ -26,3 +26,24 @@
     Output
       [1] "form"
 
+# can set values of inputs
+
+    Code
+      form <- html_form_set(form, hidden = "abc")
+    Warning <warning>
+      Setting value of hidden field 'hidden'.
+
+# has informative errors
+
+    Code
+      html_form_set(form, text = "x")
+    Error <rlang_error>
+      Can't change value of input with type submit: 'text'.
+
+---
+
+    Code
+      html_form_set(form, missing = "x")
+    Error <rlang_error>
+      Can't set value of fields that don't exist: ' missing '
+

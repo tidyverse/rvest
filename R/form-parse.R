@@ -1,15 +1,26 @@
-#' Parse forms in a page
+#' Parse forms and set values
 #'
-#'
+#' Use `html_form()` to extract a form, set values with `html_form_set()`,
+#' then submit it with [session_submit()]
 #'
 #' @export
 #' @param x A node, node set or document.
 #' @seealso HTML 4.01 form specification:
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
+#' @return An an S3 object with class `rvest_form`.
 #' @examples
-#' \donttest{
-#' html_form(read_html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
-#' html_form(read_html("https://hadley.wufoo.com/forms/r-journal-submission/"))
+#' session <- html_session("http://www.google.com")
+#' search <- html_form(session)[[1]]
+#'
+#' search <- search %>% html_form_set(q = "My little pony", hl = "fr")
+#'
+#' # Or if you have a list of values, use !!!
+#' vals <- list(q = "web scraping", hl = "en")
+#' search <- search %>% html_form_set(!!!vals)
+#'
+#' # To submit and get result:
+#' \dontrun{
+#' session_submit(session, form)
 #' }
 html_form <- function(x) UseMethod("html_form")
 
@@ -58,6 +69,37 @@ html_form.xml_node <- function(x) {
 print.rvest_form <- function(x, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
   cat(format_list(x$fields, indent = 1), "\n", sep = "")
+}
+
+
+# form_set ----------------------------------------------------------------
+
+#' @rdname html_form
+#' @param form A form
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
+#'   fields to modify.
+#'
+#'   Provide a character vector to set multiple checkboxes in a set or
+#'   select multiple values from a multi-select.
+#' @export
+html_form_set <- function(form, ...) {
+  check_form(form)
+
+  new_values <- list2(...)
+  check_fields(form, new_values)
+
+  for (field in names(new_values)) {
+    type <- form$fields[[field]]$type %||% "non-input"
+    if (type == "hidden") {
+      warn(paste0("Setting value of hidden field '", field, "'."))
+    } else if (type == "submit") {
+      abort(paste0("Can't change value of input with type submit: '", field, "'."))
+    }
+
+    form$fields[[field]]$value <- new_values[[field]]
+  }
+
+  form
 }
 
 # Field parsing -----------------------------------------------------------

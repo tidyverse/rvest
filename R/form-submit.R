@@ -1,76 +1,28 @@
-#' Modify and submit a form
-#'
-#' Once you've extracted a form from a page with [html_form()] use
-#' [form_set()] to modify its values and [form_submit()] to submit it.
-#'
-#' @param form An [html_form()].
-#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Name-value pairs giving
-#'   fields to modify.
-#'
-#'   Provide a character vector to set multiple checkboxes in a set or
-#'   select multiple values from a multi-select.
-#' @return `form_set()` returns an updated form object;
-#'   `form_submit()` returns an HTML session object.
-#'   HTTP request fails).
-#' @export
-#' @examples
-#' session <- html_session("http://www.google.com")
-#' search <- html_form(session)[[1]]
-#'
-#' \dontrun{
-#' search %>%
-#'   set_values(q = "My little pony", hl = "fr") %>%
-#'   submit_form(session)
-#' }
-#'
-#' # If you have a list of values, use !!!
-#' vals <- list(q = "web scraping", hl = "en")
-#' search %>% set_values(!!!vals)
-form_set <- function(form, ...) {
-  check_form(form)
-
-  new_values <- list2(...)
-  check_fields(form, new_values)
-
-  for (field in names(new_values)) {
-    type <- form$fields[[field]]$type %||% "non-input"
-    if (type == "hidden") {
-      warn(paste0("Setting value of hidden field '", field, "'."))
-    } else if (type == "submit") {
-      abort(paste0("Can't change value of input with type submit: '", field, "'."))
-    }
-
-    form$fields[[field]]$value <- new_values[[field]]
-  }
-
-  form
-}
-
-#' @param session An [html_session()].
+#' @param form An [html_form] to submit
 #' @param submit Which button should be used?
 #'   * `NULL`, the default, uses the first.
 #'   * A string selects a button by its name.
 #'   * A number selects a button based on it relative position.
-#' @rdname form_set
+#' @rdname html_session
 #' @export
-form_submit <- function(form, session, submit = NULL, ...) {
+session_submit <- function(x, form, submit = NULL, ...) {
   check_form(form)
 
-  request <- submission_build(form, submit, base_url = session$url)
+  request <- submission_build(form, submit, base_url = x$url)
 
   if (!missing(...)) {
     abort(paste0("`...` no longer supported; please set httr options in html_sessions()"))
   }
 
   if (request$method == "POST") {
-    session_request(session,
+    session_request(x,
       method = "POST",
       url = request$url,
       body = request$values,
       encode = request$enctype
     )
   } else {
-    session_request(session,
+    session_request(x,
       method = "GET",
       url = request$url,
       query = request$values

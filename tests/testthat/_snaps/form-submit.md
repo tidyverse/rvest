@@ -1,24 +1,3 @@
-# can set values of inputs
-
-    Code
-      form <- form_set(form, hidden = "abc")
-    Warning <warning>
-      Setting value of hidden field 'hidden'.
-
-# has informative errors
-
-    Code
-      form_set(form, text = "x")
-    Error <rlang_error>
-      Can't change value of input with type submit: 'text'.
-
----
-
-    Code
-      form_set(form, missing = "x")
-    Error <rlang_error>
-      Can't set value of fields that don't exist: ' missing '
-
 # useful feedback on invalid forms
 
     Code
@@ -65,7 +44,7 @@
 # can submit using three primary techniques
 
     Code
-      show_response(form_submit(form, session))
+      show_response(session_submit(session, form))
     Output
       GET 
       Query string: x=1&x=2&y=3
@@ -76,7 +55,7 @@
       show_response(submit_form(session, form))
     Warning <lifecycle_warning_deprecated>
       `submit_form()` is deprecated as of rvest 1.0.0.
-      Please use `form_submit()` instead.
+      Please use `session_submit()` instead.
     Output
       GET 
       Query string: x=1&x=2&y=3
@@ -84,7 +63,7 @@
     Code
       form$method <- "POST"
     Code
-      show_response(form_submit(form, session))
+      show_response(session_submit(session, form))
     Output
       POST application/x-www-form-urlencoded
       Query string: 
@@ -92,7 +71,7 @@
     Code
       form$enctype <- "multipart"
     Code
-      show_response(form_submit(form, session))
+      show_response(session_submit(session, form))
     Output
       POST multipart/form-data; boundary=---<divider>
       Query string: 

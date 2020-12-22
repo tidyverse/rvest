@@ -6,12 +6,12 @@ united <- html_session("http://www.united.com/")
 login <- united %>%
   html_node("form[name=LoginForm]") %>%
   html_form() %>%
-  set_values(
+  html_form_set(
     MpNumber = "GY797363",
     Password = password
   )
 
-logged_in <- united %>% submit_form(login)
+logged_in <- united %>% session_submit(login)
 
 logged_in %>%
   follow_link("View account") %>%

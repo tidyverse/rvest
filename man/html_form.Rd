@@ -2,20 +2,44 @@
 % Please edit documentation in R/form-parse.R
 \name{html_form}
 \alias{html_form}
-\title{Parse forms in a page}
+\alias{html_form_set}
+\title{Parse forms and set values}
 \usage{
 html_form(x)
+
+html_form_set(form, ...)
 }
 \arguments{
 \item{x}{A node, node set or document.}
+
+\item{form}{A form}
+
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Name-value pairs giving
+fields to modify.
+
+Provide a character vector to set multiple checkboxes in a set or
+select multiple values from a multi-select.}
+}
+\value{
+An an S3 object with class \code{rvest_form}.
 }
 \description{
-Parse forms in a page
+Use \code{html_form()} to extract a form, set values with \code{html_form_set()},
+then submit it with \code{\link[=session_submit]{session_submit()}}
 }
 \examples{
-\donttest{
-html_form(read_html("https://hadley.wufoo.com/forms/libraryrequire-quiz/"))
-html_form(read_html("https://hadley.wufoo.com/forms/r-journal-submission/"))
+session <- html_session("http://www.google.com")
+search <- html_form(session)[[1]]
+
+search <- search \%>\% html_form_set(q = "My little pony", hl = "fr")
+
+# Or if you have a list of values, use !!!
+vals <- list(q = "web scraping", hl = "en")
+search <- search \%>\% html_form_set(!!!vals)
+
+# To submit and get result:
+\dontrun{
+session_submit(session, form)
 }
 }
 \seealso{

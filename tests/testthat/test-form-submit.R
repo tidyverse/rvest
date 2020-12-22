@@ -1,34 +1,3 @@
-# set_values --------------------------------------------------------------
-
-test_that("can set values of inputs", {
-  html <- minimal_html("test", '
-    <form id="test" method="post" action="/test-path">
-      <input type="text" name="text" />
-      <input type="hidden" name="hidden" />
-    </form>
-  ')
-  form <- html_form(html)[[1]]
-
-  form <- form_set(form, text = "abc")
-  expect_equal(form$fields$text$value, "abc")
-
-  # warns that setting hidden field
-  expect_snapshot(form <- form_set(form, hidden = "abc"))
-  expect_equal(form$fields$hidden$value, "abc")
-})
-
-test_that("has informative errors", {
-  html <- minimal_html("test", '
-    <form id="test" method="post" action="/test-path">
-      <input type="submit" name="text" />
-    </form>
-  ')
-
-  form <- html_form(html)[[1]]
-  expect_snapshot(form_set(form, text = "x"), error = TRUE)
-  expect_snapshot(form_set(form, missing = "x"), error = TRUE)
-})
-
 # submission_build ----------------------------------------------------------
 
 test_that("works as expected in simple case", {
@@ -65,7 +34,7 @@ test_that("can handle multiple values", {
     </form>
   ')
   form <- html_form(html)[[1]]
-  form <- form_set(form, x = c("1", "2", "3"), y = character())
+  form <- html_form_set(form, x = c("1", "2", "3"), y = character())
 
   expect_equal(
     submission_build_values(form),
@@ -126,15 +95,15 @@ test_that("can submit using three primary techniques", {
   session <- html_session(app$url())
 
   expect_snapshot({
-    show_response(form_submit(form, session))
+    show_response(session_submit(session, form))
 
     "deprecated but still works"
     show_response(submit_form(session, form))
 
     form$method <- "POST"
-    show_response(form_submit(form, session))
+    show_response(session_submit(session, form))
 
     form$enctype <- "multipart"
-    show_response(form_submit(form, session))
+    show_response(session_submit(session, form))
   })
 })

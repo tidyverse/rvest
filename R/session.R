@@ -7,7 +7,7 @@
 #' * Create a session with `html_session(url)`
 #' * Navigate to a specified url with `jump_to()`, or follow a link on the
 #'   page with `follow_link()`.
-#' * Submit a form with [form_submit()].
+#' * Submit an [html_form] with `session_submit()`.
 #' * View the history with `session_history()` and navigate back and forward
 #'   with `back()` and `forward()`.
 #' * Extract page contents with [html_node()] and [html_nodes()], or get the

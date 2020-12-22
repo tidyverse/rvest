@@ -75,3 +75,36 @@ test_that("handles different encoding types", {
 
   expect_snapshot(convert_enctype("unknown"))
 })
+
+# form_set --------------------------------------------------------------
+
+test_that("can set values of inputs", {
+  html <- minimal_html("test", '
+    <form id="test" method="post" action="/test-path">
+      <input type="text" name="text" />
+      <input type="hidden" name="hidden" />
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  form <- html_form_set(form, text = "abc")
+  expect_equal(form$fields$text$value, "abc")
+
+  # warns that setting hidden field
+  expect_snapshot(form <- html_form_set(form, hidden = "abc"))
+  expect_equal(form$fields$hidden$value, "abc")
+})
+
+test_that("has informative errors", {
+  html <- minimal_html("test", '
+    <form id="test" method="post" action="/test-path">
+      <input type="submit" name="text" />
+    </form>
+  ')
+
+  form <- html_form(html)[[1]]
+  expect_snapshot(html_form_set(form, text = "x"), error = TRUE)
+  expect_snapshot(html_form_set(form, missing = "x"), error = TRUE)
+})
+
+
