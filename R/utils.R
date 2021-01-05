@@ -61,5 +61,5 @@ env_cache <- function(env, nm, value, inherit = FALSE) {
 inspect <- function(x) {
   path <- tempfile(fileext = ".html")
   writeLines(as.character(x), path)
-  browseURL(path)
+  utils::browseURL(path)
 }
