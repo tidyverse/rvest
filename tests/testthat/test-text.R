@@ -1,10 +1,10 @@
 test_that("handles block containing only inline elements", {
   html <- minimal_html("test", "<p>a <b>b</b> <b><i>c</i></b></p>")
-  expect_equal(html_text_inner(html_node(html, "p")), "a b c")
+  expect_equal(html_text2(html), "a b c")
 
   # internal newlines are trimmed
   html <- minimal_html("test", "<p>a\n\nb\nc</p>")
-  expect_equal(html_text_inner(html_node(html, "p")), "a b c")
+  expect_equal(html_text2(html), "a b c")
 })
 
 test_that("handles multiple paragraphs with line breaks", {
@@ -13,7 +13,8 @@ test_that("handles multiple paragraphs with line breaks", {
       <p>a
       <p>b<br>c
     </body>")
-  expect_equal(html_text_inner(html_node(html, "body")), "a\n\nb\nc")
+  expect_equal(html_text2(html), "a\n\nb\nc")
+  expect_equal(html_text2(html_nodes(html, "p")), c("a", "b\nc"))
 })
 
 test_that("handles table", {
@@ -25,10 +26,7 @@ test_that("handles table", {
     </table>
   ")
 
-  expect_equal(
-    html_text_inner(html_node(html, "table")),
-    "a\tb\n1\t2\n2\t3"
-  )
+  expect_equal(html_text2(html), "a\tb\n1\t2\n2\t3")
 })
 
 test_that("handles mixed block as well as can be expected", {
@@ -38,7 +36,7 @@ test_that("handles mixed block as well as can be expected", {
      b<br/>
     </div>
   ")
-  expect_equal(html_text_inner(html_node(html, "div")), "a\n\nb\n")
+  expect_equal(html_text2(html_node(html, "div")), "a\n\nb\n")
 })
 
 test_that("breaks as expected", {

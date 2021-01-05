@@ -1,4 +1,20 @@
-html_text_inner <- function(x) {
+html_text2 <- function(x) {
+  UseMethod("html_text2")
+}
+
+#' @export
+html_text2.xml_document <- function(x) {
+  body <- xml2::xml_find_first(x, ".//body")
+  html_text2(body)
+}
+
+#' @export
+html_text2.xml_nodeset <- function(x) {
+  vapply(x, html_text2, character(1))
+}
+
+#' @export
+html_text2.xml_node <- function(x) {
   text <- PaddedText$new()
   html_text_block(x, text)
   text$output()
