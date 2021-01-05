@@ -1,32 +1,37 @@
-html_text2 <- function(x) {
+html_text2 <- function(x, preserve_nbsp = FALSE) {
   UseMethod("html_text2")
 }
 
 #' @export
-html_text2.xml_document <- function(x) {
+html_text2.xml_document <- function(x, preserve_nbsp = FALSE) {
   body <- xml2::xml_find_first(x, ".//body")
-  html_text2(body)
+  html_text2(body, preserve_nbsp = preserve_nbsp)
 }
 
 #' @export
-html_text2.xml_nodeset <- function(x) {
-  vapply(x, html_text2, character(1))
+html_text2.xml_nodeset <- function(x, preserve_nbsp = FALSE) {
+  vapply(
+    x,
+    html_text2,
+    preserve_nbsp = preserve_nbsp,
+    FUN.VALUE = character(1)
+  )
 }
 
 #' @export
-html_text2.xml_node <- function(x) {
+html_text2.xml_node <- function(x, preserve_nbsp = FALSE) {
   text <- PaddedText$new()
-  html_text_block(x, text)
+  html_text_block(x, text, preserve_nbsp = preserve_nbsp)
   text$output()
 }
 
 # Algorithm roughly inspired by
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
-html_text_block <- function(x, text) {
+html_text_block <- function(x, text, preserve_nbsp = FALSE) {
   if (xml2::xml_type(x) == "text") {
-    text$add_text(collapse_whitespace(xml2::xml_text(x)))
+    text$add_text(collapse_whitespace(xml2::xml_text(x), preserve_nbsp))
   } else if (is_inline(x)) {
-    text$add_text(html_text_inline(x))
+    text$add_text(html_text_inline(x, preserve_nbsp))
   } else {
     children <- xml2::xml_contents(x)
     n <- length(children)
@@ -37,7 +42,7 @@ html_text_block <- function(x, text) {
       margin <- tag_margin(name)
 
       text$add_margin(margin)
-      html_text_block(child, text)
+      html_text_block(child, text, preserve_nbsp = preserve_nbsp)
       switch(name,
         tr = if (i != n) text$add_text("\n"),
         th = ,
@@ -76,7 +81,7 @@ tag_margin <- function(name) {
   }
 }
 
-html_text_inline <- function(x) {
+html_text_inline <- function(x, preserve_nbsp = FALSE) {
   children <- xml2::xml_contents(x)
   n <- length(children)
   if (n == 0) {
@@ -91,7 +96,7 @@ html_text_inline <- function(x) {
   lines <- vapply(lines, paste0, collapse = "", FUN.VALUE = character(1))
 
   if (xml2::xml_name(x) != "pre") {
-    lines <- collapse_whitespace(lines)
+    lines <- collapse_whitespace(lines, preserve_nbsp)
   }
 
   has_br <- unname(tapply(is_br, line_num, any))
@@ -99,12 +104,13 @@ html_text_inline <- function(x) {
 }
 
 # https://drafts.csswg.org/css-text/#white-space-phase-1
-collapse_whitespace <- function(x) {
+collapse_whitespace <- function(x, preserve_nbsp = FALSE) {
   # Remove leading and trailing whitespace
   x <- gsub("(^[ \t\n]+)|([ \t\n]+$)", "", x, perl = TRUE)
 
   # Convert any whitespace sequence to a space
-  x <- gsub("[\t\n ]+", " ", x, perl = TRUE)
+  match <- if (preserve_nbsp) "[\t\n ]+" else "[\t\n \u00a0]+"
+  x <- gsub(match, " ", x, perl = TRUE)
 
   x
 }

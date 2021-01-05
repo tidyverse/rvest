@@ -77,6 +77,11 @@ test_that("collapse whitespace handles single line", {
   expect_equal(collapse_whitespace("x  y"), "x y")
 })
 
+test_that("optionally preserve nbsp", {
+  expect_equal(collapse_whitespace("x \u00a0 y"), "x y")
+  expect_equal(collapse_whitespace("x\u00a0y", TRUE), "x\u00a0y")
+})
+
 # PaddedText --------------------------------------------------------------
 
 test_that("margins only added within text", {
