@@ -109,46 +109,69 @@
 
 <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
 <p>rvest helps you scrape information from web pages. It is designed to work with <a href="https://github.com/smbache/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
-<span class="va">lego_movie</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"http://www.imdb.com/title/tt1490017/"</span><span class="op">)</span>
-
-<span class="va">rating</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"strong span"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">rating</span>
-<span class="co">#&gt; [1] 7.7</span>
-
-<span class="va">cast</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"#titleCast .primary_photo img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"alt"</span><span class="op">)</span>
-<span class="va">cast</span>
-<span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    </span>
-<span class="co">#&gt;  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" </span>
-<span class="co">#&gt;  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    </span>
-<span class="co">#&gt; [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"</span>
-
-<span class="va">poster</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">".poster img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
-<span class="va">poster</span>
-<span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></code></pre></div>
-</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the release version from CRAN:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># The easiest way to get rvest is to install the whole tidyverse:</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span>
+
+<span class="co"># Alternatively, install just rvest:</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></code></pre></div>
-<p>Or the development version from GitHub</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidyverse/rvest"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
+<span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span>
+
+<span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span>
+<span class="va">films</span>
+<span class="co">#&gt; {xml_nodeset (7)}</span>
+<span class="co">#&gt; [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1999 ...</span>
+<span class="co">#&gt; [2] &lt;section&gt;&lt;h2 data-id="2"&gt;\nAttack of the Clones\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 20 ...</span>
+<span class="co">#&gt; [3] &lt;section&gt;&lt;h2 data-id="3"&gt;\nRevenge of the Sith\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 200 ...</span>
+<span class="co">#&gt; [4] &lt;section&gt;&lt;h2 data-id="4"&gt;\nA New Hope\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1977-05-25\n ...</span>
+<span class="co">#&gt; [5] &lt;section&gt;&lt;h2 data-id="5"&gt;\nThe Empire Strikes Back\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: ...</span>
+<span class="co">#&gt; [6] &lt;section&gt;&lt;h2 data-id="6"&gt;\nReturn of the Jedi\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1983 ...</span>
+<span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span>
+
+<span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">title</span>
+<span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span>
+<span class="co">#&gt; [3] "Revenge of the Sith"     "A New Hope"             </span>
+<span class="co">#&gt; [5] "The Empire Strikes Back" "Return of the Jedi"     </span>
+<span class="co">#&gt; [7] "The Force Awakens"</span>
+
+<span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">parse_integer</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">episode</span>
+<span class="co">#&gt; [1] 1 2 3 4 5 6 7</span>
+
+<span class="va">released</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"p:nth-child(2)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Released: "</span>, <span class="st">""</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_datetime.html">parse_date</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">released</span>
+<span class="co">#&gt; [1] "1999-05-19" "2002-05-16" "2005-05-19" "1977-05-25" "1980-05-17"</span>
+<span class="co">#&gt; [6] "1983-05-25" "2015-12-11"</span>
+
+<span class="va">crawl</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"div"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">crawl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Hoping to resolve the matter with a blockade of deadly battleships, the greedy Trade Federation has stopped all shipping to the small planet of Naboo.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; While the Congress of the Republic endlessly debates this alarming chain of events, the Supreme Chancellor has secretly dispatched two Jedi Knights, the guardians of peace and justice in the galaxy, to settle the conflict….</span></code></pre></div>
 </div>
 <div id="key-functions" class="section level2">
 <h2 class="hasAnchor">
