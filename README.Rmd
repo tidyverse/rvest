@@ -20,44 +20,49 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
 
-## Overview
-
 rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
-
-```{r, message = FALSE}
-library(rvest)
-lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
-
-rating <- lego_movie %>% 
-  html_nodes("strong span") %>%
-  html_text() %>%
-  as.numeric()
-rating
-
-cast <- lego_movie %>%
-  html_nodes("#titleCast .primary_photo img") %>%
-  html_attr("alt")
-cast
-
-poster <- lego_movie %>%
-  html_nodes(".poster img") %>%
-  html_attr("src")
-poster
-```
 
 ## Installation
 
-Install the release version from CRAN:
-
 ```{r, eval = FALSE}
-install.packages("rvest")
+# The easiest way to get rvest is to install the whole tidyverse:
+install.packages("tidyverse")
+
+# Alternatively, install just rvest:
+install.packages("dplyr")
 ```
 
-Or the development version from GitHub
+## Usage
 
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("tidyverse/rvest")
+```{r, message = FALSE}
+library(rvest)
+starwars <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
+
+films <- starwars %>% html_nodes("section")
+films
+
+title <- films %>% 
+  html_node("h2") %>% 
+  html_text(trim = TRUE)
+title
+
+episode <- films %>% 
+  html_node("h2") %>% 
+  html_attr("data-id") %>% 
+  readr::parse_integer()
+episode
+
+released <- films %>% 
+  html_node("p:nth-child(2)") %>% 
+  html_text(trim = TRUE) %>% 
+  gsub("Released: ", "", .) %>% 
+  readr::parse_date()
+released
+
+crawl <- films %>% 
+  html_node("div") %>%
+  html_text2()
+cat(crawl[[1]])
 ```
 
 ## Key functions

@@ -12,53 +12,72 @@ status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/
 coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
 <!-- badges: end -->
 
-## Overview
-
 rvest helps you scrape information from web pages. It is designed to
 work with [magrittr](https://github.com/smbache/magrittr) to make it
 easy to express common web scraping tasks, inspired by libraries like
 [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
 
-``` r
-library(rvest)
-lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
-
-rating <- lego_movie %>% 
-  html_nodes("strong span") %>%
-  html_text() %>%
-  as.numeric()
-rating
-#> [1] 7.7
-
-cast <- lego_movie %>%
-  html_nodes("#titleCast .primary_photo img") %>%
-  html_attr("alt")
-cast
-#>  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    
-#>  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" 
-#>  [9] "Keith Ferguson"  "Will Ferrell"    "Will Forte"      "Dave Franco"    
-#> [13] "Morgan Freeman"  "Todd Hansen"     "Jonah Hill"
-
-poster <- lego_movie %>%
-  html_nodes(".poster img") %>%
-  html_attr("src")
-poster
-#> [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"
-```
-
 ## Installation
 
-Install the release version from CRAN:
-
 ``` r
-install.packages("rvest")
+# The easiest way to get rvest is to install the whole tidyverse:
+install.packages("tidyverse")
+
+# Alternatively, install just rvest:
+install.packages("dplyr")
 ```
 
-Or the development version from GitHub
+## Usage
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("tidyverse/rvest")
+library(rvest)
+starwars <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
+
+films <- starwars %>% html_nodes("section")
+films
+#> {xml_nodeset (7)}
+#> [1] <section><h2 data-id="1">\nThe Phantom Menace\n</h2>\n<p>\nReleased: 1999 ...
+#> [2] <section><h2 data-id="2">\nAttack of the Clones\n</h2>\n<p>\nReleased: 20 ...
+#> [3] <section><h2 data-id="3">\nRevenge of the Sith\n</h2>\n<p>\nReleased: 200 ...
+#> [4] <section><h2 data-id="4">\nA New Hope\n</h2>\n<p>\nReleased: 1977-05-25\n ...
+#> [5] <section><h2 data-id="5">\nThe Empire Strikes Back\n</h2>\n<p>\nReleased: ...
+#> [6] <section><h2 data-id="6">\nReturn of the Jedi\n</h2>\n<p>\nReleased: 1983 ...
+#> [7] <section><h2 data-id="7">\nThe Force Awakens\n</h2>\n<p>\nReleased: 2015- ...
+
+title <- films %>% 
+  html_node("h2") %>% 
+  html_text(trim = TRUE)
+title
+#> [1] "The Phantom Menace"      "Attack of the Clones"   
+#> [3] "Revenge of the Sith"     "A New Hope"             
+#> [5] "The Empire Strikes Back" "Return of the Jedi"     
+#> [7] "The Force Awakens"
+
+episode <- films %>% 
+  html_node("h2") %>% 
+  html_attr("data-id") %>% 
+  readr::parse_integer()
+episode
+#> [1] 1 2 3 4 5 6 7
+
+released <- films %>% 
+  html_node("p:nth-child(2)") %>% 
+  html_text(trim = TRUE) %>% 
+  gsub("Released: ", "", .) %>% 
+  readr::parse_date()
+released
+#> [1] "1999-05-19" "2002-05-16" "2005-05-19" "1977-05-25" "1980-05-17"
+#> [6] "1983-05-25" "2015-12-11"
+
+crawl <- films %>% 
+  html_node("div") %>%
+  html_text2()
+cat(crawl[[1]])
+#> Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute.
+#> 
+#> Hoping to resolve the matter with a blockade of deadly battleships, the greedy Trade Federation has stopped all shipping to the small planet of Naboo.
+#> 
+#> While the Congress of the Republic endlessly debates this alarming chain of events, the Supreme Chancellor has secretly dispatched two Jedi Knights, the guardians of peace and justice in the galaxy, to settle the conflict….
 ```
 
 ## Key functions
