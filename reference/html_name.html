@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • rvest</title>
+<title>Get name and attributes from nodes — html_name • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,7 +49,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get name and attributes from nodes — html_name" />
+<meta property="og:description" content="html_name() gets the tag name, html_attr() gets a single attribute,
+and html_attr() gets all attributes." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -78,7 +80,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -144,84 +146,105 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get name and attributes from nodes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/html.R'><code>R/html.R</code></a></small>
+    <div class="hidden name"><code>html_name.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code>html_name()</code> gets the tag name, <code>html_attr()</code> gets a single attribute,
+and <code>html_attr()</code> gets all attributes.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>html_name</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-extract-data-from-html" class="hasAnchor"><a href="#section-extract-data-from-html" class="anchor"></a>Extract data from HTML</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="html_children.html">html_children()</a></code> </p>
-        </td>
-        <td><p>Find all child elements</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_form.html">html_form()</a></code> <code><a href="html_form.html">html_form_set()</a></code> </p>
-        </td>
-        <td><p>Parse forms and set values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_name.html">html_name()</a></code> <code><a href="html_name.html">html_attr()</a></code> <code><a href="html_name.html">html_attrs()</a></code> </p>
-        </td>
-        <td><p>Get name and attributes from nodes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_nodes.html">html_nodes()</a></code> <code><a href="html_nodes.html">html_node()</a></code> </p>
-        </td>
-        <td><p>Select nodes from an HTML document</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_session.html">html_session()</a></code> <code><a href="html_session.html">is.session()</a></code> <code><a href="html_session.html">jump_to()</a></code> <code><a href="html_session.html">follow_link()</a></code> <code><a href="html_session.html">back()</a></code> <code><a href="html_session.html">forward()</a></code> <code><a href="html_session.html">session_history()</a></code> <code><a href="html_session.html">session_submit()</a></code> </p>
-        </td>
-        <td><p>Simulate a session in web browser</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_table.html">html_table()</a></code> </p>
-        </td>
-        <td><p>Parse an html table into a data frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_text.html">html_text()</a></code> <code><a href="html_text.html">html_text2()</a></code> </p>
-        </td>
-        <td><p>Get text from nodes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_encoding_guess.html">html_encoding_guess()</a></code> </p>
-        </td>
-        <td><p>Guess faulty character encoding</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>name</span>, default <span class='op'>=</span> <span class='cn'>NA_character_</span><span class='op'>)</span>
+
+<span class='fu'>html_attrs</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A document, node, or node set.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Name of attribute to retrieve.</p></td>
+    </tr>
+    <tr>
+      <th>default</th>
+      <td><p>A string used as a default value when the attribute does
+not exist in every node.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A character vector (for <code>html_attr()</code> and <code>html_tag()</code>) or
+a list (<code>html_attrs()</code>) the same length as <code>x</code></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='st'>"https://en.wikipedia.org/wiki/The_Lego_Movie"</span>
+<span class='va'>movie</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
+<span class='va'>cast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>movie</span>, <span class='st'>"tr:nth-child(8) .plainlist a"</span><span class='op'>)</span>
+
+<span class='fu'>html_name</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "a" "a" "a" "a" "a" "a" "a" "a" "a"</div><div class='input'><span class='fu'>html_attrs</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt;                href               title 
+#&gt; "/wiki/Chris_Pratt"       "Chris Pratt" 
+#&gt; 
+#&gt; [[2]]
+#&gt;                 href                title 
+#&gt; "/wiki/Will_Ferrell"       "Will Ferrell" 
+#&gt; 
+#&gt; [[3]]
+#&gt;                    href                   title 
+#&gt; "/wiki/Elizabeth_Banks"       "Elizabeth Banks" 
+#&gt; 
+#&gt; [[4]]
+#&gt;                href               title 
+#&gt; "/wiki/Will_Arnett"       "Will Arnett" 
+#&gt; 
+#&gt; [[5]]
+#&gt;                  href                 title 
+#&gt; "/wiki/Nick_Offerman"       "Nick Offerman" 
+#&gt; 
+#&gt; [[6]]
+#&gt;                href               title 
+#&gt; "/wiki/Alison_Brie"       "Alison Brie" 
+#&gt; 
+#&gt; [[7]]
+#&gt;                href               title 
+#&gt; "/wiki/Charlie_Day"       "Charlie Day" 
+#&gt; 
+#&gt; [[8]]
+#&gt;                href               title 
+#&gt; "/wiki/Liam_Neeson"       "Liam Neeson" 
+#&gt; 
+#&gt; [[9]]
+#&gt;                   href                  title 
+#&gt; "/wiki/Morgan_Freeman"       "Morgan Freeman" 
+#&gt; </div><div class='input'><span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>cast</span>, <span class='st'>"href"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "/wiki/Chris_Pratt"     "/wiki/Will_Ferrell"    "/wiki/Elizabeth_Banks"
+#&gt; [4] "/wiki/Will_Arnett"     "/wiki/Nick_Offerman"   "/wiki/Alison_Brie"    
+#&gt; [7] "/wiki/Charlie_Day"     "/wiki/Liam_Neeson"     "/wiki/Morgan_Freeman" </div><div class='input'>
+<span class='co'># If needed, use url_absolute() to convert to complete urls</span>
+<span class='fu'><a href='http://xml2.r-lib.org/reference/url_absolute.html'>url_absolute</a></span><span class='op'>(</span><span class='fu'>html_attr</span><span class='op'>(</span><span class='va'>cast</span>, <span class='st'>"href"</span><span class='op'>)</span>, <span class='va'>url</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "https://en.wikipedia.org/wiki/Chris_Pratt"    
+#&gt; [2] "https://en.wikipedia.org/wiki/Will_Ferrell"   
+#&gt; [3] "https://en.wikipedia.org/wiki/Elizabeth_Banks"
+#&gt; [4] "https://en.wikipedia.org/wiki/Will_Arnett"    
+#&gt; [5] "https://en.wikipedia.org/wiki/Nick_Offerman"  
+#&gt; [6] "https://en.wikipedia.org/wiki/Alison_Brie"    
+#&gt; [7] "https://en.wikipedia.org/wiki/Charlie_Day"    
+#&gt; [8] "https://en.wikipedia.org/wiki/Liam_Neeson"    
+#&gt; [9] "https://en.wikipedia.org/wiki/Morgan_Freeman" </div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

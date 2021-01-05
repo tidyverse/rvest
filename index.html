@@ -123,7 +123,7 @@
 
 <span class="va">cast</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"#titleCast .primary_photo img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"alt"</span><span class="op">)</span>
+  <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"alt"</span><span class="op">)</span>
 <span class="va">cast</span>
 <span class="co">#&gt;  [1] "Will Arnett"     "Elizabeth Banks" "Craig Berry"     "Alison Brie"    </span>
 <span class="co">#&gt;  [5] "David Burrows"   "Anthony Daniels" "Charlie Day"     "Amanda Farinos" </span>
@@ -132,7 +132,7 @@
 
 <span class="va">poster</span> <span class="op">&lt;-</span> <span class="va">lego_movie</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">".poster img"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
+  <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
 <span class="va">poster</span>
 <span class="co">#&gt; [1] "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_UX182_CR0,0,182,268_AL_.jpg"</span></code></pre></div>
 </div>
@@ -153,7 +153,7 @@
 <p>Once you have read a HTML document with <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, you can:</p>
 <ul>
 <li><p>Select parts of a document using CSS selectors: <code><a href="reference/html_nodes.html">html_nodes(doc, "table td")</a></code> (or if you’ve a glutton for punishment, use XPath selectors with <code><a href="reference/html_nodes.html">html_nodes(doc, xpath = "//table//td")</a></code>). If you haven’t heard of <a href="http://selectorgadget.com/">selectorgadget</a>, make sure to read <code><a href="articles/selectorgadget.html">vignette("selectorgadget")</a></code> to learn about it.</p></li>
-<li><p>Extract components with <code><a href="reference/html_text.html">html_name()</a></code> (the name of the tag), <code><a href="reference/html_text.html">html_text()</a></code> (all text inside the tag), <code><a href="reference/html_text.html">html_attr()</a></code> (contents of a single attribute) and <code><a href="reference/html_text.html">html_attrs()</a></code> (all attributes).</p></li>
+<li><p>Extract components with <code><a href="reference/html_name.html">html_name()</a></code> (the name of the tag), <code><a href="reference/html_text.html">html_text()</a></code> (all text inside the tag), <code><a href="reference/html_name.html">html_attr()</a></code> (contents of a single attribute) and <code><a href="reference/html_name.html">html_attrs()</a></code> (all attributes).</p></li>
 <li><p>(You can also use rvest with XML files: parse with <code>xml()</code>, then extract components using <code><a href="reference/rename.html">xml_node()</a></code>, <code>xml_attr()</code>, <code>xml_attrs()</code>, <code>xml_text()</code> and <code>xml_name()</code>.)</p></li>
 <li><p>Parse tables into data frames with <code><a href="reference/html_table.html">html_table()</a></code>.</p></li>
 <li><p>Navigate around a website as if you’re in a browser with <code><a href="reference/html_session.html">html_session()</a></code>, <code><a href="reference/html_session.html">jump_to()</a></code>, <code><a href="reference/html_session.html">follow_link()</a></code>, <code><a href="reference/html_session.html">back()</a></code>, and <code><a href="reference/html_session.html">forward()</a></code>. Extract, modify, and submit forms with <code><a href="reference/html_form.html">html_form()</a></code>, <code><a href="reference/html_form.html">html_form_set()</a></code> and <code><a href="reference/html_session.html">session_submit()</a></code>.</p></li>

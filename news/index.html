@@ -155,6 +155,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/html_text.html">html_text2()</a></code> provides a more natural rendering of HTML nodes into text, converting <code>&lt;br&gt;</code> into “\n”, and removing non-significant whitespace (<a href='https://github.com/tidyverse/rvest/issues/175'>#175</a>). By default, it also converts <code>&amp;nbsp;</code> into regular spaces, which you can suppress with <code>preserve_nbsp = TRUE</code> (<a href='https://github.com/tidyverse/rvest/issues/284'>#284</a>).</p></li>
 <li><p>New <code><a href="../reference/html_session.html">forward()</a></code> function to complement <code><a href="../reference/html_session.html">back()</a></code>.</p></li>
 <li><p><code><a href="../reference/html_session.html">html_session()</a></code> has had a thorough overhaul and now returns an object of class <code>rvest_session</code> rather than <code>session</code>.</p></li>
 <li>
@@ -241,7 +242,7 @@
 <p>A number of functions have change names. The old versions still work, but are deprecated and will be removed in rvest 0.4.0.</p>
 <ul>
 <li>
-<code>html_tag()</code> -&gt; <code><a href="../reference/html_text.html">html_name()</a></code>
+<code>html_tag()</code> -&gt; <code><a href="../reference/html_name.html">html_name()</a></code>
 </li>
 <li>
 <code>html()</code> -&gt; <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>
@@ -274,7 +275,7 @@
 <ul>
 <li><p><code><a href="../reference/html_session.html">follow_link()</a></code> now accepts css and xpath selectors. (<a href='https://github.com/tidyverse/rvest/issues/38'>#38</a>, <a href='https://github.com/tidyverse/rvest/issues/41'>#41</a>, <a href='https://github.com/tidyverse/rvest/issues/42'>#42</a>)</p></li>
 <li><p><code>html()</code> does a better job of dealing with encodings (passing the problem on to <code>XML::parseHTML()</code>) instead of trying to do it itself (<a href='https://github.com/tidyverse/rvest/issues/25'>#25</a>, <a href='https://github.com/tidyverse/rvest/issues/50'>#50</a>).</p></li>
-<li><p><code><a href="../reference/html_text.html">html_attr()</a></code> returns default value when input is NULL (<a href='https://github.com/tidyverse/rvest/issues/49'>#49</a>)</p></li>
+<li><p><code><a href="../reference/html_name.html">html_attr()</a></code> returns default value when input is NULL (<a href='https://github.com/tidyverse/rvest/issues/49'>#49</a>)</p></li>
 <li><p>Add missing <code><a href="../reference/html_nodes.html">html_node()</a></code> method for session.</p></li>
 <li><p><code><a href="../reference/html_nodes.html">html_nodes()</a></code> now returns an empty list if no elements are found (<a href='https://github.com/tidyverse/rvest/issues/31'>#31</a>).</p></li>
 <li><p><code><a href="../reference/rename.html">submit_form()</a></code> converts relative paths to absolute URLs (<a href='https://github.com/tidyverse/rvest/issues/52'>#52</a>). It also deals better with 0-length inputs (<a href='https://github.com/tidyverse/rvest/issues/29'>#29</a>).</p></li>

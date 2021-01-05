@@ -182,10 +182,10 @@ outline: 0 ;
 <span class="co">#&gt; [13] "Vitruvius \n  \n  \n  (voice)"                                                                          </span>
 <span class="co">#&gt; [14] "Gandalf /  \n            Additional Voices \n  \n  \n  (voice)"                                         </span>
 <span class="co">#&gt; [15] "Green Lantern \n  \n  \n  (voice)"</span></code></pre></div>
-<p><code>rvest</code> contains a few handy functions for accessing different attributes of the currently selected nodes. For example, we can access names of the selected tags with <code><a href="../reference/html_text.html">html_name()</a></code>:</p>
+<p><code>rvest</code> contains a few handy functions for accessing different attributes of the currently selected nodes. For example, we can access names of the selected tags with <code><a href="../reference/html_name.html">html_name()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>,<span class="st">".cast_list"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_text.html">html_name</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/html_name.html">html_name</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "table"</span></code></pre></div>
 <p>Most of the time we want to use <code><a href="../reference/html_nodes.html">html_nodes()</a></code> (returning <code>xml nodeset</code>) to make sure we capture all matches, but in those cases when we know that there is only one single match or when we only care about the first match, we can use <code><a href="../reference/html_nodes.html">html_node()</a></code>, which returns single <code>xml node</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -227,11 +227,11 @@ outline: 0 ;
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "\n            Batman /  \n            Bruce Wayne \n  \n  \n  (voice)\n  \n                  \n          "</span></code></pre></div>
-<p>Finally attributes of HTML tags can be extracted using <code><a href="../reference/html_text.html">html_attrs()</a></code>(or <code><a href="../reference/html_text.html">html_attr()</a></code> for extracting a single attribute from a node/nodeset, given its name). Let’s fetch urls of the actors’ pages.</p>
+<p>Finally attributes of HTML tags can be extracted using <code><a href="../reference/html_name.html">html_attrs()</a></code>(or <code><a href="../reference/html_name.html">html_attr()</a></code> for extracting a single attribute from a node/nodeset, given its name). Let’s fetch urls of the actors’ pages.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">html</span>, <span class="st">".cast_list .character"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_children.html">html_children</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_text.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
 <span class="co">#&gt;  [2] "/title/tt1490017/characters/nm0004715?ref_=tt_cl_t1" </span>
 <span class="co">#&gt;  [3] "/title/tt1490017/characters/nm0006969?ref_=tt_cl_t2" </span>
