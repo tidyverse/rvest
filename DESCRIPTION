@@ -28,17 +28,15 @@ Suggests:
     covr,
     glue,
     knitr,
+    readr,
     rmarkdown,
     repurrrsive,
     spelling,
     stringi (>= 0.3.1),
-    testthat (>= 3.0.0),
+    testthat (>= 3.0.1),
     webfakes
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-lib/testthat,
-    r-lib/rlang
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
