@@ -1,52 +1,10 @@
-# Text with line break padding in between blocks, collapsing breaks
-# similarly to css margin collapsing rules
-PaddedText <- R6::R6Class("PaddedText", list(
-  text = character(),
-  lines = 0,
-  i = 1L,
-
-  add_margin = function(n) {
-    # Don't add breaks before encountering text
-    if (self$i == 1) {
-      return()
-    }
-
-    self$lines <- max(self$lines, n)
-  },
-
-  convert_breaks = function() {
-    if (self$lines == 0) {
-      return()
-    }
-
-    self$text[[self$i]] <- strrep("\n", self$lines)
-    self$i <- self$i + 1
-    self$lines <- 0
-  },
-
-  add_text = function(x) {
-    # Ignore empty strings
-    if (identical(x, "")) {
-      return()
-    }
-
-    self$convert_breaks()
-    self$text[[self$i]] <- x
-    self$i <- self$i + 1L
-  },
-
-  output = function() {
-    paste(self$text, collapse = "")
-  }
-))
-
 html_text_inner <- function(x) {
   text <- PaddedText$new()
   html_text_block(x, text)
   text$output()
 }
 
-# Algorithm from
+# Algorithm roughly inspired by
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
 html_text_block <- function(x, text) {
   if (xml2::xml_type(x) == "text") {
@@ -134,3 +92,45 @@ collapse_whitespace <- function(x) {
 
   x
 }
+
+# Text with line break padding in between blocks, collapsing breaks
+# similarly to css margin collapsing rules
+PaddedText <- R6::R6Class("PaddedText", list(
+  text = character(),
+  lines = 0,
+  i = 1L,
+
+  add_margin = function(n) {
+    # Don't add breaks before encountering text
+    if (self$i == 1) {
+      return()
+    }
+
+    self$lines <- max(self$lines, n)
+  },
+
+  convert_breaks = function() {
+    if (self$lines == 0) {
+      return()
+    }
+
+    self$text[[self$i]] <- strrep("\n", self$lines)
+    self$i <- self$i + 1
+    self$lines <- 0
+  },
+
+  add_text = function(x) {
+    # Ignore empty strings
+    if (identical(x, "")) {
+      return()
+    }
+
+    self$convert_breaks()
+    self$text[[self$i]] <- x
+    self$i <- self$i + 1L
+  },
+
+  output = function() {
+    paste(self$text, collapse = "")
+  }
+))
