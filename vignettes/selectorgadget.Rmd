@@ -10,18 +10,7 @@ vignette: >
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
-```
-
-```{r results="asis", echo=FALSE}
-# directly adding css to output html without ruining css style https://stackoverflow.com/questions/29291633/adding-custom-css-tags-to-an-rmarkdown-html-document
-cat("
-<style>
-img {
-border: 0px;
-outline: 0 ;
-}
-</style>
-")
+library(rvest)
 ```
 
 SelectorGadget is a JavaScript bookmarklet that allows you to interactively figure out what css selector you need to extract desired components from a page.
@@ -32,96 +21,103 @@ To install it, open this page in your browser, and then drag the following link 
 
 ## Use
 
-To use it, open the page
+To use it, open the page you want to scrape, then:
 
-1.  Click on the element you want to select.
+1.  Click the SelectorGadget entry in your bookmark bar.
+
+2.  Click on the element you want to select.
     SelectorGadget will make a first guess at what css selector you want.
     It's likely to be bad since it only has one example to learn from, but it's a start.
     Elements that match the selector will be highlighted in yellow.
 
-2.  Click on elements that shouldn't be selected.
+3.  Click on elements that shouldn't be selected.
     They will turn red.
     Click on elements that *should* be selected.
     They will turn green.
 
-3.  Iterate until only the elements you want are selected.
+4.  Iterate until only the elements you want are selected.
     SelectorGadget isn't perfect and sometimes won't be able to find a useful css selector.
     Sometimes starting from a different element helps.
 
-For example, imagine we want to find the actors listed on an IMDB movie page, e.g.
-[The Lego Movie](http://www.imdb.com/title/tt1490017/).
+## Example
 
-1.  Navigate to the page and scroll to the actors list.
-
-    ```{r, echo = FALSE}
-    knitr::include_graphics("selectorgadget-1-s.png")
-    ```
-
-2.  Click on the SelectorGadget link in the bookmarks.
-    The SelectorGadget console will appear at the bottom of the screen, and element currently under the mouse will be highlighted in orange.
-
-    ```{r, echo = FALSE}
-    knitr::include_graphics("selectorgadget-2-s.png")
-    ```
-
-3.  Click on the element you want to select (the name of an actor).
-    The element you selected will be highlighted in green.
-    SelectorGadget guesses which css selector you want (`a` in this case), and highlights all matches in yellow (see total count equal to 592 as indicated on on the "Clear" button).
-    This seems to be a little too excessive.
-
-    ```{r, echo = FALSE}
-    knitr::include_graphics("selectorgadget-3-s.png")
-    ```
-
-4.  Scroll around the document to find elements that you don't want to match and click on them.
-    For example, we don't to match the character the actor contributed to, so we click on it and it turns red.
-    The css selector updates to `.primary_photo+ td a`.
-
-    ```{r, echo = FALSE}
-    knitr::include_graphics("selectorgadget-4-s.png")
-    knitr::include_graphics("selectorgadget-5-s.png")
-    ```
-
-Once we've determined the css selector, we can use it in R to extract the values we want:
+For example, imagine we want to find the names of the movies listed in `vignette("starwars")`.
 
 ```{r}
 library(rvest)
-lego_url <- "http://www.imdb.com/title/tt1490017/"
-html <- read_html(lego_url)
-cast <- html_nodes(html, ".primary_photo+ td a")
-length(cast)
-cast[1:2]
+html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 ```
 
-Finally, we can extract the text from the selected HTML nodes.
+1.  Start by opening <https://rvest.tidyverse.org/articles/starwars.html> in a web browser.
 
-Looking carefully at this output, we see twice as many matches as we expected.
-That's because we've selected both the table cell and the text inside the cell.
-We can experiment with selectorgadget to find a better match or look at the html directly.
+2.  Click on the SelectorGadget link in the bookmarks. The SelectorGadget console will appear at the bottom of the screen, and element currently under the mouse will be highlighted in orange.
+
+    ```{r, echo = FALSE}
+    knitr::include_graphics("selectorgadget-hover.png", dpi = 144)
+    ```
+
+3.  Click on the movie name to select it. The element you selected will be highlighted in green. SelectorGadget guesses which css selector you want (`h2` in this case), and highlights all matches in yellow (see total count equal to 7 as indicated on on the "Clear" button).
+
+    ```{r, echo = FALSE}
+    knitr::include_graphics("selectorgadget-click.png", dpi = 144)
+    ```
+
+4.  Scroll around the document to verify that we have selected all the desired movie titles and nothing else. In this case, it looks like SelectorGadget figured it out on the first try, and we can use the selector in our R code:
+
+    ```{r}
+    html %>% 
+      html_node("h2") %>% 
+      html_text2()
+    ```
+
+Now let's try something a little more challenging: selecting all paragraphs of the movie intro.
+
+1.  Start the same way as before, opening the website and then using the SelectorGadget bookmark, but this time we click on the first paragraph of the intro.
+
+    ```{r, echo = FALSE}
+    knitr::include_graphics("selectorgadget-too-many.png", dpi = 144)
+    ```
+
+2.  This obviously selects too many nodes, so click on one of the paragraphs that shouldn't match. It turns red indicating that this element shouldn't be matched.
+
+    ```{r, echo = FALSE}
+    knitr::include_graphics("selectorgadget-remove.png", dpi = 144)
+    ```
+
+3.  This looks good, so we convert it to R code:
+
+    ```{r}
+    html %>% 
+      html_nodes(".crawl p") %>% 
+      html_text2() %>% 
+      .[1:4]
+    ```
+
+Hmmm, this is correct, but we've lost the connection between title and intro.
+To fix this problem we need to take a step back and see if we can find an element that identifies all the data for one movie.
+By carefully hovering, we can figure out that the `section` selector seems to do the job:
 
 ```{r}
-html_text(cast, trim = TRUE)
+films <- html %>% html_nodes("section")
+films
 ```
 
-Let's say we're also interested in extracting the links to the actors' pages.
-We can access html attributes of the selected nodes using `html_attrs()`.
+Then we can get the title for each film:
 
 ```{r}
-cast_attrs <- html_attrs(cast)
-length(cast_attrs)
-cast_attrs[1:2]
+films %>% 
+  html_node("h2") %>% 
+  html_text2()
 ```
 
-As we can see there's only one attribute called `href` which contains relative url to the actor's page.
-We can extract it using `html_attr()`, indicating the name of the attribute of interest.
-Relative urls can be turned to absolute urls using `url_absolute()`.
+And the contents of that intro:
 
 ```{r}
-cast_rel_urls <- html_attr(cast, "href")
-length(cast_rel_urls)
-cast_rel_urls[1:2]
-
-cast_abs_urls <- html_attr(cast, "href") %>% 
-  url_absolute(lego_url)
-cast_abs_urls[1:2]
+films %>% 
+  html_node(".crawl") %>% 
+  html_text2() %>% 
+  .[[1]] %>% 
+  writeLines()
 ```
+
+This is a pretty common experience --- SelectorGadget will get you started finding useful selectors but you'll often have to combine it with other code.
