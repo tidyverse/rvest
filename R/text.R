@@ -27,6 +27,8 @@ html_text2.xml_node <- function(x, preserve_nbsp = FALSE) {
 
 # Algorithm roughly inspired by
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
+# but following deatils in
+# https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#How_does_CSS_process_whitespace
 html_text_block <- function(x, text, preserve_nbsp = FALSE) {
   if (xml2::xml_type(x) == "text") {
     text$add_text(collapse_whitespace(xml2::xml_text(x), preserve_nbsp))
