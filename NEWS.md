@@ -1,5 +1,9 @@
 # rvest (development version)
 
+* The SelectorGadget vignette is now a web-only article so we can be more 
+  generous with screenshots since they're no longer bundled with every
+  install of the package.
+
 * New `html_text2()` provides a more natural rendering of HTML nodes into text,
   converting `<br>` into "\n", and removing non-significant whitespace (#175). 
   By default, it also converts `&nbsp;` into regular spaces, which you can 

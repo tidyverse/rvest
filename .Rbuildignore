@@ -12,3 +12,4 @@
 ^codecov\.yml$
 ^\.github$
 ^LICENSE\.md$
+^vignettes/articles$
