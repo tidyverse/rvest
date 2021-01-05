@@ -1,5 +1,10 @@
 # rvest (development version)
 
+* New `html_text2()` provides a more natural rendering of HTML nodes into text,
+  converting `<br>` into "\n", and removing non-significant whitespace (#175). 
+  By default, it also converts `&nbsp;` into regular spaces, which you can 
+  suppress with `preserve_nbsp = TRUE` (#284).
+
 * New `forward()` function to complement `back()`.
 
 * `html_session()` has had a thorough overhaul and now returns an object of

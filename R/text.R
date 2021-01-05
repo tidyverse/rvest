@@ -1,3 +1,65 @@
+#' Get text from nodes
+#'
+#' @description
+#' There are two ways to retrieve text from a node: `html_text()` and
+#' `html_text2()`. `html_text()` is a thin wrapper around [xml2::xml_text()]
+#' which returns just the text nodes. `html_text2()` simulates how text looks
+#' in a browser, using an approach inspired by the javascript
+#' [innerText](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText)
+#' function. Roughly speaking, it converts `<br />` to `"\n"`, adds blank lines
+#' around `<p>` tags, and lightly formats tabular data.
+#'
+#' `html_text2()` is usually what you want, but it is much slower than
+#' `html_text()` so for simple applications where performance is important
+#' you may want to use `html_text()` instead.
+#'
+#' @inheritParams xml2::xml_text
+#' @importFrom xml2 xml_text
+#' @return A character vector the same length as `x`
+#' @examples
+#' # To understand the difference between html_text() and html_text2()
+#' # take the following html:
+#'
+#' html <- minimal_html("example",
+#'   "<p>This is a paragraph.
+#'     This another sentence.<br>This should start on a new line"
+#' )
+#'
+#' # html_text() returns the raw underlying text, which includes whitespace
+#' # that would be ignored by a browser, and ignores the <br>
+#' html %>% html_node("p") %>% html_text() %>% writeLines()
+#'
+#' # html_text2() simulates what a browser would display. Non-significant
+#' # whitespace is collapsed, and <br> is turned into a line break
+#' html %>% html_node("p") %>% html_text2() %>% writeLines()
+#'
+#' # By default, html_text2() also converts non-breaking spaces to regular
+#' # spaces:
+#' html <- minimal_html("example", "<p>x&nbsp;y</p>")
+#' x1 <- html %>% html_node("p") %>% html_text()
+#' x2 <- html %>% html_node("p") %>% html_text2()
+#'
+#' # When printed, non-breaking spaces look exactly like regular spaces
+#' x1
+#' x2
+#' # But aren't actually the same:
+#' x1 == x2
+#' # Which you can confirm by looking at their underlying binary
+#' # representaion:
+#' charToRaw(x1)
+#' charToRaw(x2)
+#' @export
+html_text <- function(x, trim = FALSE) {
+  xml_text(x, trim = trim)
+}
+
+#' @export
+#' @rdname html_text
+#' @param preserve_nbsp Should non-breaking spaces be preserved? By default,
+#'   `html_text2()` converts to ordinary spaces to ease further computation.
+#'   When `preserve_nbsp` is `TRUE`, `&nbsp;` will appear in strings as
+#'   `"\ua0"`. This often causes confusion because it prints the same way as
+#'   `" "`.
 html_text2 <- function(x, preserve_nbsp = FALSE) {
   UseMethod("html_text2")
 }

@@ -1,3 +1,11 @@
+test_that("html_text returns raw html", {
+  html <- minimal_html("test", "<p>x\ny</br>z</p>")
+  p <- html_nodes(html, "p")
+  expect_equal(html_text(p), "x\nyz")
+})
+
+# html_text2 --------------------------------------------------------------
+
 test_that("handles block containing only inline elements", {
   html <- minimal_html("test", "<p>a <b>b</b> <b><i>c</i></b></p>")
   expect_equal(html_text2(html), "a b c")
