@@ -26,8 +26,10 @@ Imports:
     xml2 (>= 1.3)
 Suggests:
     covr,
+    glue,
     knitr,
     rmarkdown,
+    repurrrsive,
     spelling,
     stringi (>= 0.3.1),
     testthat (>= 3.0.0),
