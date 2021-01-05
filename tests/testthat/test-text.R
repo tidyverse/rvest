@@ -31,6 +31,15 @@ test_that("handles table", {
   )
 })
 
+test_that("handles mixed block as well as can be expected", {
+  html <- minimal_html("test", "
+    <div>
+     <p>a</p>
+     b<br/>
+    </div>
+  ")
+  expect_equal(html_text_inner(html_node(html, "div")), "a\n\nb\n")
+})
 
 test_that("breaks as expected", {
   expect_identical(tag_margin("p"), 2L)

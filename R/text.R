@@ -1,5 +1,3 @@
-
-
 # Text with line break padding in between blocks, collapsing breaks
 # similarly to css margin collapsing rules
 PaddedText <- R6::R6Class("PaddedText", list(
@@ -51,13 +49,14 @@ html_text_inner <- function(x) {
 # Algorithm from
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
 html_text_block <- function(x, text) {
-  children <- xml2::xml_children(x)
-  n <- length(children)
-  is_inline <- !any(xml2::xml_name(children) %in% c(block_tag, table_tag))
-
-  if (is_inline) {
+  if (xml2::xml_type(x) == "text") {
+    text$add_text(collapse_whitespace(xml2::xml_text(x)))
+  } else if (is_inline(x)) {
     text$add_text(html_text_inline(x))
   } else {
+    children <- xml2::xml_contents(x)
+    n <- length(children)
+
     for (i in seq_along(children)) {
       child <- children[[i]]
       name <- xml2::xml_name(child)
@@ -74,6 +73,11 @@ html_text_block <- function(x, text) {
       text$add_margin(margin)
     }
   }
+}
+
+is_inline <- function(x) {
+  children <- xml2::xml_children(x)
+  !any(xml2::xml_name(children) %in% c(block_tag, table_tag))
 }
 
 block_tag <- c(
