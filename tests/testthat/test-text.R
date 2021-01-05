@@ -1,6 +1,10 @@
 test_that("handles block containing only inline elements", {
   html <- minimal_html("test", "<p>a <b>b</b> <b><i>c</i></b></p>")
   expect_equal(html_text_inner(html_node(html, "p")), "a b c")
+
+  # internal newlines are trimmed
+  html <- minimal_html("test", "<p>a\n\nb\nc</p>")
+  expect_equal(html_text_inner(html_node(html, "p")), "a b c")
 })
 
 test_that("handles multiple paragraphs with line breaks", {
