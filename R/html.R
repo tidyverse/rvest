@@ -1,45 +1,30 @@
-#' Extract attributes, text, or tag name
+#' Get name and attributes from nodes
 #'
-#' `html_text()` extracts text inside a node, `html_attr()` extract a
-#' single attribute, `html_attr()` extract all attributes, and `html_name()`
-#' gives the tag name.
+#' `html_name()` gets the tag name, `html_attr()` gets a single attribute,
+#' and `html_attr()` gets all attributes.
 #'
-#' @inheritParams xml2::xml_text
-#' @return A character vector (for `html_attr()`, `html_tag()`, and
-#'   `html_text()`) or list (`html_attrs()`) the same length as `x`
+#' @param x A document, node, or node set.
+#' @return A character vector (for `html_attr()` and `html_tag()`) or
+#'   a list (`html_attrs()`) the same length as `x`
 #' @export
 #' @examples
 #' url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
 #' movie <- read_html(url)
 #' cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
 #'
-#' html_text(cast)
 #' html_name(cast)
 #' html_attrs(cast)
 #' html_attr(cast, "href")
 #'
 #' # If needed, use url_absolute() to convert to complete urls
 #' url_absolute(html_attr(cast, "href"), url)
-#' @importFrom xml2 xml_text
-html_text <- function(x, trim = FALSE) {
-  xml_text(x, trim = trim)
-}
-
-#' @rdname html_text
 #' @export
 #' @importFrom xml2 xml_name
 html_name <- function(x) {
   xml_name(x)
 }
 
-#' @rdname html_text
-#' @export
-#' @importFrom xml2 xml_attrs
-html_attrs <- function(x) {
-  xml_attrs(x)
-}
-
-#' @rdname html_text
+#' @rdname html_name
 #' @param name Name of attribute to retrieve.
 #' @param default A string used as a default value when the attribute does
 #'   not exist in every node.
@@ -49,6 +34,12 @@ html_attr <- function(x, name, default = NA_character_) {
   xml_attr(x, name, default = default)
 }
 
+#' @rdname html_name
+#' @export
+#' @importFrom xml2 xml_attrs
+html_attrs <- function(x) {
+  xml_attrs(x)
+}
 
 #' Find all child elements
 #'
