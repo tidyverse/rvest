@@ -57,10 +57,12 @@ rvest was first created.
 set_values() -&amp;gt; html_form_set()
 submit_form() -&amp;gt; session_submit()
 xml_tag() -&amp;gt; html_name()
-xml_node() -&amp;gt; html_node()
-xml_nodes() -&amp;gt; html_nodes()
+xml_node() &amp;amp; html_node() -&amp;gt; html_element()
+xml_nodes() &amp;amp; html_nodes() -&amp;gt; html_element()
 
-" />
+
+(html_node() and html_nodes() are only superseded because they're
+so widely used.)" />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -173,10 +175,12 @@ rvest was first created.</p><ul>
 <li><p><code>set_values()</code> -&gt; <code><a href='html_form.html'>html_form_set()</a></code></p></li>
 <li><p><code>submit_form()</code> -&gt; <code><a href='html_session.html'>session_submit()</a></code></p></li>
 <li><p><code>xml_tag()</code> -&gt; <code><a href='html_name.html'>html_name()</a></code></p></li>
-<li><p><code>xml_node()</code> -&gt; <code><a href='html_nodes.html'>html_node()</a></code></p></li>
-<li><p><code>xml_nodes()</code> -&gt; <code><a href='html_nodes.html'>html_nodes()</a></code></p></li>
+<li><p><code>xml_node()</code> &amp; <code>html_node()</code> -&gt; <code><a href='html_element.html'>html_element()</a></code></p></li>
+<li><p><code>xml_nodes()</code> &amp; <code>html_nodes()</code> -&gt; <code><a href='html_element.html'>html_element()</a></code></p></li>
 </ul>
 
+<p>(<code>html_node()</code> and <code>html_nodes()</code> are only superseded because they're
+so widely used.)</p>
     </div>
 
     <pre class="usage"><span class='fu'>set_values</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -187,7 +191,11 @@ rvest was first created.</p><ul>
 
 <span class='fu'>xml_node</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>xml_nodes</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>xml_nodes</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>html_node</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
 
 

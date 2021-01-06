@@ -158,6 +158,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/rename.html">html_node()</a></code> and <code><a href="../reference/rename.html">html_nodes()</a></code> have been superseded in favour of <code><a href="../reference/html_element.html">html_element()</a></code> and <code><a href="../reference/html_element.html">html_elements()</a></code> since they (almost) always return elements, not nodes (<a href='https://github.com/tidyverse/rvest/issues/298'>#298</a>).</p></li>
 <li><p><code><a href="../reference/html_table.html">html_table()</a></code> gains <code>na.strings</code> argument to control what values are converted to <code>NA</code> (<a href='https://github.com/tidyverse/rvest/issues/107'>#107</a>).</p></li>
 <li><p>All uses of imdb have been eliminated since the site explicitly prohibits scraping (<a href='https://github.com/tidyverse/rvest/issues/195'>#195</a>).</p></li>
 <li><p>The “harvesting the web” vignette has been rewritten to focus more on the basics of how rvest works, eliminating the screenshots to keep the installed package as svelte as possible. It’s also been renamed to <code><a href="../articles/rvest.html">vignette("rvest")</a></code> since it’s the vignette that you should read first.</p></li>
@@ -224,7 +225,7 @@
 </h1>
 <ul>
 <li><p>Fixes to <code><a href="../reference/html_session.html">follow_link()</a></code> and <code><a href="../reference/html_session.html">back()</a></code> to correctly manage session history.</p></li>
-<li><p>If you’re using xml2 1.0.0, <code><a href="../reference/html_nodes.html">html_node()</a></code> will now return a “missing node”.</p></li>
+<li><p>If you’re using xml2 1.0.0, <code><a href="../reference/rename.html">html_node()</a></code> will now return a “missing node”.</p></li>
 <li><p>Parse rowspans and colspans effectively by filling using repetition from left to right (for colspan) and top to bottom (rowspan) (<a href='https://github.com/tidyverse/rvest/issues/111'>#111</a>)</p></li>
 <li><p>Updated a few examples and demos where the website structure has changed.</p></li>
 <li><p>Made compatible with both xml2 0.1.2 and 1.0.0.</p></li>
@@ -257,7 +258,7 @@
 </li>
 </ul>
 </li>
-<li><p><code><a href="../reference/html_nodes.html">html_node()</a></code> now throws an error if there are no matches, and a warning if there’s more than one match. I think this should make it more likely to fail clearly when the structure of the page changes.</p></li>
+<li><p><code><a href="../reference/rename.html">html_node()</a></code> now throws an error if there are no matches, and a warning if there’s more than one match. I think this should make it more likely to fail clearly when the structure of the page changes.</p></li>
 <li><p><code>xml_structure()</code> has been moved to xml2. New <code>html_structure()</code> (also in xml2) highlights id and class attributes (<a href='https://github.com/tidyverse/rvest/issues/78'>#78</a>).</p></li>
 <li><p><code><a href="../reference/rename.html">submit_form()</a></code> now works with forms that use GET (<a href='https://github.com/tidyverse/rvest/issues/66'>#66</a>).</p></li>
 <li><p><code>submit_request()</code> (and hence <code><a href="../reference/rename.html">submit_form()</a></code>) is now case-insensitive, and so will find <code>&lt;input type=SUBMIT&gt;</code> as well as<code>&lt;input type="submit"&gt;</code>.</p></li>
@@ -284,8 +285,8 @@
 <li><p><code><a href="../reference/html_session.html">follow_link()</a></code> now accepts css and xpath selectors. (<a href='https://github.com/tidyverse/rvest/issues/38'>#38</a>, <a href='https://github.com/tidyverse/rvest/issues/41'>#41</a>, <a href='https://github.com/tidyverse/rvest/issues/42'>#42</a>)</p></li>
 <li><p><code>html()</code> does a better job of dealing with encodings (passing the problem on to <code>XML::parseHTML()</code>) instead of trying to do it itself (<a href='https://github.com/tidyverse/rvest/issues/25'>#25</a>, <a href='https://github.com/tidyverse/rvest/issues/50'>#50</a>).</p></li>
 <li><p><code><a href="../reference/html_name.html">html_attr()</a></code> returns default value when input is NULL (<a href='https://github.com/tidyverse/rvest/issues/49'>#49</a>)</p></li>
-<li><p>Add missing <code><a href="../reference/html_nodes.html">html_node()</a></code> method for session.</p></li>
-<li><p><code><a href="../reference/html_nodes.html">html_nodes()</a></code> now returns an empty list if no elements are found (<a href='https://github.com/tidyverse/rvest/issues/31'>#31</a>).</p></li>
+<li><p>Add missing <code><a href="../reference/rename.html">html_node()</a></code> method for session.</p></li>
+<li><p><code><a href="../reference/rename.html">html_nodes()</a></code> now returns an empty list if no elements are found (<a href='https://github.com/tidyverse/rvest/issues/31'>#31</a>).</p></li>
 <li><p><code><a href="../reference/rename.html">submit_form()</a></code> converts relative paths to absolute URLs (<a href='https://github.com/tidyverse/rvest/issues/52'>#52</a>). It also deals better with 0-length inputs (<a href='https://github.com/tidyverse/rvest/issues/29'>#29</a>).</p></li>
 </ul>
 </div>

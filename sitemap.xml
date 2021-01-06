@@ -10,6 +10,9 @@
     <loc>https://rvest.tidyverse.org/reference/html_children.html</loc>
   </url>
   <url>
+    <loc>https://rvest.tidyverse.org/reference/html_element.html</loc>
+  </url>
+  <url>
     <loc>https://rvest.tidyverse.org/reference/html_encoding_guess.html</loc>
   </url>
   <url>
@@ -17,9 +20,6 @@
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/html_name.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_nodes.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/html_session.html</loc>

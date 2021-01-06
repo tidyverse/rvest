@@ -109,6 +109,7 @@
 
 <!-- badges: start -->
 
+<!-- badges: end -->
 <p>rvest helps you scrape information from web pages. It is designed to work with <a href="https://github.com/smbache/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a>.</p>
 <p>If you’re scraping multiple pages, I highly recommend using rvest in concert with <a href="https://dmi3kno.github.io/polite/">polite</a>. The polite package ensures that you’re respecting the <a href="https://en.wikipedia.org/wiki/Robots_exclusion_standard">robots.txt</a> and not hammering the site with too many requests.</p>
 <div id="installation" class="section level2">
@@ -128,7 +129,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
 <span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span>
 
-<span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span>
+<span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span>
 <span class="va">films</span>
 <span class="co">#&gt; {xml_nodeset (7)}</span>
 <span class="co">#&gt; [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1999 ...</span>
@@ -140,7 +141,7 @@
 <span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span>
 
 <span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">title</span>
 <span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span>
@@ -149,14 +150,14 @@
 <span class="co">#&gt; [7] "The Force Awakens"</span>
 
 <span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">parse_integer</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">episode</span>
 <span class="co">#&gt; [1] 1 2 3 4 5 6 7</span>
 
 <span class="va">released</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"p:nth-child(2)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"p:nth-child(2)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="reference/html_text.html">html_text</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Released: "</span>, <span class="st">""</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_datetime.html">parse_date</a></span><span class="op">(</span><span class="op">)</span>
@@ -165,7 +166,7 @@
 <span class="co">#&gt; [6] "1983-05-25" "2015-12-11"</span>
 
 <span class="va">crawl</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"div"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"div"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">crawl</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute.</span>
@@ -179,13 +180,11 @@
 <a href="#key-functions" class="anchor"></a>Key functions</h2>
 <p>Once you have read a HTML document with <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, you can:</p>
 <ul>
-<li><p>Select parts of a document using CSS selectors: <code><a href="reference/html_nodes.html">html_nodes(doc, "table td")</a></code> (or if you’ve a glutton for punishment, use XPath selectors with <code><a href="reference/html_nodes.html">html_nodes(doc, xpath = "//table//td")</a></code>). If you haven’t heard of <a href="http://selectorgadget.com/">selectorgadget</a>, make sure to read <code>vignette("selectorgadget")</code> to learn about it.</p></li>
-<li><p>Extract components with <code><a href="reference/html_name.html">html_name()</a></code> (the name of the tag), <code><a href="reference/html_text.html">html_text()</a></code> (all text inside the tag), <code><a href="reference/html_name.html">html_attr()</a></code> (contents of a single attribute) and <code><a href="reference/html_name.html">html_attrs()</a></code> (all attributes).</p></li>
-<li><p>(You can also use rvest with XML files: parse with <code>xml()</code>, then extract components using <code><a href="reference/rename.html">xml_node()</a></code>, <code>xml_attr()</code>, <code>xml_attrs()</code>, <code>xml_text()</code> and <code>xml_name()</code>.)</p></li>
+<li><p>Select parts of a document using CSS selectors, <code><a href="reference/html_element.html">html_elements(doc, "table td")</a></code>, or XPath expressions, <code><a href="reference/html_element.html">html_elements(doc, xpath = "//table//td")</a></code>). If you haven’t heard of <a href="http://selectorgadget.com/">selectorgadget</a>, make sure to read <code>vignette("selectorgadget")</code> to learn about it.</p></li>
+<li><p>Extract data from text with <code><a href="reference/html_text.html">html_text2()</a></code> and from attributes with <code><a href="reference/html_name.html">html_attr()</a></code>.</p></li>
 <li><p>Parse tables into data frames with <code><a href="reference/html_table.html">html_table()</a></code>.</p></li>
 <li><p>Navigate around a website as if you’re in a browser with <code><a href="reference/html_session.html">html_session()</a></code>, <code><a href="reference/html_session.html">jump_to()</a></code>, <code><a href="reference/html_session.html">follow_link()</a></code>, <code><a href="reference/html_session.html">back()</a></code>, and <code><a href="reference/html_session.html">forward()</a></code>. Extract, modify, and submit forms with <code><a href="reference/html_form.html">html_form()</a></code>, <code><a href="reference/html_form.html">html_form_set()</a></code> and <code><a href="reference/html_session.html">session_submit()</a></code>.</p></li>
 </ul>
-<p>To see examples of these function in use, check out the demos.</p>
 </div>
 <div id="inspirations" class="section level2">
 <h2 class="hasAnchor">

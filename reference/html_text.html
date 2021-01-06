@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get text from nodes — html_text • rvest</title>
+<title>Get text from elements — html_text • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,13 +49,13 @@
 
 
 
-<meta property="og:title" content="Get text from nodes — html_text" />
-<meta property="og:description" content="There are two ways to retrieve text from a node: html_text() and
+<meta property="og:title" content="Get text from elements — html_text" />
+<meta property="og:description" content="There are two ways to retrieve text from a element: html_text() and
 html_text2(). html_text() is a thin wrapper around xml2::xml_text()
-which returns just the text nodes. html_text2() simulates how text looks
-in a browser, using an approach inspired by the javascript
-innerText
-function. Roughly speaking, it converts &amp;lt;br /&amp;gt; to &quot;\n&quot;, adds blank lines
+which returns just the raw underlying text. html_text2() simulates how
+text looks in a browser, using an approach inspired by javascript's
+innerText().
+Roughly speaking, it converts &amp;lt;br /&amp;gt; to &quot;\n&quot;, adds blank lines
 around &amp;lt;p&amp;gt; tags, and lightly formats tabular data.
 html_text2() is usually what you want, but it is much slower than
 html_text() so for simple applications where performance is important
@@ -159,18 +159,18 @@ you may want to use html_text() instead." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get text from nodes</h1>
+    <h1>Get text from elements</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/text.R'><code>R/text.R</code></a></small>
     <div class="hidden name"><code>html_text.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>There are two ways to retrieve text from a node: <code>html_text()</code> and
+    <p>There are two ways to retrieve text from a element: <code>html_text()</code> and
 <code>html_text2()</code>. <code>html_text()</code> is a thin wrapper around <code><a href='http://xml2.r-lib.org/reference/xml_text.html'>xml2::xml_text()</a></code>
-which returns just the text nodes. <code>html_text2()</code> simulates how text looks
-in a browser, using an approach inspired by the javascript
-<a href='https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText'>innerText</a>
-function. Roughly speaking, it converts <code>&lt;br /&gt;</code> to <code>"\n"</code>, adds blank lines
+which returns just the raw underlying text. <code>html_text2()</code> simulates how
+text looks in a browser, using an approach inspired by javascript's
+<a href='https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText'>innerText()</a>.
+Roughly speaking, it converts <code>&lt;br /&gt;</code> to <code>"\n"</code>, adds blank lines
 around <code>&lt;p&gt;</code> tags, and lightly formats tabular data.</p>
 <p><code>html_text2()</code> is usually what you want, but it is much slower than
 <code>html_text()</code> so for simple applications where performance is important
@@ -217,19 +217,19 @@ When <code>preserve_nbsp</code> is <code>TRUE</code>, <code>&amp;nbsp;</code> wi
 
 <span class='co'># html_text() returns the raw underlying text, which includes whitespace</span>
 <span class='co'># that would be ignored by a browser, and ignores the &lt;br&gt;</span>
-<span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; This is a paragraph.
 #&gt;     This another sentence.This should start on a new line</div><div class='input'>
 <span class='co'># html_text2() simulates what a browser would display. Non-significant</span>
 <span class='co'># whitespace is collapsed, and &lt;br&gt; is turned into a line break</span>
-<span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text2</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text2</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; This is a paragraph. This another sentence.
 #&gt; This should start on a new line</div><div class='input'>
 <span class='co'># By default, html_text2() also converts non-breaking spaces to regular</span>
 <span class='co'># spaces:</span>
 <span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"&lt;p&gt;x&amp;nbsp;y&lt;/p&gt;"</span><span class='op'>)</span>
-<span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>x2</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text2</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>x2</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text2</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># When printed, non-breaking spaces look exactly like regular spaces</span>
 <span class='va'>x1</span>

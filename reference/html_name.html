@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get name and attributes from nodes — html_name • rvest</title>
+<title>Get name and attributes from elements — html_name • rvest</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,7 +49,7 @@
 
 
 
-<meta property="og:title" content="Get name and attributes from nodes — html_name" />
+<meta property="og:title" content="Get name and attributes from elements — html_name" />
 <meta property="og:description" content="html_name() gets the tag name, html_attr() gets a single attribute,
 and html_attr() gets all attributes." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
@@ -151,7 +151,7 @@ and html_attr() gets all attributes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get name and attributes from nodes</h1>
+    <h1>Get name and attributes from elements</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidyverse/rvest/blob/master/R/html.R'><code>R/html.R</code></a></small>
     <div class="hidden name"><code>html_name.Rd</code></div>
     </div>
@@ -181,7 +181,7 @@ and <code>html_attr()</code> gets all attributes.</p>
     <tr>
       <th>default</th>
       <td><p>A string used as a default value when the attribute does
-not exist in every node.</p></td>
+not exist in every element.</p></td>
     </tr>
     </table>
 
@@ -193,7 +193,7 @@ a list (<code>html_attrs()</code>) the same length as <code>x</code></p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='st'>"https://en.wikipedia.org/wiki/The_Lego_Movie"</span>
 <span class='va'>movie</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
-<span class='va'>cast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_nodes.html'>html_nodes</a></span><span class='op'>(</span><span class='va'>movie</span>, <span class='st'>"tr:nth-child(8) .plainlist a"</span><span class='op'>)</span>
+<span class='va'>cast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='html_element.html'>html_elements</a></span><span class='op'>(</span><span class='va'>movie</span>, <span class='st'>"tr:nth-child(8) .plainlist a"</span><span class='op'>)</span>
 
 <span class='fu'>html_name</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "a" "a" "a" "a" "a" "a" "a" "a" "a"</div><div class='input'><span class='fu'>html_attrs</span><span class='op'>(</span><span class='va'>cast</span><span class='op'>)</span>

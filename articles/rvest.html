@@ -157,18 +157,18 @@
     &lt;li&gt;This is a bulleted list&lt;/li&gt;
   &lt;/ul&gt;
 "</span><span class="op">)</span></code></pre></div>
-<p>Regardless of how you get the HTML, you’ll need some way to the identify the nodes that contain the data you care about. rvest provides two options: CSS selectors and XPath expressions. Here we’ll focus on CSS selectors because they’re simpler but still sufficiently powerful for most scraping tasks.</p>
+<p>Regardless of how you get the HTML, you’ll need some way to the identify the elements that contain the data you care about. rvest provides two options: CSS selectors and XPath expressions. Here we’ll focus on CSS selectors because they’re simpler but still sufficiently powerful for most scraping tasks.</p>
 </div>
 <div id="css-selectors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#css-selectors" class="anchor"></a>CSS selectors</h2>
-<p>CSS is short for cascading style sheets, and is a tool for defining the visual styling of HTML documents. CSS includes a miniature language for selecting nodes on a page called <strong>CSS selectors</strong>. CSS selectors define patterns for locating HTML nodes, and are useful for scraping because they provide a concise way of describing which nodes you want to extract.</p>
+<p>CSS is short for cascading style sheets, and is a tool for defining the visual styling of HTML documents. CSS includes a miniature language for selecting elements on a page called <strong>CSS selectors</strong>. CSS selectors define patterns for locating HTML elements, and are useful for scraping because they provide a concise way of describing which elements you want to extract.</p>
 <p>CSS selectors can be quite complex, but fortunately you only need the simplest for rvest, because you can also write R code for more complicated situations. The four most important selectors are:</p>
 <ul>
-<li><p><code>p</code>: selects all <code>&lt;p&gt;</code> nodes.</p></li>
-<li><p><code>.important</code>: selects all nodes with <code>class</code> “important”.</p></li>
-<li><p><code>p.important</code>: selects all <code>&lt;p&gt;</code> nodes with <code>class</code> “important”.</p></li>
-<li><p><code>#title</code>: selects the node with the <code>id</code> attribute that equals “title”. Id attributes must be unique within a document, so this will only ever select a single node.</p></li>
+<li><p><code>p</code>: selects all <code>&lt;p&gt;</code> elements.</p></li>
+<li><p><code>.important</code>: selects all elements with <code>class</code> “important”.</p></li>
+<li><p><code>p.important</code>: selects all <code>&lt;p&gt;</code> elements with <code>class</code> “important”.</p></li>
+<li><p><code>#title</code>: selects the element with the <code>id</code> attribute that equals “title”. Id attributes must be unique within a document, so this will only ever select a single element.</p></li>
 </ul>
 <p>If you want to learn more about CSS selectors I recommend <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">MDN web docs</a>, and the fun <a href="http://flukeout.github.io/">CSS dinner</a> tutorial.</p>
 <p>Lets try out the four most important selectors with a simple example:</p>
@@ -178,28 +178,28 @@
   &lt;p id='first'&gt;This is a paragraph&lt;/p&gt;
   &lt;p class='important'&gt;This is an important paragraph&lt;/p&gt;
 "</span><span class="op">)</span></code></pre></div>
-<p>In rvest you can extract a single node with <code><a href="../reference/html_nodes.html">html_node()</a></code> or all matching nodes with <code><a href="../reference/html_nodes.html">html_nodes()</a></code>. Both functions take a document<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> and a css selector:</p>
+<p>In rvest you can extract a single element with <code><a href="../reference/html_element.html">html_element()</a></code> or all matching elements with <code><a href="../reference/html_element.html">html_elements()</a></code>. Both functions take a document<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> and a css selector:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span>
 <span class="co">#&gt; {html_node}</span>
 <span class="co">#&gt; &lt;h1&gt;</span>
-<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span>
 <span class="co">#&gt; {xml_nodeset (2)}</span>
 <span class="co">#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span>
 <span class="co">#&gt; [2] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span>
-<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span>
 <span class="co">#&gt; {xml_nodeset (1)}</span>
 <span class="co">#&gt; [1] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span>
-<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span>
 <span class="co">#&gt; {xml_nodeset (1)}</span>
 <span class="co">#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span></code></pre></div>
-<p>Selectors can also be combined in various ways using <strong>combinators</strong>. For example,The most important combinator is " ", called the descendent combination because <code>p a</code> selects all <code>&lt;a&gt;</code> nodes that are a child of a <code>&lt;p&gt;</code> node.</p>
+<p>Selectors can also be combined in various ways using <strong>combinators</strong>. For example,The most important combinator is " ", called the descendent combination because <code>p a</code> selects all <code>&lt;a&gt;</code> elements that are a child of a <code>&lt;p&gt;</code> element.</p>
 <p>If you don’t know exactly what selector you need, I highly recommend using <a href="https://rvest.tidyverse.org/articles/selectorgadget.html">SelectorGadget</a>, which lets you automatically generate the selector you need by supplying positive and negative examples in the browser.</p>
 </div>
 <div id="extracting-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#extracting-data" class="anchor"></a>Extracting data</h2>
-<p>Now that you’ve got the nodes you care about, you’ll need to get data out of them. If you’re lucky enough that the data you care about already lives in an HTML table, you can use <code><a href="../reference/html_table.html">html_table()</a></code> to turn it directly into a data frame. Otherwise, you’ll usually get the data either from the plain text content or one of the attributes.</p>
+<p>Now that you’ve got the elements you care about, you’ll need to get data out of them. If you’re lucky enough that the data you care about already lives in an HTML table, you can use <code><a href="../reference/html_table.html">html_table()</a></code> to turn it directly into a data frame. Otherwise, you’ll usually get the data either from the plain text content or one of the attributes.</p>
 <div id="text" class="section level3">
 <h3 class="hasAnchor">
 <a href="#text" class="anchor"></a>Text</h3>
@@ -213,13 +213,13 @@
   &lt;/ol&gt;
 "</span><span class="op">)</span>
 <span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "apple"  "pear"   "banana"</span></code></pre></div>
 <p>You might wonder why I used <code><a href="../reference/html_text.html">html_text2()</a></code>, since it seems to give the same result as <code><a href="../reference/html_text.html">html_text()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "apple"  "pear"   "banana"</span></code></pre></div>
 <p>The main difference is how the two functions handle whitespace. In HTML, whitespace is largely ignored. It’s the structure of the tags that define how text is laid out. <code><a href="../reference/html_text.html">html_text2()</a></code> does it’s best to follow the same rules, to give you something similar to what you’d see in the browser:</p>
@@ -232,7 +232,7 @@
 "</span><span class="op">)</span>
 
 <span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; This is a single paragraph.</span>
@@ -241,7 +241,7 @@
 <p>Whereas <code><a href="../reference/html_text.html">html_text()</a></code> returns the raw underlying text:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; </span>
@@ -260,32 +260,32 @@
 "</span><span class="op">)</span>
 
 <span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "https://en.wikipedia.org/wiki/Cat"</span>
 
 <span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "https://cataas.com/cat"</span></code></pre></div>
 <p>Note that <code><a href="../reference/html_name.html">html_attr()</a></code> always returns a string, so you may need to post process with <code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code>, <code><a href="https://readr.tidyverse.org/reference/parse_atomic.html">readr::parse_integer()</a></code>, or similar.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "100"</span>
 
 <span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] 100</span></code></pre></div>
 </div>
 </div>
-<div id="node-vs-nodes" class="section level2">
+<div id="element-vs-elements" class="section level2">
 <h2 class="hasAnchor">
-<a href="#node-vs-nodes" class="anchor"></a>Node vs nodes</h2>
-<p>When using rvest, most of the time your eventual goal is to build up a data frame, and you want each row to correspond some underlying observation. In this case, you should generally start by using <code><a href="../reference/html_nodes.html">html_nodes()</a></code> to select all observations and <code><a href="../reference/html_nodes.html">html_node()</a></code> to extract the elements that will form the variants. This guarantees that you’ll get the same number of values for each variable because <code><a href="../reference/html_nodes.html">html_node()</a></code> always returns the same number of outputs as inputs.</p>
+<a href="#element-vs-elements" class="anchor"></a>Element vs elements</h2>
+<p>When using rvest, most of the time your eventual goal is to build up a data frame, and you want each row to correspond some underlying observation. In this case, you should generally start by using <code><a href="../reference/html_element.html">html_elements()</a></code> to select all observations and <code><a href="../reference/html_element.html">html_element()</a></code> to extract the elements that will form the variants. This guarantees that you’ll get the same number of values for each variable because <code><a href="../reference/html_element.html">html_element()</a></code> always returns the same number of outputs as inputs.</p>
 <p>To illustrate this problem take a look at this simple example I constructed using a few entries from <code>dplyr::starwars</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
@@ -298,28 +298,28 @@
   "</span><span class="op">)</span></code></pre></div>
 <p>If you try to extract name, species, and weight directly, you end up with vectors that are hard to align:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "C-3PO"  "R2-D2"  "Yoda"   "R4-P17"</span>
-<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "droid" "droid" "droid"</span>
-<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"</span></code></pre></div>
-<p>Instead, use <code><a href="../reference/html_nodes.html">html_nodes()</a></code> to find a node for each character, and then <code><a href="../reference/html_nodes.html">html_node()</a></code> for each value:</p>
+<p>Instead, use <code><a href="../reference/html_element.html">html_elements()</a></code> to find a element for each character, and then <code><a href="../reference/html_element.html">html_element()</a></code> for each value:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">characters</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">characters</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span>
 
-<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "C-3PO"  "R2-D2"  "Yoda"   "R4-P17"</span>
-<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "droid" "droid" NA      "droid"</span>
-<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"  NA</span></code></pre></div>
-<p><code><a href="../reference/html_nodes.html">html_node()</a></code> automatically fills in <code>NA</code> when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:</p>
+<p><code><a href="../reference/html_element.html">html_element()</a></code> automatically fills in <code>NA</code> when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  name <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
-  species <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
-  weight <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_nodes.html">html_node</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
+  name <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
+  species <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
+  weight <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="co">#&gt;     name species weight</span>
 <span class="co">#&gt; 1  C-3PO   droid 167 kg</span>
@@ -331,7 +331,7 @@
 <hr>
 <ol>
 <li id="fn1"><p>This class comes from the <a href="https://xml2.r-lib.org">xml2</a> package. xml2 is a low-level package that rvest builds on top of.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Or another node, more on that shortly.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Or another element, more on that shortly.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
