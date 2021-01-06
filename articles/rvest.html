@@ -115,7 +115,7 @@
 
     
     
-<p>This vignette introduces you to the basics of web scraping with rvest. You’ll first learn the basics of HTML, learn how to use CSS selectors to refer to specific elements, and how to use rvest functions to get data from elements into R.</p>
+<p>This vignette introduces you to the basics of web scraping with rvest. You’ll first learn the basics of HTML and how to use CSS selectors to refer to specific elements, then you’ll learn how to use rvest functions to get data out of HTML and into R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></code></pre></div>
 <div id="html-basics" class="section level2">
@@ -131,20 +131,20 @@
 <span id="cb2-7"><a href="#cb2-7"></a>  <span class="kw">&lt;p&gt;</span>Some text <span class="dv">&amp;amp;</span> <span class="kw">&lt;b&gt;</span>some bold text.<span class="kw">&lt;/b&gt;&lt;/p&gt;</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a>  <span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">'myimg.png'</span><span class="ot"> width=</span><span class="st">'100'</span><span class="ot"> height=</span><span class="st">'100'</span><span class="kw">&gt;</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a><span class="kw">&lt;/body&gt;</span></span></code></pre></div>
-<p>HTML has a hierarchical structure formed by <strong>tags</strong>, which either look like <code>&lt;tag&gt;&lt;/tag&gt;</code> (for tags that can have children) or <code>&lt;tag&gt;</code> (for tags that can’t). Because <code><a href="https://rdrr.io/r/base/Comparison.html">&lt;</a></code> and <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;</a></code> have special meanings in HTML, you can’t write them directly. Instead you have to use the HTML <strong>escapes</strong> <code>&amp;gt;</code> (greater than) and <code>&amp;lt;</code> (less that). And since those escapes use <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code>, if you want a literal ampersand you have to escape it as <code>&amp;amp;</code>.</p>
-<p>All up, there are over 100 HTML tags. Some of the most important include:</p>
+<p>HTML has a hierarchical structure formed by <strong>elements</strong> which consist of a start tag (e.g. <code>&lt;tag&gt;</code>), optional attributes (<code>id='first'</code>), an end tag<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> (like <code>&lt;/tag&gt;</code>) and everything in between (which can be text, more tags, or both). All up, there are over 100 HTML tags. Some of the most important are:</p>
 <ul>
 <li><p><code>&lt;html&gt;</code>, <code>&lt;body&gt;</code>, and <code>&lt;head&gt;</code> which define the overall structure of the page. Every HTML page must start with <code>&lt;html&gt;</code> and end with <code>&lt;/html&gt;</code>. HTML pages must also contain metadata in <code>&lt;head&gt;</code> and contents in <code>&lt;body&gt;</code>.</p></li>
 <li><p>Block tags like <code>&lt;h1&gt;</code> (heading 1), <code>&lt;p&gt;</code> (paragraph), and <code>&lt;ol&gt;</code> (ordered list) form the overall structure of the page.</p></li>
 <li><p>Inline tags like <code>&lt;b&gt;</code> (bold), <code>&lt;i&gt;</code> (italics), and <code>&lt;a&gt;</code> (links) formats text inside block tags.</p></li>
 </ul>
-<p>Tags can have named <strong>attributes</strong> which look like <code>name1='value1' name2='value2'</code>. Two of the most important attributes are <code>id</code> and <code>class</code>, which are used in conjunction with CSS (Cascading Style Sheets) to control the visual appearance of the page. These are often useful when scraping data off a page. Some tags like <code>&lt;img&gt;</code> (image) can’t have children, so attributes are particularly important.</p>
+<p>Tags can have named <strong>attributes</strong> which look like <code>name1='value1' name2='value2'</code>. Two of the most important attributes are <code>id</code> and <code>class</code>, which are used in conjunction with CSS (Cascading Style Sheets) to control the visual appearance of the page. These are often useful when scraping data off a page. Attributes are particularly important for elements like <code>&lt;img&gt;</code> that don’t have end tags, and hence can’t contain children.</p>
+<p>Since <code><a href="https://rdrr.io/r/base/Comparison.html">&lt;</a></code> and <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;</a></code> are for start and end tags, you can’t write them directly. Instead you have to use the HTML <strong>escapes</strong> <code>&amp;gt;</code> (greater than) and <code>&amp;lt;</code> (less that). And since those escapes use <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code>, if you want a literal ampersand you have to escape it as <code>&amp;amp;</code>. But yyou don’t need to worry about these when using rvest; it takes care of converting escapes for you.</p>
 <p>If you encounter a tag that you’ve never seen before, you can find out what it does with a little googling. I recommend the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">MDN Web Docs</a> which are produced by Mozilla, the company that makes the Firefox web browser.</p>
 </div>
 <div id="getting-a-web-page" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-a-web-page" class="anchor"></a>Getting a web page</h2>
-<p>In most cases, you’ll start the scraping process with <code><a href="http://xml2.r-lib.org/reference/read_xml.html">xml2::read_html()</a></code>. This returns a <code>xml_document</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> object which you’ll then manipulate using rvest functions:</p>
+<p>You’ll usually start the scraping process with <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>. This returns a <code>xml_document</code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> object which you’ll then manipulate using rvest functions:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"http://rvest.tidyverse.org/"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">html</span><span class="op">)</span>
@@ -157,7 +157,7 @@
     &lt;li&gt;This is a bulleted list&lt;/li&gt;
   &lt;/ul&gt;
 "</span><span class="op">)</span></code></pre></div>
-<p>Regardless of how you get the HTML, you’ll need some way to the identify the elements that contain the data you care about. rvest provides two options: CSS selectors and XPath expressions. Here we’ll focus on CSS selectors because they’re simpler but still sufficiently powerful for most scraping tasks.</p>
+<p>Regardless of how you get the HTML, you’ll need some way to identify the elements that contain the data you care about. rvest provides two options: CSS selectors and XPath expressions. Here I’ll focus on CSS selectors because they’re simpler but still sufficiently powerful for most scraping tasks.</p>
 </div>
 <div id="css-selectors" class="section level2">
 <h2 class="hasAnchor">
@@ -170,15 +170,15 @@
 <li><p><code>p.important</code>: selects all <code>&lt;p&gt;</code> elements with <code>class</code> “important”.</p></li>
 <li><p><code>#title</code>: selects the element with the <code>id</code> attribute that equals “title”. Id attributes must be unique within a document, so this will only ever select a single element.</p></li>
 </ul>
-<p>If you want to learn more about CSS selectors I recommend <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">MDN web docs</a>, and the fun <a href="http://flukeout.github.io/">CSS dinner</a> tutorial.</p>
-<p>Lets try out the four most important selectors with a simple example:</p>
+<p>If you want to learn more CSS selectors I recommend starting with the fun <a href="http://flukeout.github.io/">CSS dinner</a> tutorial and then referring to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">MDN web docs</a>.</p>
+<p>Lets try out the most important selectors with a simple example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
   &lt;h1&gt;This is a heading&lt;/h1&gt;
   &lt;p id='first'&gt;This is a paragraph&lt;/p&gt;
   &lt;p class='important'&gt;This is an important paragraph&lt;/p&gt;
 "</span><span class="op">)</span></code></pre></div>
-<p>In rvest you can extract a single element with <code><a href="../reference/html_element.html">html_element()</a></code> or all matching elements with <code><a href="../reference/html_element.html">html_elements()</a></code>. Both functions take a document<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> and a css selector:</p>
+<p>In rvest you can extract a single element with <code><a href="../reference/html_element.html">html_element()</a></code> or all matching elements with <code><a href="../reference/html_element.html">html_elements()</a></code>. Both functions take a document<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> and a css selector:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span>
 <span class="co">#&gt; {html_node}</span>
@@ -193,17 +193,17 @@
 <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span>
 <span class="co">#&gt; {xml_nodeset (1)}</span>
 <span class="co">#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span></code></pre></div>
-<p>Selectors can also be combined in various ways using <strong>combinators</strong>. For example,The most important combinator is " ", called the descendent combination because <code>p a</code> selects all <code>&lt;a&gt;</code> elements that are a child of a <code>&lt;p&gt;</code> element.</p>
+<p>Selectors can also be combined in various ways using <strong>combinators</strong>. For example,The most important combinator is " ", the <strong>descendant</strong> combination, because <code>p a</code> selects all <code>&lt;a&gt;</code> elements that are a child of a <code>&lt;p&gt;</code> element.</p>
 <p>If you don’t know exactly what selector you need, I highly recommend using <a href="https://rvest.tidyverse.org/articles/selectorgadget.html">SelectorGadget</a>, which lets you automatically generate the selector you need by supplying positive and negative examples in the browser.</p>
 </div>
 <div id="extracting-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#extracting-data" class="anchor"></a>Extracting data</h2>
-<p>Now that you’ve got the elements you care about, you’ll need to get data out of them. If you’re lucky enough that the data you care about already lives in an HTML table, you can use <code><a href="../reference/html_table.html">html_table()</a></code> to turn it directly into a data frame. Otherwise, you’ll usually get the data either from the plain text content or one of the attributes.</p>
+<p>Now that you’ve got the elements you care about, you’ll need to get data out of them. If you’re lucky, the data might already live in an HTML table, and you can use <code><a href="../reference/html_table.html">html_table()</a></code> to turn it directly into a data frame. Otherwise, you’ll usually get the data from either the text contents of an attribute.</p>
 <div id="text" class="section level3">
 <h3 class="hasAnchor">
 <a href="#text" class="anchor"></a>Text</h3>
-<p>You’ll usually use <code><a href="../reference/html_text.html">html_text2()</a></code> to extract data stored as plain text inside of HTML elements:</p>
+<p>Use <code><a href="../reference/html_text.html">html_text2()</a></code> to extract the plain text contents of an HTML element:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
   &lt;ol&gt;
@@ -222,44 +222,47 @@
   <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "apple"  "pear"   "banana"</span></code></pre></div>
-<p>The main difference is how the two functions handle whitespace. In HTML, whitespace is largely ignored. It’s the structure of the tags that define how text is laid out. <code><a href="../reference/html_text.html">html_text2()</a></code> does it’s best to follow the same rules, to give you something similar to what you’d see in the browser:</p>
+<p>The main difference is how the two functions handle white space. In HTML, white space is largely ignored, and it’s the structure of the elements that defines how text is laid out. <code><a href="../reference/html_text.html">html_text2()</a></code> does its best to follow the same rules, giving you something similar to what you’d see in the browser. Take this example which contains a bunch of white space that HTML ignores.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"&lt;body&gt;
   &lt;p&gt;
   This is
-  a single
+  a
   paragraph.&lt;/p&gt;&lt;p&gt;This is another paragraph&lt;/p&gt;
-"</span><span class="op">)</span>
-
-<span class="va">html</span> <span class="op">%&gt;%</span> 
+"</span><span class="op">)</span></code></pre></div>
+<p><code><a href="../reference/html_text.html">html_text2()</a></code> gives you what you expect: two paragraphs of text separated by a blank line.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; This is a single paragraph.</span>
+<span class="co">#&gt; This is a paragraph.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; This is another paragraph</span></code></pre></div>
-<p>Whereas <code><a href="../reference/html_text.html">html_text()</a></code> returns the raw underlying text:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Whereas <code><a href="../reference/html_text.html">html_text()</a></code> returns the garbled raw underlying text:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt;   </span>
 <span class="co">#&gt;   This is</span>
-<span class="co">#&gt;   a single</span>
-<span class="co">#&gt;   paragraph.</span></code></pre></div>
+<span class="co">#&gt;   a</span>
+<span class="co">#&gt;   paragraph.This is another paragraph</span></code></pre></div>
 </div>
 <div id="attributes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#attributes" class="anchor"></a>Attributes</h3>
-<p>The most common use of attributes the destination of links or the source of an image:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>Attributes are used to record the destination of links (the <code>href</code> attribute of <code>&lt;a&gt;</code> elements) and the source of images (the <code>src</code> attribute of the <code>&lt;img&gt;</code> element):</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
   &lt;p&gt;&lt;a href='https://en.wikipedia.org/wiki/Cat'&gt;cats&lt;/a&gt;&lt;/p&gt;
   &lt;img src='https://cataas.com/cat' width='100' height='200'&gt;
-"</span><span class="op">)</span>
-
-<span class="va">html</span> <span class="op">%&gt;%</span> 
+"</span><span class="op">)</span></code></pre></div>
+<p>The value of an attribute can be retrieved with <code><a href="../reference/html_name.html">html_attr()</a></code>:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "https://en.wikipedia.org/wiki/Cat"</span>
@@ -268,8 +271,8 @@
   <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "https://cataas.com/cat"</span></code></pre></div>
-<p>Note that <code><a href="../reference/html_name.html">html_attr()</a></code> always returns a string, so you may need to post process with <code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code>, <code><a href="https://readr.tidyverse.org/reference/parse_atomic.html">readr::parse_integer()</a></code>, or similar.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>Note that <code><a href="../reference/html_name.html">html_attr()</a></code> always returns a string, so you may need to post-process with <code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code>/<code><a href="https://readr.tidyverse.org/reference/parse_atomic.html">readr::parse_integer()</a></code> or similar.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/html_name.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span>
@@ -285,9 +288,9 @@
 <div id="element-vs-elements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#element-vs-elements" class="anchor"></a>Element vs elements</h2>
-<p>When using rvest, most of the time your eventual goal is to build up a data frame, and you want each row to correspond some underlying observation. In this case, you should generally start by using <code><a href="../reference/html_element.html">html_elements()</a></code> to select all observations and <code><a href="../reference/html_element.html">html_element()</a></code> to extract the elements that will form the variants. This guarantees that you’ll get the same number of values for each variable because <code><a href="../reference/html_element.html">html_element()</a></code> always returns the same number of outputs as inputs.</p>
+<p>When using rvest, your eventual goal is usually to build up a data frame, and you want each row to correspond some repeated unit on the HTML page. In this case, you should generally start by using <code><a href="../reference/html_element.html">html_elements()</a></code> to select the elements that contain each observation then use <code><a href="../reference/html_element.html">html_element()</a></code> to extract the variables from each observation. This guarantees that you’ll get the same number of values for each variable because <code><a href="../reference/html_element.html">html_element()</a></code> always returns the same number of outputs as inputs.</p>
 <p>To illustrate this problem take a look at this simple example I constructed using a few entries from <code>dplyr::starwars</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
   &lt;ul&gt;
     &lt;li&gt;&lt;b&gt;C-3PO&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt; that weighs &lt;span class='weight'&gt;167 kg&lt;/span&gt;&lt;/li&gt;
@@ -296,16 +299,16 @@
     &lt;li&gt;&lt;b&gt;R4-P17&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt;&lt;/li&gt;
   &lt;/ul&gt;
   "</span><span class="op">)</span></code></pre></div>
-<p>If you try to extract name, species, and weight directly, you end up with vectors that are hard to align:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p>If you try to extract name, species, and weight directly, you end up with three vectors of length 3, and no way to align them:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "C-3PO"  "R2-D2"  "Yoda"   "R4-P17"</span>
 <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "droid" "droid" "droid"</span>
 <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"</span></code></pre></div>
-<p>Instead, use <code><a href="../reference/html_element.html">html_elements()</a></code> to find a element for each character, and then <code><a href="../reference/html_element.html">html_element()</a></code> for each value:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>Instead, use <code><a href="../reference/html_element.html">html_elements()</a></code> to find a element that corresponds to each character, then use <code><a href="../reference/html_element.html">html_element()</a></code> to extract each variable for all observations:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">characters</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span>
 
 <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
@@ -314,8 +317,8 @@
 <span class="co">#&gt; [1] "droid" "droid" NA      "droid"</span>
 <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"  NA</span></code></pre></div>
-<p><code><a href="../reference/html_element.html">html_element()</a></code> automatically fills in <code>NA</code> when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/html_element.html">html_element()</a></code> automatically fills in <code>NA</code> when no elements match, keeping all of the variables aligned and making it easy to create a data frame:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   name <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
   species <span class="op">=</span> <span class="va">characters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,
@@ -330,8 +333,9 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>This class comes from the <a href="https://xml2.r-lib.org">xml2</a> package. xml2 is a low-level package that rvest builds on top of.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Or another element, more on that shortly.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>A number of tags (including <code>&lt;p&gt;</code> and <code>&lt;li&gt;)</code> don’t require end tags, but I think it’s best to include them because it makes seeing the structure of the HTML a little easier.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>This class comes from the <a href="https://xml2.r-lib.org">xml2</a> package. xml2 is a low-level package that rvest builds on top of.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Or another element, more on that shortly.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
