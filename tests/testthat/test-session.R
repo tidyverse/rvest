@@ -1,16 +1,16 @@
 test_that("basic session process works as expected", {
   expect_snapshot({
-    s <- html_session("http://hadley.nz/")
+    s <- session("http://hadley.nz/")
     s
     expect_true(is.session(s))
 
-    s <- follow_link(s, css = "p a")
+    s <- session_follow_link(s, css = "p a")
     session_history(s)
   })
 })
 
 test_that("session caches xml parsing", {
-  s <- html_session("https://rvest.tidyverse.org/")
+  s <- session("https://rvest.tidyverse.org/")
   expect_equal(s$cache$html, NULL)
 
   html <- read_html(s)
@@ -19,7 +19,7 @@ test_that("session caches xml parsing", {
 
 test_that("errors if try to access HTML from non-HTML page", {
   expect_snapshot(error = TRUE, {
-    s <- html_session("https://rvest.tidyverse.org/logo.png")
+    s <- session("https://rvest.tidyverse.org/logo.png")
     read_html(s)
   })
 })
@@ -27,7 +27,7 @@ test_that("errors if try to access HTML from non-HTML page", {
 test_that("session responds to httr and rvest methods", {
   # skip_on_cran()
 
-  s <- html_session("http://rstudio.com/")
+  s <- session("http://rstudio.com/")
   expect_silent(html_form(s))
   expect_silent(html_table(s))
   expect_silent(html_element(s, "body"))
@@ -46,21 +46,21 @@ test_that("informative errors for bad inputs", {
 # navigation --------------------------------------------------------------
 
 test_that("can navigate back and forward", {
-  s <- html_session("http://hadley.nz/")
+  s <- session("http://hadley.nz/")
   expect_equal(s$back, character())
   expect_equal(s$forward, character())
-  expect_snapshot_error(back(s))
-  expect_snapshot_error(forward(s))
+  expect_snapshot_error(session_back(s))
+  expect_snapshot_error(session_forward(s))
 
-  s <- jump_to(s, "hadley-wickham.jpg")
+  s <- session_jump_to(s, "hadley-wickham.jpg")
   expect_equal(s$back, "http://hadley.nz/")
   expect_equal(s$forward, character())
 
-  s <- back(s)
+  s <- session_back(s)
   expect_equal(s$back, character())
   expect_equal(s$forward, "http://hadley.nz/")
 
-  s <- forward(s)
+  s <- session_forward(s)
   expect_equal(s$back, "http://hadley.nz/")
   expect_equal(s$forward, character())
 })
@@ -173,7 +173,7 @@ test_that("can submit using three primary techniques", {
   form <- html_form(html)[[1]]
 
   app <- webfakes::local_app_process(app_request())
-  session <- html_session(app$url())
+  session <- session(app$url())
 
   expect_snapshot({
     show_response(session_submit(session, form))

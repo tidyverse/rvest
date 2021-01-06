@@ -9,7 +9,7 @@
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
 #' @return An an S3 object with class `rvest_form`.
 #' @examples
-#' session <- html_session("http://www.google.com")
+#' session <- session("http://www.google.com")
 #' search <- html_form(session)[[1]]
 #'
 #' search <- search %>% html_form_set(q = "My little pony", hl = "fr")

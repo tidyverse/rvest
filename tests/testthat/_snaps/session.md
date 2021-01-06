@@ -1,7 +1,7 @@
 # basic session process works as expected
 
     Code
-      s <- html_session("http://hadley.nz/")
+      s <- session("http://hadley.nz/")
     Code
       s
     Output
@@ -12,7 +12,7 @@
     Code
       expect_true(is.session(s))
     Code
-      s <- follow_link(s, css = "p a")
+      s <- session_follow_link(s, css = "p a")
     Message <message>
       Navigating to http://rstudio.com
     Code
@@ -24,7 +24,7 @@
 # errors if try to access HTML from non-HTML page
 
     Code
-      s <- html_session("https://rvest.tidyverse.org/logo.png")
+      s <- session("https://rvest.tidyverse.org/logo.png")
     Code
       read_html(s)
     Error <rlang_error>
@@ -36,7 +36,7 @@
 
 ---
 
-    `x` must be produced by html_session()
+    `x` must be produced by session()
 
 # can navigate back and forward
 

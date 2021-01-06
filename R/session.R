@@ -4,40 +4,40 @@
 #' This set of functions allows you to simulate a user interacting with a
 #' website, using forms and navigating from page to page.
 #'
-#' * Create a session with `html_session(url)`
-#' * Navigate to a specified url with `jump_to()`, or follow a link on the
-#'   page with `follow_link()`.
+#' * Create a session with `session(url)`
+#' * Navigate to a specified url with `session_jump_to()`, or follow a link on the
+#'   page with `session_follow_link()`.
 #' * Submit an [html_form] with `session_submit()`.
 #' * View the history with `session_history()` and navigate back and forward
-#'   with `back()` and `forward()`.
+#'   with `session_back()` and `session_forward()`.
 #' * Extract page contents with [html_element()] and [html_elements()], or get the
 #'   complete HTML document with [read_html()].
 #' * Inspect the HTTP response with [httr::cookies()], [httr::headers()],
 #'   and [httr::status_code()].
 #'
-#' @param url For `html_session()` location to start, for `jump_to()` location
-#'   to go to next.
+#' @param url For `session()` location to start, for `session_jump_to()`
+#'   location to go to next.
 #' @param ... Any additional httr config to use throughout the session.
 #' @param x An object to test to see if it's a session.
 #' @export
 #' @examples
-#' s <- html_session("http://hadley.nz")
+#' s <- session("http://hadley.nz")
 #' s %>%
-#'   jump_to("hadley-wickham.jpg") %>%
-#'   jump_to("/") %>%
+#'   session_jump_to("hadley-wickham.jpg") %>%
+#'   session_jump_to("/") %>%
 #'   session_history()
 #'
 #' s %>%
-#'   jump_to("hadley-wickham.jpg") %>%
-#'   back() %>%
+#'   session_jump_to("hadley-wickham.jpg") %>%
+#'   session_back() %>%
 #'   session_history()
 #'
 #' \donttest{
 #' s %>%
-#'   follow_link(css = "p a") %>%
+#'   session_follow_link(css = "p a") %>%
 #'   html_elements("p")
 #' }
-html_session <- function(url, ...) {
+session <- function(url, ...) {
   session <-   structure(
     list(
       handle   = httr::handle(url),
@@ -54,7 +54,7 @@ html_session <- function(url, ...) {
 }
 
 #' @export
-#' @rdname html_session
+#' @rdname session
 is.session <- function(x) inherits(x, "rvest_session")
 
 #' @export
@@ -83,8 +83,8 @@ session_request <- function(x, method, url, ...) {
 #' @param x A session.
 #' @param url A URL, either relative or absolute, to navigate to.
 #' @export
-#' @rdname html_session
-jump_to <- function(x, url, ...) {
+#' @rdname session
+session_jump_to <- function(x, url, ...) {
   check_session(x)
   url <- xml2::url_absolute(url, x$url)
   last_url <- x$url
@@ -99,13 +99,13 @@ jump_to <- function(x, url, ...) {
 #'  first link containing that text (case sensitive).
 #' @inheritParams html_element
 #' @export
-#' @rdname html_session
-follow_link <- function(x, i, css, xpath, ...) {
+#' @rdname session
+session_follow_link <- function(x, i, css, xpath, ...) {
   check_session(x)
 
   url <- find_href(x, i = i, css = css, xpath = xpath)
   inform(paste0("Navigating to ", url))
-  jump_to(x, url, ...)
+  session_jump_to(x, url, ...)
 }
 
 find_href <- function(x, i, css, xpath) {
@@ -142,8 +142,8 @@ find_href <- function(x, i, css, xpath) {
 }
 
 #' @export
-#' @rdname html_session
-back <- function(x) {
+#' @rdname session
+session_back <- function(x) {
   check_session(x)
 
   if (length(x$back) == 0) {
@@ -159,8 +159,8 @@ back <- function(x) {
 }
 
 #' @export
-#' @rdname html_session
-forward <- function(x) {
+#' @rdname session
+session_forward <- function(x) {
   check_session(x)
 
   if (length(x$forward) == 0) {
@@ -176,7 +176,7 @@ forward <- function(x) {
 }
 
 #' @export
-#' @rdname html_session
+#' @rdname session
 session_history <- function(x) {
   check_session(x)
 
@@ -192,7 +192,7 @@ session_history <- function(x) {
 #'   * `NULL`, the default, uses the first.
 #'   * A string selects a button by its name.
 #'   * A number selects a button based on it relative position.
-#' @rdname html_session
+#' @rdname session
 #' @export
 session_submit <- function(x, form, submit = NULL, ...) {
   check_session(x)
@@ -372,6 +372,6 @@ check_form <- function(x) {
 }
 check_session <- function(x) {
   if (!inherits(x, "rvest_session")) {
-    abort("`x` must be produced by html_session()")
+    abort("`x` must be produced by session()")
   }
 }
