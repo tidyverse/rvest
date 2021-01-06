@@ -1,60 +1,60 @@
 test_that("can select one or more nodes", {
   html <- minimal_html("<p><p><p>")
-  expect_s3_class(html_nodes(html, "p"), "xml_nodeset")
-  expect_s3_class(html_node(html, "p"), "xml_node")
+  expect_s3_class(html_elements(html, "p"), "xml_nodeset")
+  expect_s3_class(html_element(html, "p"), "xml_node")
 })
 
 test_that("xpath with // selects from root", {
   test <- read_html(test_path("test.html"))
 
-  p <- html_nodes(test, xpath = "//p")
+  p <- html_elements(test, xpath = "//p")
   expect_equal(length(p), 4)
 
-  p2 <- html_nodes(p[[1]], xpath = "//p")
+  p2 <- html_elements(p[[1]], xpath = "//p")
   expect_equal(length(p2), 4)
 
-  p3 <- html_nodes(p[[3]], xpath = "b")
+  p3 <- html_elements(p[[3]], xpath = "b")
   expect_equal(length(p3), 1)
 
-  b <- html_nodes(p, xpath = "b")
+  b <- html_elements(p, xpath = "b")
   expect_equal(length(b), 2)
 })
 
 test_that("css class selects from current value", {
   test <- read_html(test_path("test.html"))
 
-  p <- html_nodes(test, css = "p")
+  p <- html_elements(test, css = "p")
   expect_equal(length(p), 4)
 
-  p3 <- html_nodes(p[[3]], css = "b")
+  p3 <- html_elements(p[[3]], css = "b")
   expect_equal(length(p3), 1)
 
-  b <- html_nodes(p, css = "b")
+  b <- html_elements(p, css = "b")
   expect_equal(length(b), 2)
 })
 
 test_that("css selects don't select themselves", {
   test <- read_html(test_path("test.html"))
-  p <- test %>% html_nodes("p") %>% html_nodes("p")
+  p <- test %>% html_elements("p") %>% html_elements("p")
   expect_equal(length(p), 0)
 
-  p <- test %>% html_nodes("p") %>% `[[`(1) %>% html_nodes("p")
+  p <- test %>% html_elements("p") %>% `[[`(1) %>% html_elements("p")
   expect_equal(length(p), 0)
 })
 
 test_that("css selects find all children", {
   test <- read_html(test_path("test.html"))
-  b <- test %>% html_nodes("body") %>% html_nodes("b")
+  b <- test %>% html_elements("body") %>% html_elements("b")
   expect_equal(length(b), 3)
 })
 
 test_that("empty matches returns empty list", {
   test <- read_html(test_path("test.html"))
-  none <- test %>% html_nodes("none")
+  none <- test %>% html_elements("none")
   expect_equal(length(none), 0)
 
-  expect_equal(none %>% html_node("none") %>% length(), 0)
-  expect_equal(none %>% html_nodes("none") %>% length(), 0)
+  expect_equal(none %>% html_element("none") %>% length(), 0)
+  expect_equal(none %>% html_elements("none") %>% length(), 0)
 })
 
 # make_selector -----------------------------------------------------------

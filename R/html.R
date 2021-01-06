@@ -1,4 +1,4 @@
-#' Get name and attributes from nodes
+#' Get name and attributes from elements
 #'
 #' `html_name()` gets the tag name, `html_attr()` gets a single attribute,
 #' and `html_attr()` gets all attributes.
@@ -10,7 +10,7 @@
 #' @examples
 #' url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
 #' movie <- read_html(url)
-#' cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
+#' cast <- html_elements(movie, "tr:nth-child(8) .plainlist a")
 #'
 #' html_name(cast)
 #' html_attrs(cast)
@@ -27,7 +27,7 @@ html_name <- function(x) {
 #' @rdname html_name
 #' @param name Name of attribute to retrieve.
 #' @param default A string used as a default value when the attribute does
-#'   not exist in every node.
+#'   not exist in every element.
 #' @export
 #' @importFrom xml2 xml_attr
 html_attr <- function(x, name, default = NA_character_) {
@@ -47,11 +47,11 @@ html_attrs <- function(x) {
 #' @inheritParams xml2::xml_text
 #' @examples
 #' html <- minimal_html("<ul><li>1<li>2<li>3</ul>")
-#' ul <- html_nodes(html, "ul")
+#' ul <- html_elements(html, "ul")
 #' html_children(ul)
 #'
 #' html <- minimal_html("<p>Hello <b>Hadley</b><i>!</i>")
-#' p <- html_nodes(html, "p")
+#' p <- html_elements(html, "p")
 #' html_children(p)
 #' @importFrom xml2 xml_children
 html_children <- function(x) {

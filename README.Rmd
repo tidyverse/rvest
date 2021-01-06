@@ -12,17 +12,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rvest <img src='man/figures/logo.png' align="right" height="139" />
+# rvest <img src="man/figures/logo.png" align="right" height="139"/>
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest)
-[![R-CMD-check](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest/actions)
-[![Codecov test coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
+
+[![CRAN status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/package=rvest) [![R-CMD-check](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest/actions) [![Codecov test coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
+
 <!-- badges: end -->
 
-rvest helps you scrape information from web pages. It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
+rvest helps you scrape information from web pages.
+It is designed to work with [magrittr](https://github.com/smbache/magrittr) to make it easy to express common web scraping tasks, inspired by libraries like [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
 
-If you're scraping multiple pages, I highly recommend using rvest in concert with [polite](https://dmi3kno.github.io/polite/). The polite package ensures that you're respecting the [robots.txt](https://en.wikipedia.org/wiki/Robots_exclusion_standard) and not hammering the site with too many requests.
+If you're scraping multiple pages, I highly recommend using rvest in concert with [polite](https://dmi3kno.github.io/polite/).
+The polite package ensures that you're respecting the [robots.txt](https://en.wikipedia.org/wiki/Robots_exclusion_standard) and not hammering the site with too many requests.
 
 ## Installation
 
@@ -40,29 +42,29 @@ install.packages("dplyr")
 library(rvest)
 starwars <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
-films <- starwars %>% html_nodes("section")
+films <- starwars %>% html_elements("section")
 films
 
 title <- films %>% 
-  html_node("h2") %>% 
+  html_element("h2") %>% 
   html_text(trim = TRUE)
 title
 
 episode <- films %>% 
-  html_node("h2") %>% 
+  html_element("h2") %>% 
   html_attr("data-id") %>% 
   readr::parse_integer()
 episode
 
 released <- films %>% 
-  html_node("p:nth-child(2)") %>% 
+  html_element("p:nth-child(2)") %>% 
   html_text(trim = TRUE) %>% 
   gsub("Released: ", "", .) %>% 
   readr::parse_date()
 released
 
 crawl <- films %>% 
-  html_node("div") %>%
+  html_element("div") %>%
   html_text2()
 cat(crawl[[1]])
 ```
@@ -71,33 +73,21 @@ cat(crawl[[1]])
 
 Once you have read a HTML document with `read_html()`, you can:
 
-* Select parts of a document using CSS selectors: `html_nodes(doc, "table td")`
-  (or if you've a glutton for punishment, use XPath selectors with
-  `html_nodes(doc, xpath = "//table//td")`). If you haven't heard of 
-  [selectorgadget](http://selectorgadget.com/), make sure to read
-  `vignette("selectorgadget")` to learn about it.
+-   Select parts of a document using CSS selectors, `html_elements(doc, "table td")`, or XPath expressions, `html_elements(doc, xpath = "//table//td")`).
+    If you haven't heard of [selectorgadget](http://selectorgadget.com/), make sure to read `vignette("selectorgadget")` to learn about it.
 
-* Extract components with `html_name()` (the name of the tag), `html_text()` 
-  (all text inside the tag), `html_attr()` (contents of a single attribute) and 
-  `html_attrs()` (all attributes).
+-   Extract data from text with `html_text2()` and from attributes with `html_attr()`.
 
-* (You can also use rvest with XML files: parse with `xml()`, then extract 
-  components using `xml_node()`, `xml_attr()`, `xml_attrs()`, `xml_text()` 
-  and `xml_name()`.)
+-   Parse tables into data frames with `html_table()`.
 
-* Parse tables into data frames with `html_table()`.
-
-* Navigate around a website as if you're in a browser with `html_session()`,
-  `jump_to()`, `follow_link()`, `back()`, and `forward()`. Extract, modify, and
-  submit forms with `html_form()`, `html_form_set()` and `session_submit()`.
-
-To see examples of these function in use, check out the demos.
+-   Navigate around a website as if you're in a browser with `html_session()`, `jump_to()`, `follow_link()`, `back()`, and `forward()`.
+    Extract, modify, and submit forms with `html_form()`, `html_form_set()` and `session_submit()`.
 
 ## Inspirations
 
-* Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html),
-  [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).
-  
+-   Python: [RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html), [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/).
+
 ## Code of Conduct
 
-Please note that the rvest project is released with a [Contributor Code of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the rvest project is released with a [Contributor Code of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

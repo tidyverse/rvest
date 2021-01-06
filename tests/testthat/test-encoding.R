@@ -10,7 +10,7 @@ test_that("can guess encoding", {
 test_that("encoding repair is deprecated", {
   path <- system.file("html-ex", "bad-encoding.html", package = "rvest")
   x <- read_html(path)
-  text <- html_text(html_node(x, "p"))
+  text <- html_text(html_element(x, "p"))
 
   expect_snapshot(repair_encoding(text), error = TRUE)
   expect_snapshot(repair_encoding(text, "ISO-8859-1"))

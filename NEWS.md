@@ -1,5 +1,9 @@
 # rvest (development version)
 
+* `html_node()` and `html_nodes()` have been superseded in favour of
+  `html_element()`  and `html_elements()` since they (almost) always return 
+  elements, not nodes (#298). 
+
 * `html_table()` gains `na.strings` argument to control what values are 
   converted to `NA` (#107).
 

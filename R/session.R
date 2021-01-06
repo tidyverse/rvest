@@ -10,7 +10,7 @@
 #' * Submit an [html_form] with `session_submit()`.
 #' * View the history with `session_history()` and navigate back and forward
 #'   with `back()` and `forward()`.
-#' * Extract page contents with [html_node()] and [html_nodes()], or get the
+#' * Extract page contents with [html_element()] and [html_elements()], or get the
 #'   complete HTML document with [read_html()].
 #' * Inspect the HTTP response with [httr::cookies()], [httr::headers()],
 #'   and [httr::status_code()].
@@ -35,7 +35,7 @@
 #' \donttest{
 #' s %>%
 #'   follow_link(css = "p a") %>%
-#'   html_nodes("p")
+#'   html_elements("p")
 #' }
 html_session <- function(url, ...) {
   session <-   structure(
@@ -97,7 +97,7 @@ jump_to <- function(x, url, ...) {
 
 #' @param i A integer to select the ith link or a string to match the
 #'  first link containing that text (case sensitive).
-#' @inheritParams html_node
+#' @inheritParams html_element
 #' @export
 #' @rdname html_session
 follow_link <- function(x, i, css, xpath, ...) {
@@ -115,7 +115,7 @@ find_href <- function(x, i, css, xpath) {
 
   if (!missing(i)) {
     stopifnot(length(i) == 1)
-    a <- html_nodes(x, "a")
+    a <- html_elements(x, "a")
 
     if (is.numeric(i)) {
       out <- a[[i]]
@@ -131,7 +131,7 @@ find_href <- function(x, i, css, xpath) {
       abort("`i` must a string or integer")
     }
   } else {
-    a <- html_nodes(x, css = css, xpath = xpath)
+    a <- html_elements(x, css = css, xpath = xpath)
     if (length(a) == 0) {
       abort("No links matched `css`/`xpath`")
     }
@@ -334,13 +334,13 @@ html_table.rvest_session <- function(x,
 }
 
 #' @export
-html_node.rvest_session <- function(x, css, xpath) {
-  html_node(read_html(x), css, xpath)
+html_element.rvest_session <- function(x, css, xpath) {
+  html_element(read_html(x), css, xpath)
 }
 
 #' @export
-html_nodes.rvest_session <- function(x, css, xpath) {
-  html_nodes(read_html(x), css, xpath)
+html_elements.rvest_session <- function(x, css, xpath) {
+  html_elements(read_html(x), css, xpath)
 }
 
 # httr methods -----------------------------------------------------------------

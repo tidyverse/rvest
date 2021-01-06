@@ -6,6 +6,8 @@
 \alias{xml_tag}
 \alias{xml_node}
 \alias{xml_nodes}
+\alias{html_nodes}
+\alias{html_node}
 \title{Functions renamed in rvest 1.0.0}
 \usage{
 set_values(form, ...)
@@ -17,6 +19,10 @@ xml_tag(x)
 xml_node(...)
 
 xml_nodes(...)
+
+html_nodes(...)
+
+html_node(...)
 }
 \description{
 \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
@@ -28,8 +34,11 @@ rvest was first created.
 \item \code{set_values()} -> \code{html_form_set()}
 \item \code{submit_form()} -> \code{session_submit()}
 \item \code{xml_tag()} -> \code{html_name()}
-\item \code{xml_node()} -> \code{html_node()}
-\item \code{xml_nodes()} -> \code{html_nodes()}
+\item \code{xml_node()} & \code{html_node()} -> \code{html_element()}
+\item \code{xml_nodes()} & \code{html_nodes()} -> \code{html_element()}
 }
+
+(\code{html_node()} and \code{html_nodes()} are only superseded because they're
+so widely used.)
 }
 \keyword{internal}

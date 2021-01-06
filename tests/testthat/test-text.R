@@ -1,6 +1,6 @@
 test_that("html_text returns raw html", {
   html <- minimal_html("<p>x\ny</br>z</p>")
-  p <- html_nodes(html, "p")
+  p <- html_elements(html, "p")
   expect_equal(html_text(p), "x\nyz")
 })
 
@@ -22,7 +22,7 @@ test_that("handles multiple paragraphs with line breaks", {
       <p>b<br>c
     </body>")
   expect_equal(html_text2(html), "a\n\nb\nc")
-  expect_equal(html_text2(html_nodes(html, "p")), c("a", "b\nc"))
+  expect_equal(html_text2(html_elements(html, "p")), c("a", "b\nc"))
 })
 
 test_that("handles table", {
@@ -44,7 +44,7 @@ test_that("handles mixed block as well as can be expected", {
      b<br/>
     </div>
   ")
-  expect_equal(html_text2(html_node(html, "div")), "a\n\nb\n")
+  expect_equal(html_text2(html_element(html, "div")), "a\n\nb\n")
 })
 
 test_that("returns NA for xml_missing", {
@@ -61,27 +61,27 @@ test_that("breaks as expected", {
 
 test_that("handle single line of text", {
   html <- minimal_html("<p>a <b>b</b> <b><i>c</i></b></p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "a b c")
+  expect_equal(html_text_inline(html_element(html, "p")), "a b c")
 
   # collapses space across nodes
   html <- minimal_html("<p>a <b>b </b> <b> c</b></p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "a b c")
+  expect_equal(html_text_inline(html_element(html, "p")), "a b c")
 })
 
 test_that("converts br to \n", {
   html <- minimal_html("<p><br>x</p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "\nx")
+  expect_equal(html_text_inline(html_element(html, "p")), "\nx")
 
   html <- minimal_html("<p>x<br></p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "x\n")
+  expect_equal(html_text_inline(html_element(html, "p")), "x\n")
 
   html <- minimal_html("<p><br><br></p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "\n\n")
+  expect_equal(html_text_inline(html_element(html, "p")), "\n\n")
 })
 
 test_that("empty block returns empty string", {
   html <- minimal_html("<p></p>")
-  expect_equal(html_text_inline(html_node(html, "p")), "")
+  expect_equal(html_text_inline(html_element(html, "p")), "")
 })
 
 test_that("collapse whitespace handles single line", {

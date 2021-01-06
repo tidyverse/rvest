@@ -3,7 +3,7 @@
 \name{html_text}
 \alias{html_text}
 \alias{html_text2}
-\title{Get text from nodes}
+\title{Get text from elements}
 \usage{
 html_text(x, trim = FALSE)
 
@@ -24,12 +24,12 @@ When \code{preserve_nbsp} is \code{TRUE}, \verb{&nbsp;} will appear in strings a
 A character vector the same length as \code{x}
 }
 \description{
-There are two ways to retrieve text from a node: \code{html_text()} and
+There are two ways to retrieve text from a element: \code{html_text()} and
 \code{html_text2()}. \code{html_text()} is a thin wrapper around \code{\link[xml2:xml_text]{xml2::xml_text()}}
-which returns just the text nodes. \code{html_text2()} simulates how text looks
-in a browser, using an approach inspired by the javascript
-\href{https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText}{innerText}
-function. Roughly speaking, it converts \verb{<br />} to \code{"\\n"}, adds blank lines
+which returns just the raw underlying text. \code{html_text2()} simulates how
+text looks in a browser, using an approach inspired by javascript's
+\href{https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText}{innerText()}.
+Roughly speaking, it converts \verb{<br />} to \code{"\\n"}, adds blank lines
 around \verb{<p>} tags, and lightly formats tabular data.
 
 \code{html_text2()} is usually what you want, but it is much slower than
@@ -47,17 +47,17 @@ html <- minimal_html(
 
 # html_text() returns the raw underlying text, which includes whitespace
 # that would be ignored by a browser, and ignores the <br>
-html \%>\% html_node("p") \%>\% html_text() \%>\% writeLines()
+html \%>\% html_element("p") \%>\% html_text() \%>\% writeLines()
 
 # html_text2() simulates what a browser would display. Non-significant
 # whitespace is collapsed, and <br> is turned into a line break
-html \%>\% html_node("p") \%>\% html_text2() \%>\% writeLines()
+html \%>\% html_element("p") \%>\% html_text2() \%>\% writeLines()
 
 # By default, html_text2() also converts non-breaking spaces to regular
 # spaces:
 html <- minimal_html("<p>x&nbsp;y</p>")
-x1 <- html \%>\% html_node("p") \%>\% html_text()
-x2 <- html \%>\% html_node("p") \%>\% html_text2()
+x1 <- html \%>\% html_element("p") \%>\% html_text()
+x2 <- html \%>\% html_element("p") \%>\% html_text2()
 
 # When printed, non-breaking spaces look exactly like regular spaces
 x1

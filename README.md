@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rvest <img src='man/figures/logo.png' align="right" height="139" />
+# rvest <img src="man/figures/logo.png" align="right" height="139"/>
 
 <!-- badges: start -->
 
@@ -10,6 +10,7 @@ status](https://www.r-pkg.org/badges/version/rvest)](https://cran.r-project.org/
 [![R-CMD-check](https://github.com/tidyverse/rvest/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/rvest/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/rvest?branch=master)
+
 <!-- badges: end -->
 
 rvest helps you scrape information from web pages. It is designed to
@@ -39,7 +40,7 @@ install.packages("dplyr")
 library(rvest)
 starwars <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
-films <- starwars %>% html_nodes("section")
+films <- starwars %>% html_elements("section")
 films
 #> {xml_nodeset (7)}
 #> [1] <section><h2 data-id="1">\nThe Phantom Menace\n</h2>\n<p>\nReleased: 1999 ...
@@ -51,7 +52,7 @@ films
 #> [7] <section><h2 data-id="7">\nThe Force Awakens\n</h2>\n<p>\nReleased: 2015- ...
 
 title <- films %>% 
-  html_node("h2") %>% 
+  html_element("h2") %>% 
   html_text(trim = TRUE)
 title
 #> [1] "The Phantom Menace"      "Attack of the Clones"   
@@ -60,14 +61,14 @@ title
 #> [7] "The Force Awakens"
 
 episode <- films %>% 
-  html_node("h2") %>% 
+  html_element("h2") %>% 
   html_attr("data-id") %>% 
   readr::parse_integer()
 episode
 #> [1] 1 2 3 4 5 6 7
 
 released <- films %>% 
-  html_node("p:nth-child(2)") %>% 
+  html_element("p:nth-child(2)") %>% 
   html_text(trim = TRUE) %>% 
   gsub("Released: ", "", .) %>% 
   readr::parse_date()
@@ -76,7 +77,7 @@ released
 #> [6] "1983-05-25" "2015-12-11"
 
 crawl <- films %>% 
-  html_node("div") %>%
+  html_element("div") %>%
   html_text2()
 cat(crawl[[1]])
 #> Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute.
@@ -90,20 +91,14 @@ cat(crawl[[1]])
 
 Once you have read a HTML document with `read_html()`, you can:
 
--   Select parts of a document using CSS selectors:
-    `html_nodes(doc, "table td")` (or if you’ve a glutton for
-    punishment, use XPath selectors with
-    `html_nodes(doc, xpath = "//table//td")`). If you haven’t heard of
-    [selectorgadget](http://selectorgadget.com/), make sure to read
+-   Select parts of a document using CSS selectors,
+    `html_elements(doc, "table td")`, or XPath expressions,
+    `html_elements(doc, xpath = "//table//td")`). If you haven’t heard
+    of [selectorgadget](http://selectorgadget.com/), make sure to read
     `vignette("selectorgadget")` to learn about it.
 
--   Extract components with `html_name()` (the name of the tag),
-    `html_text()` (all text inside the tag), `html_attr()` (contents of
-    a single attribute) and `html_attrs()` (all attributes).
-
--   (You can also use rvest with XML files: parse with `xml()`, then
-    extract components using `xml_node()`, `xml_attr()`, `xml_attrs()`,
-    `xml_text()` and `xml_name()`.)
+-   Extract data from text with `html_text2()` and from attributes with
+    `html_attr()`.
 
 -   Parse tables into data frames with `html_table()`.
 
@@ -111,8 +106,6 @@ Once you have read a HTML document with `read_html()`, you can:
     `html_session()`, `jump_to()`, `follow_link()`, `back()`, and
     `forward()`. Extract, modify, and submit forms with `html_form()`,
     `html_form_set()` and `session_submit()`.
-
-To see examples of these function in use, check out the demos.
 
 ## Inspirations
 

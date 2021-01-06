@@ -4,7 +4,7 @@
 \alias{html_name}
 \alias{html_attr}
 \alias{html_attrs}
-\title{Get name and attributes from nodes}
+\title{Get name and attributes from elements}
 \usage{
 html_name(x)
 
@@ -18,7 +18,7 @@ html_attrs(x)
 \item{name}{Name of attribute to retrieve.}
 
 \item{default}{A string used as a default value when the attribute does
-not exist in every node.}
+not exist in every element.}
 }
 \value{
 A character vector (for \code{html_attr()} and \code{html_tag()}) or
@@ -31,7 +31,7 @@ and \code{html_attr()} gets all attributes.
 \examples{
 url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
 movie <- read_html(url)
-cast <- html_nodes(movie, "tr:nth-child(8) .plainlist a")
+cast <- html_elements(movie, "tr:nth-child(8) .plainlist a")
 
 html_name(cast)
 html_attrs(cast)

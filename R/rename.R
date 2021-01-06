@@ -10,8 +10,11 @@
 #' * `set_values()` -> `html_form_set()`
 #' * `submit_form()` -> `session_submit()`
 #' * `xml_tag()` -> `html_name()`
-#' * `xml_node()` -> `html_node()`
-#' * `xml_nodes()` -> `html_nodes()`
+#' * `xml_node()` & `html_node()` -> `html_element()`
+#' * `xml_nodes()` & `html_nodes()` -> `html_element()`
+#'
+#' (`html_node()` and `html_nodes()` are only superseded because they're
+#' so widely used.)
 #'
 #' @keywords internal
 #' @name rename
@@ -42,13 +45,25 @@ xml_tag <- function(x) {
 #' @export
 #' @rdname rename
 xml_node <- function(...) {
-  lifecycle::deprecate_warn("1.0.0", "xml_node()", "html_node()")
+  lifecycle::deprecate_warn("1.0.0", "xml_node()", "html_element()")
   html_node(...)
 }
 
 #' @export
 #' @rdname rename
 xml_nodes <- function(...) {
-  lifecycle::deprecate_warn("1.0.0", "xml_nodes()", "html_nodes()")
+  lifecycle::deprecate_warn("1.0.0", "xml_nodes()", "html_elements()")
   html_nodes(...)
+}
+
+#' @export
+#' @rdname rename
+html_nodes <- function(...) {
+  html_elements(...)
+}
+
+#' @export
+#' @rdname rename
+html_node <- function(...) {
+  html_element(...)
 }

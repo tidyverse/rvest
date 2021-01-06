@@ -14,10 +14,10 @@ Find all child elements
 }
 \examples{
 html <- minimal_html("<ul><li>1<li>2<li>3</ul>")
-ul <- html_nodes(html, "ul")
+ul <- html_elements(html, "ul")
 html_children(ul)
 
 html <- minimal_html("<p>Hello <b>Hadley</b><i>!</i>")
-p <- html_nodes(html, "p")
+p <- html_elements(html, "p")
 html_children(p)
 }

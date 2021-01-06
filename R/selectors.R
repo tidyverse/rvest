@@ -1,12 +1,9 @@
-#' Select nodes from an HTML document
+#' Select elements from an HTML document
 #'
-#' `html_node()` and `html_nodes()` find HTML tags (nodes) using CSS selectors
-#' or XPath expressions.
-#'
-#' CSS selectors are particularly useful in conjunction with
-#' <https://selectorgadget.com/>, which makes it very easy to discover the
-#' selector you need. If you haven't used CSS selectors before, I'd recommend
-#' starting with the the fun tutorial at <http://flukeout.github.io/>.
+#' `html_element()` and `html_elements()` find HTML element using CSS selectors
+#' or XPath expressions. CSS selectors are particularly useful in conjunction
+#' with <https://selectorgadget.com/>, which makes it very easy to discover the
+#' selector you need.
 #'
 #' @section CSS selector support:
 #'
@@ -29,10 +26,11 @@
 #'   simple selector.
 #'
 #' @param x Either a document, a node set or a single node.
-#' @param css,xpath Nodes to select. Supply one of `css` or `xpath`
-#'   depending on whether you want to use a CSS or XPath 1.0 selector.
-#' @returns `html_node()` returns a nodeset the same length as the input.
-#'   `html_nodes()` flattens the output so there's no direct way to map
+#' @param css,xpath Elements to select. Supply one of `css` or `xpath`
+#'   depending on whether you want to use a CSS selector or XPath 1.0
+#'   expression.
+#' @returns `html_element()` returns a nodeset the same length as the input.
+#'   `html_elements()` flattens the output so there's no direct way to map
 #'   the output to the input.
 #' @export
 #' @examples
@@ -41,44 +39,46 @@
 #'   "https://www.boxofficemojo.com/movies/?id=ateam.htm"
 #' )
 #' ateam <- read_html(url)
-#' html_nodes(ateam, "center")
-#' html_nodes(ateam, "center font")
-#' html_nodes(ateam, "center font b")
+#' html_elements(ateam, "center")
+#' html_elements(ateam, "center font")
+#' html_elements(ateam, "center font b")
 #'
-#' # html_nodes() well suited to use with the pipe
-#' ateam %>% html_nodes("center") %>% html_nodes("td")
-#' ateam %>% html_nodes("center") %>% html_nodes("font")
+#' ateam %>% html_elements("center") %>% html_elements("td")
+#' ateam %>% html_elements("center") %>% html_elements("font")
 #'
-#' td <- ateam %>% html_nodes("center") %>% html_nodes("td")
+#' td <- ateam %>% html_elements("center") %>% html_elements("td")
 #' td
-#' # When applied to a list of nodes, html_nodes() returns all matching nodes
-#' # beneath any of the elements, flattening results into a new nodelist.
-#' td %>% html_nodes("font")
 #'
-#' # html_node() returns the first matching node. If there are no matching
-#' # nodes, it returns a "missing" node
-#' td %>% html_node("font")
+#' # When applied to a node set, html_elements() returns all matching elements
+#' # beneath any of the inputs, flattening results into a new node set.
+#' td %>% html_elements("font")
+#'
+#' # html_element() returns the first matching element. If there are no matching
+#' # nodes, it returns a "missing" element
+#' td %>% html_element("font")
+#' # and html_text() and html_attr() will return NA
+#' td %>% html_element("font") %>% html_text()
 #'
 #' # To pick out an element or elements at specified positions, use [[ and [
-#' ateam %>% html_nodes("table") %>% .[[1]] %>% html_nodes("img")
-#' ateam %>% html_nodes("table") %>% .[1:2] %>% html_nodes("img")
-html_nodes <- function(x, css, xpath) {
-  UseMethod("html_nodes")
+#' ateam %>% html_elements("table") %>% .[[1]] %>% html_elements("img")
+#' ateam %>% html_elements("table") %>% .[1:2] %>% html_elements("img")
+html_element <- function(x, css, xpath) {
+  UseMethod("html_element")
 }
 
 #' @export
-html_nodes.default <- function(x, css, xpath) {
+#' @rdname html_element
+html_elements <- function(x, css, xpath) {
+  UseMethod("html_elements")
+}
+
+#' @export
+html_elements.default <- function(x, css, xpath) {
   xml2::xml_find_all(x, make_selector(css, xpath))
 }
 
 #' @export
-#' @rdname html_nodes
-html_node <- function(x, css, xpath) {
-  UseMethod("html_node")
-}
-
-#' @export
-html_node.default <- function(x, css, xpath) {
+html_element.default <- function(x, css, xpath) {
   xml2::xml_find_first(x, make_selector(css, xpath))
 }
 

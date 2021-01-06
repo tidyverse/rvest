@@ -44,7 +44,7 @@ sample1 <- minimal_html("<table>
   <tr><td>10</td><td>z</td></tr>
 </table>")
 sample1 \%>\%
-  html_node("table") \%>\%
+  html_element("table") \%>\%
   html_table()
 
 # Values in merged cells will be duplicated
@@ -55,7 +55,7 @@ sample2 <- minimal_html("<table>
   <tr><td>6</td><td colspan='2'>7</td></tr>
 </table>")
 sample2 \%>\%
-  html_node("table") \%>\%
+  html_element("table") \%>\%
   html_table()
 
 # If a row is missing cells, they'll be filled with NAs
@@ -66,6 +66,6 @@ sample3 <- minimal_html("<table>
   <tr><td>4</td></tr>
 </table>")
 sample3 \%>\%
-  html_node("table") \%>\%
+  html_element("table") \%>\%
   html_table()
 }

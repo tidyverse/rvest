@@ -66,7 +66,7 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
     ```{r}
     html %>% 
-      html_node("h2") %>% 
+      html_element("h2") %>% 
       html_text2()
     ```
 
@@ -78,7 +78,7 @@ Now let's try something a little more challenging: selecting all paragraphs of t
     knitr::include_graphics("selectorgadget-too-many.png", dpi = 144)
     ```
 
-2.  This obviously selects too many nodes, so click on one of the paragraphs that shouldn't match. It turns red indicating that this element shouldn't be matched.
+2.  This obviously selects too many elements, so click on one of the paragraphs that shouldn't match. It turns red indicating that this element shouldn't be matched.
 
     ```{r, echo = FALSE}
     knitr::include_graphics("selectorgadget-remove.png", dpi = 144)
@@ -88,7 +88,7 @@ Now let's try something a little more challenging: selecting all paragraphs of t
 
     ```{r}
     html %>% 
-      html_nodes(".crawl p") %>% 
+      html_elements(".crawl p") %>% 
       html_text2() %>% 
       .[1:4]
     ```
@@ -98,7 +98,7 @@ To fix this problem we need to take a step back and see if we can find an elemen
 By carefully hovering, we can figure out that the `section` selector seems to do the job:
 
 ```{r}
-films <- html %>% html_nodes("section")
+films <- html %>% html_elements("section")
 films
 ```
 
@@ -106,7 +106,7 @@ Then we can get the title for each film:
 
 ```{r}
 films %>% 
-  html_node("h2") %>% 
+  html_element("h2") %>% 
   html_text2()
 ```
 
@@ -114,7 +114,7 @@ And the contents of that intro:
 
 ```{r}
 films %>% 
-  html_node(".crawl") %>% 
+  html_element(".crawl") %>% 
   html_text2() %>% 
   .[[1]] %>% 
   writeLines()

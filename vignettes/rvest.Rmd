@@ -82,27 +82,27 @@ html <- minimal_html("
 ")
 ```
 
-Regardless of how you get the HTML, you'll need some way to the identify the nodes that contain the data you care about.
+Regardless of how you get the HTML, you'll need some way to the identify the elements that contain the data you care about.
 rvest provides two options: CSS selectors and XPath expressions.
 Here we'll focus on CSS selectors because they're simpler but still sufficiently powerful for most scraping tasks.
 
 ## CSS selectors
 
 CSS is short for cascading style sheets, and is a tool for defining the visual styling of HTML documents.
-CSS includes a miniature language for selecting nodes on a page called **CSS selectors**.
-CSS selectors define patterns for locating HTML nodes, and are useful for scraping because they provide a concise way of describing which nodes you want to extract.
+CSS includes a miniature language for selecting elements on a page called **CSS selectors**.
+CSS selectors define patterns for locating HTML elements, and are useful for scraping because they provide a concise way of describing which elements you want to extract.
 
 CSS selectors can be quite complex, but fortunately you only need the simplest for rvest, because you can also write R code for more complicated situations.
 The four most important selectors are:
 
--   `p`: selects all `<p>` nodes.
+-   `p`: selects all `<p>` elements.
 
--   `.important`: selects all nodes with `class` "important".
+-   `.important`: selects all elements with `class` "important".
 
--   `p.important`: selects all `<p>` nodes with `class` "important".
+-   `p.important`: selects all `<p>` elements with `class` "important".
 
--   `#title`: selects the node with the `id` attribute that equals "title".
-    Id attributes must be unique within a document, so this will only ever select a single node.
+-   `#title`: selects the element with the `id` attribute that equals "title".
+    Id attributes must be unique within a document, so this will only ever select a single element.
 
 If you want to learn more about CSS selectors I recommend [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors), and the fun [CSS dinner](http://flukeout.github.io/) tutorial.
 
@@ -116,26 +116,26 @@ html <- minimal_html("
 ")
 ```
 
-In rvest you can extract a single node with `html_node()` or all matching nodes with `html_nodes()`.
+In rvest you can extract a single element with `html_element()` or all matching elements with `html_elements()`.
 Both functions take a document[^2] and a css selector:
 
-[^2]: Or another node, more on that shortly.
+[^2]: Or another element, more on that shortly.
 
 ```{r}
-html %>% html_node("h1")
-html %>% html_nodes("p")
-html %>% html_nodes(".important")
-html %>% html_nodes("#first")
+html %>% html_element("h1")
+html %>% html_elements("p")
+html %>% html_elements(".important")
+html %>% html_elements("#first")
 ```
 
 Selectors can also be combined in various ways using **combinators**.
-For example,The most important combinator is " ", called the descendent combination because `p a` selects all `<a>` nodes that are a child of a `<p>` node.
+For example,The most important combinator is " ", called the descendent combination because `p a` selects all `<a>` elements that are a child of a `<p>` element.
 
 If you don't know exactly what selector you need, I highly recommend using [SelectorGadget](https://rvest.tidyverse.org/articles/selectorgadget.html), which lets you automatically generate the selector you need by supplying positive and negative examples in the browser.
 
 ## Extracting data
 
-Now that you've got the nodes you care about, you'll need to get data out of them.
+Now that you've got the elements you care about, you'll need to get data out of them.
 If you're lucky enough that the data you care about already lives in an HTML table, you can use `html_table()` to turn it directly into a data frame.
 Otherwise, you'll usually get the data either from the plain text content or one of the attributes.
 
@@ -152,7 +152,7 @@ html <- minimal_html("
   </ol>
 ")
 html %>% 
-  html_nodes("li") %>% 
+  html_elements("li") %>% 
   html_text2()
 ```
 
@@ -160,7 +160,7 @@ You might wonder why I used `html_text2()`, since it seems to give the same resu
 
 ```{r}
 html %>% 
-  html_nodes("li") %>% 
+  html_elements("li") %>% 
   html_text()
 ```
 
@@ -178,7 +178,7 @@ html <- minimal_html("<body>
 ")
 
 html %>% 
-  html_node("body") %>% 
+  html_element("body") %>% 
   html_text2() %>% 
   cat()
 ```
@@ -187,7 +187,7 @@ Whereas `html_text()` returns the raw underlying text:
 
 ```{r}
 html %>% 
-  html_node("p") %>% 
+  html_element("p") %>% 
   html_text() %>% 
   cat()
 ```
@@ -203,11 +203,11 @@ html <- minimal_html("
 ")
 
 html %>% 
-  html_nodes("a") %>% 
+  html_elements("a") %>% 
   html_attr("href")
 
 html %>% 
-  html_nodes("img") %>% 
+  html_elements("img") %>% 
   html_attr("src")
 ```
 
@@ -215,20 +215,20 @@ Note that `html_attr()` always returns a string, so you may need to post process
 
 ```{r}
 html %>% 
-  html_nodes("img") %>% 
+  html_elements("img") %>% 
   html_attr("width")
 
 html %>% 
-  html_nodes("img") %>% 
+  html_elements("img") %>% 
   html_attr("width") %>% 
   as.integer()
 ```
 
-## Node vs nodes
+## Element vs elements
 
 When using rvest, most of the time your eventual goal is to build up a data frame, and you want each row to correspond some underlying observation.
-In this case, you should generally start by using `html_nodes()` to select all observations and `html_node()` to extract the elements that will form the variants.
-This guarantees that you'll get the same number of values for each variable because `html_node()` always returns the same number of outputs as inputs.
+In this case, you should generally start by using `html_elements()` to select all observations and `html_element()` to extract the elements that will form the variants.
+This guarantees that you'll get the same number of values for each variable because `html_element()` always returns the same number of outputs as inputs.
 
 To illustrate this problem take a look at this simple example I constructed using a few entries from `dplyr::starwars`:
 
@@ -246,27 +246,27 @@ html <- minimal_html("
 If you try to extract name, species, and weight directly, you end up with vectors that are hard to align:
 
 ```{r}
-html %>% html_nodes("b") %>% html_text2()
-html %>% html_nodes("i") %>% html_text2()
-html %>% html_nodes(".weight") %>% html_text2()
+html %>% html_elements("b") %>% html_text2()
+html %>% html_elements("i") %>% html_text2()
+html %>% html_elements(".weight") %>% html_text2()
 ```
 
-Instead, use `html_nodes()` to find a node for each character, and then `html_node()` for each value:
+Instead, use `html_elements()` to find a element for each character, and then `html_element()` for each value:
 
 ```{r}
-characters <- html %>% html_nodes("li")
+characters <- html %>% html_elements("li")
 
-characters %>% html_node("b") %>% html_text2()
-characters %>% html_node("i") %>% html_text2()
-characters %>% html_node(".weight") %>% html_text2()
+characters %>% html_element("b") %>% html_text2()
+characters %>% html_element("i") %>% html_text2()
+characters %>% html_element(".weight") %>% html_text2()
 ```
 
-`html_node()` automatically fills in `NA` when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:
+`html_element()` automatically fills in `NA` when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:
 
 ```{r}
 data.frame(
-  name = characters %>% html_node("b") %>% html_text2(),
-  species = characters %>% html_node("i") %>% html_text2(),
-  weight = characters %>% html_node(".weight") %>% html_text2()
+  name = characters %>% html_element("b") %>% html_text2(),
+  species = characters %>% html_element("i") %>% html_text2(),
+  weight = characters %>% html_element(".weight") %>% html_text2()
 )
 ```

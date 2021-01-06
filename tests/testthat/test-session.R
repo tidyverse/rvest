@@ -30,8 +30,8 @@ test_that("session responds to httr and rvest methods", {
   s <- html_session("http://rstudio.com/")
   expect_silent(html_form(s))
   expect_silent(html_table(s))
-  expect_silent(html_node(s, "body"))
-  expect_silent(html_nodes(s, "body"))
+  expect_silent(html_element(s, "body"))
+  expect_silent(html_element(s, "body"))
 
   expect_silent(status_code(s))
   expect_silent(headers(s))

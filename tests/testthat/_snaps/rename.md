@@ -12,7 +12,7 @@
       . <- xml_node(x, "p")
     Warning <lifecycle_warning_deprecated>
       `xml_node()` is deprecated as of rvest 1.0.0.
-      Please use `html_node()` instead.
+      Please use `html_element()` instead.
 
 ---
 
@@ -20,7 +20,7 @@
       . <- xml_nodes(x, "p")
     Warning <lifecycle_warning_deprecated>
       `xml_nodes()` is deprecated as of rvest 1.0.0.
-      Please use `html_nodes()` instead.
+      Please use `html_elements()` instead.
 
 # set_values() is deprecated
 

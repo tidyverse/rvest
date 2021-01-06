@@ -43,7 +43,7 @@ html_form.xml_node <- function(x) {
   method <- toupper(attr$method %||% "GET")
   enctype <- convert_enctype(attr$enctype)
 
-  nodes <- html_nodes(x, "input, select, textarea, button")
+  nodes <- html_elements(x, "input, select, textarea, button")
   fields <- lapply(nodes, function(x) {
     switch(xml2::xml_name(x),
       textarea = parse_textarea(x),
@@ -147,7 +147,7 @@ parse_input <- function(x) {
 
 parse_select <- function(x) {
   attr <- as.list(xml2::xml_attrs(x))
-  options <- parse_options(html_nodes(x, "option"))
+  options <- parse_options(html_elements(x, "option"))
 
   rvest_field(
     type = "select",

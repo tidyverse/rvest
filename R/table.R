@@ -22,7 +22,7 @@
 #'   <tr><td>10</td><td>z</td></tr>
 #' </table>")
 #' sample1 %>%
-#'   html_node("table") %>%
+#'   html_element("table") %>%
 #'   html_table()
 #'
 #' # Values in merged cells will be duplicated
@@ -33,7 +33,7 @@
 #'   <tr><td>6</td><td colspan='2'>7</td></tr>
 #' </table>")
 #' sample2 %>%
-#'   html_node("table") %>%
+#'   html_element("table") %>%
 #'   html_table()
 #'
 #' # If a row is missing cells, they'll be filled with NAs
@@ -44,7 +44,7 @@
 #'   <tr><td>4</td></tr>
 #' </table>")
 #' sample3 %>%
-#'   html_node("table") %>%
+#'   html_element("table") %>%
 #'   html_table()
 html_table <- function(x,
                        header = NA,

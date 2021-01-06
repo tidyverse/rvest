@@ -37,11 +37,13 @@ session_submit(x, form, submit = NULL, ...)
 \item{i}{A integer to select the ith link or a string to match the
 first link containing that text (case sensitive).}
 
-\item{css}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a CSS or XPath 1.0 selector.}
+\item{css}{Elements to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a CSS selector or XPath 1.0
+expression.}
 
-\item{xpath}{Nodes to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a CSS or XPath 1.0 selector.}
+\item{xpath}{Elements to select. Supply one of \code{css} or \code{xpath}
+depending on whether you want to use a CSS selector or XPath 1.0
+expression.}
 
 \item{form}{An \link{html_form} to submit}
 
@@ -62,7 +64,7 @@ page with \code{follow_link()}.
 \item Submit an \link{html_form} with \code{session_submit()}.
 \item View the history with \code{session_history()} and navigate back and forward
 with \code{back()} and \code{forward()}.
-\item Extract page contents with \code{\link[=html_node]{html_node()}} and \code{\link[=html_nodes]{html_nodes()}}, or get the
+\item Extract page contents with \code{\link[=html_element]{html_element()}} and \code{\link[=html_elements]{html_elements()}}, or get the
 complete HTML document with \code{\link[=read_html]{read_html()}}.
 \item Inspect the HTTP response with \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},
 and \code{\link[httr:status_code]{httr::status_code()}}.
@@ -83,6 +85,6 @@ s \%>\%
 \donttest{
 s \%>\%
   follow_link(css = "p a") \%>\%
-  html_nodes("p")
+  html_elements("p")
 }
 }

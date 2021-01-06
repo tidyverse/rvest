@@ -1,12 +1,12 @@
-#' Get text from nodes
+#' Get text from elements
 #'
 #' @description
-#' There are two ways to retrieve text from a node: `html_text()` and
+#' There are two ways to retrieve text from a element: `html_text()` and
 #' `html_text2()`. `html_text()` is a thin wrapper around [xml2::xml_text()]
-#' which returns just the text nodes. `html_text2()` simulates how text looks
-#' in a browser, using an approach inspired by the javascript
-#' [innerText](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText)
-#' function. Roughly speaking, it converts `<br />` to `"\n"`, adds blank lines
+#' which returns just the raw underlying text. `html_text2()` simulates how
+#' text looks in a browser, using an approach inspired by javascript's
+#' [innerText()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).
+#' Roughly speaking, it converts `<br />` to `"\n"`, adds blank lines
 #' around `<p>` tags, and lightly formats tabular data.
 #'
 #' `html_text2()` is usually what you want, but it is much slower than
@@ -27,17 +27,17 @@
 #'
 #' # html_text() returns the raw underlying text, which includes whitespace
 #' # that would be ignored by a browser, and ignores the <br>
-#' html %>% html_node("p") %>% html_text() %>% writeLines()
+#' html %>% html_element("p") %>% html_text() %>% writeLines()
 #'
 #' # html_text2() simulates what a browser would display. Non-significant
 #' # whitespace is collapsed, and <br> is turned into a line break
-#' html %>% html_node("p") %>% html_text2() %>% writeLines()
+#' html %>% html_element("p") %>% html_text2() %>% writeLines()
 #'
 #' # By default, html_text2() also converts non-breaking spaces to regular
 #' # spaces:
 #' html <- minimal_html("<p>x&nbsp;y</p>")
-#' x1 <- html %>% html_node("p") %>% html_text()
-#' x2 <- html %>% html_node("p") %>% html_text2()
+#' x1 <- html %>% html_element("p") %>% html_text()
+#' x2 <- html %>% html_element("p") %>% html_text2()
 #'
 #' # When printed, non-breaking spaces look exactly like regular spaces
 #' x1

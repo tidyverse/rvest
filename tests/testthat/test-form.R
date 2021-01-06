@@ -8,11 +8,11 @@ test_that("can find from from doc, nodes, and node", {
   expect_type(forms, "list")
   expect_length(forms, 2)
 
-  forms <- html_form(html_nodes(html, "form"))
+  forms <- html_form(html_elements(html, "form"))
   expect_type(forms, "list")
   expect_length(forms, 2)
 
-  form <- html_form(html_node(html, "form"))
+  form <- html_form(html_element(html, "form"))
   expect_s3_class(form, "rvest_form")
 })
 
@@ -41,7 +41,7 @@ test_that("select options are named character vector", {
     </form>
   ')
 
-  form <- select %>% html_node("form") %>% html_form()
+  form <- select %>% html_element("form") %>% html_form()
   expect_equal(form$fields[[1]]$options, c(a = "1", b = "2"))
 })
 
@@ -53,7 +53,7 @@ test_that("select values are inherited from names", {
     </select>
   ')
 
-  opts <- page %>% html_node('select') %>% parse_select()
+  opts <- page %>% html_element('select') %>% parse_select()
   expect_equal(opts$options, c(x = "1", y = "y"))
 })
 
@@ -64,7 +64,7 @@ test_that("parse_fields gets the button", {
     </form>
   ')
 
-  form <- select %>% html_node("form") %>% html_form()
+  form <- select %>% html_element("form") %>% html_form()
   expect_equal(form$fields[[1]]$type, "button")
 })
 
