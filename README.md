@@ -79,7 +79,29 @@ episode
 ```
 
 If the page contains tabular data you can convert it directly to a data
-frame with `html_table()`.
+frame with `html_table()`:
+
+``` r
+html <- read_html("https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&oldid=998422565")
+
+html %>% 
+  html_element(".tracklist") %>% 
+  html_table()
+#> # A tibble: 29 x 4
+#>    No.   Title                    `Performer(s)`                          Length
+#>    <chr> <chr>                    <chr>                                   <chr> 
+#>  1 1.    "\"Everything Is Awesom… "Tegan and Sara featuring The Lonely I… 2:43  
+#>  2 2.    "\"Prologue\""           ""                                      2:28  
+#>  3 3.    "\"Emmett's Morning\""   ""                                      2:00  
+#>  4 4.    "\"Emmett Falls in Love… ""                                      1:11  
+#>  5 5.    "\"Escape\""             ""                                      3:26  
+#>  6 6.    "\"Into the Old West\""  ""                                      1:00  
+#>  7 7.    "\"Wyldstyle Explains\"" ""                                      1:21  
+#>  8 8.    "\"Emmett's Mind\""      ""                                      2:17  
+#>  9 9.    "\"The Transformation\"" ""                                      1:46  
+#> 10 10.   "\"Saloons and Wagons\"" ""                                      3:38  
+#> # … with 19 more rows
+```
 
 ## Code of Conduct
 

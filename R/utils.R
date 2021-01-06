@@ -24,10 +24,7 @@ google_form <- function(x) {
   xml2::read_html(httr::GET(paste0("https://docs.google.com/forms/d/", x, "/viewform")))
 }
 
-#' Generate a minimal html5 page.
-#'
-#' See <http://www.brucelawson.co.uk/2010/a-minimal-html5-document/> for
-#' details.
+#' Create an HTML document from inline HTML
 #'
 #' @param html HTML contents of page.
 #' @param title Page title (required by HTML spec).
@@ -36,6 +33,7 @@ google_form <- function(x) {
 #' @examples
 #' minimal_html("<p>test</p>")
 minimal_html <- function(html, title = "") {
+  # From http://www.brucelawson.co.uk/2010/a-minimal-html5-document/
   xml2::read_html(paste0(
     "<!doctype html>\n",
     "<meta charset=utf-8>\n",

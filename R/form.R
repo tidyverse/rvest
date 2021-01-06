@@ -4,7 +4,7 @@
 #' then submit it with [session_submit()]
 #'
 #' @export
-#' @param x A node, node set or document.
+#' @inheritParams html_name
 #' @seealso HTML 4.01 form specification:
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
 #' @return An an S3 object with class `rvest_form`.

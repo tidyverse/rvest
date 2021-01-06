@@ -10,7 +10,8 @@ html_form(x)
 html_form_set(form, ...)
 }
 \arguments{
-\item{x}{A node, node set or document.}
+\item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
+or node (from \code{\link[=html_element]{html_element()}}.}
 
 \item{form}{A form}
 

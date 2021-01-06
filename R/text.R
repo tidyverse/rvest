@@ -1,4 +1,4 @@
-#' Get text from elements
+#' Get element text
 #'
 #' @description
 #' There are two ways to retrieve text from a element: `html_text()` and

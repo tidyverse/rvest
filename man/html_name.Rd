@@ -2,41 +2,26 @@
 % Please edit documentation in R/html.R
 \name{html_name}
 \alias{html_name}
-\alias{html_attr}
-\alias{html_attrs}
-\title{Get name and attributes from elements}
+\title{Get element name}
 \usage{
 html_name(x)
-
-html_attr(x, name, default = NA_character_)
-
-html_attrs(x)
 }
 \arguments{
-\item{x}{A document, node, or node set.}
-
-\item{name}{Name of attribute to retrieve.}
-
-\item{default}{A string used as a default value when the attribute does
-not exist in every element.}
+\item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
+or node (from \code{\link[=html_element]{html_element()}}.}
 }
 \value{
-A character vector (for \code{html_attr()} and \code{html_tag()}) or
-a list (\code{html_attrs()}) the same length as \code{x}
+A character vector the same length as \code{x}
 }
 \description{
-\code{html_name()} gets the tag name, \code{html_attr()} gets a single attribute,
-and \code{html_attr()} gets all attributes.
+Get element name
 }
 \examples{
-url <- "https://en.wikipedia.org/wiki/The_Lego_Movie"
-movie <- read_html(url)
-cast <- html_elements(movie, "tr:nth-child(8) .plainlist a")
+url <- "https://rvest.tidyverse.org/articles/starwars.html"
+html <- read_html(url)
 
-html_name(cast)
-html_attrs(cast)
-html_attr(cast, "href")
-
-# If needed, use url_absolute() to convert to complete urls
-url_absolute(html_attr(cast, "href"), url)
+html \%>\%
+  html_element("div") \%>\%
+  html_children() \%>\%
+  html_name()
 }

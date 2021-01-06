@@ -2,15 +2,16 @@
 % Please edit documentation in R/html.R
 \name{html_children}
 \alias{html_children}
-\title{Find all child elements}
+\title{Get element children}
 \usage{
 html_children(x)
 }
 \arguments{
-\item{x}{A document, node, or node set.}
+\item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
+or node (from \code{\link[=html_element]{html_element()}}.}
 }
 \description{
-Find all child elements
+Get element children
 }
 \examples{
 html <- minimal_html("<ul><li>1<li>2<li>3</ul>")

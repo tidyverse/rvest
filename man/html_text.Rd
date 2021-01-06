@@ -3,7 +3,7 @@
 \name{html_text}
 \alias{html_text}
 \alias{html_text2}
-\title{Get text from elements}
+\title{Get element text}
 \usage{
 html_text(x, trim = FALSE)
 

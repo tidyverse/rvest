@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{minimal_html}
 \alias{minimal_html}
-\title{Generate a minimal html5 page.}
+\title{Create an HTML document from inline HTML}
 \usage{
 minimal_html(html, title = "")
 }
@@ -12,8 +12,7 @@ minimal_html(html, title = "")
 \item{title}{Page title (required by HTML spec).}
 }
 \description{
-See \url{http://www.brucelawson.co.uk/2010/a-minimal-html5-document/} for
-details.
+Create an HTML document from inline HTML
 }
 \examples{
 minimal_html("<p>test</p>")

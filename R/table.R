@@ -3,7 +3,7 @@
 #' The algorithm mimics what a browser does, but repeats the values of merged
 #' cells in every cell that cover.
 #'
-#' @param x A node, node set or document.
+#' @inheritParams html_name
 #' @param header Use first row as header? If `NA`, will use first row
 #'   if it consists of `<th>` tags.
 #' @param trim Remove leading and trailing whitespace within each cell?

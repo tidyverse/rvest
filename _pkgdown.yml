@@ -10,14 +10,19 @@ template:
 reference:
 - title: HTML
   contents:
+  - html_attr
   - html_children
   - html_elements
   - html_name
   - html_table
   - html_text
-  - html_encoding_guess
+  - minimal_html
 
 - title: Session
   contents:
   - session
   - html_form
+
+- title: Miscellaneous helpers
+  contents:
+  - html_encoding_guess
