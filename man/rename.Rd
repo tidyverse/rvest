@@ -8,6 +8,11 @@
 \alias{xml_nodes}
 \alias{html_nodes}
 \alias{html_node}
+\alias{back}
+\alias{forward}
+\alias{jump_to}
+\alias{follow_link}
+\alias{html_session}
 \title{Functions renamed in rvest 1.0.0}
 \usage{
 set_values(form, ...)
@@ -23,6 +28,16 @@ xml_nodes(...)
 html_nodes(...)
 
 html_node(...)
+
+back(x)
+
+forward(x)
+
+jump_to(x, url, ...)
+
+follow_link(x, ...)
+
+html_session(url, ...)
 }
 \description{
 \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
@@ -40,5 +55,14 @@ rvest was first created.
 
 (\code{html_node()} and \code{html_nodes()} are only superseded because they're
 so widely used.)
+
+Additionally all session related functions gained a common prefix:
+\itemize{
+\item \code{html_session()} -> \code{session()}
+\item \code{forward()} -> \code{session_forward()}
+\item \code{back()} -> \code{session_back()}
+\item \code{jump_to()} -> \code{session_jump_to()}
+\item \code{follow_link()} -> \code{session_follow_link()}
+}
 }
 \keyword{internal}

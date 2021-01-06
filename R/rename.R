@@ -16,6 +16,14 @@
 #' (`html_node()` and `html_nodes()` are only superseded because they're
 #' so widely used.)
 #'
+#' Additionally all session related functions gained a common prefix:
+#'
+#' * `html_session()` -> `session()`
+#' * `forward()` -> `session_forward()`
+#' * `back()` -> `session_back()`
+#' * `jump_to()` -> `session_jump_to()`
+#' * `follow_link()` -> `session_follow_link()`
+#'
 #' @keywords internal
 #' @name rename
 #' @aliases NULL
@@ -66,4 +74,39 @@ html_nodes <- function(...) {
 #' @rdname rename
 html_node <- function(...) {
   html_element(...)
+}
+
+#' @export
+#' @rdname rename
+back <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "back()", "session_back()")
+  session_back(x)
+}
+
+#' @export
+#' @rdname rename
+forward <- function(x) {
+  lifecycle::deprecate_warn("1.0.0", "forward()", "session_forward()")
+  session_forward(x)
+}
+
+#' @export
+#' @rdname rename
+jump_to <- function(x, url, ...) {
+  lifecycle::deprecate_warn("1.0.0", "jump_to()", "session_jump_to()")
+  session_jump_to(x, url, ...)
+}
+
+#' @export
+#' @rdname rename
+follow_link <- function(x, ...) {
+  lifecycle::deprecate_warn("1.0.0", "follow_link()", "session_follow_link()")
+  session_follow_link(x, ...)
+}
+
+#' @export
+#' @rdname rename
+html_session <- function(url, ...) {
+  lifecycle::deprecate_warn("1.0.0", "html_session()", "session()")
+  session(url, ...)
 }
