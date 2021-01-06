@@ -28,7 +28,7 @@ Use \code{html_form()} to extract a form, set values with \code{html_form_set()}
 then submit it with \code{\link[=session_submit]{session_submit()}}
 }
 \examples{
-session <- html_session("http://www.google.com")
+session <- session("http://www.google.com")
 search <- html_form(session)[[1]]
 
 search <- search \%>\% html_form_set(q = "My little pony", hl = "fr")

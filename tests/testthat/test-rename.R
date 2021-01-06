@@ -21,4 +21,16 @@ test_that("set_values() is deprecated", {
   expect_snapshot(set_values(form, text = "abc"))
 })
 
+test_that("prefixless session functions are deprecated", {
+  expect_snapshot({
+    s <- html_session("http://rvest.tidyverse.org/")
+    . <- follow_link(s, i = 1)
+
+    s <- jump_to(s, "https://rvest.tidyverse.org/reference/index.html")
+    s <- back(s)
+    s <- forward(s)
+  })
+})
+
 # session_submit() is tested in form-submit because it needs a test server
+

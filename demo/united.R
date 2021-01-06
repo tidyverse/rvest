@@ -1,7 +1,7 @@
 # Scrape miles from united site
 library(rvest)
 
-united <- html_session("http://www.united.com/")
+united <- session("http://www.united.com/")
 
 login <- united %>%
   html_element("form[name=LoginForm]") %>%
