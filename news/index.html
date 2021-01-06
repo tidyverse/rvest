@@ -158,6 +158,7 @@
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/html_table.html">html_table()</a></code> gains <code>na.strings</code> argument to control what values are converted to <code>NA</code> (<a href='https://github.com/tidyverse/rvest/issues/107'>#107</a>).</p></li>
 <li><p>All uses of imdb have been eliminated since the site explicitly prohibits scraping (<a href='https://github.com/tidyverse/rvest/issues/195'>#195</a>).</p></li>
 <li><p>The “harvesting the web” vignette has been rewritten to focus more on the basics of how rvest works, eliminating the screenshots to keep the installed package as svelte as possible. It’s also been renamed to <code><a href="../articles/rvest.html">vignette("rvest")</a></code> since it’s the vignette that you should read first.</p></li>
 <li><p><code><a href="../reference/minimal_html.html">minimal_html()</a></code> (which doesn’t appear to be used by any other package) has had its arguments flipped to make it more intuitive.</p></li>
