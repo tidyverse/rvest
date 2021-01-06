@@ -161,7 +161,7 @@ then submit it with session_submit()" />
 then submit it with <code><a href='session.html'>session_submit()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>html_form</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>html_form</span><span class='op'>(</span><span class='va'>x</span>, base_url <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>html_form_set</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
@@ -170,7 +170,13 @@ then submit it with <code><a href='session.html'>session_submit()</a></code></p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A node, node set or document.</p></td>
+      <td><p>A document (from <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>), node set (from <code><a href='html_element.html'>html_elements()</a></code>)
+or node (from <code><a href='html_element.html'>html_element()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>base_url</th>
+      <td><p>Base url of underlying HTML document. The default, <code>NULL</code>,
+uses the url of the HTML document underlying <code>x</code>.</p></td>
     </tr>
     <tr>
       <th>form</th>
