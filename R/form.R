@@ -5,6 +5,8 @@
 #'
 #' @export
 #' @inheritParams html_name
+#' @param base_url Base url of underlying HTML document. The default, `NULL`,
+#'   uses the url of the HTML document underlying `x`.
 #' @seealso HTML 4.01 form specification:
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
 #' @return An an S3 object with class `rvest_form`.
@@ -22,20 +24,20 @@
 #' \dontrun{
 #' session_submit(session, form)
 #' }
-html_form <- function(x) UseMethod("html_form")
+html_form <- function(x, base_url = NULL) UseMethod("html_form")
 
 #' @export
-html_form.xml_document <- function(x) {
-  html_form(xml2::xml_find_all(x, ".//form"))
+html_form.xml_document <- function(x, base_url = NULL) {
+  html_form(xml2::xml_find_all(x, ".//form"), base_url = base_url)
 }
 
 #' @export
-html_form.xml_nodeset <- function(x) {
-  lapply(x, html_form)
+html_form.xml_nodeset <- function(x, base_url = NULL) {
+  lapply(x, html_form, base_url = base_url)
 }
 
 #' @export
-html_form.xml_node <- function(x) {
+html_form.xml_node <- function(x, base_url = NULL) {
   stopifnot(xml2::xml_name(x) == "form")
 
   attr <- as.list(xml2::xml_attrs(x))
@@ -58,7 +60,7 @@ html_form.xml_node <- function(x) {
     list(
       name = name,
       method = method,
-      action = attr$action,
+      action = xml2::url_absolute(attr$action, base_url %||% xml2::xml_url(x)),
       enctype = enctype,
       fields = fields
     ),

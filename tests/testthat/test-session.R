@@ -91,11 +91,11 @@ test_that("works as expected in simple case", {
     <button type="submit" name="clickMe">Click me</button>
     </form>
   ')
-  form <- html_form(html)[[1]]
+  form <- html_form(html, base_url = "http://here.com")[[1]]
 
-  sub <- submission_build(form, "clickMe", "http://here.com")
+  sub <- submission_build(form, "clickMe")
   expect_equal(sub$method, "POST")
-  expect_equal(sub$url, "http://here.com/test-path")
+  expect_equal(sub$action, "http://here.com/test-path")
   expect_equal(sub$values, list(x = "1"))
 })
 
@@ -103,11 +103,11 @@ test_that("works as expected in simple case", {
 test_that("useful feedback on invalid forms", {
   html <- minimal_html("<form></form>")
   form <- html_form(html)[[1]]
-  expect_snapshot(submission_build(form, NULL, base_url = "http://"), error = TRUE)
+  expect_snapshot(submission_build(form, NULL), error = TRUE)
 
   html <- minimal_html("<form action='/' method='foo'></form>")
   form <- html_form(html)[[1]]
-  expect_snapshot(x <- submission_build(form, NULL, base_url = "http://"))
+  expect_snapshot(x <- submission_build(form, NULL))
 })
 
 test_that("can handle multiple values", {
@@ -163,6 +163,8 @@ test_that("handles no buttons", {
 })
 
 test_that("can submit using three primary techniques", {
+  app <- webfakes::local_app_process(app_request())
+
   html <- minimal_html('
     <form action="/">
     <input type="text", name="x" value="1">
@@ -170,9 +172,7 @@ test_that("can submit using three primary techniques", {
     <input type="text", name="y" value="3">
     </form>
   ')
-  form <- html_form(html)[[1]]
-
-  app <- webfakes::local_app_process(app_request())
+  form <- html_form(html, base_url = app$url())[[1]]
   session <- session(app$url())
 
   expect_snapshot({

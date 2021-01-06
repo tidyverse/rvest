@@ -5,13 +5,16 @@
 \alias{html_form_set}
 \title{Parse forms and set values}
 \usage{
-html_form(x)
+html_form(x, base_url = NULL)
 
 html_form_set(form, ...)
 }
 \arguments{
 \item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
 or node (from \code{\link[=html_element]{html_element()}}.}
+
+\item{base_url}{Base url of underlying HTML document. The default, \code{NULL},
+uses the url of the HTML document underlying \code{x}.}
 
 \item{form}{A form}
 

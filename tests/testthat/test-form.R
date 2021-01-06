@@ -26,7 +26,7 @@ test_that("has useful print method", {
       <textarea name="address">ABCDEF</textarea>
     </form>
   ')
-  expect_snapshot(html_form(html)[[1]])
+  expect_snapshot(html_form(html, base_url = "http://google.com")[[1]])
   expect_snapshot(html_form(html)[[1]]$fields[[2]])
 })
 

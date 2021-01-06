@@ -1,9 +1,9 @@
 # has useful print method
 
     Code
-      html_form(html)[[1]]
+      html_form(html, base_url = "http://google.com")[[1]]
     Output
-      <form> 'test' (POST /test-path)
+      <form> 'test' (POST http://google.com/test-path)
         <field> (select) select: 
         <field> (text) name: Hadley
         <field> (password) name: ******

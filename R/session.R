@@ -197,12 +197,12 @@ session_history <- function(x) {
 session_submit <- function(x, form, submit = NULL, ...) {
   check_session(x)
   check_form(form)
-  request <- submission_build(form, submit, base_url = x$url)
+  request <- submission_build(form, submit)
 
   if (request$method == "POST") {
     session_request(x,
       method = "POST",
-      url = request$url,
+      url = request$action,
       body = request$values,
       encode = request$enctype,
       ...
@@ -210,29 +210,28 @@ session_submit <- function(x, form, submit = NULL, ...) {
   } else {
     session_request(x,
       method = "GET",
-      url = request$url,
+      url = request$action,
       query = request$values,
       ...
     )
   }
 }
 
-submission_build <- function(form, submit, base_url) {
+submission_build <- function(form, submit) {
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
     warn(paste0("Invalid method (", method, "), defaulting to GET"))
     method <- "GET"
   }
 
-  if (is.null(form$action)) {
+  if (length(form$action) == 0) {
     abort("`form` doesn't contain a `action` attribute")
   }
-  url <- xml2::url_absolute(form$action, base_url)
 
   list(
     method = method,
     enctype = form$enctype,
-    url = url,
+    action = form$action,
     values = submission_build_values(form, submit)
   )
 }
@@ -312,8 +311,8 @@ is_html <- function(x) {
 # rvest methods -----------------------------------------------------------------
 
 #' @export
-html_form.rvest_session <- function(x) {
-  html_form(read_html(x))
+html_form.rvest_session <- function(x, base_url = NULL) {
+  html_form(read_html(x), base_url = base_url)
 }
 
 #' @export

@@ -77,14 +77,14 @@
 # useful feedback on invalid forms
 
     Code
-      submission_build(form, NULL, base_url = "http://")
+      submission_build(form, NULL)
     Error <rlang_error>
       `form` doesn't contain a `action` attribute
 
 ---
 
     Code
-      x <- submission_build(form, NULL, base_url = "http://")
+      x <- submission_build(form, NULL)
     Warning <warning>
       Invalid method (FOO), defaulting to GET
 
