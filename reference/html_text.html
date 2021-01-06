@@ -117,6 +117,9 @@ you may want to use html_text() instead." />
   </a>
 </li>
 <li>
+  <a href="../articles/rvest.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -127,10 +130,7 @@ you may want to use html_text() instead." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/harvesting-the-web.html">Harvesting the web with rvest</a>
-    </li>
-    <li>
-      <a href="../articles/selectorgadget.html">SelectorGadget</a>
+      <a href="../articles/articles/selectorgadget.html">SelectorGadget</a>
     </li>
     <li>
       <a href="../articles/starwars.html">Star Wars films</a>
@@ -210,7 +210,7 @@ When <code>preserve_nbsp</code> is <code>TRUE</code>, <code>&amp;nbsp;</code> wi
     <pre class="examples"><div class='input'><span class='co'># To understand the difference between html_text() and html_text2()</span>
 <span class='co'># take the following html:</span>
 
-<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"example"</span>,
+<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span>
   <span class='st'>"&lt;p&gt;This is a paragraph.
     This another sentence.&lt;br&gt;This should start on a new line"</span>
 <span class='op'>)</span>
@@ -227,7 +227,7 @@ When <code>preserve_nbsp</code> is <code>TRUE</code>, <code>&amp;nbsp;</code> wi
 #&gt; This should start on a new line</div><div class='input'>
 <span class='co'># By default, html_text2() also converts non-breaking spaces to regular</span>
 <span class='co'># spaces:</span>
-<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"example"</span>, <span class='st'>"&lt;p&gt;x&amp;nbsp;y&lt;/p&gt;"</span><span class='op'>)</span>
+<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"&lt;p&gt;x&amp;nbsp;y&lt;/p&gt;"</span><span class='op'>)</span>
 <span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>x2</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_nodes.html'>html_node</a></span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_text2</span><span class='op'>(</span><span class='op'>)</span>
 
