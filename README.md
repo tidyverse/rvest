@@ -13,6 +13,8 @@ coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](
 
 <!-- badges: end -->
 
+## Overview
+
 rvest helps you scrape (or harvest) data from web pages. It is designed
 to work with [magrittr](https://github.com/smbache/magrittr) to make it
 easy to express common web scraping tasks, inspired by libraries like
