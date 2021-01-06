@@ -17,6 +17,12 @@ work with [magrittr](https://github.com/smbache/magrittr) to make it
 easy to express common web scraping tasks, inspired by libraries like
 [beautiful soup](https://www.crummy.com/software/BeautifulSoup/).
 
+If you’re scraping multiple pages, I highly recommend using rvest in
+concert with [polite](https://dmi3kno.github.io/polite/). The polite
+package ensures that you’re respecting the
+[robots.txt](https://en.wikipedia.org/wiki/Robots_exclusion_standard)
+and not hammering the site with too many requests.
+
 ## Installation
 
 ``` r
