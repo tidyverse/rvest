@@ -1,5 +1,13 @@
 # rvest (development version)
 
+* All uses of imdb have been eliminated since the site explicitly prohibits
+  scraping (#195).
+
+* The "harvesting the web" vignette has been rewritten to focus more on the 
+  basics of how rvest works, eliminating the screenshots to keep the installed
+  package as svelte as possible. It's also been renamed to `vignette("rvest")`
+  since it's the vignette that you should read first.
+
 * `minimal_html()` (which doesn't appear to be used by any other package)
   has had its arguments flipped to make it more intuitive.
 

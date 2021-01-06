@@ -1,0 +1,272 @@
+---
+title: "Web scraping 101"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Web scraping 101}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+This vignette introduces you to the basics of web scraping with rvest.
+You'll first learn the basics of HTML, learn how to use CSS selectors to refer to specific elements, and how to use rvest functions to get data from elements into R.
+
+```{r}
+library(rvest)
+```
+
+## HTML basics
+
+HTML stands for "HyperText Markup Language" and looks like this:
+
+``` {.html}
+<html>
+<head>
+  <title>Page title</title>
+</head>
+<body>
+  <h1 id='first'>A heading</h1>
+  <p>Some text &amp; <b>some bold text.</b></p>
+  <img src='myimg.png' width='100' height='100'>
+</body>
+```
+
+HTML has a hierarchical structure formed by **tags**, which either look like `<tag></tag>` (for tags that can have children) or `<tag>` (for tags that can't).
+Because `<` and `>` have special meanings in HTML, you can't write them directly.
+Instead you have to use the HTML **escapes** `&gt;` (greater than) and `&lt;` (less that).
+And since those escapes use `&`, if you want a literal ampersand you have to escape it as `&amp;`.
+
+All up, there are over 100 HTML tags.
+Some of the most important include:
+
+-   `<html>`, `<body>`, and `<head>` which define the overall structure of the page.
+    Every HTML page must start with `<html>` and end with `</html>`.
+    HTML pages must also contain metadata in `<head>` and contents in `<body>`.
+
+-   Block tags like `<h1>` (heading 1), `<p>` (paragraph), and `<ol>` (ordered list) form the overall structure of the page.
+
+-   Inline tags like `<b>` (bold), `<i>` (italics), and `<a>` (links) formats text inside block tags.
+
+Tags can have named **attributes** which look like `name1='value1' name2='value2'`.
+Two of the most important attributes are `id` and `class`, which are used in conjunction with CSS (Cascading Style Sheets) to control the visual appearance of the page.
+These are often useful when scraping data off a page.
+Some tags like `<img>` (image) can't have children, so attributes are particularly important.
+
+If you encounter a tag that you've never seen before, you can find out what it does with a little googling.
+I recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML) which are produced by Mozilla, the company that makes the Firefox web browser.
+
+## Getting a web page
+
+In most cases, you'll start the scraping process with `xml2::read_html()`.
+This returns a `xml_document`[^1] object which you'll then manipulate using rvest functions:
+
+[^1]: This class comes from the [xml2](https://xml2.r-lib.org) package.
+    xml2 is a low-level package that rvest builds on top of.
+
+```{r}
+html <- read_html("http://rvest.tidyverse.org/")
+class(html)
+```
+
+For examples and experimentation, rvest also includes a function that lets you create an `xml_document` from literal HTML:
+
+```{r}
+html <- minimal_html("
+  <p>This is a paragraph<p>
+  <ul>
+    <li>This is a bulleted list</li>
+  </ul>
+")
+```
+
+Regardless of how you get the HTML, you'll need some way to the identify the nodes that contain the data you care about.
+rvest provides two options: CSS selectors and XPath expressions.
+Here we'll focus on CSS selectors because they're simpler but still sufficiently powerful for most scraping tasks.
+
+## CSS selectors
+
+CSS is short for cascading style sheets, and is a tool for defining the visual styling of HTML documents.
+CSS includes a miniature language for selecting nodes on a page called **CSS selectors**.
+CSS selectors define patterns for locating HTML nodes, and are useful for scraping because they provide a concise way of describing which nodes you want to extract.
+
+CSS selectors can be quite complex, but fortunately you only need the simplest for rvest, because you can also write R code for more complicated situations.
+The four most important selectors are:
+
+-   `p`: selects all `<p>` nodes.
+
+-   `.important`: selects all nodes with `class` "important".
+
+-   `p.important`: selects all `<p>` nodes with `class` "important".
+
+-   `#title`: selects the node with the `id` attribute that equals "title".
+    Id attributes must be unique within a document, so this will only ever select a single node.
+
+If you want to learn more about CSS selectors I recommend [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors), and the fun [CSS dinner](http://flukeout.github.io/) tutorial.
+
+Lets try out the four most important selectors with a simple example:
+
+```{r}
+html <- minimal_html("
+  <h1>This is a heading</h1>
+  <p id='first'>This is a paragraph</p>
+  <p class='important'>This is an important paragraph</p>
+")
+```
+
+In rvest you can extract a single node with `html_node()` or all matching nodes with `html_nodes()`.
+Both functions take a document[^2] and a css selector:
+
+[^2]: Or another node, more on that shortly.
+
+```{r}
+html %>% html_node("h1")
+html %>% html_nodes("p")
+html %>% html_nodes(".important")
+html %>% html_nodes("#first")
+```
+
+Selectors can also be combined in various ways using **combinators**.
+For example,The most important combinator is " ", called the descendent combination because `p a` selects all `<a>` nodes that are a child of a `<p>` node.
+
+If you don't know exactly what selector you need, I highly recommend using [SelectorGadget](https://rvest.tidyverse.org/articles/selectorgadget.html), which lets you automatically generate the selector you need by supplying positive and negative examples in the browser.
+
+## Extracting data
+
+Now that you've got the nodes you care about, you'll need to get data out of them.
+If you're lucky enough that the data you care about already lives in an HTML table, you can use `html_table()` to turn it directly into a data frame.
+Otherwise, you'll usually get the data either from the plain text content or one of the attributes.
+
+### Text
+
+You'll usually use `html_text2()` to extract data stored as plain text inside of HTML elements:
+
+```{r}
+html <- minimal_html("
+  <ol>
+    <li>apple</li>
+    <li>pear</li>
+    <li>banana</li>
+  </ol>
+")
+html %>% 
+  html_nodes("li") %>% 
+  html_text2()
+```
+
+You might wonder why I used `html_text2()`, since it seems to give the same result as `html_text()`:
+
+```{r}
+html %>% 
+  html_nodes("li") %>% 
+  html_text()
+```
+
+The main difference is how the two functions handle whitespace.
+In HTML, whitespace is largely ignored.
+It's the structure of the tags that define how text is laid out.
+`html_text2()` does it's best to follow the same rules, to give you something similar to what you'd see in the browser:
+
+```{r}
+html <- minimal_html("<body>
+  <p>
+  This is
+  a single
+  paragraph.</p><p>This is another paragraph</p>
+")
+
+html %>% 
+  html_node("body") %>% 
+  html_text2() %>% 
+  cat()
+```
+
+Whereas `html_text()` returns the raw underlying text:
+
+```{r}
+html %>% 
+  html_node("p") %>% 
+  html_text() %>% 
+  cat()
+```
+
+### Attributes
+
+The most common use of attributes the destination of links or the source of an image:
+
+```{r}
+html <- minimal_html("
+  <p><a href='https://en.wikipedia.org/wiki/Cat'>cats</a></p>
+  <img src='https://cataas.com/cat' width='100' height='200'>
+")
+
+html %>% 
+  html_nodes("a") %>% 
+  html_attr("href")
+
+html %>% 
+  html_nodes("img") %>% 
+  html_attr("src")
+```
+
+Note that `html_attr()` always returns a string, so you may need to post process with `as.integer()`, `readr::parse_integer()`, or similar.
+
+```{r}
+html %>% 
+  html_nodes("img") %>% 
+  html_attr("width")
+
+html %>% 
+  html_nodes("img") %>% 
+  html_attr("width") %>% 
+  as.integer()
+```
+
+## Node vs nodes
+
+When using rvest, most of the time your eventual goal is to build up a data frame, and you want each row to correspond some underlying observation.
+In this case, you should generally start by using `html_nodes()` to select all observations and `html_node()` to extract the elements that will form the variants.
+This guarantees that you'll get the same number of values for each variable because `html_node()` always returns the same number of outputs as inputs.
+
+To illustrate this problem take a look at this simple example I constructed using a few entries from `dplyr::starwars`:
+
+```{r}
+html <- minimal_html("
+  <ul>
+    <li><b>C-3PO</b> is a <i>droid</i> that weighs <span class='weight'>167 kg</span></li>
+    <li><b>R2-D2</b> is a <i>droid</i> that weighs <span class='weight'>96 kg</span></li>
+    <li><b>Yoda</b> weighs <span class='weight'>66 kg</span></li>
+    <li><b>R4-P17</b> is a <i>droid</i></li>
+  </ul>
+  ")
+```
+
+If you try to extract name, species, and weight directly, you end up with vectors that are hard to align:
+
+```{r}
+html %>% html_nodes("b") %>% html_text2()
+html %>% html_nodes("i") %>% html_text2()
+html %>% html_nodes(".weight") %>% html_text2()
+```
+
+Instead, use `html_nodes()` to find a node for each character, and then `html_node()` for each value:
+
+```{r}
+characters <- html %>% html_nodes("li")
+
+characters %>% html_node("b") %>% html_text2()
+characters %>% html_node("i") %>% html_text2()
+characters %>% html_node(".weight") %>% html_text2()
+```
+
+`html_node()` automatically fills in `NA` when no elements match, keeping all of the variables in alignment and making it easier to feed them into a data frame:
+
+```{r}
+data.frame(
+  name = characters %>% html_node("b") %>% html_text2(),
+  species = characters %>% html_node("i") %>% html_text2(),
+  weight = characters %>% html_node(".weight") %>% html_text2()
+)
+```
