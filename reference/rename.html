@@ -62,7 +62,15 @@ xml_nodes() &amp;amp; html_nodes() -&amp;gt; html_element()
 
 
 (html_node() and html_nodes() are only superseded because they're
-so widely used.)" />
+so widely used.)
+Additionally all session related functions gained a common prefix:
+html_session() -&amp;gt; session()
+forward() -&amp;gt; session_forward()
+back() -&amp;gt; session_back()
+jump_to() -&amp;gt; session_jump_to()
+follow_link() -&amp;gt; session_follow_link()
+
+" />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -173,7 +181,7 @@ so widely used.)" />
 has a common prefix, matching tidyverse conventions that emerged since
 rvest was first created.</p><ul>
 <li><p><code>set_values()</code> -&gt; <code><a href='html_form.html'>html_form_set()</a></code></p></li>
-<li><p><code>submit_form()</code> -&gt; <code><a href='html_session.html'>session_submit()</a></code></p></li>
+<li><p><code>submit_form()</code> -&gt; <code><a href='session.html'>session_submit()</a></code></p></li>
 <li><p><code>xml_tag()</code> -&gt; <code><a href='html_name.html'>html_name()</a></code></p></li>
 <li><p><code>xml_node()</code> &amp; <code>html_node()</code> -&gt; <code><a href='html_element.html'>html_element()</a></code></p></li>
 <li><p><code>xml_nodes()</code> &amp; <code>html_nodes()</code> -&gt; <code><a href='html_element.html'>html_element()</a></code></p></li>
@@ -181,6 +189,14 @@ rvest was first created.</p><ul>
 
 <p>(<code>html_node()</code> and <code>html_nodes()</code> are only superseded because they're
 so widely used.)</p>
+<p>Additionally all session related functions gained a common prefix:</p><ul>
+<li><p><code>html_session()</code> -&gt; <code><a href='session.html'>session()</a></code></p></li>
+<li><p><code>forward()</code> -&gt; <code><a href='session.html'>session_forward()</a></code></p></li>
+<li><p><code>back()</code> -&gt; <code><a href='session.html'>session_back()</a></code></p></li>
+<li><p><code>jump_to()</code> -&gt; <code><a href='session.html'>session_jump_to()</a></code></p></li>
+<li><p><code>follow_link()</code> -&gt; <code><a href='session.html'>session_follow_link()</a></code></p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>set_values</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -195,7 +211,17 @@ so widely used.)</p>
 
 <span class='fu'>html_nodes</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>html_node</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>html_node</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>back</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>forward</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='fu'>jump_to</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>url</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>follow_link</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>html_session</span><span class='op'>(</span><span class='va'>url</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
 
 

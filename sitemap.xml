@@ -22,9 +22,6 @@
     <loc>https://rvest.tidyverse.org/reference/html_name.html</loc>
   </url>
   <url>
-    <loc>https://rvest.tidyverse.org/reference/html_session.html</loc>
-  </url>
-  <url>
     <loc>https://rvest.tidyverse.org/reference/html_table.html</loc>
   </url>
   <url>
@@ -44,6 +41,9 @@
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/rvest-package.html</loc>
+  </url>
+  <url>
+    <loc>https://rvest.tidyverse.org/reference/session.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/articles/articles/selectorgadget.html</loc>
