@@ -87,6 +87,11 @@ html_text2.xml_node <- function(x, preserve_nbsp = FALSE) {
   text$output()
 }
 
+#' @export
+html_text2.xml_missing <- function(x, preserve_nbsp = FALSE) {
+  NA_character_
+}
+
 # Algorithm roughly inspired by
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
 # but following deatils in

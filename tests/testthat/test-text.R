@@ -47,6 +47,10 @@ test_that("handles mixed block as well as can be expected", {
   expect_equal(html_text2(html_node(html, "div")), "a\n\nb\n")
 })
 
+test_that("returns NA for xml_missing", {
+  expect_equal(html_text2(xml2::xml_missing()), NA_character_)
+})
+
 test_that("breaks as expected", {
   expect_identical(tag_margin("p"), 2L)
   expect_identical(tag_margin("li"), 1L)
