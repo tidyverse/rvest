@@ -118,3 +118,18 @@ test_that("adds names if needed", {
   table <- html_table(html)[[1]]
   expect_named(table, c("X1", "X2"))
 })
+
+
+test_that("passes arguments to type.convert", {
+  html <- minimal_html("
+    <table>
+      <tr><th>x<th>y
+      <tr><td>NA<td>1,2
+    </table>
+  ")
+  table <- html_table(html, na.strings = "")[[1]]
+  expect_equal(table$x, "NA")
+
+  table <- html_table(html, dec = ",")[[1]]
+  expect_equal(table$y, 1.2)
+})

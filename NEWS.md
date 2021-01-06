@@ -1,5 +1,8 @@
 # rvest (development version)
 
+* `html_table()` gains `na.strings` argument to control what values are 
+  converted to `NA` (#107).
+
 * All uses of imdb have been eliminated since the site explicitly prohibits
   scraping (#195).
 

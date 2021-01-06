@@ -9,7 +9,8 @@
 #' @param trim Remove leading and trailing whitespace within each cell?
 #' @param fill Deprecated - missing cells in tables are now always
 #'    automatically filled with `NA`.
-#' @param dec The character used as decimal mark.
+#' @param dec The character used as decimal place marker.
+#' @param na.strings Character vector of values that will be converted to `NA`.
 #' @return A tibble. Note that the column names are left exactly as is in the
 #'   source document, which may not generate a valid data frame.
 #' @export
@@ -49,7 +50,9 @@ html_table <- function(x,
                        header = NA,
                        trim = TRUE,
                        fill = deprecated(),
-                       dec = ".") {
+                       dec = ".",
+                       na.strings = "NA"
+  ) {
 
   if (lifecycle::is_present(fill)) {
     warn("`fill` is now ignored and always happens")
@@ -63,20 +66,35 @@ html_table.xml_document <- function(x,
                                     header = NA,
                                     trim = TRUE,
                                     fill = deprecated(),
-                                    dec = ".") {
+                                    dec = ".",
+                                    na.strings = "NA") {
   tables <- xml2::xml_find_all(x, ".//table")
-  lapply(tables, html_table, header = header, trim = trim, fill = fill, dec = dec)
+  html_table(
+    tables,
+    header = header,
+    trim = trim,
+    fill = fill,
+    dec = dec,
+    na.strings = na.strings
+  )
 }
-
 
 #' @export
 html_table.xml_nodeset <- function(x,
                                    header = NA,
                                    trim = TRUE,
                                    fill = deprecated(),
-                                   dec = ".") {
-  # FIXME: guess useful names
-  lapply(x, html_table, header = header, trim = trim, fill = fill, dec = dec)
+                                   dec = ".",
+                                   na.strings = na.strings) {
+  lapply(
+    x,
+    html_table,
+    header = header,
+    trim = trim,
+    fill = fill,
+    dec = dec,
+    na.strings = na.strings
+  )
 }
 
 #' @export
@@ -84,7 +102,8 @@ html_table.xml_node <- function(x,
                                 header = NA,
                                 trim = TRUE,
                                 fill = deprecated(),
-                                dec = ".") {
+                                dec = ".",
+                                na.strings = "NA") {
 
   ns <- xml2::xml_ns(x)
   rows <- xml2::xml_find_all(x, ".//tr", ns = ns)
@@ -103,7 +122,7 @@ html_table.xml_node <- function(x,
 
   # Convert matrix to list to data frame
   df <- lapply(seq_len(ncol(out)), function(i) {
-    utils::type.convert(out[, i], as.is = TRUE, dec = dec)
+    utils::type.convert(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings)
   })
   names(df) <- col_names
   tibble::as_tibble(df, .name_repair = "minimal")

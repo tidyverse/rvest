@@ -4,7 +4,14 @@
 \alias{html_table}
 \title{Parse an html table into a data frame}
 \usage{
-html_table(x, header = NA, trim = TRUE, fill = deprecated(), dec = ".")
+html_table(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA"
+)
 }
 \arguments{
 \item{x}{A node, node set or document.}
@@ -17,7 +24,9 @@ if it consists of \verb{<th>} tags.}
 \item{fill}{Deprecated - missing cells in tables are now always
 automatically filled with \code{NA}.}
 
-\item{dec}{The character used as decimal mark.}
+\item{dec}{The character used as decimal place marker.}
+
+\item{na.strings}{Character vector of values that will be converted to \code{NA}.}
 }
 \value{
 A tibble. Note that the column names are left exactly as is in the
