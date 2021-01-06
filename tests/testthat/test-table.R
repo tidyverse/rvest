@@ -1,5 +1,5 @@
 test_that("can parse simple table", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>y</th><th>z</th></tr>
       <tr><td>1</td><td>Eve</td><td>Jackson</td></tr>
@@ -12,7 +12,7 @@ test_that("can parse simple table", {
 })
 
 test_that("strips whitespace", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th></tr>
       <tr><td>    x</td></tr>
@@ -27,7 +27,7 @@ test_that("strips whitespace", {
 
 
 test_that("can parse with colspan", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>y</th><th>z</th></tr>
       <tr><td colspan="3">1</td></tr>
@@ -41,7 +41,7 @@ test_that("can parse with colspan", {
 })
 
 test_that("can parse with rowspan", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>y</th><th>z</th></tr>
       <tr><td rowspan="3">1</td><td>2</td><td>3</td></tr>
@@ -56,7 +56,7 @@ test_that("can parse with rowspan", {
 })
 
 test_that("can handle wobbling rowspan", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>y</th><th>z</th></tr>
       <tr><td rowspan="2">1a</td><td>1b</td><td rowspan="2">1c</td></tr>
@@ -70,7 +70,7 @@ test_that("can handle wobbling rowspan", {
 })
 
 test_that("can handle trailing rowspans", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>y</th><th>z</th></tr>
       <tr>
@@ -86,7 +86,7 @@ test_that("can handle trailing rowspans", {
 })
 
 test_that("can handle empty row", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th></tr>
       <tr></tr>
@@ -100,7 +100,7 @@ test_that("can handle empty row", {
 
 
 test_that("defaults to minimal name repair", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><th>x</th><th>x</th><th></th></tr>
     </table>
@@ -110,7 +110,7 @@ test_that("defaults to minimal name repair", {
 })
 
 test_that("adds names if needed", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <table>
       <tr><td>1</td><td>2</td></tr>
     </table>

@@ -1,5 +1,5 @@
 test_that("can find from from doc, nodes, and node", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form><input name="x" type="text"></form>
     <form><input name="x" type="text"></form>
   ')
@@ -17,7 +17,7 @@ test_that("can find from from doc, nodes, and node", {
 })
 
 test_that("has useful print method", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form id="test" method="post" action="/test-path">
       <select name="select" size="1"></select>
       <input type="text" name="name" value="Hadley" />
@@ -79,7 +79,7 @@ test_that("handles different encoding types", {
 # form_set --------------------------------------------------------------
 
 test_that("can set values of inputs", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form id="test" method="post" action="/test-path">
       <input type="text" name="text" />
       <input type="hidden" name="hidden" />
@@ -96,7 +96,7 @@ test_that("can set values of inputs", {
 })
 
 test_that("has informative errors", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form id="test" method="post" action="/test-path">
       <input type="submit" name="text" />
     </form>

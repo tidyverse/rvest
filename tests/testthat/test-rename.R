@@ -1,5 +1,5 @@
 test_that("xml functions are deprecated", {
-  x <- minimal_html("test", "<p>Hello</p>")
+  x <- minimal_html("<p>Hello</p>")
 
   expect_snapshot(. <- xml_tag(x))
   expect_snapshot(. <- xml_node(x, "p"))
@@ -7,7 +7,7 @@ test_that("xml functions are deprecated", {
 })
 
 test_that("set_values() is deprecated", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form><input type="text" name="text" /></form>
   ')
   form <- html_form(html)[[1]]

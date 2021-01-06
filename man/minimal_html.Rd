@@ -4,18 +4,18 @@
 \alias{minimal_html}
 \title{Generate a minimal html5 page.}
 \usage{
-minimal_html(title, html = "")
+minimal_html(html, title = "")
 }
 \arguments{
-\item{title}{Page title}
+\item{html}{HTML contents of page.}
 
-\item{html}{Other html to insert into page.}
+\item{title}{Page title (required by HTML spec).}
 }
 \description{
 See \url{http://www.brucelawson.co.uk/2010/a-minimal-html5-document/} for
 details.
 }
 \examples{
-minimal_html("test")
+minimal_html("<p>test</p>")
 }
 \keyword{internal}

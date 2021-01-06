@@ -1,5 +1,5 @@
 test_that("forwards to xml2 functions", {
-  html <- minimal_html("test", "<p id ='x'>Hello <i>children</i></p>")
+  html <- minimal_html("<p id ='x'>Hello <i>children</i></p>")
   p <- html_nodes(html, "p")
 
   expect_equal(html_name(p), "p")

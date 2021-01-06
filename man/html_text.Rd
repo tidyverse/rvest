@@ -40,7 +40,7 @@ you may want to use \code{html_text()} instead.
 # To understand the difference between html_text() and html_text2()
 # take the following html:
 
-html <- minimal_html("example",
+html <- minimal_html(
   "<p>This is a paragraph.
     This another sentence.<br>This should start on a new line"
 )
@@ -55,7 +55,7 @@ html \%>\% html_node("p") \%>\% html_text2() \%>\% writeLines()
 
 # By default, html_text2() also converts non-breaking spaces to regular
 # spaces:
-html <- minimal_html("example", "<p>x&nbsp;y</p>")
+html <- minimal_html("<p>x&nbsp;y</p>")
 x1 <- html \%>\% html_node("p") \%>\% html_text()
 x2 <- html \%>\% html_node("p") \%>\% html_text2()
 

@@ -1,7 +1,7 @@
 #' Select nodes from an HTML document
 #'
 #' `html_node()` and `html_nodes()` find HTML tags (nodes) using CSS selectors
-#' XPath expressions.
+#' or XPath expressions.
 #'
 #' CSS selectors are particularly useful in conjunction with
 #' <https://selectorgadget.com/>, which makes it very easy to discover the

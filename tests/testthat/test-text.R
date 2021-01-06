@@ -1,5 +1,5 @@
 test_that("html_text returns raw html", {
-  html <- minimal_html("test", "<p>x\ny</br>z</p>")
+  html <- minimal_html("<p>x\ny</br>z</p>")
   p <- html_nodes(html, "p")
   expect_equal(html_text(p), "x\nyz")
 })
@@ -7,16 +7,16 @@ test_that("html_text returns raw html", {
 # html_text2 --------------------------------------------------------------
 
 test_that("handles block containing only inline elements", {
-  html <- minimal_html("test", "<p>a <b>b</b> <b><i>c</i></b></p>")
+  html <- minimal_html("<p>a <b>b</b> <b><i>c</i></b></p>")
   expect_equal(html_text2(html), "a b c")
 
   # internal newlines are trimmed
-  html <- minimal_html("test", "<p>a\n\nb\nc</p>")
+  html <- minimal_html("<p>a\n\nb\nc</p>")
   expect_equal(html_text2(html), "a b c")
 })
 
 test_that("handles multiple paragraphs with line breaks", {
-  html <- minimal_html("test", "
+  html <- minimal_html("
     <body>
       <p>a
       <p>b<br>c
@@ -26,7 +26,7 @@ test_that("handles multiple paragraphs with line breaks", {
 })
 
 test_that("handles table", {
-  html <- minimal_html("test", "
+  html <- minimal_html("
     <table>
     <tr><th>a<th>b
     <tr><td>1<td>2
@@ -38,7 +38,7 @@ test_that("handles table", {
 })
 
 test_that("handles mixed block as well as can be expected", {
-  html <- minimal_html("test", "
+  html <- minimal_html("
     <div>
      <p>a</p>
      b<br/>
@@ -56,27 +56,27 @@ test_that("breaks as expected", {
 # inline ------------------------------------------------------------------
 
 test_that("handle single line of text", {
-  html <- minimal_html("test", "<p>a <b>b</b> <b><i>c</i></b></p>")
+  html <- minimal_html("<p>a <b>b</b> <b><i>c</i></b></p>")
   expect_equal(html_text_inline(html_node(html, "p")), "a b c")
 
   # collapses space across nodes
-  html <- minimal_html("test", "<p>a <b>b </b> <b> c</b></p>")
+  html <- minimal_html("<p>a <b>b </b> <b> c</b></p>")
   expect_equal(html_text_inline(html_node(html, "p")), "a b c")
 })
 
 test_that("converts br to \n", {
-  html <- minimal_html("test", "<p><br>x</p>")
+  html <- minimal_html("<p><br>x</p>")
   expect_equal(html_text_inline(html_node(html, "p")), "\nx")
 
-  html <- minimal_html("test", "<p>x<br></p>")
+  html <- minimal_html("<p>x<br></p>")
   expect_equal(html_text_inline(html_node(html, "p")), "x\n")
 
-  html <- minimal_html("test", "<p><br><br></p>")
+  html <- minimal_html("<p><br><br></p>")
   expect_equal(html_text_inline(html_node(html, "p")), "\n\n")
 })
 
 test_that("empty block returns empty string", {
-  html <- minimal_html("test", "<p></p>")
+  html <- minimal_html("<p></p>")
   expect_equal(html_text_inline(html_node(html, "p")), "")
 })
 

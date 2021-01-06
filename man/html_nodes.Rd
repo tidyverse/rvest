@@ -22,7 +22,7 @@ the output to the input.
 }
 \description{
 \code{html_node()} and \code{html_nodes()} find HTML tags (nodes) using CSS selectors
-XPath expressions.
+or XPath expressions.
 }
 \details{
 CSS selectors are particularly useful in conjunction with

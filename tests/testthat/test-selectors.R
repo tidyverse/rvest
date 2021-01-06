@@ -1,5 +1,5 @@
 test_that("can select one or more nodes", {
-  html <- minimal_html("test", "<p><p><p>")
+  html <- minimal_html("<p><p><p>")
   expect_s3_class(html_nodes(html, "p"), "xml_nodeset")
   expect_s3_class(html_node(html, "p"), "xml_node")
 })

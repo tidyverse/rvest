@@ -4,5 +4,5 @@ test_that("can truncate strings", {
 })
 
 test_that("minimal html doesn't change unexpectedly", {
-  expect_snapshot(cat(as.character(minimal_html("test", "<p>Hi"))))
+  expect_snapshot(cat(as.character(minimal_html("<p>Hi"))))
 })

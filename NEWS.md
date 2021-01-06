@@ -1,5 +1,8 @@
 # rvest (development version)
 
+* `minimal_html()` (which doesn't appear to be used by any other package)
+  has had its arguments flipped to make it more intuitive.
+
 * The SelectorGadget vignette is now a web-only article so we can be more 
   generous with screenshots since they're no longer bundled with every
   install of the package.

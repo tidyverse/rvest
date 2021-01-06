@@ -46,11 +46,11 @@ html_attrs <- function(x) {
 #' @export
 #' @inheritParams xml2::xml_text
 #' @examples
-#' html <- minimal_html("A list", "<ul><li>1<li>2<li>3</ul>")
+#' html <- minimal_html("<ul><li>1<li>2<li>3</ul>")
 #' ul <- html_nodes(html, "ul")
 #' html_children(ul)
 #'
-#' html <- minimal_html("A paragraph", "<p>Hello <b>Hadley</b><i>!</i>")
+#' html <- minimal_html("<p>Hello <b>Hadley</b><i>!</i>")
 #' p <- html_nodes(html, "p")
 #' html_children(p)
 #' @importFrom xml2 xml_children

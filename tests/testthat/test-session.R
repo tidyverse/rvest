@@ -66,7 +66,7 @@ test_that("can navigate back and forward", {
 })
 
 test_that("can find link by position, content, css, or xpath", {
-  html <- minimal_html("test", "
+  html <- minimal_html("
     <a href='a'>a</a>
     <a href='b' class='b'>b</a>
   ")
@@ -85,7 +85,7 @@ test_that("can find link by position, content, css, or xpath", {
 # forms ----------------------------------------------------------
 
 test_that("works as expected in simple case", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form method="post" action="/test-path">
     <input name="x" value="1">
     <button type="submit" name="clickMe">Click me</button>
@@ -101,17 +101,17 @@ test_that("works as expected in simple case", {
 
 
 test_that("useful feedback on invalid forms", {
-  html <- minimal_html("test", "<form></form>")
+  html <- minimal_html("<form></form>")
   form <- html_form(html)[[1]]
   expect_snapshot(submission_build(form, NULL, base_url = "http://"), error = TRUE)
 
-  html <- minimal_html("test", "<form action='/' method='foo'></form>")
+  html <- minimal_html("<form action='/' method='foo'></form>")
   form <- html_form(html)[[1]]
   expect_snapshot(x <- submission_build(form, NULL, base_url = "http://"))
 })
 
 test_that("can handle multiple values", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form method="post" action="/">
     <input type="text" name="x">
     <input type="text" name="y">
@@ -127,7 +127,7 @@ test_that("can handle multiple values", {
 })
 
 test_that("handles multiple buttons", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form action="/">
     <button type="submit" name="one" value="1">Click me</button>
     <button type="submit" name="two" value="2">Click me</button>
@@ -149,7 +149,7 @@ test_that("handles multiple buttons", {
 })
 
 test_that("handles no buttons", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form action="/">
     <input type="text", name="x" value="1">
     </form>
@@ -163,7 +163,7 @@ test_that("handles no buttons", {
 })
 
 test_that("can submit using three primary techniques", {
-  html <- minimal_html("test", '
+  html <- minimal_html('
     <form action="/">
     <input type="text", name="x" value="1">
     <input type="text", name="x" value="2">

@@ -28,7 +28,7 @@ The algorithm mimics what a browser does, but repeats the values of merged
 cells in every cell that cover.
 }
 \examples{
-sample1 <- minimal_html("table", "<table>
+sample1 <- minimal_html("<table>
   <tr><th>Col A</th><th>Col B</th></tr>
   <tr><td>1</td><td>x</td></tr>
   <tr><td>4</td><td>y</td></tr>
@@ -39,7 +39,7 @@ sample1 \%>\%
   html_table()
 
 # Values in merged cells will be duplicated
-sample2 <- minimal_html("table", "<table>
+sample2 <- minimal_html("<table>
   <tr><th>A</th><th>B</th><th>C</th></tr>
   <tr><td>1</td><td>2</td><td>3</td></tr>
   <tr><td colspan='2'>4</td><td>5</td></tr>
@@ -50,7 +50,7 @@ sample2 \%>\%
   html_table()
 
 # If a row is missing cells, they'll be filled with NAs
-sample3 <- minimal_html("table", "<table>
+sample3 <- minimal_html("<table>
   <tr><th>A</th><th>B</th><th>C</th></tr>
   <tr><td colspan='2'>1</td><td>2</td></tr>
   <tr><td colspan='2'>3</td></tr>
