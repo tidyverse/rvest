@@ -157,35 +157,47 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#rvest-development-version" class="anchor"></a>rvest (development version)<small> Unreleased </small>
 </h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li><p>New <code><a href="../reference/html_form.html">html_form_submit()</a></code> allows you to submit a form directly, without needing to create a session (<a href='https://github.com/tidyverse/rvest/issues/300'>#300</a>).</p></li>
-<li><p><code><a href="../reference/rename.html">html_node()</a></code> and <code><a href="../reference/rename.html">html_nodes()</a></code> have been superseded in favor of <code><a href="../reference/html_element.html">html_element()</a></code> and <code><a href="../reference/html_element.html">html_elements()</a></code> since they (almost) always return elements, not nodes (<a href='https://github.com/tidyverse/rvest/issues/298'>#298</a>).</p></li>
-<li><p><code><a href="../reference/html_table.html">html_table()</a></code> gains <code>na.strings</code> argument to control what values are converted to <code>NA</code> (<a href='https://github.com/tidyverse/rvest/issues/107'>#107</a>).</p></li>
-<li><p>All uses of IMDB have been eliminated since the site explicitly prohibits scraping (<a href='https://github.com/tidyverse/rvest/issues/195'>#195</a>).</p></li>
-<li><p>The “harvesting the web” vignette has been rewritten to focus more on the basics of how rvest works, eliminating the screenshots to keep the installed package as svelte as possible. It’s also been renamed to <code><a href="../articles/rvest.html">vignette("rvest")</a></code> since it’s the vignette that you should read first.</p></li>
-<li><p><code><a href="../reference/minimal_html.html">minimal_html()</a></code> (which doesn’t appear to be used by any other package) has had its arguments flipped to make it more intuitive.</p></li>
-<li><p>The SelectorGadget vignette is now a web-only article so we can be more generous with screenshots since they’re no longer bundled with every install of the package.</p></li>
 <li><p>New <code><a href="../reference/html_text.html">html_text2()</a></code> provides a more natural rendering of HTML nodes into text, converting <code>&lt;br&gt;</code> into “\n”, and removing non-significant whitespace (<a href='https://github.com/tidyverse/rvest/issues/175'>#175</a>). By default, it also converts <code>&amp;nbsp;</code> into regular spaces, which you can suppress with <code>preserve_nbsp = TRUE</code> (<a href='https://github.com/tidyverse/rvest/issues/284'>#284</a>).</p></li>
-<li><p>New <code><a href="../reference/rename.html">forward()</a></code> function to complement <code><a href="../reference/rename.html">back()</a></code>.</p></li>
-<li><p><code><a href="../reference/rename.html">html_session()</a></code> has had a thorough overhaul and now returns an object of class <code>rvest_session</code> rather than <code>session</code>.</p></li>
 <li>
 <p><code><a href="../reference/html_table.html">html_table()</a></code> has been re-written from scratch to more closely mimic the algorithm that browsers use for parsing tables. This should mean that there are far fewer tables for which it fails to produce some output (<a href='https://github.com/tidyverse/rvest/issues/63'>#63</a>, <a href='https://github.com/tidyverse/rvest/issues/204'>#204</a>,</p>
-<p><a href='https://github.com/tidyverse/rvest/issues/215'>#215</a>). The <code>fill</code> argument has been deprecated since it is no longer needed. <code><a href="../reference/html_table.html">html_table()</a></code> now returns a tibble rather than a data frame to be compatible with the rest of the tidyverse (<a href='https://github.com/tidyverse/rvest/issues/199'>#199</a>). Its performance has been considerably improved (<a href='https://github.com/tidyverse/rvest/issues/237'>#237</a>).</p>
+<p><a href='https://github.com/tidyverse/rvest/issues/215'>#215</a>). The <code>fill</code> argument has been deprecated since it is no longer needed. <code><a href="../reference/html_table.html">html_table()</a></code> now returns a tibble rather than a data frame to be compatible with the rest of the tidyverse (<a href='https://github.com/tidyverse/rvest/issues/199'>#199</a>). Its performance has been considerably improved (<a href='https://github.com/tidyverse/rvest/issues/237'>#237</a>). It also gains a <code>na.strings</code> argument to control what values are converted to <code>NA</code> (<a href='https://github.com/tidyverse/rvest/issues/107'>#107</a>).</p>
 </li>
-<li><p><code><a href="../reference/html_form.html">html_form_set()</a></code> can now accept character vectors allowing you to select multiple checkboxes in a set or select multiple values from a multi-<code>&lt;select&gt;</code> (<a href='https://github.com/tidyverse/rvest/issues/127'>#127</a>, with help from <a href='https://github.com/juba'>@juba</a>).</p></li>
-<li><p>Objects within a <code><a href="../reference/html_form.html">html_form()</a></code> now have class <code>rvest_field</code>, instead of a variety of classes that were lacking the <code>rvest_</code> prefix.</p></li>
-<li><p>Renamed <code><a href="../reference/rename.html">submit_form()</a></code> to <code><a href="../reference/session.html">session_submit()</a></code> and <code><a href="../reference/rename.html">set_values()</a></code> to <code><a href="../reference/html_form.html">html_form_set()</a></code>.</p></li>
-<li><p><code><a href="../reference/session.html">session_submit()</a></code> now allows you to pick the submission button by position (<a href='https://github.com/tidyverse/rvest/issues/156'>#156</a>). The <code>...</code> argument is deprecated; please use <code>config</code> instead.</p></li>
-<li><p><code><a href="../reference/html_form.html">html_form_set()</a></code> now uses dynamic dots so that you can use <code>!!!</code> if you have a list of values (<a href='https://github.com/tidyverse/rvest/issues/189'>#189</a>).</p></li>
-<li><p>rvest now imports xml2 rather than depending on it. This is cleaner because it avoids attaching all the xml2 functions that you’re less likely to use. To make it as backward compatible as possible, rvest re-exports xml2 functions <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code>, <code>xml_absolute()</code>.</p></li>
-<li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
-<li><p><code><a href="../reference/repair_encoding.html">repair_encoding()</a></code> has been deprecated because it doesn’t appear to work.</p></li>
-<li><p><code>pluck()</code> is no longer exported; if you need it use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_chr()</a></code> and friends instead (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
-<li><p><code><a href="../reference/session.html">session_submit()</a></code> errors if <code>form</code> doesn’t have a <code>url</code> (<a href='https://github.com/tidyverse/rvest/issues/288'>#288</a>).</p></li>
-<li><p>Long deprecated functions have been removed: <code>html()</code>, <code>html_tag()</code>, <code>xml()</code>.</p></li>
-<li><p><code><a href="../reference/rename.html">xml_tag()</a></code>, <code><a href="../reference/rename.html">xml_node()</a></code>, and <code><a href="../reference/rename.html">xml_nodes()</a></code> have been formally deprecated.</p></li>
+<li><p>New <code><a href="../reference/html_form.html">html_form_submit()</a></code> allows you to submit a form directly, without needing to create a session (<a href='https://github.com/tidyverse/rvest/issues/300'>#300</a>).</p></li>
 <li><p>rvest is now licensed as MIT (<a href='https://github.com/tidyverse/rvest/issues/287'>#287</a>).</p></li>
 </ul>
+</div>
+<div id="api-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#api-changes" class="anchor"></a>API changes</h2>
+<p>Since this is the 1.0.0 release, I included a large number of API changes to make rvest more compatible with current tidyverse conventions. Older functions have been deprecated, so existing code will continue to work (albeit with a few new warnings).</p>
+<ul>
+<li><p>rvest now imports xml2 rather than depending on it. This is cleaner because it avoids attaching all the xml2 functions that you’re less likely to use. To reduce the change of breakages, rvest re-exports xml2 functions <code><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html()</a></code> and <code><a href="http://xml2.r-lib.org/reference/url_absolute.html">url_absolute()</a></code>, but your code may now need an explicit <code><a href="https://xml2.r-lib.org/">library(xml2)</a></code>.</p></li>
+<li><p><code><a href="../reference/html_form.html">html_form()</a></code> now returns an object with class <code>rvest_form</code> (instead of form). Fields within a form now have class <code>rvest_field</code>, instead of a variety of classes that were lacking the <code>rvest_</code> prefix. All functions for working with forms have a common <code>html_form_</code> prefix: <code><a href="../reference/rename.html">set_values()</a></code> became <code><a href="../reference/html_form.html">html_form_set()</a></code>. <code><a href="../reference/rename.html">submit_form()</a></code> was renamed to <code><a href="../reference/session.html">session_submit()</a></code> because it returns a session.</p></li>
+<li><p><code><a href="../reference/rename.html">html_node()</a></code> and <code><a href="../reference/rename.html">html_nodes()</a></code> have been superseded in favor of <code><a href="../reference/html_element.html">html_element()</a></code> and <code><a href="../reference/html_element.html">html_elements()</a></code> since they (almost) always return elements, not nodes (<a href='https://github.com/tidyverse/rvest/issues/298'>#298</a>).</p></li>
+<li><p><code><a href="../reference/rename.html">html_session()</a></code> is now <code><a href="../reference/session.html">session()</a></code> and returns an object of class <code>rvest_session</code> (instead of <code>session</code>). All functions that work with session objects now have a common <code>session_</code> prefix.</p></li>
+<li><p>Long deprecated <code>html()</code>, <code>html_tag()</code>, <code>xml()</code> functions have been removed.</p></li>
+<li><p><code><a href="../reference/minimal_html.html">minimal_html()</a></code> (which doesn’t appear to be used by any other package) has had its arguments flipped to make it more intuitive.</p></li>
+<li><p><code><a href="../reference/html_encoding_guess.html">guess_encoding()</a></code> has been renamed to <code><a href="../reference/html_encoding_guess.html">html_encoding_guess()</a></code> to avoid a clash with <code>stringr::guess_encoding()</code> (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>). <code><a href="../reference/repair_encoding.html">repair_encoding()</a></code> has been deprecated because it doesn’t appear to work.</p></li>
+<li><p><code>pluck()</code> is no longer exported to avoid a clash with <code><a href="https://purrr.tidyverse.org/reference/pluck.html">purrr::pluck()</a></code>; if you need it use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_chr()</a></code> and friends instead (<a href='https://github.com/tidyverse/rvest/issues/209'>#209</a>).</p></li>
+<li><p><code><a href="../reference/rename.html">xml_tag()</a></code>, <code><a href="../reference/rename.html">xml_node()</a></code>, and <code><a href="../reference/rename.html">xml_nodes()</a></code> have been formally deprecated in favor of their <code>html_</code> equivalents.</p></li>
+</ul>
+</div>
+<div id="minor-improvements-and-bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-and-bug-fixes" class="anchor"></a>Minor improvements and bug fixes</h2>
+<ul>
+<li><p>The “harvesting the web” vignette has been rewritten to focus more on basics rvest, eliminating the screenshots to keep the installed package as svelte as possible. It’s also been renamed to <code><a href="../articles/rvest.html">vignette("rvest")</a></code> since it’s the vignette that you should read first.</p></li>
+<li><p>The SelectorGadget vignette is now a web-only article, <a href="https://rvest.tidyverse.org/articles/articles/selectorgadget.html" class="uri">https://rvest.tidyverse.org/articles/articles/selectorgadget.html</a>, so we can be more generous with screenshots since they’re no longer bundled with every install of the package. Together with the rewrite of the other vignette, this means that rvest is now ~90 Kb instead of ~1.1 Mb.</p></li>
+<li><p>All uses of IMDB have been eliminated since the site explicitly prohibits scraping (<a href='https://github.com/tidyverse/rvest/issues/195'>#195</a>).</p></li>
+<li><p><code><a href="../reference/session.html">session_submit()</a></code> errors if <code>form</code> doesn’t have a <code>url</code> (<a href='https://github.com/tidyverse/rvest/issues/288'>#288</a>).</p></li>
+<li><p>New <code><a href="../reference/session.html">session_forward()</a></code> function to complement <code><a href="../reference/session.html">session_back()</a></code>. It now allows you to pick the submission button by position (<a href='https://github.com/tidyverse/rvest/issues/156'>#156</a>). The <code>...</code> argument is deprecated; please use <code>config</code> instead.</p></li>
+<li><p><code><a href="../reference/html_form.html">html_form_set()</a></code> can now accept character vectors allowing you to select multiple checkboxes in a set or select multiple values from a multi-<code>&lt;select&gt;</code> (<a href='https://github.com/tidyverse/rvest/issues/127'>#127</a>, with help from <a href='https://github.com/juba'>@juba</a>). It also uses dynamic dots so that you can use <code>!!!</code> if you have a list of values (<a href='https://github.com/tidyverse/rvest/issues/189'>#189</a>).</p></li>
+</ul>
+</div>
 </div>
     <div id="rvest-036" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.6">
@@ -270,9 +282,9 @@
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#rvest-020" class="anchor"></a>rvest 0.2.0<small> 2015-01-01 </small>
 </h1>
-<div id="new-features" class="section level2">
+<div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
+<a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
 <li><p><code>html()</code> and <code>xml()</code> pass <code>...</code> on to <code><a href="https://httr.r-lib.org/reference/GET.html">httr::GET()</a></code> so you can more finely control the request (<a href='https://github.com/tidyverse/rvest/issues/48'>#48</a>).</p></li>
 <li><p>Add xml support: parse with <code>xml()</code>, then work with using <code><a href="../reference/rename.html">xml_node()</a></code>, <code>xml_attr()</code>, <code>xml_attrs()</code>, <code>xml_text()</code> and <code><a href="../reference/rename.html">xml_tag()</a></code> (<a href='https://github.com/tidyverse/rvest/issues/24'>#24</a>).</p></li>

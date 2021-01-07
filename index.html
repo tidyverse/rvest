@@ -113,7 +113,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>rvest helps you scrape (or harvest) data from web pages. It is designed to work with <a href="https://github.com/smbache/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a> and <a href="http://robobrowser.readthedocs.org/en/latest/readme.html">RoboBrowser</a>.</p>
+<p>rvest helps you scrape (or harvest) data from web pages. It is designed to work with <a href="https://github.com/tidyverse/magrittr">magrittr</a> to make it easy to express common web scraping tasks, inspired by libraries like <a href="https://www.crummy.com/software/BeautifulSoup/">beautiful soup</a> and <a href="http://robobrowser.readthedocs.io/en/latest/readme.html">RoboBrowser</a>.</p>
 <p>If you’re scraping multiple pages, I highly recommend using rvest in concert with <a href="https://dmi3kno.github.io/polite/">polite</a>. The polite package ensures that you’re respecting the <a href="https://en.wikipedia.org/wiki/Robots_exclusion_standard">robots.txt</a> and not hammering the site with too many requests.</p>
 </div>
 <div id="installation" class="section level2">
@@ -130,7 +130,7 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
 
 <span class="co"># Start by reading a HTML page with read_html():</span>
 <span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span>

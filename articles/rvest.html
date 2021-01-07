@@ -117,7 +117,7 @@
     
 <p>This vignette introduces you to the basics of web scraping with rvest. You’ll first learn the basics of HTML and how to use CSS selectors to refer to specific elements, then you’ll learn how to use rvest functions to get data out of HTML and into R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></code></pre></div>
 <div id="html-basics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#html-basics" class="anchor"></a>HTML basics</h2>
@@ -194,7 +194,7 @@
 <li><p><code>p.special</code>: selects all <code>&lt;p&gt;</code> elements with <code>class</code> “special”.</p></li>
 <li><p><code>#title</code>: selects the element with the <code>id</code> attribute that equals “title”. Id attributes must be unique within a document, so this will only ever select a single element.</p></li>
 </ul>
-<p>If you want to learn more CSS selectors I recommend starting with the fun <a href="http://flukeout.github.io/">CSS dinner</a> tutorial and then referring to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">MDN web docs</a>.</p>
+<p>If you want to learn more CSS selectors I recommend starting with the fun <a href="https://flukeout.github.io/">CSS dinner</a> tutorial and then referring to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">MDN web docs</a>.</p>
 <p>Lets try out the most important selectors with a simple example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/minimal_html.html">minimal_html</a></span><span class="op">(</span><span class="st">"
