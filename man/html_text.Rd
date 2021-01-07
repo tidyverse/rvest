@@ -27,7 +27,7 @@ A character vector the same length as \code{x}
 There are two ways to retrieve text from a element: \code{html_text()} and
 \code{html_text2()}. \code{html_text()} is a thin wrapper around \code{\link[xml2:xml_text]{xml2::xml_text()}}
 which returns just the raw underlying text. \code{html_text2()} simulates how
-text looks in a browser, using an approach inspired by javascript's
+text looks in a browser, using an approach inspired by JavaScript's
 \href{https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText}{innerText()}.
 Roughly speaking, it converts \verb{<br />} to \code{"\\n"}, adds blank lines
 around \verb{<p>} tags, and lightly formats tabular data.

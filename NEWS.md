@@ -3,14 +3,14 @@
 * New `html_form_submit()` allows you to submit a form directly, without 
   needing to create a session (#300).
 
-* `html_node()` and `html_nodes()` have been superseded in favour of
+* `html_node()` and `html_nodes()` have been superseded in favor of
   `html_element()`  and `html_elements()` since they (almost) always return 
   elements, not nodes (#298). 
 
 * `html_table()` gains `na.strings` argument to control what values are 
   converted to `NA` (#107).
 
-* All uses of imdb have been eliminated since the site explicitly prohibits
+* All uses of IMDB have been eliminated since the site explicitly prohibits
   scraping (#195).
 
 * The "harvesting the web" vignette has been rewritten to focus more on the 

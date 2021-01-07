@@ -61,7 +61,7 @@ I recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML
 
 Most elements can have content in between their start and end tags.
 This content can either be text or more elements.
-For example, the following HTML contains paragraph of text, where one word is bolded.
+For example, the following HTML contains paragraph of text, with one word in bold.
 
 ```{=html}
 <p>
@@ -72,7 +72,7 @@ The **children** of a node refers only to elements, so the `<p>` element above h
 The `<b>` element has no children, but it does have contents (the text "name").
 
 Some elements, like `<img>` can't have children.
-These elements depend solely on attributes for their behaviour.
+These elements depend solely on attributes for their behavior.
 
 ### Attributes
 
@@ -343,4 +343,3 @@ data.frame(
   weight = characters %>% html_element(".weight") %>% html_text2()
 )
 ```
-

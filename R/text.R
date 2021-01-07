@@ -4,7 +4,7 @@
 #' There are two ways to retrieve text from a element: `html_text()` and
 #' `html_text2()`. `html_text()` is a thin wrapper around [xml2::xml_text()]
 #' which returns just the raw underlying text. `html_text2()` simulates how
-#' text looks in a browser, using an approach inspired by javascript's
+#' text looks in a browser, using an approach inspired by JavaScript's
 #' [innerText()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).
 #' Roughly speaking, it converts `<br />` to `"\n"`, adds blank lines
 #' around `<p>` tags, and lightly formats tabular data.

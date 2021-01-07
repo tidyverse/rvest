@@ -93,7 +93,7 @@ Now let's try something a little more challenging: selecting all paragraphs of t
       .[1:4]
     ```
 
-Hmmm, this is correct, but we've lost the connection between title and intro.
+This is correct, but we've lost the connection between title and intro.
 To fix this problem we need to take a step back and see if we can find an element that identifies all the data for one movie.
 By carefully hovering, we can figure out that the `section` selector seems to do the job:
 

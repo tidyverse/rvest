@@ -1,6 +1,8 @@
 arounds
 bookmarklet
 Codecov
+combinator
+combinators
 colspan
 colspans
 config
@@ -9,10 +11,13 @@ CMD
 css
 http
 httr
+HyperText
 IMDB
+innerText
 ith
 libxml
 magrittr
+MDN
 nodeset
 nodesets
 prepending
@@ -23,6 +28,7 @@ tibble
 tidyverse
 selectorgadget
 SelectorGadget
+starwars
 stringi
 xpath
 XPath
