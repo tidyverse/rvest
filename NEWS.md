@@ -1,39 +1,11 @@
 # rvest (development version)
 
-* New `html_form_submit()` allows you to submit a form directly, without 
-  needing to create a session (#300).
-
-* `html_node()` and `html_nodes()` have been superseded in favor of
-  `html_element()`  and `html_elements()` since they (almost) always return 
-  elements, not nodes (#298). 
-
-* `html_table()` gains `na.strings` argument to control what values are 
-  converted to `NA` (#107).
-
-* All uses of IMDB have been eliminated since the site explicitly prohibits
-  scraping (#195).
-
-* The "harvesting the web" vignette has been rewritten to focus more on the 
-  basics of how rvest works, eliminating the screenshots to keep the installed
-  package as svelte as possible. It's also been renamed to `vignette("rvest")`
-  since it's the vignette that you should read first.
-
-* `minimal_html()` (which doesn't appear to be used by any other package)
-  has had its arguments flipped to make it more intuitive.
-
-* The SelectorGadget vignette is now a web-only article so we can be more 
-  generous with screenshots since they're no longer bundled with every
-  install of the package.
+## New features
 
 * New `html_text2()` provides a more natural rendering of HTML nodes into text,
   converting `<br>` into "\n", and removing non-significant whitespace (#175). 
   By default, it also converts `&nbsp;` into regular spaces, which you can 
   suppress with `preserve_nbsp = TRUE` (#284).
-
-* New `forward()` function to complement `back()`.
-
-* `html_session()` has had a thorough overhaul and now returns an object of
-  class `rvest_session` rather than `session`.
 
 * `html_table()` has been re-written from scratch to more closely mimic the
   algorithm that browsers use for parsing tables. This should mean that there
@@ -41,44 +13,80 @@
   #215). The `fill` argument has been deprecated since it is no longer needed.
   `html_table()` now returns a tibble rather than a data frame to be compatible
   with the rest of the tidyverse (#199). Its performance has been considerably
-  improved (#237).
+  improved (#237). It also gains a `na.strings` argument to control what values 
+  are converted to `NA` (#107).
 
-* `html_form_set()` can now accept character vectors allowing you to select
-  multiple checkboxes in a set or select multiple values from a multi-`<select>`
-  (#127, with help from @juba).
+* New `html_form_submit()` allows you to submit a form directly, without 
+  needing to create a session (#300).
 
-* Objects within a `html_form()` now have class `rvest_field`, instead of a
-  variety of classes that were lacking the `rvest_` prefix.
+* rvest is now licensed as MIT (#287).
 
-* Renamed `submit_form()` to `session_submit()` and `set_values()` to 
-  `html_form_set()`.
+## API changes
 
-* `session_submit()` now allows you to pick the submission button by position
-  (#156). The `...` argument is deprecated; please use `config` instead.
-
-* `html_form_set()` now uses dynamic dots so that you can use `!!!` if you have
-  a list of values (#189).
+Since this is the 1.0.0 release, I included a large number of API changes to make rvest more compatible with current tidyverse conventions. Older functions have been deprecated, so existing code will continue to work (albeit with a few new warnings).
 
 * rvest now imports xml2 rather than depending on it. This is cleaner because
   it avoids attaching all the xml2 functions that you're less likely to use.
-  To make it as backward compatible as possible, rvest re-exports xml2 functions
-  `read_html()`, `xml_absolute()`.
+  To reduce the change of breakages, rvest re-exports xml2 functions 
+  `read_html()` and `url_absolute()`, but your code may now need an explicit
+  `library(xml2)`.
+
+* `html_form()` now returns an object with class `rvest_form` (instead of form).
+   Fields within a form now have class `rvest_field`, instead of a
+  variety of classes that were lacking the `rvest_` prefix. All functions for
+  working with forms have a common `html_form_` prefix: `set_values()` became
+  `html_form_set()`. `submit_form()` was renamed to `session_submit()` because
+  it returns a session.
+
+* `html_node()` and `html_nodes()` have been superseded in favor of
+  `html_element()`  and `html_elements()` since they (almost) always return 
+  elements, not nodes (#298). 
+
+* `html_session()` is now `session()` and returns an object of class 
+  `rvest_session` (instead of `session`). All functions that work with session
+  objects now have a common `session_` prefix. 
+
+* Long deprecated `html()`, `html_tag()`, `xml()` functions have been removed. 
+
+* `minimal_html()` (which doesn't appear to be used by any other package)
+  has had its arguments flipped to make it more intuitive.
 
 * `guess_encoding()` has been renamed to `html_encoding_guess()` to avoid
-   a clash with `stringr::guess_encoding()` (#209).
-   
-* `repair_encoding()` has been deprecated because it doesn't appear to work.
+  a clash with `stringr::guess_encoding()` (#209). `repair_encoding()` has 
+  been deprecated because it doesn't appear to work.
 
-* `pluck()` is no longer exported; if you need it use `purrr::map_chr()` 
-  and friends instead (#209).
+* `pluck()` is no longer exported to avoid a clash with `purrr::pluck()`; 
+  if you need it use `purrr::map_chr()` and friends instead (#209).
+
+* `xml_tag()`, `xml_node()`, and `xml_nodes()` have been formally deprecated
+  in favor of their `html_` equivalents.
+
+## Minor improvements and bug fixes
+
+* The "harvesting the web" vignette has been rewritten to focus more on basics 
+  rvest, eliminating the screenshots to keep the installed package as svelte as 
+  possible. It's also been renamed to `vignette("rvest")` since it's the 
+  vignette that you should read first.
+
+* The SelectorGadget vignette is now a web-only article,
+  <https://rvest.tidyverse.org/articles/articles/selectorgadget.html>,
+  so we can be more generous with screenshots since they're no longer bundled 
+  with every install of the package. Together with the rewrite of the other
+  vignette, this means that rvest is now ~90 Kb instead of ~1.1 Mb.
+
+* All uses of IMDB have been eliminated since the site explicitly prohibits
+  scraping (#195).
 
 * `session_submit()` errors if `form` doesn't have a `url` (#288).
 
-* Long deprecated functions have been removed: `html()`, `html_tag()`, `xml()`. 
+* New `session_forward()` function to complement `session_back()`.
+  It now allows you to pick the submission button by position (#156). 
+  The `...` argument is deprecated; please use `config` instead.
 
-* `xml_tag()`, `xml_node()`, and `xml_nodes()` have been formally deprecated.
-
-* rvest is now licensed as MIT (#287).
+* `html_form_set()` can now accept character vectors allowing you to select
+  multiple checkboxes in a set or select multiple values from a multi-`<select>`
+  (#127, with help from @juba). It also uses dynamic dots so that you can use 
+  `!!!` if you have a list of values (#189).
 
 # rvest 0.3.6
 
