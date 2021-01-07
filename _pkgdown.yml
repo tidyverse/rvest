@@ -13,6 +13,7 @@ reference:
   - html_attr
   - html_children
   - html_elements
+  - html_form
   - html_name
   - html_table
   - html_text
@@ -21,7 +22,6 @@ reference:
 - title: Session
   contents:
   - session
-  - html_form
 
 - title: Miscellaneous helpers
   contents:
