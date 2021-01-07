@@ -51,7 +51,7 @@
 
 <meta property="og:title" content="Parse forms and set values — html_form" />
 <meta property="og:description" content="Use html_form() to extract a form, set values with html_form_set(),
-then submit it with session_submit()" />
+and submit it with html_form_submit()." />
 <meta property="og:image" content="https://rvest.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -158,12 +158,14 @@ then submit it with session_submit()" />
 
     <div class="ref-description">
     <p>Use <code>html_form()</code> to extract a form, set values with <code>html_form_set()</code>,
-then submit it with <code><a href='session.html'>session_submit()</a></code></p>
+and submit it with <code>html_form_submit()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>html_form</span><span class='op'>(</span><span class='va'>x</span>, base_url <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>html_form_set</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>html_form_set</span><span class='op'>(</span><span class='va'>form</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>html_form_submit</span><span class='op'>(</span><span class='va'>form</span>, submit <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,19 +191,29 @@ fields to modify.</p>
 <p>Provide a character vector to set multiple checkboxes in a set or
 select multiple values from a multi-select.</p></td>
     </tr>
+    <tr>
+      <th>submit</th>
+      <td><p>Which button should be used to submit the form?</p><ul>
+<li><p><code>NULL</code>, the default, uses the first button.</p></li>
+<li><p>A string selects a button by its name.</p></li>
+<li><p>A number selects a button using its relative position.</p></li>
+</ul></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An an S3 object with class <code>rvest_form</code>.</p>
+    <p><code>html_form()</code> and <code>html_form_set()</code> return an S3 object with class
+<code>rvest_form</code>. <code>html_form_submit()</code> submits the form and returns an httr
+response which you can then parse with <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>HTML 4.01 form specification:
 <a href='http://www.w3.org/TR/html401/interact/forms.html'>http://www.w3.org/TR/html401/interact/forms.html</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>session</span> <span class='op'>&lt;-</span> <span class='fu'><a href='session.html'>session</a></span><span class='op'>(</span><span class='st'>"http://www.google.com"</span><span class='op'>)</span>
-<span class='va'>search</span> <span class='op'>&lt;-</span> <span class='fu'>html_form</span><span class='op'>(</span><span class='va'>session</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+    <pre class="examples"><div class='input'><span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='st'>"http://www.google.com"</span><span class='op'>)</span>
+<span class='va'>search</span> <span class='op'>&lt;-</span> <span class='fu'>html_form</span><span class='op'>(</span><span class='va'>html</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 
 <span class='va'>search</span> <span class='op'>&lt;-</span> <span class='va'>search</span> <span class='op'>%&gt;%</span> <span class='fu'>html_form_set</span><span class='op'>(</span>q <span class='op'>=</span> <span class='st'>"My little pony"</span>, hl <span class='op'>=</span> <span class='st'>"fr"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Setting value of hidden field 'hl'.</span></div><div class='input'>
@@ -211,7 +223,8 @@ select multiple values from a multi-select.</p></td>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Setting value of hidden field 'hl'.</span></div><div class='input'>
 <span class='co'># To submit and get result:</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='session.html'>session_submit</a></span><span class='op'>(</span><span class='va'>session</span>, <span class='va'>form</span><span class='op'>)</span>
+<span class='va'>resp</span> <span class='op'>&lt;-</span> <span class='fu'>html_form_submit</span><span class='op'>(</span><span class='va'>search</span><span class='op'>)</span>
+<span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>resp</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

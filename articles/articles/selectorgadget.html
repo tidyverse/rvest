@@ -182,7 +182,7 @@
 <span class="co">#&gt; [4] "There is unrest in the Galactic Senate. Several thousand solar systems have declared their intentions to leave the Republic."</span></code></pre></div>
 </li>
 </ol>
-<p>Hmmm, this is correct, but we’ve lost the connection between title and intro. To fix this problem we need to take a step back and see if we can find an element that identifies all the data for one movie. By carefully hovering, we can figure out that the <code>section</code> selector seems to do the job:</p>
+<p>This is correct, but we’ve lost the connection between title and intro. To fix this problem we need to take a step back and see if we can find an element that identifies all the data for one movie. By carefully hovering, we can figure out that the <code>section</code> selector seems to do the job:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span>
 <span class="va">films</span>
