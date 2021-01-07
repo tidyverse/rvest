@@ -1,5 +1,8 @@
 # rvest (development version)
 
+* New `html_form_submit()` allows you to submit a form directly, without 
+  needing to create a session (#300).
+
 * `html_node()` and `html_nodes()` have been superseded in favour of
   `html_element()`  and `html_elements()` since they (almost) always return 
   elements, not nodes (#298). 

@@ -50,7 +50,7 @@ session <- function(url, ...) {
     ),
     class = "rvest_session"
   )
-  session_request(session, "GET", url)
+  session_get(session, url)
 }
 
 #' @export
@@ -66,17 +66,17 @@ print.rvest_session <- function(x, ...) {
   invisible(x)
 }
 
-session_request <- function(x, method, url, ...) {
-  if (method == "GET") {
-    x$response <- httr::GET(url, x$config, ..., handle = x$handle)
-  } else {
-    x$response <- httr::POST(url, x$config, ..., handle = x$handle)
-  }
-  httr::warn_for_status(x$response)
-  x$url <- x$response$url
+session_get <- function(x, url, ...) {
+  resp <- httr::GET(url, x$config, ..., handle = x$handle)
+  session_set_response(x, resp)
+}
 
+session_set_response <- function(x, response) {
+  httr::warn_for_status(response)
+
+  x$response <- response
+  x$url <- response$url
   x$cache <- new_environment()
-
   x
 }
 
@@ -89,7 +89,7 @@ session_jump_to <- function(x, url, ...) {
   url <- xml2::url_absolute(url, x$url)
   last_url <- x$url
 
-  x <- session_request(x, "GET", url, ...)
+  x <- session_get(x, url, ...)
   x$back <- c(last_url, x$back)
   x$forward <- character()
   x
@@ -153,7 +153,7 @@ session_back <- function(x) {
   url <- x$back[[1]]
   x$back <- x$back[-1]
 
-  x <- session_request(x, "GET", url)
+  x <- session_get(x, url)
   x$forward <- c(x$url, x$forward)
   x
 }
@@ -169,7 +169,7 @@ session_forward <- function(x) {
 
   url <- x$forward[[1]]
 
-  x <- session_request(x, "GET", url)
+  x <- session_get(x, url)
   x$forward <- x$forward[-1]
   x$back <- c(x$url, x$backs)
   x
@@ -188,103 +188,16 @@ session_history <- function(x) {
 # form --------------------------------------------------------------------
 
 #' @param form An [html_form] to submit
-#' @param submit Which button should be used?
-#'   * `NULL`, the default, uses the first.
-#'   * A string selects a button by its name.
-#'   * A number selects a button based on it relative position.
+#' @inheritParams html_form_submit
 #' @rdname session
 #' @export
 session_submit <- function(x, form, submit = NULL, ...) {
   check_session(x)
   check_form(form)
-  request <- submission_build(form, submit)
 
-  if (request$method == "POST") {
-    session_request(x,
-      method = "POST",
-      url = request$action,
-      body = request$values,
-      encode = request$enctype,
-      ...
-    )
-  } else {
-    session_request(x,
-      method = "GET",
-      url = request$action,
-      query = request$values,
-      ...
-    )
-  }
-}
-
-submission_build <- function(form, submit) {
-  method <- form$method
-  if (!(method %in% c("POST", "GET"))) {
-    warn(paste0("Invalid method (", method, "), defaulting to GET"))
-    method <- "GET"
-  }
-
-  if (length(form$action) == 0) {
-    abort("`form` doesn't contain a `action` attribute")
-  }
-
-  list(
-    method = method,
-    enctype = form$enctype,
-    action = form$action,
-    values = submission_build_values(form, submit)
-  )
-}
-
-submission_build_values <- function(form, submit = NULL) {
-  fields <- form$fields
-  submit <- submission_find_submit(fields, submit)
-  entry_list <- c(Filter(Negate(is_button), fields), list(submit))
-  entry_list <- Filter(function(x) !is.null(x$name), entry_list)
-
-  if (length(entry_list) == 0) {
-    return(list())
-  }
-
-  values <- lapply(entry_list, function(x) as.character(x$value))
-  names <- map_chr(entry_list, "[[", "name")
-
-  out <- set_names(unlist(values, use.names = FALSE), rep(names, lengths(values)))
-  as.list(out)
-}
-
-submission_find_submit <- function(fields, idx) {
-  buttons <- Filter(is_button, fields)
-
-  if (is.null(idx)) {
-    if (length(buttons) == 0) {
-      list()
-    } else {
-      if (length(buttons) > 1) {
-        inform(paste0("Submitting with '", buttons[[1]]$name, "'"))
-      }
-      buttons[[1]]
-    }
-  } else if (is.numeric(idx) && length(idx) == 1) {
-    if (idx < 1 || idx > length(buttons)) {
-      abort("Numeric `submit` out of range")
-    }
-    buttons[[idx]]
-  } else if (is.character(idx) && length(idx) == 1) {
-    if (!idx %in% names(buttons)) {
-      abort(c(
-        paste0("No <input> found with name '", idx, "'."),
-        i = paste0("Possible values: ", paste0(names(buttons), collapse = ", "))
-      ))
-    }
-    buttons[[idx]]
-  } else {
-    abort("`submit` must be NULL, a string, or a number.")
-  }
-}
-
-is_button <- function(x) {
-  tolower(x$type) %in% c("submit", "image", "button")
+  subm <- submission_build(form, submit)
+  resp <- submission_submit(subm, x$config, ..., handle = x$handle)
+  session_set_response(x, resp)
 }
 
 # xml2 methods ------------------------------------------------------------
@@ -292,15 +205,14 @@ is_button <- function(x) {
 #' @importFrom xml2 read_html
 #' @export
 read_html.rvest_session <- function(x, ...) {
-  if (!is_html(x)) {
+  if (!is_html(x$response)) {
     abort("Page doesn't appear to be html.")
   }
+
   env_cache(x$cache, "html", read_html(x$response, ...))
 }
 
 is_html <- function(x) {
-  stopifnot(is.session(x))
-
   type <- httr::headers(x)$`Content-Type`
   if (is.null(type)) return(FALSE)
 

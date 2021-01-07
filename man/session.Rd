@@ -47,11 +47,11 @@ expression.}
 
 \item{form}{An \link{html_form} to submit}
 
-\item{submit}{Which button should be used?
+\item{submit}{Which button should be used to submit the form?
 \itemize{
-\item \code{NULL}, the default, uses the first.
+\item \code{NULL}, the default, uses the first button.
 \item A string selects a button by its name.
-\item A number selects a button based on it relative position.
+\item A number selects a button using its relative position.
 }}
 }
 \description{

@@ -1,7 +1,7 @@
 #' Parse forms and set values
 #'
 #' Use `html_form()` to extract a form, set values with `html_form_set()`,
-#' then submit it with [session_submit()]
+#' and submit it with `html_form_submit()`.
 #'
 #' @export
 #' @inheritParams html_name
@@ -9,10 +9,12 @@
 #'   uses the url of the HTML document underlying `x`.
 #' @seealso HTML 4.01 form specification:
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
-#' @return An an S3 object with class `rvest_form`.
+#' @return `html_form()` and `html_form_set()` return an S3 object with class
+#'   `rvest_form`. `html_form_submit()` submits the form and returns an httr
+#'   response which you can then parse with [read_html()].
 #' @examples
-#' session <- session("http://www.google.com")
-#' search <- html_form(session)[[1]]
+#' html <- read_html("http://www.google.com")
+#' search <- html_form(html)[[1]]
 #'
 #' search <- search %>% html_form_set(q = "My little pony", hl = "fr")
 #'
@@ -22,7 +24,8 @@
 #'
 #' # To submit and get result:
 #' \dontrun{
-#' session_submit(session, form)
+#' resp <- html_form_submit(search)
+#' read_html(resp)
 #' }
 html_form <- function(x, base_url = NULL) UseMethod("html_form")
 
@@ -74,7 +77,7 @@ print.rvest_form <- function(x, ...) {
 }
 
 
-# form_set ----------------------------------------------------------------
+# set ----------------------------------------------------------------
 
 #' @rdname html_form
 #' @param form A form
@@ -102,6 +105,99 @@ html_form_set <- function(form, ...) {
   }
 
   form
+}
+
+# submit ------------------------------------------------------------------
+
+#' @rdname html_form
+#' @param submit Which button should be used to submit the form?
+#'   * `NULL`, the default, uses the first button.
+#'   * A string selects a button by its name.
+#'   * A number selects a button using its relative position.
+#' @export
+html_form_submit <- function(form, submit = NULL) {
+  check_form(form)
+
+  subm <- submission_build(form, submit)
+  submission_submit(subm)
+}
+
+submission_build <- function(form, submit) {
+  method <- form$method
+  if (!(method %in% c("POST", "GET"))) {
+    warn(paste0("Invalid method (", method, "), defaulting to GET"))
+    method <- "GET"
+  }
+
+  if (length(form$action) == 0) {
+    abort("`form` doesn't contain a `action` attribute")
+  }
+
+  list(
+    method = method,
+    enctype = form$enctype,
+    action = form$action,
+    values = submission_build_values(form, submit)
+  )
+}
+
+submission_submit <- function(x, ...) {
+  if (x$method == "POST") {
+    httr::POST(url = x$action, body = x$values, encode = x$enctype, ...)
+  } else {
+    httr::GET(url = x$action, query = x$values, ...)
+  }
+}
+
+submission_build_values <- function(form, submit = NULL) {
+  fields <- form$fields
+  submit <- submission_find_submit(fields, submit)
+  entry_list <- c(Filter(Negate(is_button), fields), list(submit))
+  entry_list <- Filter(function(x) !is.null(x$name), entry_list)
+
+  if (length(entry_list) == 0) {
+    return(list())
+  }
+
+  values <- lapply(entry_list, function(x) as.character(x$value))
+  names <- map_chr(entry_list, "[[", "name")
+
+  out <- set_names(unlist(values, use.names = FALSE), rep(names, lengths(values)))
+  as.list(out)
+}
+
+submission_find_submit <- function(fields, idx) {
+  buttons <- Filter(is_button, fields)
+
+  if (is.null(idx)) {
+    if (length(buttons) == 0) {
+      list()
+    } else {
+      if (length(buttons) > 1) {
+        inform(paste0("Submitting with '", buttons[[1]]$name, "'"))
+      }
+      buttons[[1]]
+    }
+  } else if (is.numeric(idx) && length(idx) == 1) {
+    if (idx < 1 || idx > length(buttons)) {
+      abort("Numeric `submit` out of range")
+    }
+    buttons[[idx]]
+  } else if (is.character(idx) && length(idx) == 1) {
+    if (!idx %in% names(buttons)) {
+      abort(c(
+        paste0("No <input> found with name '", idx, "'."),
+        i = paste0("Possible values: ", paste0(names(buttons), collapse = ", "))
+      ))
+    }
+    buttons[[idx]]
+  } else {
+    abort("`submit` must be NULL, a string, or a number.")
+  }
+}
+
+is_button <- function(x) {
+  tolower(x$type) %in% c("submit", "image", "button")
 }
 
 # Field parsing -----------------------------------------------------------

@@ -3,11 +3,14 @@
 \name{html_form}
 \alias{html_form}
 \alias{html_form_set}
+\alias{html_form_submit}
 \title{Parse forms and set values}
 \usage{
 html_form(x, base_url = NULL)
 
 html_form_set(form, ...)
+
+html_form_submit(form, submit = NULL)
 }
 \arguments{
 \item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
@@ -23,17 +26,26 @@ fields to modify.
 
 Provide a character vector to set multiple checkboxes in a set or
 select multiple values from a multi-select.}
+
+\item{submit}{Which button should be used to submit the form?
+\itemize{
+\item \code{NULL}, the default, uses the first button.
+\item A string selects a button by its name.
+\item A number selects a button using its relative position.
+}}
 }
 \value{
-An an S3 object with class \code{rvest_form}.
+\code{html_form()} and \code{html_form_set()} return an S3 object with class
+\code{rvest_form}. \code{html_form_submit()} submits the form and returns an httr
+response which you can then parse with \code{\link[=read_html]{read_html()}}.
 }
 \description{
 Use \code{html_form()} to extract a form, set values with \code{html_form_set()},
-then submit it with \code{\link[=session_submit]{session_submit()}}
+and submit it with \code{html_form_submit()}.
 }
 \examples{
-session <- session("http://www.google.com")
-search <- html_form(session)[[1]]
+html <- read_html("http://www.google.com")
+search <- html_form(html)[[1]]
 
 search <- search \%>\% html_form_set(q = "My little pony", hl = "fr")
 
@@ -43,7 +55,8 @@ search <- search \%>\% html_form_set(!!!vals)
 
 # To submit and get result:
 \dontrun{
-session_submit(session, form)
+resp <- html_form_submit(search)
+read_html(resp)
 }
 }
 \seealso{

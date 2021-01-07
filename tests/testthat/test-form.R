@@ -76,7 +76,7 @@ test_that("handles different encoding types", {
   expect_snapshot(convert_enctype("unknown"))
 })
 
-# form_set --------------------------------------------------------------
+# set --------------------------------------------------------------
 
 test_that("can set values of inputs", {
   html <- minimal_html('
@@ -107,4 +107,105 @@ test_that("has informative errors", {
   expect_snapshot(html_form_set(form, missing = "x"), error = TRUE)
 })
 
+# submit ------------------------------------------------------------------
 
+test_that("works as expected in simple case", {
+  html <- minimal_html('
+    <form method="post" action="/test-path">
+    <input name="x" value="1">
+    <button type="submit" name="clickMe">Click me</button>
+    </form>
+  ')
+  form <- html_form(html, base_url = "http://here.com")[[1]]
+
+  sub <- submission_build(form, "clickMe")
+  expect_equal(sub$method, "POST")
+  expect_equal(sub$action, "http://here.com/test-path")
+  expect_equal(sub$values, list(x = "1"))
+})
+
+
+test_that("useful feedback on invalid forms", {
+  html <- minimal_html("<form></form>")
+  form <- html_form(html)[[1]]
+  expect_snapshot(submission_build(form, NULL), error = TRUE)
+
+  html <- minimal_html("<form action='/' method='foo'></form>")
+  form <- html_form(html)[[1]]
+  expect_snapshot(x <- submission_build(form, NULL))
+})
+
+test_that("can handle multiple values", {
+  html <- minimal_html('
+    <form method="post" action="/">
+    <input type="text" name="x">
+    <input type="text" name="y">
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+  form <- html_form_set(form, x = c("1", "2", "3"), y = character())
+
+  expect_equal(
+    submission_build_values(form),
+    list(x = "1", x = "2", x = "3")
+  )
+})
+
+test_that("handles multiple buttons", {
+  html <- minimal_html('
+    <form action="/">
+    <button type="submit" name="one" value="1">Click me</button>
+    <button type="submit" name="two" value="2">Click me</button>
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  # Messages when picking automatically
+  expect_snapshot(vals <- submission_build_values(form, NULL))
+  expect_equal(vals, list(one = "1"))
+
+  expect_equal(submission_build_values(form, "two"), list(two = "2"))
+  expect_equal(submission_build_values(form, 2L), list(two = "2"))
+
+  # Useful failure messages
+  expect_snapshot(submission_build_values(form, 3L), error = TRUE)
+  expect_snapshot(submission_build_values(form, "three"), error = TRUE)
+  expect_snapshot(submission_build_values(form, TRUE), error = TRUE)
+})
+
+test_that("handles no buttons", {
+  html <- minimal_html('
+    <form action="/">
+    <input type="text", name="x" value="1">
+    </form>
+  ')
+  form <- html_form(html)[[1]]
+
+  expect_equal(
+    submission_build_values(form),
+    list(x = "1")
+  )
+})
+
+test_that("can submit using three primary techniques", {
+  app <- webfakes::local_app_process(app_request())
+
+  html <- minimal_html('
+    <form action="/">
+    <input type="text", name="x" value="1">
+    <input type="text", name="x" value="2">
+    <input type="text", name="y" value="3">
+    </form>
+  ')
+  form <- html_form(html, base_url = app$url())[[1]]
+
+  expect_snapshot({
+    show_response(html_form_submit(form))
+
+    form$method <- "POST"
+    show_response(html_form_submit(form))
+
+    form$enctype <- "multipart"
+    show_response(html_form_submit(form))
+  })
+})

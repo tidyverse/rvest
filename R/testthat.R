@@ -21,7 +21,7 @@ show_response <- function(x) {
     gsub("-{3,}[a-f0-9]+", "---<divider>", x)
   }
 
-  x <- httr::content(x$response)
+  x <- httr::content(x)
 
   cat_line(toupper(x$method), " ", strip_divider(x$type))
   cat_line("Query string: ", x$query)
