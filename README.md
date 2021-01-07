@@ -16,10 +16,10 @@ coverage](https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg)](
 ## Overview
 
 rvest helps you scrape (or harvest) data from web pages. It is designed
-to work with [magrittr](https://github.com/smbache/magrittr) to make it
+to work with [magrittr](https://github.com/tidyverse/magrittr) to make it
 easy to express common web scraping tasks, inspired by libraries like
 [beautiful soup](https://www.crummy.com/software/BeautifulSoup/) and
-[RoboBrowser](http://robobrowser.readthedocs.org/en/latest/readme.html).
+[RoboBrowser](http://robobrowser.readthedocs.io/en/latest/readme.html).
 
 If you’re scraping multiple pages, I highly recommend using rvest in
 concert with [polite](https://dmi3kno.github.io/polite/). The polite
