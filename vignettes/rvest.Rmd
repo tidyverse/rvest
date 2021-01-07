@@ -34,34 +34,53 @@ HTML stands for "HyperText Markup Language" and looks like this:
 </body>
 ```
 
-HTML has a hierarchical structure formed by **elements** which consist of a start tag (e.g. `<tag>`), optional attributes (`id='first'`), an end tag[^1] (like `</tag>`) and everything in between (which can be text, more tags, or both).
-All up, there are over 100 HTML tags.
-Some of the most important are:
+HTML has a hierarchical structure formed by **elements** which consist of a start tag (e.g. `<tag>`), optional **attributes** (`id='first'`), an end tag[^1] (like `</tag>`), and **contents** (everything in between the start and end tag).
 
 [^1]: A number of tags (including `<p>` and `<li>)` don't require end tags, but I think it's best to include them because it makes seeing the structure of the HTML a little easier.
 
--   `<html>`, `<body>`, and `<head>` which define the overall structure of the page.
-    Every HTML page must start with `<html>` and end with `</html>`.
-    HTML pages must also contain metadata in `<head>` and contents in `<body>`.
+Since `<` and `>` are used for start and end tags, you can't write them directly.
+Instead you have to use the HTML **escapes** `&gt;` (greater than) and `&lt;` (less than).
+And since those escapes use `&`, if you want a literal ampersand you have to escape it as `&amp;`.
+There are a wide range of possible HTML escapes but you don't need to worry about them too much because rvest automatically handles them for you.
+
+### Elements
+
+All up, there are over 100 HTML elements.
+Some of the most important are:
+
+-   Every HTML page must be must be in an `<html>` element, and it must have two children: `<head>`, which contains document metadata like the page title, and `<body>`, which contains the content you see in the browser.
 
 -   Block tags like `<h1>` (heading 1), `<p>` (paragraph), and `<ol>` (ordered list) form the overall structure of the page.
 
 -   Inline tags like `<b>` (bold), `<i>` (italics), and `<a>` (links) formats text inside block tags.
 
-Tags can have named **attributes** which look like `name1='value1' name2='value2'`.
-Two of the most important attributes are `id` and `class`, which are used in conjunction with CSS (Cascading Style Sheets) to control the visual appearance of the page.
-These are often useful when scraping data off a page.
-Attributes are particularly important for elements like `<img>` that don't have end tags, and hence can't contain children.
-
-Since `<` and `>` are for start and end tags, you can't write them directly.
-Instead you have to use the HTML **escapes** `&gt;` (greater than) and `&lt;` (less that).
-And since those escapes use `&`, if you want a literal ampersand you have to escape it as `&amp;`.
-But yyou don't need to worry about these when using rvest; it takes care of converting escapes for you.
-
 If you encounter a tag that you've never seen before, you can find out what it does with a little googling.
 I recommend the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML) which are produced by Mozilla, the company that makes the Firefox web browser.
 
-## Getting a web page
+### Contents
+
+Most elements can have content in between their start and end tags.
+This content can either be text or more elements.
+For example, the following HTML contains paragraph of text, where one word is bolded.
+
+```{=html}
+<p>
+  Hi! My <b>name</b> is Hadley.
+</p>
+```
+The **children** of a node refers only to elements, so the `<p>` element above has one child, the `<b>` element.
+The `<b>` element has no children, but it does have contents (the text "name").
+
+Some elements, like `<img>` can't have children.
+These elements depend solely on attributes for their behaviour.
+
+### Attributes
+
+Tags can have named **attributes** which look like `name1='value1' name2='value2'`.
+Two of the most important attributes are `id` and `class`, which are used in conjunction with CSS (Cascading Style Sheets) to control the visual appearance of the page.
+These are often useful when scraping data off a page.
+
+## Reading HTML with rvest
 
 You'll usually start the scraping process with `read_html()`.
 This returns a `xml_document`[^2] object which you'll then manipulate using rvest functions:
@@ -83,6 +102,7 @@ html <- minimal_html("
     <li>This is a bulleted list</li>
   </ul>
 ")
+html
 ```
 
 Regardless of how you get the HTML, you'll need some way to identify the elements that contain the data you care about.
@@ -100,9 +120,9 @@ The four most important selectors are:
 
 -   `p`: selects all `<p>` elements.
 
--   `.important`: selects all elements with `class` "important".
+-   `.title`: selects all elements with `class` "title".
 
--   `p.important`: selects all `<p>` elements with `class` "important".
+-   `p.special`: selects all `<p>` elements with `class` "special".
 
 -   `#title`: selects the element with the `id` attribute that equals "title".
     Id attributes must be unique within a document, so this will only ever select a single element.
@@ -139,8 +159,8 @@ If you don't know exactly what selector you need, I highly recommend using [Sele
 ## Extracting data
 
 Now that you've got the elements you care about, you'll need to get data out of them.
-If you're lucky, the data might already live in an HTML table, and you can use `html_table()` to turn it directly into a data frame.
-Otherwise, you'll usually get the data from either the text contents of an attribute.
+You'll usually get the data from either the text contents or an attribute.
+But, sometimes (if you're lucky!), the data you need will be in an HTML table.
 
 ### Text
 
@@ -149,15 +169,17 @@ Use `html_text2()` to extract the plain text contents of an HTML element:
 ```{r}
 html <- minimal_html("
   <ol>
-    <li>apple</li>
-    <li>pear</li>
+    <li>apple &amp; pear</li>
     <li>banana</li>
+    <li>pineapple</li>
   </ol>
 ")
 html %>% 
   html_elements("li") %>% 
   html_text2()
 ```
+
+Note that the escaped ampersand is automatically converted to `&`; you'll only ever see HTML escapes in the source HTML, not in the data returned by rvest.
 
 You might wonder why I used `html_text2()`, since it seems to give the same result as `html_text()`:
 
@@ -177,7 +199,9 @@ html <- minimal_html("<body>
   <p>
   This is
   a
-  paragraph.</p><p>This is another paragraph</p>
+  paragraph.</p><p>This is another paragraph.
+  
+  It has two sentences.</p>
 ")
 
 ```
@@ -237,6 +261,42 @@ html %>%
   as.integer()
 ```
 
+### Tables
+
+HTML tables are composed four main elements: `<table>`, `<tr>` (table row), `<th>` (table heading), and `<td>` (table data).
+Here's a simple HTML table with two columns and three rows:
+
+```{r}
+html <- minimal_html("
+  <table>
+    <tr>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+    <tr>
+      <td>1.5</td>
+      <td>2.7</td>
+    </tr>
+    <tr>
+      <td>4.9</td>
+      <td>1.3</td>
+    </tr>
+    <tr>
+      <td>7.2</td>
+      <td>8.1</td>
+    </tr>
+  </table>
+  ")
+```
+
+Because tables are a common way to store data, rvest includes the handy `html_table()` which converts a table into a data frame:
+
+```{r}
+html %>% 
+  html_node("table") %>% 
+  html_table()
+```
+
 ## Element vs elements
 
 When using rvest, your eventual goal is usually to build up a data frame, and you want each row to correspond some repeated unit on the HTML page.
@@ -283,3 +343,4 @@ data.frame(
   weight = characters %>% html_element(".weight") %>% html_text2()
 )
 ```
+
