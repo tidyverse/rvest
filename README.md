@@ -34,7 +34,7 @@ and not hammering the site with too many requests.
 install.packages("tidyverse")
 
 # Alternatively, install just rvest:
-install.packages("dplyr")
+install.packages("rvest")
 ```
 
 ## Usage

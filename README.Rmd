@@ -35,7 +35,7 @@ The polite package ensures that you're respecting the [robots.txt](https://en.wi
 install.packages("tidyverse")
 
 # Alternatively, install just rvest:
-install.packages("dplyr")
+install.packages("rvest")
 ```
 
 ## Usage
@@ -82,4 +82,3 @@ html %>%
 
 Please note that the rvest project is released with a [Contributor Code of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
-
