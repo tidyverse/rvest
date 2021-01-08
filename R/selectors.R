@@ -34,34 +34,38 @@
 #'   the output to the input.
 #' @export
 #' @examples
-#' url <- paste0(
-#'   "https://web.archive.org/web/20190202054736/",
-#'   "https://www.boxofficemojo.com/movies/?id=ateam.htm"
-#' )
-#' ateam <- read_html(url)
-#' html_elements(ateam, "center")
-#' html_elements(ateam, "center font")
-#' html_elements(ateam, "center font b")
+#' html <- minimal_html("
+#'   <h1>This is a heading</h1>
+#'   <p id='first'>This is a paragraph</p>
+#'   <p class='important'>This is an important paragraph</p>
+#' ")
 #'
-#' ateam %>% html_elements("center") %>% html_elements("td")
-#' ateam %>% html_elements("center") %>% html_elements("font")
+#' html %>% html_element("h1")
+#' html %>% html_elements("p")
+#' html %>% html_elements(".important")
+#' html %>% html_elements("#first")
 #'
-#' td <- ateam %>% html_elements("center") %>% html_elements("td")
-#' td
+#' # html_element() vs html_elements() --------------------------------------
+#' html <- minimal_html("
+#'   <ul>
+#'     <li><b>C-3PO</b> is a <i>droid</i> that weighs <span class='weight'>167 kg</span></li>
+#'     <li><b>R2-D2</b> is a <i>droid</i> that weighs <span class='weight'>96 kg</span></li>
+#'     <li><b>Yoda</b> weighs <span class='weight'>66 kg</span></li>
+#'     <li><b>R4-P17</b> is a <i>droid</i></li>
+#'   </ul>
+#' ")
+#' li <- html %>% html_elements("li")
 #'
 #' # When applied to a node set, html_elements() returns all matching elements
 #' # beneath any of the inputs, flattening results into a new node set.
-#' td %>% html_elements("font")
+#' li %>% html_elements("i")
 #'
-#' # html_element() returns the first matching element. If there are no matching
-#' # nodes, it returns a "missing" element
-#' td %>% html_element("font")
+#' # When applied to a node set, html_element() always returns a vector the
+#' # same length as the input, using a "missing" element where needed.
+#' li %>% html_element("i")
 #' # and html_text() and html_attr() will return NA
-#' td %>% html_element("font") %>% html_text()
-#'
-#' # To pick out an element or elements at specified positions, use [[ and [
-#' ateam %>% html_elements("table") %>% .[[1]] %>% html_elements("img")
-#' ateam %>% html_elements("table") %>% .[1:2] %>% html_elements("img")
+#' li %>% html_element("i") %>% html_text2()
+#' li %>% html_element("span") %>% html_attr("class")
 html_element <- function(x, css, xpath) {
   UseMethod("html_element")
 }
