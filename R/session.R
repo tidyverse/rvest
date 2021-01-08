@@ -209,7 +209,7 @@ read_html.rvest_session <- function(x, ...) {
     abort("Page doesn't appear to be html.")
   }
 
-  env_cache(x$cache, "html", read_html(x$response, ...))
+  env_cache(x$cache, "html", read_html(x$response, ..., base_url = x$url))
 }
 
 is_html <- function(x) {

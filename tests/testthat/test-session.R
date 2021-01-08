@@ -9,12 +9,13 @@ test_that("basic session process works as expected", {
   })
 })
 
-test_that("session caches xml parsing", {
+test_that("session caches xml parsing and sets base url", {
   s <- session("https://rvest.tidyverse.org/")
   expect_equal(s$cache$html, NULL)
 
   html <- read_html(s)
   expect_true(rlang::is_reference(s$cache$html, html))
+  expect_equal(xml2::xml_url(html), "https://rvest.tidyverse.org/")
 })
 
 test_that("errors if try to access HTML from non-HTML page", {
