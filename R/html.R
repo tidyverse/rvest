@@ -1,7 +1,7 @@
 #' Get element name
 #'
-#' @param x A document (from [read_html()]), node set (from [html_elements()])
-#'   or node (from [html_element()].
+#' @param x A document (from [read_html()]), node set (from [html_elements()]),
+#'   node (from [html_element()]), or session (from [session()]).
 #' @return A character vector the same length as `x`
 #' @export
 #' @examples

@@ -10,8 +10,8 @@ html_attr(x, name, default = NA_character_)
 html_attrs(x)
 }
 \arguments{
-\item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}})
-or node (from \code{\link[=html_element]{html_element()}}.}
+\item{x}{A document (from \code{\link[=read_html]{read_html()}}), node set (from \code{\link[=html_elements]{html_elements()}}),
+node (from \code{\link[=html_element]{html_element()}}), or session (from \code{\link[=session]{session()}}).}
 
 \item{name}{Name of attribute to retrieve.}
 
