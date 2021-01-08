@@ -60,10 +60,6 @@ html_table <- function(x,
                        na.strings = "NA"
   ) {
 
-  if (lifecycle::is_present(fill)) {
-    warn("`fill` is now ignored and always happens")
-  }
-
   UseMethod("html_table")
 }
 
@@ -110,6 +106,14 @@ html_table.xml_node <- function(x,
                                 fill = deprecated(),
                                 dec = ".",
                                 na.strings = "NA") {
+
+  if (lifecycle::is_present(fill) && !isTRUE(fill)) {
+    lifecycle::deprecate_warn(
+      when = "1.0.0",
+      what = "html_table(fill = )",
+      details = "An improved algorithm fills by default so it is no longer needed."
+    )
+  }
 
   ns <- xml2::xml_ns(x)
   rows <- xml2::xml_find_all(x, ".//tr", ns = ns)

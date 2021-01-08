@@ -133,3 +133,18 @@ test_that("passes arguments to type.convert", {
   table <- html_table(html, dec = ",")[[1]]
   expect_equal(table$y, 1.2)
 })
+
+test_that("fill = FALSE is deprecated", {
+  html <- minimal_html('
+    <table>
+      <tr><th>x</th></tr>
+      <tr><td>1</td></tr>
+      </tr>
+    </table>
+  ')
+  expect_snapshot({
+    . <- html_table(html, fill = FALSE)
+
+    . <- html_table(html, fill = TRUE)
+  })
+})

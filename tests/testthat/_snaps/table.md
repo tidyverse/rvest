@@ -50,3 +50,13 @@
       <int>
     1     2
 
+# fill = FALSE is deprecated
+
+    Code
+      . <- html_table(html, fill = FALSE)
+    Warning <lifecycle_warning_deprecated>
+      The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
+      An improved algorithm fills by default so it is no longer needed.
+    Code
+      . <- html_table(html, fill = TRUE)
+
