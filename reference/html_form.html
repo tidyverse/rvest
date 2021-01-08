@@ -172,8 +172,8 @@ and submit it with <code>html_form_submit()</code>.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A document (from <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>), node set (from <code><a href='html_element.html'>html_elements()</a></code>)
-or node (from <code><a href='html_element.html'>html_element()</a></code>.</p></td>
+      <td><p>A document (from <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>), node set (from <code><a href='html_element.html'>html_elements()</a></code>),
+node (from <code><a href='html_element.html'>html_element()</a></code>), or session (from <code><a href='session.html'>session()</a></code>).</p></td>
     </tr>
     <tr>
       <th>base_url</th>
@@ -203,9 +203,16 @@ select multiple values from a multi-select.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>html_form()</code> and <code>html_form_set()</code> return an S3 object with class
-<code>rvest_form</code>. <code>html_form_submit()</code> submits the form and returns an httr
-response which you can then parse with <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>.</p>
+    
+<ul>
+<li><p><code>html_form()</code> returns as S3 object with class <code>rvest_form</code> when applied
+to a single element. It returns a list of <code>rvest_form</code> objects when
+applied to multiple elements or a document.</p></li>
+<li><p><code>html_form_set()</code> returns an <code>rvest_form</code> object.</p></li>
+<li><p><code>html_form_submit()</code> submits the form, returning an httr response which
+can be parsed with <code><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html()</a></code>.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>HTML 4.01 form specification:
