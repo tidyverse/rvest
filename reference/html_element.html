@@ -213,76 +213,51 @@ simple selector.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span>
-  <span class='st'>"https://web.archive.org/web/20190202054736/"</span>,
-  <span class='st'>"https://www.boxofficemojo.com/movies/?id=ateam.htm"</span>
-<span class='op'>)</span>
-<span class='va'>ateam</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://xml2.r-lib.org/reference/read_xml.html'>read_html</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>
-<span class='fu'>html_elements</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"
+  &lt;h1&gt;This is a heading&lt;/h1&gt;
+  &lt;p id='first'&gt;This is a paragraph&lt;/p&gt;
+  &lt;p class='important'&gt;This is an important paragraph&lt;/p&gt;
+"</span><span class='op'>)</span>
+
+<span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"h1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {html_node}
+#&gt; &lt;h1&gt;</div><div class='input'><span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"p"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {xml_nodeset (2)}
+#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;
+#&gt; [2] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</div><div class='input'><span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>".important"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;center&gt;&lt;table border="0" cellspacing="1" cellpadding="4" bgcolor="#dcdcd ...</div><div class='input'><span class='fu'>html_elements</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center font"</span><span class='op'>)</span>
+#&gt; [1] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</div><div class='input'><span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"#first"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'><span class='fu'>html_elements</span><span class='op'>(</span><span class='va'>ateam</span>, <span class='st'>"center font b"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;b&gt;$77,222,099&lt;/b&gt;</div><div class='input'>
-<span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"td"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (7)}
-#&gt; [1] &lt;td align="center" colspan="2"&gt;&lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$7 ...
-#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/web/20190202054736/https://www ...
-#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/http ...
-#&gt; [4] &lt;td valign="top"&gt;Genre: &lt;b&gt;Action&lt;/b&gt;\n&lt;/td&gt;\n
-#&gt; [5] &lt;td valign="top"&gt;Runtime: &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;\n&lt;/td&gt;
-#&gt; [6] &lt;td valign="top"&gt;MPAA Rating: &lt;b&gt;PG-13&lt;/b&gt;\n&lt;/td&gt;\n
-#&gt; [7] &lt;td valign="top"&gt;Production Budget: &lt;b&gt;$110 million&lt;/b&gt;\n&lt;/td&gt;</div><div class='input'><span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'>
-<span class='va'>td</span> <span class='op'>&lt;-</span> <span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"center"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"td"</span><span class='op'>)</span>
-<span class='va'>td</span>
-</div><div class='output co'>#&gt; {xml_nodeset (7)}
-#&gt; [1] &lt;td align="center" colspan="2"&gt;&lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$7 ...
-#&gt; [2] &lt;td valign="top"&gt;Distributor: &lt;b&gt;&lt;a href="/web/20190202054736/https://www ...
-#&gt; [3] &lt;td valign="top"&gt;Release Date: &lt;b&gt;&lt;nobr&gt;&lt;a href="/web/20190202054736/http ...
-#&gt; [4] &lt;td valign="top"&gt;Genre: &lt;b&gt;Action&lt;/b&gt;\n&lt;/td&gt;\n
-#&gt; [5] &lt;td valign="top"&gt;Runtime: &lt;b&gt;1 hrs. 57 min.&lt;/b&gt;\n&lt;/td&gt;
-#&gt; [6] &lt;td valign="top"&gt;MPAA Rating: &lt;b&gt;PG-13&lt;/b&gt;\n&lt;/td&gt;\n
-#&gt; [7] &lt;td valign="top"&gt;Production Budget: &lt;b&gt;$110 million&lt;/b&gt;\n&lt;/td&gt;</div><div class='input'>
+#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</div><div class='input'>
+<span class='co'># html_element() vs html_elements() --------------------------------------</span>
+<span class='va'>html</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"
+  &lt;ul&gt;
+    &lt;li&gt;&lt;b&gt;C-3PO&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt; that weighs &lt;span class='weight'&gt;167 kg&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;R2-D2&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt; that weighs &lt;span class='weight'&gt;96 kg&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Yoda&lt;/b&gt; weighs &lt;span class='weight'&gt;66 kg&lt;/span&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;R4-P17&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+"</span><span class='op'>)</span>
+<span class='va'>li</span> <span class='op'>&lt;-</span> <span class='va'>html</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"li"</span><span class='op'>)</span>
+
 <span class='co'># When applied to a node set, html_elements() returns all matching elements</span>
 <span class='co'># beneath any of the inputs, flattening results into a new node set.</span>
-<span class='va'>td</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (1)}
-#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;</div><div class='input'>
-<span class='co'># html_element() returns the first matching element. If there are no matching</span>
-<span class='co'># nodes, it returns a "missing" element</span>
-<span class='va'>td</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (7)}
-#&gt; [1] &lt;font size="4"&gt;Domestic Total Gross: &lt;b&gt;$77,222,099&lt;/b&gt;&lt;/font&gt;
-#&gt; [2] &lt;NA&gt;
+<span class='va'>li</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"i"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;i&gt;droid&lt;/i&gt;
+#&gt; [2] &lt;i&gt;droid&lt;/i&gt;
+#&gt; [3] &lt;i&gt;droid&lt;/i&gt;</div><div class='input'>
+<span class='co'># When applied to a node set, html_element() always returns a vector the</span>
+<span class='co'># same length as the input, using a "missing" element where needed.</span>
+<span class='va'>li</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"i"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; {xml_nodeset (4)}
+#&gt; [1] &lt;i&gt;droid&lt;/i&gt;
+#&gt; [2] &lt;i&gt;droid&lt;/i&gt;
 #&gt; [3] &lt;NA&gt;
-#&gt; [4] &lt;NA&gt;
-#&gt; [5] &lt;NA&gt;
-#&gt; [6] &lt;NA&gt;
-#&gt; [7] &lt;NA&gt;</div><div class='input'><span class='co'># and html_text() and html_attr() will return NA</span>
-<span class='va'>td</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"font"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_text.html'>html_text</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Domestic Total Gross: $77,222,099" NA                                 
-#&gt; [3] NA                                  NA                                 
-#&gt; [5] NA                                  NA                                 
-#&gt; [7] NA                                 </div><div class='input'>
-<span class='co'># To pick out an element or elements at specified positions, use [[ and [</span>
-<span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>.</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
-#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
-#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div><div class='input'><span class='va'>ateam</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>.</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>%&gt;%</span> <span class='fu'>html_elements</span><span class='op'>(</span><span class='st'>"img"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {xml_nodeset (6)}
-#&gt; [1] &lt;img src="https://web.archive.org/web/20190202054736im_/https://m.media-a ...
-#&gt; [2] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [3] &lt;img src="//web.archive.org/web/20190202054736im_/https://www.assoc-amazo ...
-#&gt; [4] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/b ...
-#&gt; [5] &lt;img src="/web/20190202054736im_/https://www.boxofficemojo.com/img/misc/I ...
-#&gt; [6] &lt;img src="https://web.archive.org/web/20190202054736im_/http://b.scorecar ...</div></pre>
+#&gt; [4] &lt;i&gt;droid&lt;/i&gt;</div><div class='input'><span class='co'># and html_text() and html_attr() will return NA</span>
+<span class='va'>li</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"i"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_text.html'>html_text2</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "droid" "droid" NA      "droid"</div><div class='input'><span class='va'>li</span> <span class='op'>%&gt;%</span> <span class='fu'>html_element</span><span class='op'>(</span><span class='st'>"span"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='html_attr.html'>html_attr</a></span><span class='op'>(</span><span class='st'>"class"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "weight" "weight" "weight" NA      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
