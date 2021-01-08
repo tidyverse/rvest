@@ -278,7 +278,7 @@ cookies.rvest_session <- function(x) {
 
 check_form <- function(x) {
   if (!inherits(x, "rvest_form")) {
-    abort("`form` must be produced by html_form()")
+    abort("`form` must be a single form produced by html_form()")
   }
 }
 check_session <- function(x) {

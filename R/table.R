@@ -6,13 +6,19 @@
 #' @inheritParams html_name
 #' @param header Use first row as header? If `NA`, will use first row
 #'   if it consists of `<th>` tags.
+#'
+#'   If `TRUE`, column names are left exactly as they are in the source
+#'   document, which may require post-processing to generate a valid data
+#'   frame.
 #' @param trim Remove leading and trailing whitespace within each cell?
 #' @param fill Deprecated - missing cells in tables are now always
 #'    automatically filled with `NA`.
 #' @param dec The character used as decimal place marker.
 #' @param na.strings Character vector of values that will be converted to `NA`.
-#' @return A tibble. Note that the column names are left exactly as is in the
-#'   source document, which may not generate a valid data frame.
+#' @return
+#' When applied to a single element, `html_table()` returns a single tibble.
+#' When applied to multiple elements or a document, `html_table()` returns
+#' a list of tibbles.
 #' @export
 #' @examples
 #' sample1 <- minimal_html("<table>

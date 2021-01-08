@@ -35,9 +35,14 @@ select multiple values from a multi-select.}
 }}
 }
 \value{
-\code{html_form()} and \code{html_form_set()} return an S3 object with class
-\code{rvest_form}. \code{html_form_submit()} submits the form and returns an httr
-response which you can then parse with \code{\link[=read_html]{read_html()}}.
+\itemize{
+\item \code{html_form()} returns as S3 object with class \code{rvest_form} when applied
+to a single element. It returns a list of \code{rvest_form} objects when
+applied to multiple elements or a document.
+\item \code{html_form_set()} returns an \code{rvest_form} object.
+\item \code{html_form_submit()} submits the form, returning an httr response which
+can be parsed with \code{\link[=read_html]{read_html()}}.
+}
 }
 \description{
 Use \code{html_form()} to extract a form, set values with \code{html_form_set()},

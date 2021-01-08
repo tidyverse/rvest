@@ -9,9 +9,15 @@
 #'   uses the url of the HTML document underlying `x`.
 #' @seealso HTML 4.01 form specification:
 #'   <http://www.w3.org/TR/html401/interact/forms.html>
-#' @return `html_form()` and `html_form_set()` return an S3 object with class
-#'   `rvest_form`. `html_form_submit()` submits the form and returns an httr
-#'   response which you can then parse with [read_html()].
+#' @return
+#' * `html_form()` returns as S3 object with class `rvest_form` when applied
+#'   to a single element. It returns a list of `rvest_form` objects when
+#'   applied to multiple elements or a document.
+#'
+#' * `html_form_set()` returns an `rvest_form` object.
+#'
+#' * `html_form_submit()` submits the form, returning an httr response which
+#'   can be parsed with [read_html()].
 #' @examples
 #' html <- read_html("http://www.google.com")
 #' search <- html_form(html)[[1]]

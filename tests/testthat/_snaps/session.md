@@ -32,7 +32,7 @@
 
 # informative errors for bad inputs
 
-    `form` must be produced by html_form()
+    `form` must be a single form produced by html_form()
 
 ---
 

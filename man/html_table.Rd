@@ -18,7 +18,11 @@ html_table(
 node (from \code{\link[=html_element]{html_element()}}), or session (from \code{\link[=session]{session()}}).}
 
 \item{header}{Use first row as header? If \code{NA}, will use first row
-if it consists of \verb{<th>} tags.}
+if it consists of \verb{<th>} tags.
+
+If \code{TRUE}, column names are left exactly as they are in the source
+document, which may require post-processing to generate a valid data
+frame.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
 
@@ -30,8 +34,9 @@ automatically filled with \code{NA}.}
 \item{na.strings}{Character vector of values that will be converted to \code{NA}.}
 }
 \value{
-A tibble. Note that the column names are left exactly as is in the
-source document, which may not generate a valid data frame.
+When applied to a single element, \code{html_table()} returns a single tibble.
+When applied to multiple elements or a document, \code{html_table()} returns
+a list of tibbles.
 }
 \description{
 The algorithm mimics what a browser does, but repeats the values of merged
