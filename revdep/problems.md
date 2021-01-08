@@ -169,130 +169,17 @@ ERROR: lazy loading failed for package ‘helminthR’
 
 
 ```
-# ihpdr
+# rMorningStar
 
 <details>
 
-* Version: 1.2.1
-* GitHub: https://github.com/kvasilopoulos/ihpdr
-* Source code: https://github.com/cran/ihpdr
-* Date/Publication: 2020-07-13 04:30:06 UTC
-* Number of recursive dependencies: 69
-
-Run `cloud_details(, "ihpdr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ihpdr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ihpd_release_dates
-    > ### Title: Fetches the latest release dates
-    > ### Aliases: ihpd_release_dates
-    > 
-    > ### ** Examples
-    > 
-    > ihpd_release_dates()
-    Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    Calls: ihpd_release_dates ... lapply -> FUN -> <Anonymous> -> type.convert.default
-    Execution halted
-    ```
-
-# MazamaCoreUtils
-
-<details>
-
-* Version: 0.4.6
-* GitHub: https://github.com/MazamaScience/MazamaCoreUtils
-* Source code: https://github.com/cran/MazamaCoreUtils
-* Date/Publication: 2020-11-13 21:20:03 UTC
-* Number of recursive dependencies: 94
-
-Run `cloud_details(, "MazamaCoreUtils")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MazamaCoreUtils-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: html_getTables
-    > ### Title: Find all tables in an html page
-    > ### Aliases: html_getTables html_getTable
-    > 
-    > ### ** Examples
-    > 
-    > library(MazamaCoreUtils)
-    ...
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    ERROR [2021-01-07 19:14:52] Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    ERROR [2021-01-07 19:14:52] Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    ERROR [2021-01-07 19:14:52] Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    Error: Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    Execution halted
-    ```
-
-# nhanesA
-
-<details>
-
-* Version: 0.6.5
-* GitHub: https://github.com/cjendres1/nhanes
-* Source code: https://github.com/cran/nhanesA
-* Date/Publication: 2018-10-17 05:20:23 UTC
-* Number of recursive dependencies: 88
-
-Run `cloud_details(, "nhanesA")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘nhanesA-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: nhanesSearchTableNames
-    > ### Title: Search for matching table names
-    > ### Aliases: nhanesSearchTableNames
-    > 
-    > ### ** Examples
-    > 
-    > nhanesSearchTableNames('HPVS', includerdc=TRUE, details=TRUE)
-    Warning: `xml_nodes()` is deprecated as of rvest 1.0.0.
-    Please use `html_elements()` instead.
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_warnings()` to see where this warning was generated.
-    Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    Calls: nhanesSearchTableNames ... lapply -> FUN -> <Anonymous> -> type.convert.default
-    Execution halted
-    ```
-
-# qqr
-
-<details>
-
-* Version: 0.0.1
+* Version: 1.0.6
 * GitHub: NA
-* Source code: https://github.com/cran/qqr
-* Date/Publication: 2020-10-14 12:10:02 UTC
-* Number of recursive dependencies: 97
+* Source code: https://github.com/cran/rMorningStar
+* Date/Publication: 2020-06-26 09:20:02 UTC
+* Number of recursive dependencies: 76
 
-Run `cloud_details(, "qqr")` for more info
+Run `cloud_details(, "rMorningStar")` for more info
 
 </details>
 
@@ -300,29 +187,80 @@ Run `cloud_details(, "qqr")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘qqr-Ex.R’ failed
+    Running examples in ‘rMorningStar-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: previousData
-    > ### Title: Get data from previous years of the Brazilian soccer
-    > ###   championship
-    > ### Aliases: previousData
+    > ### Name: ms.Top10Holding
+    > ### Title: ms.Top10Holding
+    > ### Aliases: ms.Top10Holding ms.Top10HoldingTotal
     > 
     > ### ** Examples
     > 
-    > previousData(2019)
-    Warning: `fill` is now ignored and always happens
-    Warning: `fill` is now ignored and always happens
-    Error in type.convert.default(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings) : 
-      promise already under evaluation: recursive default argument reference or earlier problems?
-    Calls: previousData ... lapply -> FUN -> <Anonymous> -> type.convert.default
+    > ms.Top10Holding('FXAIX')
+    Error in parse_vector(x, col_number(), na = na, locale = locale, trim_ws = trim_ws) : 
+      is.character(x) is not TRUE
+    Calls: ms.Top10Holding -> parse_number -> parse_vector -> stopifnot
     Execution halted
     ```
 
-## In both
+# rUnemploymentData
 
-*   checking data for non-ASCII characters ... NOTE
+<details>
+
+* Version: 1.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/rUnemploymentData
+* Date/Publication: 2017-01-19 18:15:41
+* Number of recursive dependencies: 120
+
+Run `cloud_details(, "rUnemploymentData")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘rUnemploymentData’ can be installed ... ERROR
     ```
-      Note: found 7 marked UTF-8 strings
+    Installation failed.
+    See ‘/tmp/workdir/rUnemploymentData/new/rUnemploymentData.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘rUnemploymentData’ ...
+** package ‘rUnemploymentData’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘html’ is not exported by 'namespace:rvest'
+Execution halted
+ERROR: lazy loading failed for package ‘rUnemploymentData’
+* removing ‘/tmp/workdir/rUnemploymentData/new/rUnemploymentData.Rcheck/rUnemploymentData’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘rUnemploymentData’ ...
+** package ‘rUnemploymentData’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (rUnemploymentData)
+
+
+```

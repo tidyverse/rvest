@@ -85,7 +85,7 @@ html_table.xml_nodeset <- function(x,
                                    trim = TRUE,
                                    fill = deprecated(),
                                    dec = ".",
-                                   na.strings = na.strings) {
+                                   na.strings = "NA") {
   lapply(
     x,
     html_table,
