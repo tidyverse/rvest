@@ -1,5 +1,5 @@
-release_date: ???
-rel_release_date: ???
-my_news_url: ???
-release_version: ???
-release_details: ???
+release_date: March 1
+rel_release_date: six weeks
+my_news_url: https://github.com/tidyverse/rvest/blob/master/NEWS.md#rvest-development-version
+release_version: 1.0.0
+

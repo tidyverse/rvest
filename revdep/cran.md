@@ -1,9 +1,9 @@
 ## revdepcheck results
 
-We checked 155 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 160 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 4 new problems
- * We failed to check 3 packages
+ * We saw 3 new problems
+ * We failed to check 4 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -12,9 +12,6 @@ Issues with CRAN packages are summarised below.
 
 * coalitions
   checking tests ... ERROR
-
-* fitzRoy
-  checking dependencies in R code ... NOTE
 
 * gluedown
   checking tests ... ERROR
@@ -26,4 +23,5 @@ Issues with CRAN packages are summarised below.
 
 * helminthR         (NA)
 * iemiscdata        (NA)
+* ralger            (NA)
 * rUnemploymentData (NA)

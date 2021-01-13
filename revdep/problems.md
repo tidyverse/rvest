@@ -31,30 +31,9 @@ Run `cloud_details(, "coalitions")` for more info
       Attributes: < names for target but not for current >
       Attributes: < current is not list-like >
       
-      [ FAIL 1 | WARN 43 | SKIP 0 | PASS 80 ]
+      [ FAIL 1 | WARN 28 | SKIP 0 | PASS 80 ]
       Error: Test failures
       Execution halted
-    ```
-
-# fitzRoy
-
-<details>
-
-* Version: 0.3.2
-* GitHub: https://github.com/jimmyday12/fitzRoy
-* Source code: https://github.com/cran/fitzRoy
-* Date/Publication: 2020-05-23 05:10:05 UTC
-* Number of recursive dependencies: 92
-
-Run `cloud_details(, "fitzRoy")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Missing or unexported object: ‘rvest::pluck’
     ```
 
 # gluedown
@@ -166,6 +145,75 @@ ERROR: lazy loading failed for package ‘helminthR’
 ** testing if installed package can be loaded from final location
 ** testing if installed package keeps a record of temporary installation path
 * DONE (helminthR)
+
+
+```
+# ralger
+
+<details>
+
+* Version: 2.2.1
+* GitHub: https://github.com/feddelegrand7/ralger
+* Source code: https://github.com/cran/ralger
+* Date/Publication: 2021-01-10 14:10:02 UTC
+* Number of recursive dependencies: 72
+
+Run `cloud_details(, "ralger")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘ralger’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/ralger/new/ralger.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘testthat’
+      All declared Imports should be used.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘ralger’ ...
+** package ‘ralger’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘pluck’ is not exported by 'namespace:rvest'
+Execution halted
+ERROR: lazy loading failed for package ‘ralger’
+* removing ‘/tmp/workdir/ralger/new/ralger.Rcheck/ralger’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘ralger’ ...
+** package ‘ralger’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (ralger)
 
 
 ```
