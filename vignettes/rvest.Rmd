@@ -316,7 +316,7 @@ html <- minimal_html("
   ")
 ```
 
-If you try to extract name, species, and weight directly, you end up with three vectors of length 3, and no way to align them:
+If you try to extract name, species, and weight directly, you end up with one vector of length four and two vectors of length three, and no way to align them:
 
 ```{r}
 html %>% html_elements("b") %>% html_text2()
