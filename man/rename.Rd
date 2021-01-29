@@ -50,7 +50,7 @@ rvest was first created.
 \item \code{submit_form()} -> \code{session_submit()}
 \item \code{xml_tag()} -> \code{html_name()}
 \item \code{xml_node()} & \code{html_node()} -> \code{html_element()}
-\item \code{xml_nodes()} & \code{html_nodes()} -> \code{html_element()}
+\item \code{xml_nodes()} & \code{html_nodes()} -> \code{html_elements()}
 }
 
 (\code{html_node()} and \code{html_nodes()} are only superseded because they're
