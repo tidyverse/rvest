@@ -11,7 +11,7 @@
 #' * `submit_form()` -> `session_submit()`
 #' * `xml_tag()` -> `html_name()`
 #' * `xml_node()` & `html_node()` -> `html_element()`
-#' * `xml_nodes()` & `html_nodes()` -> `html_element()`
+#' * `xml_nodes()` & `html_nodes()` -> `html_elements()`
 #'
 #' (`html_node()` and `html_nodes()` are only superseded because they're
 #' so widely used.)
