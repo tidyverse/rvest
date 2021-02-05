@@ -139,19 +139,16 @@ html_table.xml_node <- function(x,
     col_names <- paste0("X", seq_len(ncol(out)))
   }
 
-  if (isTRUE(convert)) {
-    # With type conversion, convert matrix to list to data frame
-    df <- lapply(seq_len(ncol(out)), function(i) {
-      utils::type.convert(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings)
-    })
+  colnames(out) <- col_names
+  out <- tibble::as_tibble(out, .name_repair = "minimal")
 
-    names(df) <- col_names
-    tibble::as_tibble(df, .name_repair = "minimal")
-  } else {
-    # Without type conversion, cast matrix to data frame directly
-    colnames(out) <- col_names
-    tibble::as_tibble(out, .name_repair = "minimal")
+  if (isTRUE(convert)) {
+    out[] <- lapply(out, function(x) {
+        utils::type.convert(x, as.is = TRUE, dec = dec, na.strings = na.strings)
+    })
   }
+
+  out
 }
 
 # Table fillng algorithm --------------------------------------------------
