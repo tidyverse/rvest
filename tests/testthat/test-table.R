@@ -134,6 +134,17 @@ test_that("passes arguments to type.convert", {
   expect_equal(table$y, 1.2)
 })
 
+test_that("no conversion", {
+  html <- minimal_html('
+    <table>
+      <tr><th>x<th>y
+      <tr><td>001<td>100.0
+    </table>
+  ')
+  table <- html_table(html, convert = FALSE)[[1]]
+  expect_snapshot_output(table)
+})
+
 test_that("fill = FALSE is deprecated", {
   html <- minimal_html('
     <table>
