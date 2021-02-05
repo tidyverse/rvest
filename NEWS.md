@@ -15,7 +15,8 @@
   `html_table()` now returns a tibble rather than a data frame to be compatible
   with the rest of the tidyverse (#199). Its performance has been considerably
   improved (#237). It also gains a `na.strings` argument to control what values 
-  are converted to `NA` (#107).
+  are converted to `NA` (#107), and a `convert` argument to control whether to
+  run the conversion (#311).
 
 * New `html_form_submit()` allows you to submit a form directly, without 
   needing to create a session (#300).
