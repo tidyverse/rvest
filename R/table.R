@@ -140,15 +140,15 @@ html_table.xml_node <- function(x,
   }
 
   colnames(out) <- col_names
-  out <- tibble::as_tibble(out, .name_repair = "minimal")
+  df <- tibble::as_tibble(out, .name_repair = "minimal")
 
   if (isTRUE(convert)) {
-    out[] <- lapply(out, function(x) {
+    df[] <- lapply(df, function(x) {
         utils::type.convert(x, as.is = TRUE, dec = dec, na.strings = na.strings)
     })
   }
 
-  out
+  df
 }
 
 # Table fillng algorithm --------------------------------------------------
