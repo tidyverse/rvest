@@ -14,7 +14,10 @@
 #' @param fill Deprecated - missing cells in tables are now always
 #'    automatically filled with `NA`.
 #' @param dec The character used as decimal place marker.
-#' @param na.strings Character vector of values that will be converted to `NA`.
+#' @param na.strings Character vector of values that will be converted to `NA`
+#'    if `convert` is `TRUE`.
+#' @param convert If `TRUE`, will run [`type.convert()`] to interpret texts as
+#'    integer, double, or `NA`.
 #' @return
 #' When applied to a single element, `html_table()` returns a single tibble.
 #' When applied to multiple elements or a document, `html_table()` returns
@@ -57,7 +60,8 @@ html_table <- function(x,
                        trim = TRUE,
                        fill = deprecated(),
                        dec = ".",
-                       na.strings = "NA"
+                       na.strings = "NA",
+                       convert = TRUE
   ) {
 
   UseMethod("html_table")
@@ -69,7 +73,8 @@ html_table.xml_document <- function(x,
                                     trim = TRUE,
                                     fill = deprecated(),
                                     dec = ".",
-                                    na.strings = "NA") {
+                                    na.strings = "NA",
+                                    convert = TRUE) {
   tables <- xml2::xml_find_all(x, ".//table")
   html_table(
     tables,
@@ -77,7 +82,8 @@ html_table.xml_document <- function(x,
     trim = trim,
     fill = fill,
     dec = dec,
-    na.strings = na.strings
+    na.strings = na.strings,
+    convert = convert
   )
 }
 
@@ -87,7 +93,8 @@ html_table.xml_nodeset <- function(x,
                                    trim = TRUE,
                                    fill = deprecated(),
                                    dec = ".",
-                                   na.strings = "NA") {
+                                   na.strings = "NA",
+                                   convert = TRUE) {
   lapply(
     x,
     html_table,
@@ -95,7 +102,8 @@ html_table.xml_nodeset <- function(x,
     trim = trim,
     fill = fill,
     dec = dec,
-    na.strings = na.strings
+    na.strings = na.strings,
+    convert = convert
   )
 }
 
@@ -105,7 +113,8 @@ html_table.xml_node <- function(x,
                                 trim = TRUE,
                                 fill = deprecated(),
                                 dec = ".",
-                                na.strings = "NA") {
+                                na.strings = "NA",
+                                convert = TRUE) {
 
   if (lifecycle::is_present(fill) && !isTRUE(fill)) {
     lifecycle::deprecate_warn(
@@ -130,12 +139,16 @@ html_table.xml_node <- function(x,
     col_names <- paste0("X", seq_len(ncol(out)))
   }
 
-  # Convert matrix to list to data frame
-  df <- lapply(seq_len(ncol(out)), function(i) {
-    utils::type.convert(out[, i], as.is = TRUE, dec = dec, na.strings = na.strings)
-  })
-  names(df) <- col_names
-  tibble::as_tibble(df, .name_repair = "minimal")
+  colnames(out) <- col_names
+  df <- tibble::as_tibble(out, .name_repair = "minimal")
+
+  if (isTRUE(convert)) {
+    df[] <- lapply(df, function(x) {
+        utils::type.convert(x, as.is = TRUE, dec = dec, na.strings = na.strings)
+    })
+  }
+
+  df
 }
 
 # Table fillng algorithm --------------------------------------------------

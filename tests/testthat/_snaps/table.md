@@ -50,6 +50,13 @@
       <int>
     1     2
 
+# no conversion
+
+    # A tibble: 1 x 2
+      x     y    
+      <chr> <chr>
+    1 001   100.0
+
 # fill = FALSE is deprecated
 
     Code
