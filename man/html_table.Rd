@@ -35,8 +35,8 @@ automatically filled with \code{NA}.}
 \item{na.strings}{Character vector of values that will be converted to \code{NA}
 if \code{convert} is \code{TRUE}.}
 
-\item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} to convert \code{NA} and
-numbers.}
+\item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} to interpret texts as
+integer, double, or \code{NA}.}
 }
 \value{
 When applied to a single element, \code{html_table()} returns a single tibble.
