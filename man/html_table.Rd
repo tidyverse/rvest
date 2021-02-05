@@ -10,7 +10,8 @@ html_table(
   trim = TRUE,
   fill = deprecated(),
   dec = ".",
-  na.strings = "NA"
+  na.strings = "NA",
+  convert = TRUE
 )
 }
 \arguments{
@@ -31,7 +32,11 @@ automatically filled with \code{NA}.}
 
 \item{dec}{The character used as decimal place marker.}
 
-\item{na.strings}{Character vector of values that will be converted to \code{NA}.}
+\item{na.strings}{Character vector of values that will be converted to \code{NA}
+if \code{convert} is \code{TRUE}.}
+
+\item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} to convert \code{NA} and
+numbers.}
 }
 \value{
 When applied to a single element, \code{html_table()} returns a single tibble.

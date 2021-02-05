@@ -233,14 +233,16 @@ html_table.rvest_session <- function(x,
                                trim = TRUE,
                                fill = deprecated(),
                                dec = ".",
-                               na.strings = "NA") {
+                               na.strings = "NA",
+                               convert = TRUE) {
   html_table(
     read_html(x),
     header = header,
     trim = trim,
     fill = fill,
     dec = dec,
-    na.strings = na.strings
+    na.strings = na.strings,
+    convert = convert
   )
 }
 
