@@ -57,9 +57,11 @@ test_that("can navigate back and forward", {
   expect_equal(s$back, "http://hadley.nz/")
   expect_equal(s$forward, character())
 
+  expect_equal(session_forward(session_back(s))$url, s$url)
+
   s <- session_back(s)
   expect_equal(s$back, character())
-  expect_equal(s$forward, "http://hadley.nz/")
+  expect_equal(s$forward, "http://hadley.nz/hadley-wickham.jpg")
 
   s <- session_forward(s)
   expect_equal(s$back, "http://hadley.nz/")
