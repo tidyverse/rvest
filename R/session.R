@@ -152,9 +152,10 @@ session_back <- function(x) {
 
   url <- x$back[[1]]
   x$back <- x$back[-1]
+  old_url <- x$url
 
   x <- session_get(x, url)
-  x$forward <- c(x$url, x$forward)
+  x$forward <- c(old_url, x$forward)
   x
 }
 
@@ -168,10 +169,11 @@ session_forward <- function(x) {
   }
 
   url <- x$forward[[1]]
+  old_url <- x$url
 
   x <- session_get(x, url)
   x$forward <- x$forward[-1]
-  x$back <- c(x$url, x$backs)
+  x$back <- c(old_url, x$back)
   x
 }
 
