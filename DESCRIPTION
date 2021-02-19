@@ -18,7 +18,7 @@ Depends:
     R (>= 3.2)
 Imports:
     httr (>= 0.5),
-    lifecycle,
+    lifecycle (>= 1.0.0),
     magrittr,
     rlang (>= 0.4.10),
     selectr,
@@ -33,7 +33,7 @@ Suggests:
     repurrrsive,
     spelling,
     stringi (>= 0.3.1),
-    testthat (>= 3.0.1),
+    testthat (>= 3.0.2),
     webfakes
 VignetteBuilder: 
     knitr
