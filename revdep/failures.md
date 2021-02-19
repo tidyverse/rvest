@@ -79,7 +79,7 @@ ERROR: lazy loading failed for package ‘helminthR’
 * GitHub: NA
 * Source code: https://github.com/cran/iemiscdata
 * Date/Publication: 2016-07-22 18:53:04
-* Number of recursive dependencies: 135
+* Number of recursive dependencies: 137
 
 Run `cloud_details(, "iemiscdata")` for more info
 

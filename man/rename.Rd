@@ -40,7 +40,7 @@ follow_link(x, ...)
 html_session(url, ...)
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 rvest 1.0.0 renamed a number of functions to ensure that every function
 has a common prefix, matching tidyverse conventions that emerged since

@@ -100,7 +100,6 @@
       
     Code
       form$method <- "POST"
-    Code
       show_response(html_form_submit(form))
     Output
       POST application/x-www-form-urlencoded
@@ -108,7 +107,6 @@
       x=1&x=2&y=3
     Code
       form$enctype <- "multipart"
-    Code
       show_response(html_form_submit(form))
     Output
       POST multipart/form-data; boundary=---<divider>

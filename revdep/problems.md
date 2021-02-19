@@ -31,7 +31,7 @@ Run `cloud_details(, "coalitions")` for more info
       Attributes: < names for target but not for current >
       Attributes: < current is not list-like >
       
-      [ FAIL 1 | WARN 28 | SKIP 0 | PASS 80 ]
+      [ FAIL 1 | WARN 14 | SKIP 0 | PASS 80 ]
       Error: Test failures
       Execution halted
     ```
@@ -217,40 +217,6 @@ ERROR: lazy loading failed for package ‘ralger’
 
 
 ```
-# rMorningStar
-
-<details>
-
-* Version: 1.0.6
-* GitHub: NA
-* Source code: https://github.com/cran/rMorningStar
-* Date/Publication: 2020-06-26 09:20:02 UTC
-* Number of recursive dependencies: 76
-
-Run `cloud_details(, "rMorningStar")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘rMorningStar-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ms.Top10Holding
-    > ### Title: ms.Top10Holding
-    > ### Aliases: ms.Top10Holding ms.Top10HoldingTotal
-    > 
-    > ### ** Examples
-    > 
-    > ms.Top10Holding('FXAIX')
-    Error in parse_vector(x, col_number(), na = na, locale = locale, trim_ws = trim_ws) : 
-      is.character(x) is not TRUE
-    Calls: ms.Top10Holding -> parse_number -> parse_vector -> stopifnot
-    Execution halted
-    ```
-
 # rUnemploymentData
 
 <details>

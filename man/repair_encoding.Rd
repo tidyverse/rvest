@@ -11,7 +11,7 @@ repair_encoding(x, from = NULL)
 \code{guess_encoding} will be used.}
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 This function has been deprecated because it doesn't work. Instead
 re-read the HTML file with correct \code{encoding} argument.
 }

@@ -1,8 +1,8 @@
 ## revdepcheck results
 
-We checked 160 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 162 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 3 new problems
+ * We saw 2 new problems
  * We failed to check 4 packages
 
 Issues with CRAN packages are summarised below.
@@ -15,9 +15,6 @@ Issues with CRAN packages are summarised below.
 
 * gluedown
   checking tests ... ERROR
-
-* rMorningStar
-  checking examples ... ERROR
 
 ### Failed to check
 

@@ -2,7 +2,6 @@
 
     Code
       s <- session("http://hadley.nz/")
-    Code
       s
     Output
       <session> http://hadley.nz/
@@ -11,7 +10,6 @@
         Size:   9090
     Code
       expect_true(is.session(s))
-    Code
       s <- session_follow_link(s, css = "p a")
     Message <message>
       Navigating to http://rstudio.com
@@ -25,7 +23,6 @@
 
     Code
       s <- session("https://rvest.tidyverse.org/logo.png")
-    Code
       read_html(s)
     Error <rlang_error>
       Page doesn't appear to be html.
