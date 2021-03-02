@@ -1,4 +1,4 @@
-# rvest (development version)
+# rvest 1.0.0
 (to be released as rvest 1.0.0)
 
 ## New features
