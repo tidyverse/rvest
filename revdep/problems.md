@@ -44,7 +44,7 @@ Run `cloud_details(, "coalitions")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/rMorningStar
 * Date/Publication: 2021-01-16 12:30:05 UTC
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 60
 
 Run `cloud_details(, "rMorningStar")` for more info
 
