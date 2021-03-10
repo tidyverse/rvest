@@ -29,6 +29,8 @@ reference:
 
 news:
   releases:
+  - text: "Version 1.0.0"
+    href: https://www.tidyverse.org/blog/2021/03/rvest-1-0-0/
   - text: "Version 0.3.0"
     href: https://blog.rstudio.com/2015/09/24/rvest-0-3-0/
   - text: "Version 0.1.0"
