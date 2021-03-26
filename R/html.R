@@ -20,7 +20,7 @@ html_name <- function(x) {
 
 #' Get element attributes
 #'
-#' `html_attr()` gets a single attribute; `html_attr()` gets all attributes.
+#' `html_attr()` gets a single attribute; `html_attrs()` gets all attributes.
 #'
 #' @inheritParams html_name
 #' @param name Name of attribute to retrieve.
