@@ -170,7 +170,9 @@ table_fill <- function(cells, trim = TRUE) {
     }
 
     rowspan <- as.integer(html_attr(row, "rowspan", default = "1"))
+    rowspan[is.na(rowspan)] <- 1
     colspan <- as.integer(html_attr(row, "colspan", default = "1"))
+    colspan[is.na(colspan)] <- 1
     text <- html_text(row)
     if (isTRUE(trim)) {
       text <- gsub("^[[:space:]\u00a0]+|[[:space:]\u00a0]+$", "", text)
