@@ -137,6 +137,9 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
     <li>
+      <a href="https://www.tidyverse.org/blog/2021/03/rvest-1-0-0/">Version 1.0.0</a>
+    </li>
+    <li>
       <a href="https://blog.rstudio.com/2015/09/24/rvest-0-3-0/">Version 0.3.0</a>
     </li>
     <li>
@@ -190,10 +193,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>google_form</span><span class='op'>(</span><span class='st'>"1M9B8DsYNFyDjpwSK6ur_bZf8Rv_04ma3rmaaBiveoUI"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; {html_document}
-#&gt; &lt;html lang="en" class="m2"&gt;
-#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-#&gt; [2] &lt;body dir="ltr" itemscope itemtype="http://schema.org/CreativeWork/FormOb ...</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in read_html.response(httr::GET(paste0("https://docs.google.com/forms/d/",     x, "/viewform"))): Gone (HTTP 410).</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

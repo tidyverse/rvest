@@ -138,6 +138,9 @@ cells in every cell that cover." />
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Releases</li>
     <li>
+      <a href="https://www.tidyverse.org/blog/2021/03/rvest-1-0-0/">Version 1.0.0</a>
+    </li>
+    <li>
       <a href="https://blog.rstudio.com/2015/09/24/rvest-0-3-0/">Version 0.3.0</a>
     </li>
     <li>
@@ -245,12 +248,12 @@ a list of tibbles.</p>
 <span class='va'>sample1</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>html_table</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
 #&gt;   `Col A` `Col B`
-#&gt;     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>       1 x      
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>       4 y      
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>      10 z      </div><div class='input'>
+#&gt;     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>1</span>       1 x      
+#&gt; <span style='color: #BCBCBC;'>2</span>       4 y      
+#&gt; <span style='color: #BCBCBC;'>3</span>      10 z      </div><div class='input'>
 <span class='co'># Values in merged cells will be duplicated</span>
 <span class='va'>sample2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"&lt;table&gt;
   &lt;tr&gt;&lt;th&gt;A&lt;/th&gt;&lt;th&gt;B&lt;/th&gt;&lt;th&gt;C&lt;/th&gt;&lt;/tr&gt;
@@ -261,12 +264,12 @@ a list of tibbles.</p>
 <span class='va'>sample2</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>html_table</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
 #&gt;       A     B     C
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     2     3
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     4     4     5
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6     7     7</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     1     2     3
+#&gt; <span style='color: #BCBCBC;'>2</span>     4     4     5
+#&gt; <span style='color: #BCBCBC;'>3</span>     6     7     7</div><div class='input'>
 <span class='co'># If a row is missing cells, they'll be filled with NAs</span>
 <span class='va'>sample3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='minimal_html.html'>minimal_html</a></span><span class='op'>(</span><span class='st'>"&lt;table&gt;
   &lt;tr&gt;&lt;th&gt;A&lt;/th&gt;&lt;th&gt;B&lt;/th&gt;&lt;th&gt;C&lt;/th&gt;&lt;/tr&gt;
@@ -277,12 +280,12 @@ a list of tibbles.</p>
 <span class='va'>sample3</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='html_element.html'>html_element</a></span><span class='op'>(</span><span class='st'>"table"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>html_table</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
 #&gt;       A     B     C
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1     2
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     3     3    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     4    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span></div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     1     1     2
+#&gt; <span style='color: #BCBCBC;'>2</span>     3     3    <span style='color: #BB0000;'>NA</span>
+#&gt; <span style='color: #BCBCBC;'>3</span>     4    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
