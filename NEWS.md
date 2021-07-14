@@ -1,13 +1,13 @@
 # rvest (development version)
 
+* `html_table()` correctly handles tables with cells that contain blank values 
+  for `rowspan` and/or `colspan`, so that e.g. `<td rowspan="">` is parsed as 
+  `<td rowspan=1>` (@epiben, #323).
+
 # rvest 1.0.0
 (to be released as rvest 1.0.0)
 
 ## New features
-
-* `html_table()` correctly handles tables with cells that contain blank values 
-  for `rowspan` and/or `colspan`, so that e.g. `<td rowspan="">` is parsed as 
-  `<td rowspan=1>` (@epiben, #323).
 
 * New `html_text2()` provides a more natural rendering of HTML nodes into text,
   converting `<br>` into "\n", and removing non-significant whitespace (#175). 
