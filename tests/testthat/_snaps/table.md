@@ -43,6 +43,22 @@
     3    NA     2    NA
     4    NA     2    NA
 
+# can handle blank colspans
+
+    # A tibble: 2 x 2
+          x     y
+      <int> <int>
+    1     1     2
+    2     3     3
+
+# can handle blank rowspans
+
+    # A tibble: 2 x 2
+          x     y
+      <int> <int>
+    1     1     2
+    2     3     3
+
 # can handle empty row
 
     # A tibble: 1 x 1
