@@ -169,9 +169,9 @@ table_fill <- function(cells, trim = TRUE) {
       next
     }
 
-    rowspan <- as.integer(html_attr(row, "rowspan", default = "1"))
+    rowspan <- as.integer(html_attr(row, "rowspan", default = NA_character_))
     rowspan[is.na(rowspan)] <- 1
-    colspan <- as.integer(html_attr(row, "colspan", default = "1"))
+    colspan <- as.integer(html_attr(row, "colspan", default = NA_character_))
     colspan[is.na(colspan)] <- 1
     text <- html_text(row)
     if (isTRUE(trim)) {

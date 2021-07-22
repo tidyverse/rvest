@@ -85,6 +85,36 @@ test_that("can handle trailing rowspans", {
 
 })
 
+test_that("can handle blank colspans", {
+  html <- minimal_html('
+    <table>
+      <tr><th>x</th><th>y</th></tr>
+		  <tr>
+        <td colspan="">1</td>
+        <td colspan="">2</td>
+      </tr>
+      <tr><td colspan=2>3</td></tr>
+    </table>
+  ')
+  table <- html_table(html)[[1]]
+  expect_snapshot_output(table)
+})
+
+test_that("can handle blank rowspans", {
+  html <- minimal_html('
+    <table>
+      <tr><th>x</th><th>y</th></tr>
+       <tr>
+         <td rowspan="">1</td>
+         <td rowspan="">2</td>
+       </tr>
+       <tr><td colspan=2>3</td></tr>
+     </table>
+  ')
+  table <- html_table(html)[[1]]
+  expect_snapshot_output(table)
+})
+
 test_that("can handle empty row", {
   html <- minimal_html('
     <table>
