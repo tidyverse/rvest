@@ -189,3 +189,9 @@ test_that("fill = FALSE is deprecated", {
     . <- html_table(html, fill = TRUE)
   })
 })
+
+test_that("can handle empty tables", {
+  html <- minimal_html('<table></table>')
+  table <- html_table(html)[[1]]
+  expect_snapshot_output(table)
+})

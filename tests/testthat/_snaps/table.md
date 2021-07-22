@@ -83,3 +83,7 @@
     Code
       . <- html_table(html, fill = TRUE)
 
+# can handle empty tables
+
+    # A tibble: 0 x 0
+
