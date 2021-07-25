@@ -23,7 +23,7 @@ A character vector (for \code{html_attr()}) or list (\code{html_attrs()})
 the same length as \code{x}.
 }
 \description{
-\code{html_attr()} gets a single attribute; \code{html_attr()} gets all attributes.
+\code{html_attr()} gets a single attribute; \code{html_attrs()} gets all attributes.
 }
 \examples{
 url <- "https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&oldid=998422565"
