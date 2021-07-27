@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `html_table()` converts empty tables to empty tibbles (@epiben, #327).
+
 * `html_table()` correctly handles tables with cells that contain blank values 
   for `rowspan` and/or `colspan`, so that e.g. `<td rowspan="">` is parsed as 
   `<td rowspan=1>` (@epiben, #323).
