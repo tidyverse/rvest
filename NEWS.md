@@ -1,3 +1,5 @@
+# rvest (development version)
+
 # rvest 1.0.1
 
 * `html_table()` correctly handles tables with cells that contain blank values 
