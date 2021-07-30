@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `html_table()` converts empty tables to empty tibbles (@epiben, #327).
+
 # rvest 1.0.1
 
 * `html_table()` correctly handles tables with cells that contain blank values 
