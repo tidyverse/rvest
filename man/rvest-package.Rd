@@ -8,8 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Wrappers around the 'xml2' and 'httr' packages to
-    make it easy to download, then manipulate, HTML and XML.
+Wrappers around the 'xml2' and 'httr' packages to make it easy to download, then manipulate, HTML and XML.
 }
 \seealso{
 Useful links:

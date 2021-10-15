@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* Fixes for CRAN
+
 * `html_table()` converts empty tables to empty tibbles (@epiben, #327).
 
 # rvest 1.0.1

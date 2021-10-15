@@ -26,14 +26,15 @@ the same length as \code{x}.
 \code{html_attr()} gets a single attribute; \code{html_attrs()} gets all attributes.
 }
 \examples{
-url <- "https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&oldid=998422565"
-html <- read_html(url)
+html <- minimal_html('<ul>
+  <li><a href="https://a.com" class="important">a</a></li>
+  <li class="active"><a href="https://c.com">b</a></li>
+  <li><a href="https://c.com">b</a></li>
+  </ul>')
 
-cast <- html_elements(html, "tr:nth-child(8) .plainlist a")
-cast \%>\% html_text2()
-cast \%>\% html_attrs()
-cast \%>\% html_attr("href")
+html \%>\% html_elements("a") \%>\% html_attrs()
 
-# If needed, use url_absolute() to convert to complete urls
-url_absolute(html_attr(cast, "href"), url)
+html \%>\% html_elements("a") \%>\% html_attr("href")
+html \%>\% html_elements("li") \%>\% html_attr("class")
+html \%>\% html_elements("li") \%>\% html_attr("class", default = "inactive")
 }

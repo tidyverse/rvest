@@ -18,7 +18,6 @@ str_trunc <- function(x, width) {
 #' @param x Unique identifier for form
 #' @export
 #' @keywords internal
-#' @examples
 google_form <- function(x) {
   xml2::read_html(httr::GET(paste0("https://docs.google.com/forms/d/", x, "/viewform")))
 }

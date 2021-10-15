@@ -8,6 +8,8 @@ test_that("can guess encoding", {
 })
 
 test_that("encoding repair is deprecated", {
+  skip_on_cran()
+
   path <- system.file("html-ex", "bad-encoding.html", package = "rvest")
   x <- read_html(path)
   text <- html_text(html_element(x, "p"))
