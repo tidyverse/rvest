@@ -53,7 +53,7 @@ films <- starwars %>% html_elements("section")
 films
 
 # Then use html_element() to extract one element per film. Here
-# we the title is given by the text inside <h2>
+# the title is given by the text inside <h2>
 title <- films %>% 
   html_element("h2") %>% 
   html_text2()
