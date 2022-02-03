@@ -86,6 +86,7 @@ test_that("can find link by position, content, css, or xpath", {
 })
 
 test_that("can submit a form", {
+  skip_if_not_installed("webfakes")
   app <- webfakes::local_app_process(app_request())
 
   html <- minimal_html('
