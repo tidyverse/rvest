@@ -1,11 +1,13 @@
 url: https://rvest.tidyverse.org
 destination: docs
 
-home:
-  strip_header: true
-
 template:
+  bootstrap: 5
   package: tidytemplate
+
+  includes:
+    in_header: |
+      <script defer data-domain="rvest.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 reference:
 - title: HTML
