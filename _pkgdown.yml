@@ -1,5 +1,4 @@
 url: https://rvest.tidyverse.org
-destination: docs
 
 template:
   bootstrap: 5
@@ -8,6 +7,9 @@ template:
   includes:
     in_header: |
       <script defer data-domain="rvest.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
 
 reference:
 - title: HTML
