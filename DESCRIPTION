@@ -3,7 +3,7 @@ Title: Easily Harvest (Scrape) Web Pages
 Version: 1.0.2.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
-    person("RStudio", role = "cph")
+    person("RStudio", role = c("cph", "fnd"))
   )
 Description: Wrappers around the 'xml2' and 'httr' packages to make it
     easy to download, then manipulate, HTML and XML.
