@@ -18,7 +18,8 @@
 
     Code
       guess_encoding(x)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `guess_encoding()` was deprecated in rvest 1.0.0.
       Please use `html_encoding_guess()` instead.
     Output
@@ -37,17 +38,19 @@
 
     Code
       repair_encoding(text)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `html_encoding_repair()` was deprecated in rvest 1.0.0.
       Instead, re-load using the `encoding` argument of `read_html()`
-    Error <simpleError>
-      No guess has more than 50% confidence
+      Error:
+      ! No guess has more than 50% confidence
 
 ---
 
     Code
       repair_encoding(text, "ISO-8859-1")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `html_encoding_repair()` was deprecated in rvest 1.0.0.
       Instead, re-load using the `encoding` argument of `read_html()`
     Output

@@ -16,7 +16,7 @@ Imports:
     httr (>= 0.5),
     lifecycle (>= 1.0.0),
     magrittr,
-    rlang (>= 0.4.10),
+    rlang (>= 1.0.0),
     selectr,
     tibble,
     xml2 (>= 1.3)

@@ -2,7 +2,8 @@
 
     Code
       . <- xml_tag(x)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `xml_tag()` was deprecated in rvest 1.0.0.
       Please use `html_name()` instead.
 
@@ -10,7 +11,8 @@
 
     Code
       . <- xml_node(x, "p")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `xml_node()` was deprecated in rvest 1.0.0.
       Please use `html_element()` instead.
 
@@ -18,7 +20,8 @@
 
     Code
       . <- xml_nodes(x, "p")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `xml_nodes()` was deprecated in rvest 1.0.0.
       Please use `html_elements()` instead.
 
@@ -26,7 +29,8 @@
 
     Code
       set_values(form, text = "abc")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `set_values()` was deprecated in rvest 1.0.0.
       Please use `html_form_set()` instead.
     Output
@@ -37,29 +41,34 @@
 
     Code
       s <- html_session("http://rvest.tidyverse.org/")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `html_session()` was deprecated in rvest 1.0.0.
       Please use `session()` instead.
     Code
       . <- follow_link(s, i = 1)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `follow_link()` was deprecated in rvest 1.0.0.
       Please use `session_follow_link()` instead.
-    Message <message>
+    Message
       Navigating to index.html
     Code
       s <- jump_to(s, "https://rvest.tidyverse.org/reference/index.html")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `jump_to()` was deprecated in rvest 1.0.0.
       Please use `session_jump_to()` instead.
     Code
       s <- back(s)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `back()` was deprecated in rvest 1.0.0.
       Please use `session_back()` instead.
     Code
       s <- forward(s)
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       `forward()` was deprecated in rvest 1.0.0.
       Please use `session_forward()` instead.
 
