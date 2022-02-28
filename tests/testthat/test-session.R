@@ -47,24 +47,24 @@ test_that("informative errors for bad inputs", {
 # navigation --------------------------------------------------------------
 
 test_that("can navigate back and forward", {
-  s <- session("http://hadley.nz/")
+  s <- session("https://hadley.nz/")
   expect_equal(s$back, character())
   expect_equal(s$forward, character())
   expect_snapshot_error(session_back(s))
   expect_snapshot_error(session_forward(s))
 
-  s <- session_jump_to(s, "hadley-wickham.jpg")
-  expect_equal(s$back, "http://hadley.nz/")
+  s <- session_jump_to(s, "https://r4ds.hadley.nz/")
+  expect_equal(s$back, "https://hadley.nz/")
   expect_equal(s$forward, character())
 
   expect_equal(session_forward(session_back(s))$url, s$url)
 
   s <- session_back(s)
   expect_equal(s$back, character())
-  expect_equal(s$forward, "http://hadley.nz/hadley-wickham.jpg")
+  expect_equal(s$forward, "https://r4ds.hadley.nz/")
 
   s <- session_forward(s)
-  expect_equal(s$back, "http://hadley.nz/")
+  expect_equal(s$back, "https://hadley.nz/")
   expect_equal(s$forward, character())
 })
 
