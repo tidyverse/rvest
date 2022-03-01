@@ -28,7 +28,7 @@ test_that("errors if try to access HTML from non-HTML page", {
 test_that("session responds to httr and rvest methods", {
   # skip_on_cran()
 
-  s <- session("http://rstudio.com/")
+  s <- session("http://hadley.nz/")
   expect_silent(html_form(s))
   expect_silent(html_table(s))
   expect_silent(html_element(s, "body"))
