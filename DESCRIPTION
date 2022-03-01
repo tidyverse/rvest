@@ -1,18 +1,14 @@
 Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
 Version: 1.0.2.9000
-Authors@R: 
-    c(person(given = "Hadley",
-             family = "Wickham",
-             role = c("aut", "cre"),
-             email = "hadley@rstudio.com"),
-      person(given = "RStudio",
-             role = "cph"))
-Description: Wrappers around the 'xml2' and 'httr' packages to
-    make it easy to download, then manipulate, HTML and XML.
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
+    person("RStudio", role = c("cph", "fnd"))
+  )
+Description: Wrappers around the 'xml2' and 'httr' packages to make it
+    easy to download, then manipulate, HTML and XML.
 License: MIT + file LICENSE
-URL: https://rvest.tidyverse.org/,
-    https://github.com/tidyverse/rvest
+URL: https://rvest.tidyverse.org/, https://github.com/tidyverse/rvest
 BugReports: https://github.com/tidyverse/rvest/issues
 Depends:
     R (>= 3.2)
@@ -20,7 +16,7 @@ Imports:
     httr (>= 0.5),
     lifecycle (>= 1.0.0),
     magrittr,
-    rlang (>= 0.4.10),
+    rlang (>= 1.0.0),
     selectr,
     tibble,
     xml2 (>= 1.3)
@@ -29,8 +25,8 @@ Suggests:
     glue,
     knitr,
     readr,
-    rmarkdown,
     repurrrsive,
+    rmarkdown,
     spelling,
     stringi (>= 0.3.1),
     testthat (>= 3.0.2),
@@ -38,6 +34,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
