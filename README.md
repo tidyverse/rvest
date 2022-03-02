@@ -103,9 +103,3 @@ html %>%
 #> 10 10.   "\"Saloons and Wagons\""    ""                                   3:38  
 #> # … with 19 more rows
 ```
-
-## Code of Conduct
-
-Please note that the rvest project is released with a [Contributor Code
-of Conduct](https://rvest.tidyverse.org/CODE_OF_CONDUCT.html). By
-contributing to this project, you agree to abide by its terms.
