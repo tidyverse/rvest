@@ -13,16 +13,18 @@ BugReports: https://github.com/tidyverse/rvest/issues
 Depends:
     R (>= 3.2)
 Imports:
+    glue,
+    cli,
     httr (>= 0.5),
     lifecycle (>= 1.0.0),
     magrittr,
     rlang (>= 1.0.0),
     selectr,
     tibble,
-    xml2 (>= 1.3)
+    xml2 (>= 1.3),
+    withr
 Suggests:
     covr,
-    glue,
     knitr,
     readr,
     repurrrsive,
