@@ -35,7 +35,7 @@ package, which is a port of the python \pkg{cssselect} library,
 \url{https://pythonhosted.org/cssselect/}.
 
 It implements the majority of CSS3 selectors, as described in
-\url{http://www.w3.org/TR/2011/REC-css3-selectors-20110929/}. The
+\url{https://www.w3.org/TR/2011/REC-css3-selectors-20110929/}. The
 exceptions are listed below:
 \itemize{
 \item Pseudo selectors that require interactivity are ignored:

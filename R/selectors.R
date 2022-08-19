@@ -12,7 +12,7 @@
 #' <https://pythonhosted.org/cssselect/>.
 #'
 #' It implements the majority of CSS3 selectors, as described in
-#' <http://www.w3.org/TR/2011/REC-css3-selectors-20110929/>. The
+#' <https://www.w3.org/TR/2011/REC-css3-selectors-20110929/>. The
 #' exceptions are listed below:
 #'
 #' * Pseudo selectors that require interactivity are ignored:

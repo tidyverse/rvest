@@ -8,7 +8,7 @@
 #' @param base_url Base url of underlying HTML document. The default, `NULL`,
 #'   uses the url of the HTML document underlying `x`.
 #' @seealso HTML 4.01 form specification:
-#'   <http://www.w3.org/TR/html401/interact/forms.html>
+#'   <https://www.w3.org/TR/html401/interact/forms.html>
 #' @return
 #' * `html_form()` returns as S3 object with class `rvest_form` when applied
 #'   to a single element. It returns a list of `rvest_form` objects when
