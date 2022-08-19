@@ -37,11 +37,7 @@ session_submit(x, form, submit = NULL, ...)
 \item{i}{A integer to select the ith link or a string to match the
 first link containing that text (case sensitive).}
 
-\item{css}{Elements to select. Supply one of \code{css} or \code{xpath}
-depending on whether you want to use a CSS selector or XPath 1.0
-expression.}
-
-\item{xpath}{Elements to select. Supply one of \code{css} or \code{xpath}
+\item{css, xpath}{Elements to select. Supply one of \code{css} or \code{xpath}
 depending on whether you want to use a CSS selector or XPath 1.0
 expression.}
 
