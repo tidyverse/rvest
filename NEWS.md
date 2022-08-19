@@ -1,4 +1,4 @@
-# rvest (development version)
+# rvest 1.0.3
 
 * Re-document to fix HTML issues in `.Rd`.
 
