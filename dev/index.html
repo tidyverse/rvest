@@ -15,9 +15,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="deps/_Source%20Sans%20Pro-0.4.0/font.css" rel="stylesheet">
-<link href="deps/_Source%20Code%20Pro-0.4.0/font.css" rel="stylesheet">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet">
+<link href="deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Easily Harvest (Scrape) Web Pages">
@@ -96,7 +96,6 @@
 </h1>
 </div>
 <!-- badges: start -->
-
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -107,80 +106,75 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The easiest way to get rvest is to install the whole tidyverse:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span>
-
-<span class="co"># Alternatively, install just rvest:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The easiest way to get rvest is to install the whole tidyverse:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Alternatively, install just rvest:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span>
-
-<span class="co"># Start by reading a HTML page with read_html():</span>
-<span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span>
-
-<span class="co"># Then find elements that match a css selector or XPath expression</span>
-<span class="co"># using html_elements(). In this example, each &lt;section&gt; corresponds</span>
-<span class="co"># to a different film</span>
-<span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span>
-<span class="va">films</span>
-<span class="co">#&gt; {xml_nodeset (7)}</span>
-<span class="co">#&gt; [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1999 ...</span>
-<span class="co">#&gt; [2] &lt;section&gt;&lt;h2 data-id="2"&gt;\nAttack of the Clones\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 20 ...</span>
-<span class="co">#&gt; [3] &lt;section&gt;&lt;h2 data-id="3"&gt;\nRevenge of the Sith\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 200 ...</span>
-<span class="co">#&gt; [4] &lt;section&gt;&lt;h2 data-id="4"&gt;\nA New Hope\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1977-05-25\n ...</span>
-<span class="co">#&gt; [5] &lt;section&gt;&lt;h2 data-id="5"&gt;\nThe Empire Strikes Back\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: ...</span>
-<span class="co">#&gt; [6] &lt;section&gt;&lt;h2 data-id="6"&gt;\nReturn of the Jedi\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1983 ...</span>
-<span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span>
-
-<span class="co"># Then use html_element() to extract one element per film. Here</span>
-<span class="co"># we the title is given by the text inside &lt;h2&gt;</span>
-<span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">title</span>
-<span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span>
-<span class="co">#&gt; [3] "Revenge of the Sith"     "A New Hope"             </span>
-<span class="co">#&gt; [5] "The Empire Strikes Back" "Return of the Jedi"     </span>
-<span class="co">#&gt; [7] "The Force Awakens"</span>
-
-<span class="co"># Or use html_attr() to get data out of attributes. html_attr() always</span>
-<span class="co"># returns a string so we convert it to an integer using a readr function</span>
-<span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">parse_integer</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">episode</span>
-<span class="co">#&gt; [1] 1 2 3 4 5 6 7</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Start by reading a HTML page with read_html():</span></span>
+<span><span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Then find elements that match a css selector or XPath expression</span></span>
+<span><span class="co"># using html_elements(). In this example, each &lt;section&gt; corresponds</span></span>
+<span><span class="co"># to a different film</span></span>
+<span><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span></span>
+<span><span class="va">films</span></span>
+<span><span class="co">#&gt; {xml_nodeset (7)}</span></span>
+<span><span class="co">#&gt; [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1999 ...</span></span>
+<span><span class="co">#&gt; [2] &lt;section&gt;&lt;h2 data-id="2"&gt;\nAttack of the Clones\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 20 ...</span></span>
+<span><span class="co">#&gt; [3] &lt;section&gt;&lt;h2 data-id="3"&gt;\nRevenge of the Sith\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 200 ...</span></span>
+<span><span class="co">#&gt; [4] &lt;section&gt;&lt;h2 data-id="4"&gt;\nA New Hope\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1977-05-25\n ...</span></span>
+<span><span class="co">#&gt; [5] &lt;section&gt;&lt;h2 data-id="5"&gt;\nThe Empire Strikes Back\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: ...</span></span>
+<span><span class="co">#&gt; [6] &lt;section&gt;&lt;h2 data-id="6"&gt;\nReturn of the Jedi\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1983 ...</span></span>
+<span><span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span></span>
+<span></span>
+<span><span class="co"># Then use html_element() to extract one element per film. Here</span></span>
+<span><span class="co"># we the title is given by the text inside &lt;h2&gt;</span></span>
+<span><span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">title</span></span>
+<span><span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span></span>
+<span><span class="co">#&gt; [3] "Revenge of the Sith"     "A New Hope"             </span></span>
+<span><span class="co">#&gt; [5] "The Empire Strikes Back" "Return of the Jedi"     </span></span>
+<span><span class="co">#&gt; [7] "The Force Awakens"</span></span>
+<span></span>
+<span><span class="co"># Or use html_attr() to get data out of attributes. html_attr() always</span></span>
+<span><span class="co"># returns a string so we convert it to an integer using a readr function</span></span>
+<span><span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">parse_integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">episode</span></span>
+<span><span class="co">#&gt; [1] 1 2 3 4 5 6 7</span></span></code></pre></div>
 <p>If the page contains tabular data you can convert it directly to a data frame with <code><a href="reference/html_table.html">html_table()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&amp;oldid=998422565"</span><span class="op">)</span>
-
-<span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".tracklist"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 29 × 4</span>
-<span class="co">#&gt;    No.   Title                       `Performer(s)`                       Length</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                       &lt;chr&gt;                                &lt;chr&gt; </span>
-<span class="co">#&gt;  1 1.    "\"Everything Is Awesome\"" "Tegan and Sara featuring The Lonel… 2:43  </span>
-<span class="co">#&gt;  2 2.    "\"Prologue\""              ""                                   2:28  </span>
-<span class="co">#&gt;  3 3.    "\"Emmett's Morning\""      ""                                   2:00  </span>
-<span class="co">#&gt;  4 4.    "\"Emmett Falls in Love\""  ""                                   1:11  </span>
-<span class="co">#&gt;  5 5.    "\"Escape\""                ""                                   3:26  </span>
-<span class="co">#&gt;  6 6.    "\"Into the Old West\""     ""                                   1:00  </span>
-<span class="co">#&gt;  7 7.    "\"Wyldstyle Explains\""    ""                                   1:21  </span>
-<span class="co">#&gt;  8 8.    "\"Emmett's Mind\""         ""                                   2:17  </span>
-<span class="co">#&gt;  9 9.    "\"The Transformation\""    ""                                   1:46  </span>
-<span class="co">#&gt; 10 10.   "\"Saloons and Wagons\""    ""                                   3:38  </span>
-<span class="co">#&gt; # … with 19 more rows</span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
-</h2>
-<p>Please note that the rvest project is released with a <a href="https://rvest.tidyverse.org/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&amp;oldid=998422565"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".tracklist"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 29 × 4</span></span>
+<span><span class="co">#&gt;    No.   Title                       `Performer(s)`                       Length</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                       &lt;chr&gt;                                &lt;chr&gt; </span></span>
+<span><span class="co">#&gt;  1 1.    "\"Everything Is Awesome\"" "Tegan and Sara featuring The Lonel… 2:43  </span></span>
+<span><span class="co">#&gt;  2 2.    "\"Prologue\""              ""                                   2:28  </span></span>
+<span><span class="co">#&gt;  3 3.    "\"Emmett's Morning\""      ""                                   2:00  </span></span>
+<span><span class="co">#&gt;  4 4.    "\"Emmett Falls in Love\""  ""                                   1:11  </span></span>
+<span><span class="co">#&gt;  5 5.    "\"Escape\""                ""                                   3:26  </span></span>
+<span><span class="co">#&gt;  6 6.    "\"Into the Old West\""     ""                                   1:00  </span></span>
+<span><span class="co">#&gt;  7 7.    "\"Wyldstyle Explains\""    ""                                   1:21  </span></span>
+<span><span class="co">#&gt;  8 8.    "\"Emmett's Mind\""         ""                                   2:17  </span></span>
+<span><span class="co">#&gt;  9 9.    "\"The Transformation\""    ""                                   1:46  </span></span>
+<span><span class="co">#&gt; 10 10.   "\"Saloons and Wagons\""    ""                                   3:38  </span></span>
+<span><span class="co">#&gt; # … with 19 more rows</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -205,6 +199,7 @@
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+<li><a href="SUPPORT.html">Getting help</a></li>
 </ul>
 </div>
 
@@ -230,7 +225,7 @@
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=rvest" class="external-link"><img src="https://www.r-pkg.org/badges/version/rvest" alt="CRAN status"></a></li>
 <li><a href="https://github.com/tidyverse/rvest/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tidyverse/rvest/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/tidyverse/rvest?branch=master" class="external-link"><img src="https://codecov.io/gh/tidyverse/rvest/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://app.codecov.io/gh/tidyverse/rvest?branch=main" class="external-link"><img src="https://codecov.io/gh/tidyverse/rvest/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -247,7 +242,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
   </div></footer>
