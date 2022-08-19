@@ -4,4 +4,4 @@
 
 ## revdepcheck results
 
-I didn't check revdeps since this is mostly a fix to a failing test, and a very small bug fix.
+I didn't check revdeps since this just a documentation fix.
