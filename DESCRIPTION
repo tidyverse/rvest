@@ -1,6 +1,6 @@
 Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
-Version: 1.0.3
+Version: 1.0.3.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = c("cph", "fnd"))
