@@ -1,6 +1,6 @@
 # rvest (development version)
 
-* `html_tables()` discards rows without cells (@epiben, #TBD).
+* `html_table()` discards rows without cells (@epiben, #TBD).
 
 # rvest 1.0.3
 
