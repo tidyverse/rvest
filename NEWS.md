@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `html_tables()` discards rows without cells (@epiben, #TBD).
+
 # rvest 1.0.3
 
 * Re-document to fix HTML issues in `.Rd`.

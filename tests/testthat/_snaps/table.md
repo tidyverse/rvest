@@ -88,3 +88,11 @@
 
     # A tibble: 0 x 0
 
+# can handle tables consisting of a single empty row
+
+    # A tibble: 0 x 0
+
+# can handle tables consisting of only empty rows
+
+    # A tibble: 0 x 0
+
