@@ -24,6 +24,7 @@ Imports:
     xml2 (>= 1.3),
     withr
 Suggests:
+    chromote,
     covr,
     knitr,
     readr,
