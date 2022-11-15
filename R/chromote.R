@@ -155,11 +155,12 @@ eval_method <- function(session, node_id, method, ..., .default = NULL) {
 }
 
 test_session <- function() {
-  skip_on_cran()
+  testthat::skip_on_cran()
 
   env_cache(the, "test_session", {
     session <- chromote::ChromoteSession$new()
     session$Page$navigate("https://rvest.tidyverse.org/articles/starwars.html")
+    Sys.sleep(0.5)
     session
   })
 }
