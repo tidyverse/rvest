@@ -17,7 +17,7 @@
       session_history(s)
     Output
         https://hadley.nz/
-      - https://www.rstudio.com/
+      - https://posit.co/
 
 # errors if try to access HTML from non-HTML page
 
