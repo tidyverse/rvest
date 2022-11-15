@@ -33,7 +33,7 @@ print.rvest_chromote_elements <- function(x, ...) {
   })
 
   cli::cat_line("<rvest_chromote_elements>")
-  print(str_trunc(html, getOption("width") - 10))
+  print(str_trunc(html, getOption("width") - 10), quote = FALSE)
 
   invisible(x)
 }

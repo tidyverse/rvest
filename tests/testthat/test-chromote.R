@@ -1,3 +1,16 @@
+test_that("can print and subset", {
+  session <- test_session()
+
+  # can extract from page
+  sections <- session %>% html_elements("#main section")
+
+  expect_snapshot({
+    sections
+    sections[1:2]
+    sections[[1]]
+  })
+})
+
 test_that("can find multiple elements", {
   session <- test_session()
 
