@@ -155,12 +155,15 @@ eval_method <- function(session, node_id, method, ..., .default = NULL) {
 }
 
 test_session <- function() {
-  testthat::skip_on_cran()
+  if (!is_interactive()) testthat::skip_on_cran()
 
   env_cache(the, "test_session", {
     session <- chromote::ChromoteSession$new()
-    session$Page$navigate("https://rvest.tidyverse.org/articles/starwars.html")
-    session$Page$loadEventFired()
+
+    p <- session$Page$loadEventFired(wait_ = FALSE)
+    session$Page$navigate("https://rvest.tidyverse.org/articles/starwars.html", wait_ = FALSE)
+    session$wait_for(p)
+
     session
   })
 }
