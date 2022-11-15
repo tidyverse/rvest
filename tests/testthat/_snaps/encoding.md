@@ -21,7 +21,7 @@
     Condition
       Warning:
       `guess_encoding()` was deprecated in rvest 1.0.0.
-      Please use `html_encoding_guess()` instead.
+      i Please use `html_encoding_guess()` instead.
     Output
           encoding language confidence
       1 ISO-8859-1       fr       0.31
@@ -41,7 +41,7 @@
     Condition
       Warning:
       `html_encoding_repair()` was deprecated in rvest 1.0.0.
-      Instead, re-load using the `encoding` argument of `read_html()`
+      i Instead, re-load using the `encoding` argument of `read_html()`
       Error:
       ! No guess has more than 50% confidence
 
@@ -52,7 +52,7 @@
     Condition
       Warning:
       `html_encoding_repair()` was deprecated in rvest 1.0.0.
-      Instead, re-load using the `encoding` argument of `read_html()`
+      i Instead, re-load using the `encoding` argument of `read_html()`
     Output
       [1] "ÉmigrÃ© cause cÃ©lÃ¨bre dÃ©jÃ  vu."
 

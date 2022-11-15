@@ -16,7 +16,7 @@ Imports:
     glue,
     cli,
     httr (>= 0.5),
-    lifecycle (>= 1.0.0),
+    lifecycle (>= 1.0.3),
     magrittr,
     rlang (>= 1.0.0),
     selectr,
