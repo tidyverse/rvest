@@ -34,3 +34,24 @@ test_that("can find single element", {
   h2 <- session %>% html_elements("#main section") %>% html_element("h2")
   expect_length(h2, 7)
 })
+
+
+test_that("can extract text and attributes", {
+  session <- test_session()
+  sections <- session %>% html_elements("#main section")
+  expect_equal(html_attrs(sections[[1]]), list(character()))
+  expect_equal(html_attr(sections[[1]], "foo"), NA_character_)
+
+  h2 <- sections %>% html_element("h2")
+
+  expect_equal(
+    html_attrs(h2[[1]]),
+    list(c(`data-id` = "1", id = "the-phantom-menace"))
+  )
+
+  expect_equal(html_attr(h2[1:3], "data-id"), c("1", "2", "3"))
+  expect_equal(
+    html_text(h2[1:3]),
+    c("The Phantom Menace", "Attack of the Clones", "Revenge of the Sith")
+  )
+})
