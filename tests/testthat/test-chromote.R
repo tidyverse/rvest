@@ -55,3 +55,14 @@ test_that("can extract text and attributes", {
     c("The Phantom Menace", "Attack of the Clones", "Revenge of the Sith")
   )
 })
+
+test_that("even when those elements don't exist", {
+  session <- test_session()
+  sections <- session %>% html_elements("#main section")
+  missing <- sections %>% html_element("foo") %>% .[1:3]
+
+  expect_equal(xml_attrs(missing[[1]]), list(NULL))
+  expect_equal(xml_attr(missing, "id"), rep(NA_character_, 3))
+  expect_equal(html_text(missing, "id"), rep(NA_character_, 3))
+  expect_equal(html_text2(missing, "id"), rep(NA_character_, 3))
+})
