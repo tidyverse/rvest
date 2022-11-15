@@ -160,7 +160,7 @@ test_session <- function() {
   env_cache(the, "test_session", {
     session <- chromote::ChromoteSession$new()
     session$Page$navigate("https://rvest.tidyverse.org/articles/starwars.html")
-    Sys.sleep(0.5)
+    session$Page$loadEventFired()
     session
   })
 }
