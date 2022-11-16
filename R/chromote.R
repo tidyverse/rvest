@@ -152,8 +152,29 @@ eval_method <- function(session, node_id, method, ..., .default = NULL) {
   session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
 }
 
+has_chromote <- function() {
+  tryCatch(
+    {
+      chromote::default_chromote_object()$new_session()
+      TRUE
+    },
+    error = function(cnd) {
+      FALSE
+    }
+  )
+}
+
 test_session <- function() {
   if (!is_interactive()) testthat::skip_on_cran()
+
+  if (on_ci() && is_windows()) {
+    # Windows seems GHA needs a kick start for `{chromote}` to connect
+    # https://github.com/rstudio/shinytest2/issues/209
+    has_chromote()
+  }
+  if (!has_chromote()) {
+    skip("chromote not available")
+  }
 
   env_cache(the, "test_session", {
     session <- chromote::ChromoteSession$new()
@@ -164,4 +185,8 @@ test_session <- function() {
 
     session
   })
+}
+
+on_ci <- function() {
+  isTRUE(as.logical(Sys.getenv("CI")))
 }
