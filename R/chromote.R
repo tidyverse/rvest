@@ -190,3 +190,7 @@ test_session <- function() {
 on_ci <- function() {
   isTRUE(as.logical(Sys.getenv("CI")))
 }
+
+is_windows <- function() {
+  tolower(Sys.info()[["sysname"]]) == "windows"
+}
