@@ -155,7 +155,10 @@ eval_method <- function(session, node_id, method, ..., .default = NULL) {
 has_chromote <- function() {
   tryCatch(
     {
-      chromote::default_chromote_object()$new_session()
+      default <- chromote::default_chromote_object()
+      local_bindings(default_timeout = 5, .env = default)
+      startup <- default$new_session(wait_ = FALSE)
+      default$wait_for(startup)
       TRUE
     },
     error = function(cnd) {
@@ -167,12 +170,10 @@ has_chromote <- function() {
 test_session <- function() {
   if (!is_interactive()) testthat::skip_on_cran()
 
-  # if (on_ci() && is_windows()) {
-    # Windows seems GHA needs a kick start for `{chromote}` to connect
-    # https://github.com/rstudio/shinytest2/issues/209
-    has_chromote()
-  # }
-  if (!has_chromote()) {
+  # We try twice because in particular Windows on GHA seems to need it,
+  # but it doesn't otherwise hurt. More details at
+  # https://github.com/rstudio/shinytest2/issues/209
+  if (!has_chromote() && !has_chromote()) {
     skip("chromote not available")
   }
 
@@ -185,12 +186,4 @@ test_session <- function() {
 
     session
   })
-}
-
-on_ci <- function() {
-  isTRUE(as.logical(Sys.getenv("CI")))
-}
-
-is_windows <- function() {
-  tolower(Sys.info()[["sysname"]]) == "windows"
 }
