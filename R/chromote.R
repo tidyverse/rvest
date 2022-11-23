@@ -1,24 +1,27 @@
+chromote_session <- function(url) {
+  session <- chromote::ChromoteSession$new()
+
+  p <- session$Page$loadEventFired(wait_ = FALSE)
+  session$Page$navigate(url, wait_ = FALSE)
+  session$wait_for(p)
+
+  new_chromote_elements(
+    session = session,
+    nodes = root_id(session)
+  )
+}
+
 new_chromote_elements <- function(session, nodes) {
   structure(
     list(session = session, nodes = nodes),
     class = "rvest_chromote_elements"
   )
 }
-#' @export
-`[.rvest_chromote_elements` <- function(x, i) {
-  new_chromote_elements(x$session, x$nodes[i])
-}
-#' @export
-`[[.rvest_chromote_elements` <- function(x, i) {
-  new_chromote_elements(x$session, x$nodes[[i]])
-}
-#' @export
-length.rvest_chromote_elements <- function(x) {
-  length(x$nodes)
-}
 
 #' @export
 print.rvest_chromote_elements <- function(x, ...) {
+
+
 
   html <- map_element_chr(x, function(session, node_id) {
     json <- eval_method(session, node_id, ".outerHTML")
@@ -32,74 +35,18 @@ print.rvest_chromote_elements <- function(x, ...) {
 }
 
 #' @export
-html_elements.ChromoteSession <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-
-  nodes <- x$DOM$querySelectorAll(root_id(x), css)
-  new_chromote_elements(x, unlist(nodes$nodeIds))
-}
-
-#' @export
-html_element.ChromoteSession <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-
-  node <- x$DOM$querySelector(root_id(x), css)
-  new_chromote_elements(x, unlist(node$nodeId))
-}
-
-#' @export
 html_elements.rvest_chromote_elements <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-
   nodes <- map_element(x, function(session, node_id) {
     session$DOM$querySelectorAll(node_id, css)$nodeIds
   })
+  x <- new_chromote_elements(x$session, unlist(nodes))
 
-  new_chromote_elements(x$session, unlist(nodes))
-}
-
-#' @export
-html_element.rvest_chromote_elements <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-
-  nodes <- map_element_int(x, function(session, node_id) {
-    session$DOM$querySelector(node_id, css)$nodeId
-  })
-  new_chromote_elements(x$session, nodes)
-}
-
-#' @export
-xml_attrs.rvest_chromote_elements <- function(x) {
-  map_element(x, function(session, node_id) {
-    # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-getAttributes
-    attr <- session$DOM$getAttributes(node_id)$attributes
-    if (length(attr) > 0) {
-      odd <- seq(1, length(attr) - 1, by = 2)
-      setNames(unlist(attr[odd + 1]), attr[odd])
-    } else {
-      character()
-    }
-  })
-}
-
-#' @export
-xml_attr.rvest_chromote_elements <- function(x, name, default = NA_character_) {
-  attrs <- xml_attrs(x)
-  vapply(attrs, function(attrs) {
-    if (has_name(attrs, name)) attrs[[name]] else default
-  }, character(1))
-}
-
-#' @export
-xml_text.rvest_chromote_elements <- function(x, trim = TRUE) {
-  map_element_chr(x, function(session, node_id) {
-    json <- eval_method(session, node_id, ".innerText")
+  elements <- map_element_chr(x, function(session, node_id) {
+    json <- eval_method(session, node_id, ".outerHTML")
     json$result$value
   })
-}
-#' @export
-html_text2.rvest_chromote_elements <- function(x, preserve_nbsp = TRUE) {
-  xml_text.rvest_chromote_elements(x)
+  html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
+  xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
 }
 
 # helpers -----------------------------------------------------------------
