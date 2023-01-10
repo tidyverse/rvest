@@ -1,3 +1,9 @@
+#' @export
+#' @examples
+#' sess <- chromote_session("https://hadley.nz")
+#' sess |> html_elements("p")
+#' sess |> html_element("xyz")
+#' sess |> html_element("p")
 chromote_session <- function(url) {
   session <- chromote::ChromoteSession$new()
 
@@ -5,48 +11,44 @@ chromote_session <- function(url) {
   session$Page$navigate(url, wait_ = FALSE)
   session$wait_for(p)
 
-  new_chromote_elements(
-    session = session,
-    nodes = root_id(session)
-  )
-}
-
-new_chromote_elements <- function(session, nodes) {
   structure(
-    list(session = session, nodes = nodes),
-    class = "rvest_chromote_elements"
+    list(
+      session = session,
+      root = root_id(session)
+    ),
+    class = "rvest_chromote_session"
   )
 }
 
 #' @export
-print.rvest_chromote_elements <- function(x, ...) {
+html_elements.rvest_chromote_session <- function(x, css, xpath) {
+  check_no_xpath(xpath)
+  nodes <- x$session$DOM$querySelectorAll(x$root, css)$nodeIds
 
-
-
-  html <- map_element_chr(x, function(session, node_id) {
-    json <- eval_method(session, node_id, ".outerHTML")
-    json$result$value
-  })
-
-  cli::cat_line("<rvest_chromote_elements>")
-  print(str_trunc(html, getOption("width") - 10), quote = FALSE)
-
-  invisible(x)
-}
-
-#' @export
-html_elements.rvest_chromote_elements <- function(x, css, xpath) {
-  nodes <- map_element(x, function(session, node_id) {
-    session$DOM$querySelectorAll(node_id, css)$nodeIds
-  })
-  x <- new_chromote_elements(x$session, unlist(nodes))
-
-  elements <- map_element_chr(x, function(session, node_id) {
-    json <- eval_method(session, node_id, ".outerHTML")
+  elements <- map_chr(nodes, function(node_id) {
+    json <- eval_method(x$session, node_id, ".outerHTML")
     json$result$value
   })
   html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
   xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
+}
+
+#' @export
+html_element.rvest_chromote_session <- function(x, css, xpath) {
+  check_no_xpath(xpath)
+
+  out <- html_elements(x, css)
+  if (length(out) == 0) {
+    xml2::xml_missing()
+  } else {
+    out[[1]]
+  }
+}
+
+#' @export
+print.rvest_chromote_session <- function(x, ...) {
+  print(html_elements(x, "html"))
+  invisible()
 }
 
 # helpers -----------------------------------------------------------------
@@ -59,34 +61,6 @@ check_no_xpath <- function(xpath) {
   if (!is_missing(xpath)) {
     cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
   }
-}
-
-map_element <- function(x, fn, ..., .default = NULL) {
-  lapply(x$nodes, function(node_id) {
-    if (node_id == 0) {
-      .default
-    } else {
-      fn(x$session, node_id, ...)
-    }
-  })
-}
-map_element_chr <- function(x, fn, ..., .default = NA_character_) {
-  vapply(x$nodes, function(node_id) {
-    if (node_id == 0) {
-      .default
-    } else {
-      fn(x$session, node_id, ...)
-    }
-  }, character(1))
-}
-map_element_int <- function(x, fn, ..., .default = NA_integer_) {
-  vapply(x$nodes, function(node_id) {
-    if (node_id == 0) {
-      .default
-    } else {
-      fn(x$session, node_id, ...)
-    }
-  }, integer(1))
 }
 
 # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
@@ -121,16 +95,10 @@ test_session <- function() {
   # but it doesn't otherwise hurt. More details at
   # https://github.com/rstudio/shinytest2/issues/209
   if (!has_chromote() && !has_chromote()) {
-    skip("chromote not available")
+    testthat::skip("chromote not available")
   }
 
   env_cache(the, "test_session", {
-    session <- chromote::ChromoteSession$new()
-
-    p <- session$Page$loadEventFired(wait_ = FALSE)
-    session$Page$navigate("https://rvest.tidyverse.org/articles/starwars.html", wait_ = FALSE)
-    session$wait_for(p)
-
-    session
+    chromote_session("https://rvest.tidyverse.org/articles/starwars.html")
   })
 }
