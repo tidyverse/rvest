@@ -1,9 +1,32 @@
+#' Dynamic web scraping with chromote
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' [read_html()] operates of the HTML source code downloaded from the server.
+#' This works for most websites but can fail if the site uses javascript to
+#' generate the HTML. `chromote_session()` provides an alternative interface
+#' that runs a real webserver in the background. This allows you to access
+#' elements of the HTML page that are generated dynamically by javascript,
+#' and to interact to (e.g.) click on buttons or fill in forms.
+#'
+#' Behind the scenes, this function uses the
+#' [chromote](https://rstudio.github.io/chromote) package, which requires that
+#' you have a copy of [Google Chrome](https://www.google.com/chrome/) installed
+#' on your machine.
+#'
+#' @param url Website url to read from.
 #' @export
 #' @examples
 #' sess <- chromote_session("https://hadley.nz")
 #' sess |> html_elements("p")
 #' sess |> html_element("xyz")
 #' sess |> html_element("p")
+#'
+#' \dontshow{
+#' # Hack to close open connections
+#' rm(sess); gc(); closeAllConnections()
+#' }
 chromote_session <- function(url) {
   session <- chromote::ChromoteSession$new()
 
