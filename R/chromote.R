@@ -60,8 +60,17 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   },
 
   click = function(css) {
-    node <- self$wait_for_selector(css)
-    eval_method(self$session, node[[1]], ".click()")
+    self$call_method(css, ".click()")
+  },
+  double_click = function(css) {
+    self$call_method(css, ".dblclick()")
+  },
+
+  call_method = function(css, code) {
+    nodes <- self$wait_for_selector(css)
+    for (node in nodes) {
+      eval_method(self$session, node, code)
+    }
     invisible(self)
   },
 
