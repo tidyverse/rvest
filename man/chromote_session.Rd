@@ -30,6 +30,9 @@ sess |> html_elements("p")
 sess |> html_element("xyz")
 sess |> html_element("p")
 
+sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
+sess$click(".ExLoadMore-btn")
+
 \dontshow{
 # Hack to avoid R CMD check error
 closeAllConnections()

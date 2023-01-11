@@ -23,6 +23,9 @@
 #' sess |> html_element("xyz")
 #' sess |> html_element("p")
 #'
+#' sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
+#' sess$click(".ExLoadMore-btn")
+#'
 #' \dontshow{
 #' # Hack to avoid R CMD check error
 #' closeAllConnections()
@@ -50,13 +53,44 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   print = function(...) {
     print(html_elements(self, "html"))
     invisible(self)
+  },
+
+  view = function() {
+    self$session$view()
+    invisible(self)
+  },
+
+  click = function(css) {
+    node <- self$wait_for_selector(css)
+    eval_method(self$session, node[[1]], ".click()")
+    invisible(self)
+  },
+
+  wait_for_selector = function(css, timeout = 5) {
+    done <- now() + timeout
+    while(now() < done) {
+      nodes <- self$find_nodes(css)
+      if (length(nodes) > 0) {
+        return(nodes)
+      }
+
+      Sys.sleep(0.1)
+    }
+    cli::cli_abort("Failed to find selector {.str css} in {timeout} seconds.")
+  },
+
+  find_nodes = function(css) {
+    unlist(self$session$DOM$querySelectorAll(self$root, css)$nodeIds)
   }
+
 ))
+
+now <- function() proc.time()[[3]]
 
 #' @export
 html_elements.DynamicPage <- function(x, css, xpath) {
   check_no_xpath(xpath)
-  nodes <- x$session$DOM$querySelectorAll(x$root, css)$nodeIds
+  nodes <- x$find_nodes(css)
 
   elements <- map_chr(nodes, function(node_id) {
     json <- eval_method(x$session, node_id, ".outerHTML")
