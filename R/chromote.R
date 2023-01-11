@@ -28,23 +28,33 @@
 #' closeAllConnections()
 #' }
 chromote_session <- function(url) {
-  session <- chromote::ChromoteSession$new()
+  check_installed(c("chromote", "R6"))
 
-  p <- session$Page$loadEventFired(wait_ = FALSE)
-  session$Page$navigate(url, wait_ = FALSE)
-  session$wait_for(p)
-
-  structure(
-    list(
-      session = session,
-      root = root_id(session)
-    ),
-    class = "rvest_chromote_session"
-  )
+  DynamicPage$new(url)
 }
 
+DynamicPage <- R6::R6Class("DynamicPage", public = list(
+  session = NULL,
+  root = NULL,
+
+  initialize = function(url) {
+    self$session <- chromote::ChromoteSession$new()
+
+    p <- self$session$Page$loadEventFired(wait_ = FALSE)
+    self$session$Page$navigate(url, wait_ = FALSE)
+    self$session$wait_for(p)
+
+    self$root <- self$session$DOM$getDocument()$root$nodeId
+  },
+
+  print = function(...) {
+    print(html_elements(self, "html"))
+    invisible(self)
+  }
+))
+
 #' @export
-html_elements.rvest_chromote_session <- function(x, css, xpath) {
+html_elements.DynamicPage <- function(x, css, xpath) {
   check_no_xpath(xpath)
   nodes <- x$session$DOM$querySelectorAll(x$root, css)$nodeIds
 
@@ -57,7 +67,7 @@ html_elements.rvest_chromote_session <- function(x, css, xpath) {
 }
 
 #' @export
-html_element.rvest_chromote_session <- function(x, css, xpath) {
+html_element.DynamicPage <- function(x, css, xpath) {
   check_no_xpath(xpath)
 
   out <- html_elements(x, css)
@@ -68,17 +78,7 @@ html_element.rvest_chromote_session <- function(x, css, xpath) {
   }
 }
 
-#' @export
-print.rvest_chromote_session <- function(x, ...) {
-  print(html_elements(x, "html"))
-  invisible()
-}
-
 # helpers -----------------------------------------------------------------
-
-root_id <- function(x) {
-  x$DOM$getDocument()$root$nodeId
-}
 
 check_no_xpath <- function(xpath) {
   if (!is_missing(xpath)) {
