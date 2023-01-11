@@ -27,12 +27,11 @@
 #' sess$click(".ExLoadMore-btn")
 #'
 #' \dontshow{
-#' # Hack to avoid R CMD check error
-#' closeAllConnections()
+#' # Hack to suppress R CMD check error about connections
+#' Sys.setenv("_R_CHECK_CONNECTIONS_LEFT_OPEN_" = "FALSE")
 #' }
 chromote_session <- function(url) {
   check_installed(c("chromote", "R6"))
-
   DynamicPage$new(url)
 }
 

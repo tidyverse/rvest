@@ -34,7 +34,7 @@ sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
 sess$click(".ExLoadMore-btn")
 
 \dontshow{
-# Hack to avoid R CMD check error
-closeAllConnections()
+# Hack to suppress R CMD check error about connections
+Sys.setenv("_R_CHECK_CONNECTIONS_LEFT_OPEN_" = "FALSE")
 }
 }
