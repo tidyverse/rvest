@@ -30,5 +30,8 @@ sess |> html_elements("p")
 sess |> html_element("xyz")
 sess |> html_element("p")
 
-rm(sess); gc(); closeAllConnections()
+\dontshow{
+# Hack to avoid R CMD check error
+closeAllConnections()
+}
 }

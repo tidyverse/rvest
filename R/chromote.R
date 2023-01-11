@@ -24,8 +24,8 @@
 #' sess |> html_element("p")
 #'
 #' \dontshow{
-#' # Hack to close open connections
-#' rm(sess); gc(); closeAllConnections()
+#' # Hack to avoid R CMD check error
+#' closeAllConnections()
 #' }
 chromote_session <- function(url) {
   session <- chromote::ChromoteSession$new()
