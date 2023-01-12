@@ -29,7 +29,9 @@
 #'
 #' sess <- chromote_session("https://www.forbes.com/top-colleges/")
 #' sess$view()
-#' sess$scroll_to(".down_arrow")
+#' sess$scroll_by(100)
+#' sess$scroll_to(10000)
+#' sess$scroll_in_to_view(".down-arrow")
 #' }
 #'
 #' \dontshow{
@@ -67,27 +69,31 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
 
   click = function(css) {
     self$call_method(css, ".click()")
+    invisible(self)
   },
   double_click = function(css) {
     self$call_method(css, ".dblclick()")
+    invisible(self)
   },
   scroll_in_to_view = function(css, top = TRUE) {
-    # Might also want to add these on root element
-    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
-    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scroll
-
+    node <- self$wait_for_selector(css)
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
     if (top) {
-      self$call_node_method(css, ".scrollIntoView(true)")
+      self$call_node_method(node, ".scrollIntoView(true)")
     } else {
-      self$call_node_method(css, ".scrollIntoView(false)")
+      self$call_node_method(node, ".scrollIntoView(false)")
     }
+    invisible(self)
   },
   scroll_to = function(top = 0, left = 0) {
-    self$call_node_method(self$root_id, paste0(".scrollTo(", top, ", ", left, ")"))
+    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
+    self$call_node_method(self$root_id, paste0(".documentElement.scrollTo(", left, ", ", top, ")"))
+    invisible(self)
   },
   scroll_by = function(top = 0, left = 0) {
-    self$call_node_method(self$root_id, paste0(".scrollBy(", top, ", ", left, ")"))
+    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
+    self$call_node_method(self$root_id, paste0(".documentElement.scrollBy(", left, ", ", top, ")"))
+    invisible(self)
   },
 
   call_method = function(css, code) {
