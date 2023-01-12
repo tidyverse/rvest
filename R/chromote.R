@@ -23,8 +23,14 @@
 #' sess |> html_element("xyz")
 #' sess |> html_element("p")
 #'
+#' \dontrun{
 #' sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
 #' sess$click(".ExLoadMore-btn")
+#'
+#' sess <- chromote_session("https://www.forbes.com/top-colleges/")
+#' sess$view()
+#' sess$scroll_to(".down_arrow")
+#' }
 #'
 #' \dontshow{
 #' # Hack to suppress R CMD check error about connections
@@ -65,6 +71,18 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   double_click = function(css) {
     self$call_method(css, ".dblclick()")
   },
+  scroll_to = function(css, top = TRUE) {
+    # Might also want to add these on root element
+    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
+    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scroll
+
+    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+    if (top) {
+      self$call_method(css, ".scrollIntoView(true)")
+    } else {
+      self$call_method(css, ".scrollIntoView(false)")
+    }
+  },
 
   call_method = function(css, code) {
     nodes <- self$wait_for_selector(css)
@@ -87,8 +105,14 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
     cli::cli_abort("Failed to find selector {.str css} in {timeout} seconds.")
   },
 
-  find_nodes = function(css) {
-    unlist(self$session$DOM$querySelectorAll(self$root, css)$nodeIds)
+  find_nodes = function(css, xpath) {
+    check_exclusive(css, xpath)
+    if (!missing(css)) {
+      unlist(self$session$DOM$querySelectorAll(self$root, css)$nodeIds)
+    } else {
+
+    }
+
   }
 
 ))
@@ -129,12 +153,20 @@ check_no_xpath <- function(xpath) {
 }
 
 # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-eval_method <- function(session, node_id, method, ..., .default = NULL) {
+eval_method <- function(session, node_id, method, ...) {
   js_fun <- paste0("function() { return this", method, "}")
 
   # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
   obj_id <- session$DOM$resolveNode(node_id)$object$objectId
   # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
+  session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
+}
+
+document_method <- function(session, method, ...) {
+  root_id <- session$DOM$getDocument()$root$nodeId
+  obj_id <- session$DOM$resolveNode(root_id)$object$objectId
+
+  js_fun <- paste0("function() { return this", method, "}")
   session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
 }
 

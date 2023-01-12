@@ -30,8 +30,14 @@ sess |> html_elements("p")
 sess |> html_element("xyz")
 sess |> html_element("p")
 
+\dontrun{
 sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
 sess$click(".ExLoadMore-btn")
+
+sess <- chromote_session("https://www.forbes.com/top-colleges/")
+sess$view()
+sess$scroll_to(".down_arrow")
+}
 
 \dontshow{
 # Hack to suppress R CMD check error about connections
