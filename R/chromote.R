@@ -43,7 +43,6 @@ chromote_session <- function(url) {
 
 DynamicPage <- R6::R6Class("DynamicPage", public = list(
   session = NULL,
-  root = NULL,
 
   initialize = function(url) {
     self$session <- chromote::ChromoteSession$new()
@@ -51,8 +50,6 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
     p <- self$session$Page$loadEventFired(wait_ = FALSE)
     self$session$Page$navigate(url, wait_ = FALSE)
     self$session$wait_for(p)
-
-    self$root <- self$session$DOM$getDocument()$root$nodeId
   },
 
   print = function(...) {
@@ -71,7 +68,7 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   double_click = function(css) {
     self$call_method(css, ".dblclick()")
   },
-  scroll_to = function(css, top = TRUE) {
+  scroll = function(css, top = TRUE) {
     # Might also want to add these on root element
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scroll
@@ -84,10 +81,11 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
     }
   },
 
+
   call_method = function(css, code) {
     nodes <- self$wait_for_selector(css)
     for (node in nodes) {
-      eval_method(self$session, node, code)
+      self$call_node_method(node, code)
     }
     invisible(self)
   },
@@ -108,24 +106,42 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   find_nodes = function(css, xpath) {
     check_exclusive(css, xpath)
     if (!missing(css)) {
-      unlist(self$session$DOM$querySelectorAll(self$root, css)$nodeIds)
+      unlist(self$session$DOM$querySelectorAll(self$root_id(), css)$nodeIds)
     } else {
-
+      cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
     }
+  },
 
+  # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
+  call_node_method = function(node_id, method, ...) {
+    js_fun <- paste0("function() { return this", method, "}")
+    obj_id <- self$object_id(node_id)
+    # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
+    self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
+  },
+
+  call_document_method = function(method, ...) {
+    call_node_method(self$root_id(), method, ...)
+  },
+
+  object_id = function(node_id) {
+    # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
+    self$session$DOM$resolveNode(node_id)$object$objectId
+  },
+
+  root_id = function() {
+    self$session$DOM$getDocument()$root$nodeId
   }
-
 ))
 
 now <- function() proc.time()[[3]]
 
 #' @export
 html_elements.DynamicPage <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-  nodes <- x$find_nodes(css)
+  nodes <- x$find_nodes(css, xpath)
 
   elements <- map_chr(nodes, function(node_id) {
-    json <- eval_method(x$session, node_id, ".outerHTML")
+    json <- x$call_node_method(node_id, ".outerHTML")
     json$result$value
   })
   html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
@@ -145,30 +161,6 @@ html_element.DynamicPage <- function(x, css, xpath) {
 }
 
 # helpers -----------------------------------------------------------------
-
-check_no_xpath <- function(xpath) {
-  if (!is_missing(xpath)) {
-    cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
-  }
-}
-
-# Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-eval_method <- function(session, node_id, method, ...) {
-  js_fun <- paste0("function() { return this", method, "}")
-
-  # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
-  obj_id <- session$DOM$resolveNode(node_id)$object$objectId
-  # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
-  session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
-}
-
-document_method <- function(session, method, ...) {
-  root_id <- session$DOM$getDocument()$root$nodeId
-  obj_id <- session$DOM$resolveNode(root_id)$object$objectId
-
-  js_fun <- paste0("function() { return this", method, "}")
-  session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
-}
 
 has_chromote <- function() {
   tryCatch(
