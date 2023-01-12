@@ -43,6 +43,7 @@ chromote_session <- function(url) {
 
 DynamicPage <- R6::R6Class("DynamicPage", public = list(
   session = NULL,
+  root_id = NULL,
 
   initialize = function(url) {
     self$session <- chromote::ChromoteSession$new()
@@ -50,6 +51,8 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
     p <- self$session$Page$loadEventFired(wait_ = FALSE)
     self$session$Page$navigate(url, wait_ = FALSE)
     self$session$wait_for(p)
+
+    self$root_id <- self$session$DOM$getDocument(0)$root$nodeId
   },
 
   print = function(...) {
@@ -68,19 +71,24 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   double_click = function(css) {
     self$call_method(css, ".dblclick()")
   },
-  scroll = function(css, top = TRUE) {
+  scroll_in_to_view = function(css, top = TRUE) {
     # Might also want to add these on root element
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scroll
 
     # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
     if (top) {
-      self$call_method(css, ".scrollIntoView(true)")
+      self$call_node_method(css, ".scrollIntoView(true)")
     } else {
-      self$call_method(css, ".scrollIntoView(false)")
+      self$call_node_method(css, ".scrollIntoView(false)")
     }
   },
-
+  scroll_to = function(top = 0, left = 0) {
+    self$call_node_method(self$root_id, paste0(".scrollTo(", top, ", ", left, ")"))
+  },
+  scroll_by = function(top = 0, left = 0) {
+    self$call_node_method(self$root_id, paste0(".scrollBy(", top, ", ", left, ")"))
+  },
 
   call_method = function(css, code) {
     nodes <- self$wait_for_selector(css)
@@ -106,7 +114,7 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
   find_nodes = function(css, xpath) {
     check_exclusive(css, xpath)
     if (!missing(css)) {
-      unlist(self$session$DOM$querySelectorAll(self$root_id(), css)$nodeIds)
+      unlist(self$session$DOM$querySelectorAll(self$root_id, css)$nodeIds)
     } else {
       cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
     }
@@ -120,18 +128,11 @@ DynamicPage <- R6::R6Class("DynamicPage", public = list(
     self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
   },
 
-  call_document_method = function(method, ...) {
-    call_node_method(self$root_id(), method, ...)
-  },
-
   object_id = function(node_id) {
     # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
     self$session$DOM$resolveNode(node_id)$object$objectId
-  },
-
-  root_id = function() {
-    self$session$DOM$getDocument()$root$nodeId
   }
+
 ))
 
 now <- function() proc.time()[[3]]
