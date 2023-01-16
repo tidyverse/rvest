@@ -1,12 +1,12 @@
-#' Dynamic web scraping with chromote
+#' Live web scraping (with chromote)
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
 #' [read_html()] operates of the HTML source code downloaded from the server.
 #' This works for most websites but can fail if the site uses javascript to
-#' generate the HTML. `chromote_session()` provides an alternative interface
-#' that runs a real webserver in the background. This allows you to access
+#' generate the HTML. `read_html_live()` provides an alternative interface
+#' that runs a live webserver in the background. This allows you to access
 #' elements of the HTML page that are generated dynamically by javascript,
 #' and to interact to (e.g.) click on buttons or fill in forms.
 #'
@@ -18,7 +18,7 @@
 #' @param url Website url to read from.
 #' @export
 #' @examples
-#' sess <- chromote_session("https://hadley.nz")
+#' sess <- read_html_live("https://hadley.nz")
 #' sess |> html_elements("p")
 #' sess |> html_element("xyz")
 #' sess |> html_element("p")
@@ -38,13 +38,13 @@
 #' # Hack to suppress R CMD check error about connections
 #' Sys.setenv("_R_CHECK_CONNECTIONS_LEFT_OPEN_" = "FALSE")
 #' }
-chromote_session <- function(url) {
+read_html_live <- function(url) {
   check_installed(c("chromote", "R6"))
-  DynamicPage$new(url)
+  LiveHTML$new(url)
 }
 
-DynamicPage <- R6::R6Class(
-  "DynamicPage",
+LiveHTML <- R6::R6Class(
+  "LiveHTML",
   public = list(
     session = NULL,
 
@@ -170,12 +170,12 @@ DynamicPage <- R6::R6Class(
 now <- function() proc.time()[[3]]
 
 #' @export
-html_elements.DynamicPage <- function(x, css, xpath) {
+html_elements.LiveHTML <- function(x, css, xpath) {
   x$html_elements(css, xpath)
 }
 
 #' @export
-html_element.DynamicPage <- function(x, css, xpath) {
+html_element.LiveHTML <- function(x, css, xpath) {
   out <- html_elements(x, css, xpath)
   if (length(out) == 0) {
     xml2::xml_missing()
