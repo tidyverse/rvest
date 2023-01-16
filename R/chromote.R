@@ -43,123 +43,140 @@ chromote_session <- function(url) {
   DynamicPage$new(url)
 }
 
-DynamicPage <- R6::R6Class("DynamicPage", public = list(
-  session = NULL,
-  root_id = NULL,
+DynamicPage <- R6::R6Class(
+  "DynamicPage",
+  public = list(
+    session = NULL,
 
-  initialize = function(url) {
-    self$session <- chromote::ChromoteSession$new()
+    initialize = function(url) {
+      self$session <- chromote::ChromoteSession$new()
 
-    p <- self$session$Page$loadEventFired(wait_ = FALSE)
-    self$session$Page$navigate(url, wait_ = FALSE)
-    self$session$wait_for(p)
+      p <- self$session$Page$loadEventFired(wait_ = FALSE)
+      self$session$Page$navigate(url, wait_ = FALSE)
+      self$session$wait_for(p)
 
-    self$root_id <- self$session$DOM$getDocument(0)$root$nodeId
-  },
+      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
+    },
 
-  print = function(...) {
-    print(html_elements(self, "html"))
-    invisible(self)
-  },
+    print = function(...) {
+      print(html_elements(self, "html"))
+      invisible(self)
+    },
 
-  view = function() {
-    self$session$view()
-    invisible(self)
-  },
+    view = function() {
+      self$session$view()
+      invisible(self)
+    },
 
-  click = function(css) {
-    self$call_method(css, ".click()")
-    invisible(self)
-  },
-  double_click = function(css) {
-    self$call_method(css, ".dblclick()")
-    invisible(self)
-  },
-  scroll_in_to_view = function(css, top = TRUE) {
-    node <- self$wait_for_selector(css)
-    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-    if (top) {
-      self$call_node_method(node, ".scrollIntoView(true)")
-    } else {
-      self$call_node_method(node, ".scrollIntoView(false)")
-    }
-    invisible(self)
-  },
-  scroll_to = function(top = 0, left = 0) {
-    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
-    self$call_node_method(self$root_id, paste0(".documentElement.scrollTo(", left, ", ", top, ")"))
-    invisible(self)
-  },
-  scroll_by = function(top = 0, left = 0) {
-    # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
-    self$call_node_method(self$root_id, paste0(".documentElement.scrollBy(", left, ", ", top, ")"))
-    invisible(self)
-  },
+    html_elements = function(css, xpath) {
+      nodes <- private$find_nodes(css, xpath)
 
-  call_method = function(css, code) {
-    nodes <- self$wait_for_selector(css)
-    for (node in nodes) {
-      self$call_node_method(node, code)
-    }
-    invisible(self)
-  },
+      elements <- map_chr(nodes, function(node_id) {
+        json <- private$call_node_method(node_id, ".outerHTML")
+        json$result$value
+      })
+      html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
+      xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
+    },
 
-  wait_for_selector = function(css, timeout = 5) {
-    done <- now() + timeout
-    while(now() < done) {
-      nodes <- self$find_nodes(css)
-      if (length(nodes) > 0) {
-        return(nodes)
+    click = function(css) {
+      private$call_method(css, ".click()")
+      invisible(self)
+    },
+
+    double_click = function(css) {
+      private$call_method(css, ".dblclick()")
+      invisible(self)
+    },
+
+    scroll_in_to_view = function(css, top = TRUE) {
+      node <- private$wait_for_selector(css)
+      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+      if (top) {
+        private$call_node_method(node, ".scrollIntoView(true)")
+      } else {
+        private$call_node_method(node, ".scrollIntoView(false)")
       }
+      invisible(self)
+    },
 
-      Sys.sleep(0.1)
+    scroll_to = function(top = 0, left = 0) {
+      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
+      private$call_node_method(
+        private$root_id,
+        paste0(".documentElement.scrollTo(", left, ", ", top, ")")
+      )
+      invisible(self)
+    },
+
+    scroll_by = function(top = 0, left = 0) {
+      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
+      private$call_node_method(
+        private$root_id,
+        paste0(".documentElement.scrollBy(", left, ", ", top, ")")
+      )
+      invisible(self)
     }
-    cli::cli_abort("Failed to find selector {.str css} in {timeout} seconds.")
-  },
+  ),
 
-  find_nodes = function(css, xpath) {
-    check_exclusive(css, xpath)
-    if (!missing(css)) {
-      unlist(self$session$DOM$querySelectorAll(self$root_id, css)$nodeIds)
-    } else {
-      cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
+  private = list(
+    root_id = NULL,
+
+    call_method = function(css, code) {
+      nodes <- private$wait_for_selector(css)
+      for (node in nodes) {
+        private$call_node_method(node, code)
+      }
+      invisible(self)
+    },
+
+    wait_for_selector = function(css, timeout = 5) {
+      done <- now() + timeout
+      while(now() < done) {
+        nodes <- private$find_nodes(css)
+        if (length(nodes) > 0) {
+          return(nodes)
+        }
+
+        Sys.sleep(0.1)
+      }
+      cli::cli_abort("Failed to find selector {.str css} in {timeout} seconds.")
+    },
+
+    find_nodes = function(css, xpath) {
+      check_exclusive(css, xpath)
+      if (!missing(css)) {
+        unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds)
+      } else {
+        cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
+      }
+    },
+
+    # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
+    call_node_method = function(node_id, method, ...) {
+      js_fun <- paste0("function() { return this", method, "}")
+      obj_id <- private$object_id(node_id)
+      # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
+      self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
+    },
+
+    object_id = function(node_id) {
+      # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
+      self$session$DOM$resolveNode(node_id)$object$objectId
     }
-  },
-
-  # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-  call_node_method = function(node_id, method, ...) {
-    js_fun <- paste0("function() { return this", method, "}")
-    obj_id <- self$object_id(node_id)
-    # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
-    self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
-  },
-
-  object_id = function(node_id) {
-    # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
-    self$session$DOM$resolveNode(node_id)$object$objectId
-  }
-
-))
+  )
+)
 
 now <- function() proc.time()[[3]]
 
 #' @export
 html_elements.DynamicPage <- function(x, css, xpath) {
-  nodes <- x$find_nodes(css, xpath)
-
-  elements <- map_chr(nodes, function(node_id) {
-    json <- x$call_node_method(node_id, ".outerHTML")
-    json$result$value
-  })
-  html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
-  xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
+  x$html_elements(css, xpath)
 }
 
 #' @export
 html_element.DynamicPage <- function(x, css, xpath) {
-  check_no_xpath(xpath)
-
-  out <- html_elements(x, css)
+  out <- html_elements(x, css, xpath)
   if (length(out) == 0) {
     xml2::xml_missing()
   } else {
