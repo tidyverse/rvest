@@ -28,12 +28,12 @@
 #' sess |> html_element("p")
 #'
 #' \dontrun{
-#' sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
+#' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
 #' sess$click(".ExLoadMore-btn")
 #'
-#' sess <- chromote_session("https://www.forbes.com/top-colleges/")
+#' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
-#' sess$scroll_by(100)
+#' sess$scroll_by(-1000)
 #' sess$scroll_to(10000)
 #' sess$scroll_in_to_view(".down-arrow")
 #' }
@@ -148,10 +148,13 @@ LiveHTML <- R6::R6Class(
     #' @param top,left Number of pixels to scroll up/down and left/right
     #'   respectively.
     scroll_by = function(top = 0, left = 0) {
-      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
-      private$call_node_method(
-        private$root_id,
-        paste0(".documentElement.scrollBy(", left, ", ", top, ")")
+      # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
+      self$session$Input$dispatchMouseEvent(
+        type = "mouseWheel",
+        x = 0,
+        y = 0,
+        deltaX = left,
+        deltaY = top
       )
       invisible(self)
     }

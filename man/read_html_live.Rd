@@ -37,12 +37,12 @@ sess |> html_element("xyz")
 sess |> html_element("p")
 
 \dontrun{
-sess <- chromote_session("https://www.bodybuilding.com/exercises/finder")
+sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
 sess$click(".ExLoadMore-btn")
 
-sess <- chromote_session("https://www.forbes.com/top-colleges/")
+sess <- read_html_live("https://www.forbes.com/top-colleges/")
 sess$view()
-sess$scroll_by(100)
+sess$scroll_by(-1000)
 sess$scroll_to(10000)
 sess$scroll_in_to_view(".down-arrow")
 }
