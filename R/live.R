@@ -15,6 +15,10 @@
 #' you have a copy of [Google Chrome](https://www.google.com/chrome/) installed
 #' on your machine.
 #'
+#' @return `read_html_live()` returns an R6 [LiveHTML] object. You can interact
+#'   with it using the usual rvest functions and you can also call methods on
+#'   it like `$click()`, `$scroll_to()`, to interact with the live page like
+#'   a human would.
 #' @param url Website url to read from.
 #' @export
 #' @examples
@@ -43,12 +47,25 @@ read_html_live <- function(url) {
   LiveHTML$new(url)
 }
 
+#' LiveHTML, an R6 class
+#'
+#' @description
+#' You construct an LiveHTML object with [read_live_html()] and can interact
+#' with it using the methods described below. When debugging a scraping script
+#' it is particularly useful to use `$view()`, which will open a live preview
+#' of the site.
+#'
+#' @export
 LiveHTML <- R6::R6Class(
   "LiveHTML",
   public = list(
+    #' @field session Underlying chromote session object. For expert use only.
     session = NULL,
 
+    #' @description initialize the object
+    #' @param url URL to page.
     initialize = function(url) {
+      check_installed("chromote")
       self$session <- chromote::ChromoteSession$new()
 
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
@@ -58,16 +75,23 @@ LiveHTML <- R6::R6Class(
       private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     },
 
+    #' @description Called when `print()`ed
+    #' @param ... Ignored
     print = function(...) {
       print(html_elements(self, "html"))
       invisible(self)
     },
 
+    #' @description
+    #' Display a live view of the site
     view = function() {
       self$session$view()
       invisible(self)
     },
 
+    #' @description
+    #' Extract HTML elements from the current page.
+    #' @param css,xpath CSS selector or xpath expression.
     html_elements = function(css, xpath) {
       nodes <- private$find_nodes(css, xpath)
 
@@ -79,20 +103,29 @@ LiveHTML <- R6::R6Class(
       xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
     },
 
+    #' @description Simulate a click on an HTML element.
+    #' @param css,xpath CSS selector or xpath expression.
     click = function(css) {
       private$call_method(css, ".click()")
       invisible(self)
     },
 
+    #' @description Simulate a double click on an HTML element.
+    #' @param css,xpath CSS selector or xpath expression.
     double_click = function(css) {
       private$call_method(css, ".dblclick()")
       invisible(self)
     },
 
-    scroll_in_to_view = function(css, top = TRUE) {
+    #' @description Scroll selected element into view.
+    #' @param css,xpath CSS selector or xpath expression.
+    #' @param edge Scroll to top or bottom of element?
+    scroll_in_to_view = function(css, edge = c("top", "bottom")) {
+      edge <- arg_match(edge)
+
       node <- private$wait_for_selector(css)
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-      if (top) {
+      if (edge == "top") {
         private$call_node_method(node, ".scrollIntoView(true)")
       } else {
         private$call_node_method(node, ".scrollIntoView(false)")
@@ -100,6 +133,8 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Scroll to specified location
+    #' @param top,left Number of pixels from top/left respectively.
     scroll_to = function(top = 0, left = 0) {
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
       private$call_node_method(
@@ -109,6 +144,9 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Scroll by the specified amount
+    #' @param top,left Number of pixels to scroll up/down and left/right
+    #'   respectively.
     scroll_by = function(top = 0, left = 0) {
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollBy
       private$call_node_method(
