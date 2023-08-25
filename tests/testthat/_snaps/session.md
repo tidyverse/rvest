@@ -49,8 +49,9 @@
     Code
       find_href(html, i = 1, css = "a")
     Condition
-      Error in `find_href()`:
-      ! Must supply exactly one of `i`, `css`, or `xpath`
+      Error:
+      ! Exactly one of `i`, `css`, or `xpath` must be supplied.
+      x `i` and `css` were supplied together.
 
 ---
 

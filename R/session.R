@@ -108,12 +108,10 @@ session_follow_link <- function(x, i, css, xpath, ...) {
   session_jump_to(x, url, ...)
 }
 
-find_href <- function(x, i, css, xpath) {
-  if (sum(!missing(i), !missing(css), !missing(xpath)) != 1) {
-    abort("Must supply exactly one of `i`, `css`, or `xpath`")
-  }
+find_href <- function(x, i, css, xpath, call = rlang::caller_env()) {
+  arg_supplied <- rlang::check_exclusive(i, css, xpath, .call = call)
 
-  if (!missing(i)) {
+  if (arg_supplied == "i") {
     stopifnot(length(i) == 1)
     a <- html_elements(x, "a")
 
