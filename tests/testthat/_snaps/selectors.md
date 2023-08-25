@@ -4,7 +4,7 @@
       make_selector()
     Condition
       Error:
-      ! Please supply one of css or xpath
+      ! One of `css` or `xpath` must be supplied.
 
 ---
 
@@ -12,7 +12,7 @@
       make_selector("a", "b")
     Condition
       Error:
-      ! Please supply css or xpath, not both
+      ! Exactly one of `css` or `xpath` must be supplied.
 
 ---
 

@@ -78,30 +78,32 @@ html_elements <- function(x, css, xpath) {
 
 #' @export
 html_elements.default <- function(x, css, xpath) {
-  xml2::xml_find_all(x, make_selector(css, xpath))
+  xpath <- make_selector(css, xpath)
+  xml2::xml_find_all(x, xpath)
 }
 
 #' @export
 html_element.default <- function(x, css, xpath) {
-  xml2::xml_find_first(x, make_selector(css, xpath))
+  xpath <- make_selector(css, xpath)
+  xml2::xml_find_first(x, xpath)
 }
 
-make_selector <- function(css, xpath) {
-  if (missing(css) && missing(xpath))
-    stop("Please supply one of css or xpath", call. = FALSE)
-  if (!missing(css) && !missing(xpath))
-    stop("Please supply css or xpath, not both", call. = FALSE)
+make_selector <- function(css, xpath, call = rlang::caller_env()) {
+  switch(
+    rlang::check_exclusive(css, xpath, .call = call),
+    css = {
+      if (!rlang::is_scalar_character(css)) {
+        cli::cli_abort("{.arg css} must be a string")
+      }
 
-  if (!missing(css)) {
-    if (!is.character(css) && length(css) == 1)
-      stop("`css` must be a string")
+      selectr::css_to_xpath(css, prefix = ".//")
+    },
+    xpath = {
+      if (!rlang::is_scalar_character(xpath)) {
+        cli::cli_abort("{.arg xpath} must be a string")
+      }
 
-    selectr::css_to_xpath(css, prefix = ".//")
-  } else {
-    if (!is.character(xpath) && length(xpath) == 1)
-      stop("`xpath` must be a string")
-
-    xpath
-  }
+      xpath
+    }
+  )
 }
-
