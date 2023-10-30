@@ -2,8 +2,8 @@ Package: rvest
 Title: Easily Harvest (Scrape) Web Pages
 Version: 1.0.3.9000
 Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
-    person("RStudio", role = c("cph", "fnd"))
+    person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre")),
+    person("Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Wrappers around the 'xml2' and 'httr' packages to make it
     easy to download, then manipulate, HTML and XML.
@@ -40,4 +40,4 @@ Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
