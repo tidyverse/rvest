@@ -8,7 +8,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 library(rvest)
 ```
@@ -52,13 +53,23 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
 2.  Click on the SelectorGadget link in the bookmarks. The SelectorGadget console will appear at the bottom of the screen, and element currently under the mouse will be highlighted in orange.
 
-    ```{r, echo = FALSE}
+    ```{r}
+    #| echo: false
+    #| fig-alt: >
+    #|   A screenshot of the starwars vignette with an orange box drawn around
+    #|   the top few lines of the page. SelectorGadget reports "no valid
+    #|   path found"
     knitr::include_graphics("selectorgadget-hover.png", dpi = 144)
     ```
 
 3.  Click on the movie name to select it. The element you selected will be highlighted in green. SelectorGadget guesses which css selector you want (`h2` in this case), and highlights all matches in yellow (see total count equal to 7 as indicated on on the "Clear" button).
 
-    ```{r, echo = FALSE}
+    ```{r}
+    #| echo: false
+    #| fig-alt: >
+    #|   A screenshot of the starwars vignette with an green box around 
+    #|   the heading "Attack of the Clones". SelectorGadget reports that
+    #|   a css selector of "h2" selects this element.
     knitr::include_graphics("selectorgadget-click.png", dpi = 144)
     ```
 
@@ -74,13 +85,25 @@ Now let's try something a little more challenging: selecting all paragraphs of t
 
 1.  Start the same way as before, opening the website and then using the SelectorGadget bookmark, but this time we click on the first paragraph of the intro.
 
-    ```{r, echo = FALSE}
+    ```{r}
+    #| echo: false
+    #| fig-alt: >
+    #|   A screenshot of the starwars vignette with an green box around 
+    #|   the paragraph that begins "There is unrest in the Galactic Senate"
+    #|   Every other paragraph is coloured yellow.
     knitr::include_graphics("selectorgadget-too-many.png", dpi = 144)
     ```
 
 2.  This obviously selects too many elements, so click on one of the paragraphs that shouldn't match. It turns red indicating that this element shouldn't be matched.
 
-    ```{r, echo = FALSE}
+    ```{r}
+    #| echo: false
+    #| fig-alt: >
+    #|   A screenshot of the starwars vignette with an green box around 
+    #|   the paragraph that begins "There is unrest in the Galactic Senate"
+    #|   and a red box around the sentence "Released: 2002-05-16". The
+    #|   sentence giving the director is unhiglighted and everything
+    #|   else is yellow. The discovered selector is ".crawl p".
     knitr::include_graphics("selectorgadget-remove.png", dpi = 144)
     ```
 
