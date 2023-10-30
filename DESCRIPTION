@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 URL: https://rvest.tidyverse.org/, https://github.com/tidyverse/rvest
 BugReports: https://github.com/tidyverse/rvest/issues
 Depends:
-    R (>= 3.2)
+    R (>= 3.6)
 Imports:
     glue,
     cli,
