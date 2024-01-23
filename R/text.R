@@ -50,6 +50,7 @@
 #' charToRaw(x2)
 #' @export
 html_text <- function(x, trim = FALSE) {
+  check_bool(trim)
   xml_text(x, trim = trim)
 }
 
@@ -61,6 +62,8 @@ html_text <- function(x, trim = FALSE) {
 #'   `"\ua0"`. This often causes confusion because it prints the same way as
 #'   `" "`.
 html_text2 <- function(x, preserve_nbsp = FALSE) {
+  check_bool(preserve_nbsp)
+
   UseMethod("html_text2")
 }
 

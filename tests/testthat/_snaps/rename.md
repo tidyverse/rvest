@@ -52,7 +52,7 @@
       `follow_link()` was deprecated in rvest 1.0.0.
       i Please use `session_follow_link()` instead.
     Message
-      Navigating to #container
+      Navigating to <#container>.
     Code
       s <- jump_to(s, "https://rvest.tidyverse.org/reference/index.html")
     Condition

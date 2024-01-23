@@ -12,7 +12,7 @@
       expect_true(is.session(s))
       s <- session_follow_link(s, css = "p a")
     Message
-      Navigating to http://rstudio.com
+      Navigating to <http://rstudio.com>.
     Code
       session_history(s)
     Output
@@ -59,7 +59,7 @@
       find_href(html, i = TRUE)
     Condition
       Error:
-      ! `i` must a string or integer
+      ! `i` must be a string or integer.
 
 ---
 

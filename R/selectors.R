@@ -90,14 +90,10 @@ make_selector <- function(css, xpath, error_call = caller_env()) {
   check_exclusive(css, xpath, .call = error_call)
 
   if (!missing(css)) {
-    if (!is.character(css) && length(css) == 1)
-      cli::cli_abort("`css` must be a string", call = error_call)
-
+    check_string(css, call = error_call)
     selectr::css_to_xpath(css, prefix = ".//")
   } else {
-    if (!is.character(xpath) && length(xpath) == 1)
-      cli::cli_abort("`xpath` must be a string", call = error_call)
-
+    check_string(xpath, call = error_call)
     xpath
   }
 }

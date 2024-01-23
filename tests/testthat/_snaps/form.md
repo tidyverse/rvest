@@ -27,6 +27,19 @@
     Output
       [1] "form"
 
+# validates its inputs
+
+    Code
+      html_form(html_element(select, "button"))
+    Condition
+      Error in `html_form()`:
+      ! `x` must be a <form> element.
+    Code
+      html_form(select, base_url = 1)
+    Condition
+      Error in `FUN()`:
+      ! `base_url` must be a single string or `NULL`, not the number 1.
+
 # can set values of inputs
 
     Code
@@ -72,7 +85,7 @@
     Code
       vals <- submission_build_values(form, NULL)
     Message
-      Submitting with 'one'
+      Submitting with button "one".
 
 ---
 

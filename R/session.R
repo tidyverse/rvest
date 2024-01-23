@@ -38,6 +38,8 @@
 #'   html_elements("p")
 #' }
 session <- function(url, ...) {
+  check_string(url)
+
   session <-   structure(
     list(
       handle   = httr::handle(url),
@@ -86,6 +88,8 @@ session_set_response <- function(x, response) {
 #' @rdname session
 session_jump_to <- function(x, url, ...) {
   check_session(x)
+  check_string(url)
+
   url <- xml2::url_absolute(url, x$url)
   last_url <- x$url
 
@@ -104,7 +108,7 @@ session_follow_link <- function(x, i, css, xpath, ...) {
   check_session(x)
 
   url <- find_href(x, i = i, css = css, xpath = xpath)
-  inform(paste0("Navigating to ", url))
+  cli::cli_inform("Navigating to {.url {url}}.")
   session_jump_to(x, url, ...)
 }
 
@@ -112,12 +116,11 @@ find_href <- function(x, i, css, xpath, error_call = caller_env()) {
   check_exclusive(i, css, xpath, .call = error_call)
 
   if (!missing(i)) {
-    stopifnot(length(i) == 1)
     a <- html_elements(x, "a")
 
-    if (is.numeric(i)) {
+    if (is.numeric(i) && length(i) == 1) {
       out <- a[[i]]
-    } else if (is.character(i)) {
+    } else if (is.character(i) && length(i) == 1) {
       text <- html_text(a)
       match <- grepl(i, text, fixed = TRUE)
       if (!any(match)) {
@@ -126,7 +129,7 @@ find_href <- function(x, i, css, xpath, error_call = caller_env()) {
 
       out <- a[[which(match)[[1]]]]
     } else {
-      cli::cli_abort("`i` must a string or integer", call = error_call)
+      cli::cli_abort("{.arg i} must be a string or integer.", call = error_call)
     }
   } else {
     a <- html_elements(x, css = css, xpath = xpath)

@@ -64,6 +64,12 @@ html_table <- function(x,
                        convert = TRUE
   ) {
 
+  check_bool(header, allow_na = TRUE)
+  check_bool(trim)
+  check_string(dec)
+  check_character(na.strings)
+  check_bool(convert)
+
   UseMethod("html_table")
 }
 

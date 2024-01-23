@@ -47,7 +47,10 @@ html_form.xml_nodeset <- function(x, base_url = NULL) {
 
 #' @export
 html_form.xml_node <- function(x, base_url = NULL) {
-  stopifnot(xml2::xml_name(x) == "form")
+  if (xml2::xml_name(x) != "form") {
+    cli::cli_abort("{.arg x} must be a <form> element.")
+  }
+  check_string(base_url, allow_null = TRUE)
 
   attr <- as.list(xml2::xml_attrs(x))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
@@ -180,13 +183,13 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
       list()
     } else {
       if (length(buttons) > 1) {
-        inform(paste0("Submitting with '", buttons[[1]]$name, "'"))
+        cli::cli_inform("Submitting with button {.str {buttons[[1]]$name}}.")
       }
       buttons[[1]]
     }
   } else if (is.numeric(idx) && length(idx) == 1) {
     if (idx < 1 || idx > length(buttons)) {
-      cli::cli_abort("Numeric `submit` out of range.", call = error_call)
+      cli::cli_abort("Numeric {.arg submit} out of range.", call = error_call)
     }
     buttons[[idx]]
   } else if (is.character(idx) && length(idx) == 1) {
@@ -201,7 +204,10 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
     }
     buttons[[idx]]
   } else {
-    cli::cli_abort("`submit` must be NULL, a string, or a number.", call = error_call)
+    cli::cli_abort(
+      "{.arg submit} must be NULL, a string, or a number.",
+      call = error_call
+    )
   }
 }
 

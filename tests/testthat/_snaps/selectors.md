@@ -20,7 +20,7 @@
       make_selector(css = 1)
     Condition
       Error:
-      ! `css` must be a string
+      ! `css` must be a single string, not the number 1.
 
 ---
 
@@ -28,5 +28,5 @@
       make_selector(xpath = 1)
     Condition
       Error:
-      ! `xpath` must be a string
+      ! `xpath` must be a single string, not the number 1.
 
