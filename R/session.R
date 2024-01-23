@@ -108,10 +108,8 @@ session_follow_link <- function(x, i, css, xpath, ...) {
   session_jump_to(x, url, ...)
 }
 
-find_href <- function(x, i, css, xpath) {
-  if (sum(!missing(i), !missing(css), !missing(xpath)) != 1) {
-    abort("Must supply exactly one of `i`, `css`, or `xpath`")
-  }
+find_href <- function(x, i, css, xpath, error_call = caller_env()) {
+  check_exclusive(i, css, xpath, .call = error_call)
 
   if (!missing(i)) {
     stopifnot(length(i) == 1)
@@ -123,17 +121,17 @@ find_href <- function(x, i, css, xpath) {
       text <- html_text(a)
       match <- grepl(i, text, fixed = TRUE)
       if (!any(match)) {
-        stop("No links have text '", i, "'", call. = FALSE)
+        cli::cli_abort("No links have text {.str {i}}.", call = error_call)
       }
 
       out <- a[[which(match)[[1]]]]
     } else {
-      abort("`i` must a string or integer")
+      cli::cli_abort("`i` must a string or integer", call = error_call)
     }
   } else {
     a <- html_elements(x, css = css, xpath = xpath)
     if (length(a) == 0) {
-      abort("No links matched `css`/`xpath`")
+      cli::cli_abort("No links matched `css`/`xpath`", call = error_call)
     }
     out <- a[[1]]
   }
@@ -147,7 +145,7 @@ session_back <- function(x) {
   check_session(x)
 
   if (length(x$back) == 0) {
-    abort("Can't go back any further")
+    cli::cli_abort("Can't go back any further.")
   }
 
   url <- x$back[[1]]
@@ -165,7 +163,7 @@ session_forward <- function(x) {
   check_session(x)
 
   if (length(x$forward) == 0) {
-    abort("Can't go forward any further")
+    cli::cli_abort("Can't go forward any further.")
   }
 
   url <- x$forward[[1]]
@@ -208,7 +206,7 @@ session_submit <- function(x, form, submit = NULL, ...) {
 #' @export
 read_html.rvest_session <- function(x, ...) {
   if (!is_html(x$response)) {
-    abort("Page doesn't appear to be html.")
+    cli::cli_abort("Page doesn't appear to be html.")
   }
 
   env_cache(x$cache, "html", read_html(x$response, ..., base_url = x$url))
@@ -280,13 +278,16 @@ cookies.rvest_session <- function(x) {
 
 # helpers -----------------------------------------------------------------
 
-check_form <- function(x) {
+check_form <- function(x, call = caller_env()) {
   if (!inherits(x, "rvest_form")) {
-    abort("`form` must be a single form produced by html_form()")
+    cli::cli_abort(
+      "{.arg form} must be a single form produced by {.fn html_form}.",
+      call = call
+    )
   }
 }
-check_session <- function(x) {
+check_session <- function(x, call = caller_env()) {
   if (!inherits(x, "rvest_session")) {
-    abort("`x` must be produced by session()")
+    cli::cli_abort("{.arg x} must be produced by {.fn session}.", call = call)
   }
 }

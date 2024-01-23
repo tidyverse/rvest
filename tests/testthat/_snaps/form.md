@@ -33,7 +33,7 @@
       form <- html_form_set(form, hidden = "abc")
     Condition
       Warning:
-      Setting value of hidden field 'hidden'.
+      Setting value of hidden field "hidden".
 
 # has informative errors
 
@@ -41,23 +41,23 @@
       html_form_set(form, text = "x")
     Condition
       Error in `html_form_set()`:
-      ! Can't change value of input with type submit: 'text'.
+      ! Can't change value of input with type submit: "text".
 
 ---
 
     Code
       html_form_set(form, missing = "x")
     Condition
-      Error in `check_fields()`:
-      ! Can't set value of fields that don't exist: ' missing '
+      Error in `html_form_set()`:
+      ! Can't set value of fields that don't exist: "missing".
 
 # useful feedback on invalid forms
 
     Code
       submission_build(form, NULL)
     Condition
-      Error in `submission_build()`:
-      ! `form` doesn't contain a `action` attribute
+      Error:
+      ! `form` doesn't contain a `action` attribute.
 
 ---
 
@@ -65,7 +65,7 @@
       x <- submission_build(form, NULL)
     Condition
       Warning:
-      Invalid method (FOO), defaulting to GET
+      Invalid method (FOO), defaulting to GET.
 
 # handles multiple buttons
 
@@ -79,24 +79,24 @@
     Code
       submission_build_values(form, 3L)
     Condition
-      Error in `submission_find_submit()`:
-      ! Numeric `submit` out of range
+      Error:
+      ! Numeric `submit` out of range.
 
 ---
 
     Code
       submission_build_values(form, "three")
     Condition
-      Error in `submission_find_submit()`:
-      ! No <input> found with name 'three'.
-      i Possible values: one, two
+      Error:
+      ! No <input> found with name "three".
+      i Possible values: "one" and "two".
 
 ---
 
     Code
       submission_build_values(form, TRUE)
     Condition
-      Error in `submission_find_submit()`:
+      Error:
       ! `submit` must be NULL, a string, or a number.
 
 # can submit using three primary techniques
