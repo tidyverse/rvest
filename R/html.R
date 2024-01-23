@@ -43,6 +43,9 @@ html_name <- function(x) {
 #' @export
 #' @importFrom xml2 xml_attr
 html_attr <- function(x, name, default = NA_character_) {
+  check_string(name)
+  check_string(default, allow_na = TRUE)
+
   xml_attr(x, name, default = default)
 }
 

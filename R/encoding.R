@@ -57,7 +57,7 @@ repair_encoding <- function(x, from = NULL) {
     from <- best_guess$encoding
     conf <- best_guess$confidence * 100
     if (conf < 50) {
-      stop("No guess has more than 50% confidence", call. = FALSE)
+      cli::cli_abort("No guess has more than 50% confidence")
     }
 
     inform(paste0("Best guess: ", from, " (", conf, "% confident)"))

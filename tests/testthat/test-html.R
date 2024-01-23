@@ -9,3 +9,12 @@ test_that("forwards to xml2 functions", {
 
   expect_equal(html_children(p), html_elements(html, "i"))
 })
+
+test_that("validates inputs", {
+  html <- minimal_html("<p id ='x'>Hello <i>children</i></p>")
+
+  expect_snapshot(error = TRUE, {
+    html_attr(html, 1)
+    html_attr(html, "id", 1)
+  })
+})

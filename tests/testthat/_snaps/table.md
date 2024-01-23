@@ -81,8 +81,6 @@
       Warning:
       The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
       i An improved algorithm fills by default so it is no longer needed.
-      i The deprecated feature was likely used in the base package.
-        Please report the issue to the authors.
     Code
       . <- html_table(html, fill = TRUE)
 
