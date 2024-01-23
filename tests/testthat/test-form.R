@@ -208,5 +208,5 @@ test_that("can submit using three primary techniques", {
 
     form$enctype <- "multipart"
     show_response(html_form_submit(form))
-  })
+  }, transform = function(x) gsub("---.+$", "---{divider}", x))
 })
