@@ -127,6 +127,7 @@ html_table.xml_node <- function(x,
   ns <- xml2::xml_ns(x)
   rows <- xml2::xml_find_all(x, ".//tr", ns = ns)
   cells <- lapply(rows, xml2::xml_find_all, ".//td|.//th", ns = ns)
+  cells <- compact(cells)
 
   if (length(cells) == 0) {
     return(tibble::tibble())
