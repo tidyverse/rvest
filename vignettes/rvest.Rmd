@@ -48,7 +48,7 @@ There are a wide range of possible HTML escapes but you don't need to worry abou
 All up, there are over 100 HTML elements.
 Some of the most important are:
 
--   Every HTML page must be must be in an `<html>` element, and it must have two children: `<head>`, which contains document metadata like the page title, and `<body>`, which contains the content you see in the browser.
+-   Every HTML page must be in an `<html>` element, and it must have two children: `<head>`, which contains document metadata like the page title, and `<body>`, which contains the content you see in the browser.
 
 -   Block tags like `<h1>` (heading 1), `<p>` (paragraph), and `<ol>` (ordered list) form the overall structure of the page.
 
