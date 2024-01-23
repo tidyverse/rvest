@@ -24,7 +24,7 @@ app_request <- function() {
 
 show_response <- function(x) {
   strip_divider <- function(x) {
-    gsub("-{3,}[a-f0-9]+", "---<divider>", x)
+    gsub("-{3,}[A-Za-z0-9-]+", "---{divider}", x)
   }
 
   x <- httr::content(x)
