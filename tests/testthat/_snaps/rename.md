@@ -5,7 +5,7 @@
     Condition
       Warning:
       `xml_tag()` was deprecated in rvest 1.0.0.
-      Please use `html_name()` instead.
+      i Please use `html_name()` instead.
 
 ---
 
@@ -14,7 +14,7 @@
     Condition
       Warning:
       `xml_node()` was deprecated in rvest 1.0.0.
-      Please use `html_element()` instead.
+      i Please use `html_element()` instead.
 
 ---
 
@@ -23,7 +23,7 @@
     Condition
       Warning:
       `xml_nodes()` was deprecated in rvest 1.0.0.
-      Please use `html_elements()` instead.
+      i Please use `html_elements()` instead.
 
 # set_values() is deprecated
 
@@ -32,7 +32,7 @@
     Condition
       Warning:
       `set_values()` was deprecated in rvest 1.0.0.
-      Please use `html_form_set()` instead.
+      i Please use `html_form_set()` instead.
     Output
       <form> '<unnamed>' (GET )
         <field> (text) text: abc
@@ -44,13 +44,13 @@
     Condition
       Warning:
       `html_session()` was deprecated in rvest 1.0.0.
-      Please use `session()` instead.
+      i Please use `session()` instead.
     Code
       . <- follow_link(s, i = 1)
     Condition
       Warning:
       `follow_link()` was deprecated in rvest 1.0.0.
-      Please use `session_follow_link()` instead.
+      i Please use `session_follow_link()` instead.
     Message
       Navigating to #container
     Code
@@ -58,17 +58,17 @@
     Condition
       Warning:
       `jump_to()` was deprecated in rvest 1.0.0.
-      Please use `session_jump_to()` instead.
+      i Please use `session_jump_to()` instead.
     Code
       s <- back(s)
     Condition
       Warning:
       `back()` was deprecated in rvest 1.0.0.
-      Please use `session_back()` instead.
+      i Please use `session_back()` instead.
     Code
       s <- forward(s)
     Condition
       Warning:
       `forward()` was deprecated in rvest 1.0.0.
-      Please use `session_forward()` instead.
+      i Please use `session_forward()` instead.
 

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rvest <img src="man/figures/logo.png" align="right" height="139"/>
+# rvest <a href="https://rvest.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" alt="rvest website" /></a>
 
 <!-- badges: start -->
 
@@ -101,5 +101,5 @@ html %>%
 #>  8 8.    "\"Emmett's Mind\""         ""                                   2:17  
 #>  9 9.    "\"The Transformation\""    ""                                   1:46  
 #> 10 10.   "\"Saloons and Wagons\""    ""                                   3:38  
-#> # … with 19 more rows
+#> # ℹ 19 more rows
 ```
