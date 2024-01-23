@@ -188,8 +188,7 @@ test_that("handles no buttons", {
 })
 
 test_that("can submit using three primary techniques", {
-  skip_if_not_installed("webfakes")
-  app <- webfakes::local_app_process(app_request())
+  app <- local_test_app()
 
   html <- minimal_html('
     <form action="/">
