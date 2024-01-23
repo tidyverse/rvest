@@ -1,3 +1,9 @@
+local_test_app <- function(envir = parent.frame()) {
+  skip_if_not_installed("webfakes")
+
+  webfakes::local_app_process(app_request(), .local_envir = envir)
+}
+
 app_request <- function() {
   req_json <- function(req, res) {
     out <- list(
@@ -18,7 +24,7 @@ app_request <- function() {
 
 show_response <- function(x) {
   strip_divider <- function(x) {
-    gsub("-{3,}[a-f0-9]+", "---<divider>", x)
+    gsub("-{3,}[A-Za-z0-9-]+", "---{divider}", x)
   }
 
   x <- httr::content(x)

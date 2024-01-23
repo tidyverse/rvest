@@ -195,3 +195,15 @@ test_that("can handle empty tables", {
   table <- html_table(html)[[1]]
   expect_snapshot_output(table)
 })
+
+test_that("can handle tables consisting of a single empty row", {
+  html <- minimal_html('<table><tr></tr></table>')
+  table <- html_table(html)[[1]]
+  expect_snapshot_output(table)
+})
+
+test_that("can handle tables consisting of only empty rows", {
+  html <- minimal_html('<table><tr></tr><tr></tr></table>')
+  table <- html_table(html)[[1]]
+  expect_snapshot_output(table)
+})
