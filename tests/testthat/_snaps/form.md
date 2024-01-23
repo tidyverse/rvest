@@ -118,20 +118,20 @@
       form$enctype <- "multipart"
       show_response(html_form_submit(form))
     Output
-      POST multipart/form-data; boundary=---<divider>
+      POST multipart/form-data; boundary=---{divider}
       Query string: 
-      ---<divider>
+      ---{divider}
       Content-Disposition: form-data; name="x"
       
       1
-      ---<divider>
+      ---{divider}
       Content-Disposition: form-data; name="x"
       
       2
-      ---<divider>
+      ---{divider}
       Content-Disposition: form-data; name="y"
       
       3
-      ---<divider>--
+      ---{divider}
       
 
