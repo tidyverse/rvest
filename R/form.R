@@ -47,7 +47,10 @@ html_form.xml_nodeset <- function(x, base_url = NULL) {
 
 #' @export
 html_form.xml_node <- function(x, base_url = NULL) {
-  stopifnot(xml2::xml_name(x) == "form")
+  if (xml2::xml_name(x) != "form") {
+    cli::cli_abort("{.arg x} must be a <form> element.")
+  }
+  check_string(base_url, allow_null = TRUE)
 
   attr <- as.list(xml2::xml_attrs(x))
   name <- attr$id %||% attr$name %||% "<unnamed>" # for human readers
@@ -102,9 +105,9 @@ html_form_set <- function(form, ...) {
   for (field in names(new_values)) {
     type <- form$fields[[field]]$type %||% "non-input"
     if (type == "hidden") {
-      warn(paste0("Setting value of hidden field '", field, "'."))
+      cli::cli_warn("Setting value of hidden field {.str {field}}.")
     } else if (type == "submit") {
-      abort(paste0("Can't change value of input with type submit: '", field, "'."))
+      cli::cli_abort("Can't change value of input with type submit: {.str {field}}.")
     }
 
     form$fields[[field]]$value <- new_values[[field]]
@@ -128,22 +131,22 @@ html_form_submit <- function(form, submit = NULL) {
   submission_submit(subm)
 }
 
-submission_build <- function(form, submit) {
+submission_build <- function(form, submit, error_call = caller_env()) {
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
-    warn(paste0("Invalid method (", method, "), defaulting to GET"))
+    cli::cli_warn("Invalid method ({method}), defaulting to GET.", call = error_call)
     method <- "GET"
   }
 
   if (length(form$action) == 0) {
-    abort("`form` doesn't contain a `action` attribute")
+    cli::cli_abort("`form` doesn't contain a `action` attribute.", call = error_call)
   }
 
   list(
     method = method,
     enctype = form$enctype,
     action = form$action,
-    values = submission_build_values(form, submit)
+    values = submission_build_values(form, submit, error_call = error_call)
   )
 }
 
@@ -155,9 +158,9 @@ submission_submit <- function(x, ...) {
   }
 }
 
-submission_build_values <- function(form, submit = NULL) {
+submission_build_values <- function(form, submit = NULL, error_call = caller_env()) {
   fields <- form$fields
-  submit <- submission_find_submit(fields, submit)
+  submit <- submission_find_submit(fields, submit, error_call = error_call)
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
   entry_list <- Filter(function(x) !is.null(x$name), entry_list)
 
@@ -172,7 +175,7 @@ submission_build_values <- function(form, submit = NULL) {
   as.list(out)
 }
 
-submission_find_submit <- function(fields, idx) {
+submission_find_submit <- function(fields, idx, error_call = caller_env()) {
   buttons <- Filter(is_button, fields)
 
   if (is.null(idx)) {
@@ -180,25 +183,31 @@ submission_find_submit <- function(fields, idx) {
       list()
     } else {
       if (length(buttons) > 1) {
-        inform(paste0("Submitting with '", buttons[[1]]$name, "'"))
+        cli::cli_inform("Submitting with button {.str {buttons[[1]]$name}}.")
       }
       buttons[[1]]
     }
   } else if (is.numeric(idx) && length(idx) == 1) {
     if (idx < 1 || idx > length(buttons)) {
-      abort("Numeric `submit` out of range")
+      cli::cli_abort("Numeric {.arg submit} out of range.", call = error_call)
     }
     buttons[[idx]]
   } else if (is.character(idx) && length(idx) == 1) {
     if (!idx %in% names(buttons)) {
-      abort(c(
-        paste0("No <input> found with name '", idx, "'."),
-        i = paste0("Possible values: ", paste0(names(buttons), collapse = ", "))
-      ))
+      cli::cli_abort(
+        c(
+          "No <input> found with name {.str {idx}}.",
+          i = "Possible values: {.str {names(buttons)}}."
+        ),
+        call = error_call
+      )
     }
     buttons[[idx]]
   } else {
-    abort("`submit` must be NULL, a string, or a number.")
+    cli::cli_abort(
+      "{.arg submit} must be NULL, a string, or a number.",
+      call = error_call
+    )
   }
 }
 
@@ -326,10 +335,12 @@ format_list <- function(x, indent = 0) {
   paste0(spaces, formatted, collapse = "\n")
 }
 
-check_fields <- function(form, values) {
+check_fields <- function(form, values, error_call = caller_env()) {
   no_match <- setdiff(names(values), names(form$fields))
   if (length(no_match) > 0) {
-    str <- paste("'", no_match, "'", collapse = ", ")
-    abort(paste0("Can't set value of fields that don't exist: ", str))
+    cli::cli_abort(
+      "Can't set value of fields that don't exist: {.str {no_match}}.",
+      call = error_call
+    )
   }
 }

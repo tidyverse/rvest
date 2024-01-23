@@ -12,7 +12,7 @@
       expect_true(is.session(s))
       s <- session_follow_link(s, css = "p a")
     Message
-      Navigating to http://rstudio.com
+      Navigating to <http://rstudio.com>.
     Code
       session_history(s)
     Output
@@ -30,35 +30,36 @@
 
 # informative errors for bad inputs
 
-    `form` must be a single form produced by html_form()
+    `form` must be a single form produced by `html_form()`.
 
 ---
 
-    `x` must be produced by session()
+    `x` must be produced by `session()`.
 
 # can navigate back and forward
 
-    Can't go back any further
+    Can't go back any further.
 
 ---
 
-    Can't go forward any further
+    Can't go forward any further.
 
 # can find link by position, content, css, or xpath
 
     Code
       find_href(html, i = 1, css = "a")
     Condition
-      Error in `find_href()`:
-      ! Must supply exactly one of `i`, `css`, or `xpath`
+      Error:
+      ! Exactly one of `i`, `css`, or `xpath` must be supplied.
+      x `i` and `css` were supplied together.
 
 ---
 
     Code
       find_href(html, i = TRUE)
     Condition
-      Error in `find_href()`:
-      ! `i` must a string or integer
+      Error:
+      ! `i` must be a string or integer.
 
 ---
 
@@ -66,13 +67,13 @@
       find_href(html, i = "c")
     Condition
       Error:
-      ! No links have text 'c'
+      ! No links have text "c".
 
 ---
 
     Code
       find_href(html, css = "p a")
     Condition
-      Error in `find_href()`:
+      Error:
       ! No links matched `css`/`xpath`
 

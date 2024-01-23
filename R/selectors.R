@@ -86,21 +86,14 @@ html_element.default <- function(x, css, xpath) {
   xml2::xml_find_first(x, make_selector(css, xpath))
 }
 
-make_selector <- function(css, xpath) {
-  if (missing(css) && missing(xpath))
-    stop("Please supply one of css or xpath", call. = FALSE)
-  if (!missing(css) && !missing(xpath))
-    stop("Please supply css or xpath, not both", call. = FALSE)
+make_selector <- function(css, xpath, error_call = caller_env()) {
+  check_exclusive(css, xpath, .call = error_call)
 
   if (!missing(css)) {
-    if (!is.character(css) && length(css) == 1)
-      stop("`css` must be a string")
-
+    check_string(css, call = error_call)
     selectr::css_to_xpath(css, prefix = ".//")
   } else {
-    if (!is.character(xpath) && length(xpath) == 1)
-      stop("`xpath` must be a string")
-
+    check_string(xpath, call = error_call)
     xpath
   }
 }

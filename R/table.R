@@ -64,6 +64,12 @@ html_table <- function(x,
                        convert = TRUE
   ) {
 
+  check_bool(header, allow_na = TRUE)
+  check_bool(trim)
+  check_string(dec)
+  check_character(na.strings)
+  check_bool(convert)
+
   UseMethod("html_table")
 }
 
@@ -120,7 +126,8 @@ html_table.xml_node <- function(x,
     lifecycle::deprecate_warn(
       when = "1.0.0",
       what = "html_table(fill = )",
-      details = "An improved algorithm fills by default so it is no longer needed."
+      details = "An improved algorithm fills by default so it is no longer needed.",
+      user_env = caller_env(2) # S3 generic
     )
   }
 
