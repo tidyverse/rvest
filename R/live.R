@@ -6,9 +6,10 @@
 #' [read_html()] operates of the HTML source code downloaded from the server.
 #' This works for most websites but can fail if the site uses javascript to
 #' generate the HTML. `read_html_live()` provides an alternative interface
-#' that runs a live webserver in the background. This allows you to access
-#' elements of the HTML page that are generated dynamically by javascript,
-#' and to interact to (e.g.) click on buttons or fill in forms.
+#' that runs a live web browser in the background. This allows you to access
+#' elements of the HTML page that are generated dynamically by javascript
+#' and to interact to with the live page by clicking on buttons or typing in
+#' forms.
 #'
 #' Behind the scenes, this function uses the
 #' [chromote](https://rstudio.github.io/chromote) package, which requires that
@@ -29,13 +30,19 @@
 #'
 #' \dontrun{
 #' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
+#' sess |> html_elements(".ExResult-row") |> length()
 #' sess$click(".ExLoadMore-btn")
+#' sess |> html_elements(".ExResult-row") |> length()
+#' sess$click(".ExLoadMore-btn")
+#' sess |> html_elements(".ExResult-row") |> length()
 #'
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
-#' sess$scroll_by(-1000)
-#' sess$scroll_to(10000)
-#' sess$scroll_in_to_view(".down-arrow")
+#' sess$scroll_by(1000)
+#' sess$scroll_by(1000)
+#' sess$scroll_to(0)
+#' sess$scroll_to(0)
+#' sess$scroll_in_to_view("svg")
 #' }
 #'
 #' \dontshow{
