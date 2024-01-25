@@ -42,7 +42,7 @@
 #' sess$scroll_by(1000)
 #' sess$scroll_to(0)
 #' sess$scroll_to(0)
-#' sess$scroll_in_to_view("svg")
+#' sess$scroll_into_view("svg")
 #' }
 #'
 #' \dontshow{
@@ -110,31 +110,58 @@ LiveHTML <- R6::R6Class(
       xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
     },
 
-    #' @description Simulate a click on an HTML element.
-    #' @param css,xpath CSS selector or xpath expression.
-    click = function(css) {
-      private$call_method(css, ".click()")
-      invisible(self)
-    },
 
-    #' @description Simulate a double click on an HTML element.
-    #' @param css,xpath CSS selector or xpath expression.
-    double_click = function(css) {
-      private$call_method(css, ".dblclick()")
+    #' @description Simulate a click on an HTML element.
+    #' @param css CSS selector or xpath expression.
+    #' @param n_clicks Number of clicks
+    click = function(css, n_clicks = 1) {
+      check_number_whole(n_clicks, min = 1)
+
+      # Implementation based on puppeteer as described in
+      # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
+      # With code from https://github.com/puppeteer/puppeteer/blob/b53de4e0942e93c/packages/puppeteer-core/src/cdp/Input.ts#L431-L459
+
+      node <- private$wait_for_selector(css)
+      self$session$DOM$scrollIntoViewIfNeeded(node)
+
+      # Quad = location of four corners (x1, y1, x2, y2, x3, y3, x4, y4)
+      # Relative to viewport
+      quads <- self$session$DOM$getBoxModel(node)
+      content_quad <- as.numeric(quads$model$content)
+      center_x <- mean(content_quad[c(1, 3, 5, 7)])
+      center_y <- mean(content_quad[c(2, 4, 6, 8)])
+
+      # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
+      self$session$Input$dispatchMouseEvent(
+        type = "mouseMoved",
+        x = center_x,
+        y = center_y,
+      )
+
+      for (i in seq_along(n_clicks)) {
+        self$session$Input$dispatchMouseEvent(
+          type = "mousePressed",
+          x = center_x,
+          y = center_y,
+          button = "left",
+          clickCount = i,
+        )
+        self$session$Input$dispatchMouseEvent(
+          type = "mouseReleased",
+          x = center_x,
+          y = center_y,
+          clickCount = i,
+          button = "left"
+        )
+      }
       invisible(self)
     },
 
     #' @description Scroll selected element into view.
-    #' @param css,xpath CSS selector or xpath expression.
-    #' @param edge Scroll to top or bottom of element?
-    scroll_in_to_view = function(css, edge = c("top", "bottom")) {
-      edge <- arg_match(edge)
-
-      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-      switch(edge,
-        top =    private$call_method(css, ".scrollIntoView(true)"),
-        bottom = private$call_method(css, ".scrollIntoView(false)")
-      )
+    #' @param css CSS selector or xpath expression.
+    scroll_into_view = function(css) {
+      node <- private$wait_for_selector(css)
+      self$session$DOM$scrollIntoViewIfNeeded(node)
 
       invisible(self)
     },
@@ -142,6 +169,9 @@ LiveHTML <- R6::R6Class(
     #' @description Scroll to specified location
     #' @param top,left Number of pixels from top/left respectively.
     scroll_to = function(top = 0, left = 0) {
+      check_number_whole(top)
+      check_number_whole(left)
+
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
       private$call_node_method(
         private$root_id,
@@ -154,6 +184,9 @@ LiveHTML <- R6::R6Class(
     #' @param top,left Number of pixels to scroll up/down and left/right
     #'   respectively.
     scroll_by = function(top = 0, left = 0) {
+      check_number_whole(top)
+      check_number_whole(left)
+
       # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
       self$session$Input$dispatchMouseEvent(
         type = "mouseWheel",

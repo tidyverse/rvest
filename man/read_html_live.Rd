@@ -51,7 +51,7 @@ sess$scroll_by(1000)
 sess$scroll_by(1000)
 sess$scroll_to(0)
 sess$scroll_to(0)
-sess$scroll_in_to_view("svg")
+sess$scroll_into_view("svg")
 }
 
 \dontshow{

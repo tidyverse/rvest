@@ -24,8 +24,7 @@ of the site.
 \item \href{#method-LiveHTML-view}{\code{LiveHTML$view()}}
 \item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
 \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
-\item \href{#method-LiveHTML-double_click}{\code{LiveHTML$double_click()}}
-\item \href{#method-LiveHTML-scroll_in_to_view}{\code{LiveHTML$scroll_in_to_view()}}
+\item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
 \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
 \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
 \item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
@@ -98,49 +97,32 @@ Extract HTML elements from the current page.
 \subsection{Method \code{click()}}{
 Simulate a click on an HTML element.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css, xpath}}{CSS selector or xpath expression.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LiveHTML-double_click"></a>}}
-\if{latex}{\out{\hypertarget{method-LiveHTML-double_click}{}}}
-\subsection{Method \code{double_click()}}{
-Simulate a double click on an HTML element.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$double_click(css)}\if{html}{\out{</div>}}
-}
+\item{\code{css}}{CSS selector or xpath expression.}
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css, xpath}}{CSS selector or xpath expression.}
+\item{\code{n_clicks}}{Number of clicks}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LiveHTML-scroll_in_to_view"></a>}}
-\if{latex}{\out{\hypertarget{method-LiveHTML-scroll_in_to_view}{}}}
-\subsection{Method \code{scroll_in_to_view()}}{
+\if{html}{\out{<a id="method-LiveHTML-scroll_into_view"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-scroll_into_view}{}}}
+\subsection{Method \code{scroll_into_view()}}{
 Scroll selected element into view.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_in_to_view(css, edge = c("top", "bottom"))}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_into_view(css)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css, xpath}}{CSS selector or xpath expression.}
-
-\item{\code{edge}}{Scroll to top or bottom of element?}
+\item{\code{css}}{CSS selector or xpath expression.}
 }
 \if{html}{\out{</div>}}
 }
