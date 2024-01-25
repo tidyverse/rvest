@@ -130,13 +130,12 @@ LiveHTML <- R6::R6Class(
     scroll_in_to_view = function(css, edge = c("top", "bottom")) {
       edge <- arg_match(edge)
 
-      node <- private$wait_for_selector(css)
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-      if (edge == "top") {
-        private$call_node_method(node, ".scrollIntoView(true)")
-      } else {
-        private$call_node_method(node, ".scrollIntoView(false)")
-      }
+      switch(edge,
+        top =    private$call_method(css, ".scrollIntoView(true)"),
+        bottom = private$call_method(css, ".scrollIntoView(false)")
+      )
+
       invisible(self)
     },
 
