@@ -75,6 +75,9 @@ LiveHTML <- R6::R6Class(
       check_installed("chromote")
       self$session <- chromote::ChromoteSession$new()
 
+      self$session$Network$setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
+
+      # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
