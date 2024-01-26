@@ -262,7 +262,25 @@ LiveHTML <- R6::R6Class(
       if (!missing(css)) {
         unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds)
       } else {
-        cli::cli_abort("{.arg xpath} is not supported by <ChromoteSession>.")
+        search <- glue::glue("
+          (function() {{
+          const xpathResult = document.evaluate('{xpath}', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          const nodes = [];
+          for (let i = 0; i < xpathResult.snapshotLength; i++) {{
+              nodes.push(xpathResult.snapshotItem(i));
+          }}
+          return(nodes);
+          }})();
+        ")
+
+        object_id <- self$session$Runtime$evaluate(search)$result$objectId
+        props <- self$session$Runtime$getProperties(object_id, ownProperties = TRUE)
+
+        ids <- map_chr(props$result, function(prop) prop$value$objectId %||% NA_character_)
+        # Drop non-nodes
+        ids <- ids[!is.na(ids)]
+
+        unlist(map(ids, self$session$DOM$requestNode), use.names = FALSE)
       }
     },
 
