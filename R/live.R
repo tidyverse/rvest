@@ -253,6 +253,26 @@ LiveHTML <- R6::R6Class(
 now <- function() proc.time()[[3]]
 
 #' @export
+html_table.LiveHTML <- function(x,
+                                    header = NA,
+                                    trim = TRUE,
+                                    fill = deprecated(),
+                                    dec = ".",
+                                    na.strings = "NA",
+                                    convert = TRUE) {
+
+  tables <- html_elements(x, "table")
+  html_table(
+    tables,
+    header = header,
+    trim = trim,
+    fill = fill,
+    dec = dec,
+    na.strings = na.strings,
+    convert = convert
+  )
+}
+#' @export
 html_elements.LiveHTML <- function(x, css, xpath) {
   x$html_elements(css, xpath)
 }
