@@ -14,3 +14,4 @@
 ^LICENSE\.md$
 ^vignettes/articles$
 ^CRAN-SUBMISSION$
+^data-raw$

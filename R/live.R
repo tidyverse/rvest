@@ -199,6 +199,37 @@ LiveHTML <- R6::R6Class(
         deltaY = top
       )
       invisible(self)
+    },
+
+    #' @description Type text in the selected element
+    #' @param css CSS selector or xpath expression.
+    #' @param text A single string containing the text to type.
+    type = function(css, text) {
+      check_string(text)
+
+      node <- private$wait_for_selector(css)
+      self$session$DOM$focus(node)
+      self$session$Input$insertText(text)
+
+      invisible(self)
+    },
+
+    #' @description Simulate pressing a single key (including special keys).
+    #' @param css CSS selector or xpath expression. Set to `NULL`
+    #' @param key_code Name of key. You can see a complete list of known
+    #'   keys at <https://pptr.dev/api/puppeteer.keyinput>.
+    #' @param modifiers A character vector of modifiers. Must be one or more
+    #'   of `"Shift`, `"Control"`, `"Alt"`, or `"Meta"`.
+    press = function(css, key_code, modifiers = character()) {
+      desc <- as_key_desc(key_code, modifiers)
+
+      node <- private$wait_for_selector(css)
+      self$session$DOM$focus(node)
+
+      exec(self$session$Input$dispatchKeyEvent, type = "keyDown", !!!desc)
+      exec(self$session$Input$dispatchKeyEvent, type = "keyUp", !!!desc)
+
+      invisible(self)
     }
   ),
 
@@ -223,7 +254,7 @@ LiveHTML <- R6::R6Class(
 
         Sys.sleep(0.1)
       }
-      cli::cli_abort("Failed to find selector {.str css} in {timeout} seconds.")
+      cli::cli_abort("Failed to find selector {.str {css}} in {timeout} seconds.")
     },
 
     find_nodes = function(css, xpath) {
@@ -317,4 +348,47 @@ test_session <- function() {
   env_cache(the, "test_session", {
     chromote_session("https://rvest.tidyverse.org/articles/starwars.html")
   })
+}
+
+
+
+as_key_desc <- function(key, modifiers = character(), error_call = caller_env()) {
+  check_string(key, call = error_call)
+  modifiers <- arg_match(
+    modifiers,
+    values = c("Alt", "Control", "Meta", "Shift"),
+    multiple = TRUE,
+    error_call = error_call
+  )
+
+  if (!has_name(keydefs, key)) {
+    cli::cli_abort("No key definition for {.str {key}}.")
+  }
+
+  def <- keydefs[[key]]
+  desc <- list()
+
+  desc$key <- def$key %||% ""
+  if ("shift" %in% modifiers && has_name(def, "shiftKey")) {
+    desc$key <- def$shiftKey
+  }
+
+  desc$windowsVirtualKeyCode <- def$keyCode %||% 0
+  if ("shift" %in% modifiers && has_name(def, "shiftKeyCode")) {
+    desc$windowsVirtualKeyCode <- def$shiftKeyCode
+  }
+
+  desc$code <- def$code %||% ""
+  desc$location <- def$location %||% 0
+
+  desc$text <- if (nchar(desc$key) == 1) def$key else def$text
+  # no elements have shiftText field
+
+  #  if any modifiers besides shift are pressed, no text should be sent
+  if (any(modifiers != "Shift")) {
+    desc$text <- ''
+  }
+
+  desc$modifiers <- sum(c(Alt = 1, Control = 2, Meta = 4, Shift = 8)[modifiers])
+  desc
 }

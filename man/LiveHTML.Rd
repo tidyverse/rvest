@@ -27,6 +27,8 @@ of the site.
 \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
 \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
 \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
+\item \href{#method-LiveHTML-type}{\code{LiveHTML$type()}}
+\item \href{#method-LiveHTML-press}{\code{LiveHTML$press()}}
 \item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
 }
 }
@@ -158,6 +160,48 @@ Scroll by the specified amount
 \describe{
 \item{\code{top, left}}{Number of pixels to scroll up/down and left/right
 respectively.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-type"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-type}{}}}
+\subsection{Method \code{type()}}{
+Type text in the selected element
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$type(css, text)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{css}}{CSS selector or xpath expression.}
+
+\item{\code{text}}{A single string containing the text to type.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-press"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-press}{}}}
+\subsection{Method \code{press()}}{
+Simulate pressing a single key (including special keys).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$press(css, key_code, modifiers = character())}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{css}}{CSS selector or xpath expression. Set to \code{NULL}}
+
+\item{\code{key_code}}{Name of key. You can see a complete list of known
+keys at \url{https://pptr.dev/api/puppeteer.keyinput}.}
+
+\item{\code{modifiers}}{A character vector of modifiers. Must be one or more
+of \verb{"Shift}, \code{"Control"}, \code{"Alt"}, or \code{"Meta"}.}
 }
 \if{html}{\out{</div>}}
 }
