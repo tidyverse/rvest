@@ -32,30 +32,22 @@ you have a copy of \href{https://www.google.com/chrome/}{Google Chrome} installe
 on your machine.
 }
 \examples{
-sess <- read_html_live("https://hadley.nz")
-sess |> html_elements("p")
-sess |> html_element("xyz")
-sess |> html_element("p")
-
 \dontrun{
-sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
-sess |> html_elements(".ExResult-row") |> length()
-sess$click(".ExLoadMore-btn")
-sess |> html_elements(".ExResult-row") |> length()
-sess$click(".ExLoadMore-btn")
-sess |> html_elements(".ExResult-row") |> length()
-
+# Simple example where HTML is dynamically generated on view -----------
 sess <- read_html_live("https://www.forbes.com/top-colleges/")
 sess$view()
-sess$scroll_by(1000)
-sess$scroll_by(1000)
-sess$scroll_to(0)
-sess$scroll_to(0)
-sess$scroll_into_view("svg")
-}
+rows <- sess \%>\% html_elements(".TopColleges2023_tableRow__BYOSU")
+rows \%>\% html_element(".TopColleges2023_organizationName__J1lEV") |> html_text()
+rows \%>\% html_element(".grant-aid") |> html_text()
 
-\dontshow{
-# Hack to suppress R CMD check error about connections
-Sys.setenv("_R_CHECK_CONNECTIONS_LEFT_OPEN_" = "FALSE")
+# More complicated example that requires pushing some buttons -----------
+sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
+sess$view()
+
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
+sess$click(".ExLoadMore-btn")
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
+sess$click(".ExLoadMore-btn")
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
 }
 }
