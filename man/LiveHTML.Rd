@@ -9,6 +9,7 @@ with it using the methods described below. When debugging a scraping script
 it is particularly useful to use \verb{$view()}, which will open a live preview
 of the site.
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

@@ -55,6 +55,7 @@ read_html_live <- function(url) {
 #' of the site.
 #'
 #' @export
+#' @keywords internal
 LiveHTML <- R6::R6Class(
   "LiveHTML",
   public = list(

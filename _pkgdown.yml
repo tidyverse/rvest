@@ -12,6 +12,11 @@ development:
   mode: auto
 
 reference:
+- title: Read HTML
+  contents:
+  - read_html_live
+  - read_html
+
 - title: Extract data from HTML
   contents:
   - html_attr
@@ -20,7 +25,6 @@ reference:
   - html_name
   - html_table
   - html_text
-  - read_html_live
 
 - title: Session
   contents:
