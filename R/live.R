@@ -28,8 +28,8 @@
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
 #' rows <- sess %>% html_elements(".TopColleges2023_tableRow__BYOSU")
-#' rows %>% html_element(".TopColleges2023_organizationName__J1lEV") |> html_text()
-#' rows %>% html_element(".grant-aid") |> html_text()
+#' rows %>% html_element(".TopColleges2023_organizationName__J1lEV") %>% html_text()
+#' rows %>% html_element(".grant-aid") %>% html_text()
 #'
 #' # More complicated example that requires pushing some buttons -----------
 #' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
