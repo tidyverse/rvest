@@ -4,7 +4,7 @@
 \alias{LiveHTML}
 \title{LiveHTML, an R6 class}
 \description{
-You construct an LiveHTML object with \code{\link[=read_live_html]{read_live_html()}} and can interact
+You construct an LiveHTML object with \code{\link[=read_html_live]{read_html_live()}} and can interact
 with it using the methods described below. When debugging a scraping script
 it is particularly useful to use \verb{$view()}, which will open a live preview
 of the site.

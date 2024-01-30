@@ -57,7 +57,7 @@ read_html_live <- function(url) {
 #' LiveHTML, an R6 class
 #'
 #' @description
-#' You construct an LiveHTML object with [read_live_html()] and can interact
+#' You construct an LiveHTML object with [read_html_live()] and can interact
 #' with it using the methods described below. When debugging a scraping script
 #' it is particularly useful to use `$view()`, which will open a live preview
 #' of the site.
@@ -354,7 +354,7 @@ has_chromote <- function() {
 }
 
 test_session <- function() {
-  if (!is_interactive()) testthat::skip_on_cran()
+  testthat::skip_on_cran()
 
   # We try twice because in particular Windows on GHA seems to need it,
   # but it doesn't otherwise hurt. More details at
@@ -364,7 +364,7 @@ test_session <- function() {
   }
 
   env_cache(the, "test_session", {
-    chromote_session("https://rvest.tidyverse.org/articles/starwars.html")
+    read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
   })
 }
 
