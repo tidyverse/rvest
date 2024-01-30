@@ -2,6 +2,7 @@ CMD
 Codecov
 HyperText
 IMDB
+LiveHTML
 MDN
 PBC
 RoboBrowser
@@ -9,6 +10,8 @@ SelectorGadget
 XPath
 arounds
 bookmarklet
+chromote
+cloneable
 colspan
 colspans
 combinator
@@ -19,6 +22,7 @@ funder
 httr
 innerText
 ith
+javascript
 libxml
 magrittr
 nodeset
