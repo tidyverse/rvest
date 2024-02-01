@@ -238,14 +238,6 @@ LiveHTML <- R6::R6Class(
   private = list(
     root_id = NULL,
 
-    call_method = function(css, code) {
-      nodes <- private$wait_for_selector(css)
-      for (node in nodes) {
-        private$call_node_method(node, code)
-      }
-      invisible(self)
-    },
-
     wait_for_selector = function(css, timeout = 5) {
       done <- now() + timeout
       while(now() < done) {
