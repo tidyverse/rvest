@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keypress Description</title>
+  <script>
+    function describeKeypress(event) {
+      const keyInfo = `${event.key}/${event.code}`;
+      document.getElementById('keyInfo').textContent = keyInfo;
+    }
+  </script>
+</head>
+<body>
+
+<input type="text" id="inputBox" onkeydown="describeKeypress(event)">
+<p id="keyInfo"></p>
+
+</body>
+</html>

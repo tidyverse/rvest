@@ -26,3 +26,17 @@
       [20] <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font ...
       ...
 
+# gracefully errors on bad inputs
+
+    Code
+      as_key_desc("xyz")
+    Condition
+      Error in `as_key_desc()`:
+      ! No key definition for "xyz".
+    Code
+      as_key_desc("X", "Malt")
+    Condition
+      Error:
+      ! `modifiers` must be one of "Alt", "Control", "Meta", or "Shift", not "Malt".
+      i Did you mean "Alt"?
+

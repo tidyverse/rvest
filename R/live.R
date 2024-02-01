@@ -365,12 +365,12 @@ as_key_desc <- function(key, modifiers = character(), error_call = caller_env())
   desc <- list()
 
   desc$key <- def$key %||% ""
-  if ("shift" %in% modifiers && has_name(def, "shiftKey")) {
+  if ("Shift" %in% modifiers && has_name(def, "shiftKey")) {
     desc$key <- def$shiftKey
   }
 
   desc$windowsVirtualKeyCode <- def$keyCode %||% 0
-  if ("shift" %in% modifiers && has_name(def, "shiftKeyCode")) {
+  if ("Shift" %in% modifiers && has_name(def, "shiftKeyCode")) {
     desc$windowsVirtualKeyCode <- def$shiftKeyCode
   }
 
