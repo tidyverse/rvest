@@ -134,7 +134,7 @@ LiveHTML <- R6::R6Class(
         y = center_y,
       )
 
-      for (i in seq_along(n_clicks)) {
+      for (i in seq_len(n_clicks)) {
         self$session$Input$dispatchMouseEvent(
           type = "mousePressed",
           x = center_x,

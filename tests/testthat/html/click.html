@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Event Example</title>
+    <script>
+        function updateText(event) {
+            document.getElementById('statusText').textContent = event.type === 'click' ? 'clicked' : 'double clicked';
+            event.preventDefault(); // To manage both click and dblclick
+        }
+    </script>
+</head>
+<body>
+    <button id="actionButton" onclick="updateText(event)" ondblclick="updateText(event)">Click Me</button>
+    <p id="statusText"></p>
+</body>
+</html>

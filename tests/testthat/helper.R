@@ -48,3 +48,7 @@ lacks_chromote <- function() {
   # https://github.com/rstudio/shinytest2/issues/209
   env_cache(the, "lacks_chromote", !has_chromote() && !has_chromote())
 }
+
+html_test_path <- function(name) {
+  paste0("file://", normalizePath(test_path(paste0("html/", name, ".html"))))
+}
