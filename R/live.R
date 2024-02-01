@@ -346,22 +346,6 @@ has_chromote <- function() {
   )
 }
 
-test_session <- function() {
-  testthat::skip_on_cran()
-
-  # We try twice because in particular Windows on GHA seems to need it,
-  # but it doesn't otherwise hurt. More details at
-  # https://github.com/rstudio/shinytest2/issues/209
-  if (!has_chromote() && !has_chromote()) {
-    testthat::skip("chromote not available")
-  }
-
-  env_cache(the, "test_session", {
-    read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
-  })
-}
-
-
 
 as_key_desc <- function(key, modifiers = character(), error_call = caller_env()) {
   check_string(key, call = error_call)

@@ -1,7 +1,7 @@
 # has print method
 
     Code
-      test_session()
+      sess
     Output
       {xml_nodeset (46)}
        [1] <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n

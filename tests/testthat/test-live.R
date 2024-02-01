@@ -1,14 +1,18 @@
 test_that("has print method", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
   expect_snapshot({
-    test_session()
+    sess
   })
 })
 
 test_that("can find multiple elements", {
-  session <- test_session()
+  skip_if_no_chromote()
+  sess <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
 
   # can extract from page
-  sections <- session %>% html_elements("#main section")
+  sections <- sess %>% html_elements("#main section")
   expect_length(sections, 7)
 
   # can extract from other elements
@@ -17,10 +21,10 @@ test_that("can find multiple elements", {
 })
 
 test_that("can find single element", {
-  dynamic <- test_session()
+  skip_if_no_chromote()
+  dynamic <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
   static <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
   expect_equal(html_element(dynamic, "p"), html_element(static, "p"))
   expect_equal(html_element(dynamic, "xyz"), html_element(static, "xyz"))
 })
-
