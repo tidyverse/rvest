@@ -6,11 +6,7 @@ map_lgl <- function(.x, .f, ...) {
 }
 
 str_trunc <- function(x, width) {
-  if (nchar(x) <= width) {
-    x
-  } else {
-    paste0(substr(x, 1, width - 3), "...")
-  }
+  ifelse(nchar(x) <= width, x, paste0(substr(x, 1, width - 3), "..."))
 }
 
 #' Make link to google form given id

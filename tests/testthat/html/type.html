@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Replication</title>
+  <script>
+    function replicateText() {
+      document.getElementById('replicatedText').textContent = document.getElementById('inputText').value;
+    }
+  </script>
+</head>
+<body>
+
+<input type="text" id="inputText" oninput="replicateText()">
+<p id="replicatedText"></p>
+
+</body>
+</html>

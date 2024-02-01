@@ -33,3 +33,22 @@ show_response <- function(x) {
   cat_line("Query string: ", x$query)
   cat_line(strip_divider(x$body))
 }
+
+
+# chromote ----------------------------------------------------------------
+
+skip_if_no_chromote <- function() {
+  skip_on_cran()
+  skip_if(lacks_chromote(), "chromote not available")
+}
+
+lacks_chromote <- function() {
+  # We try twice because in particular Windows on GHA seems to need it,
+  # but it doesn't otherwise hurt. More details at
+  # https://github.com/rstudio/shinytest2/issues/209
+  env_cache(the, "lacks_chromote", !has_chromote() && !has_chromote())
+}
+
+html_test_path <- function(name) {
+  paste0("file://", normalizePath(test_path(paste0("html/", name, ".html"))))
+}

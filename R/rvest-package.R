@@ -21,3 +21,5 @@ magrittr::`%>%`
 #' @importFrom glue glue
 ## usethis namespace: end
 NULL
+
+the <- new_environment()

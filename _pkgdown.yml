@@ -12,23 +12,29 @@ development:
   mode: auto
 
 reference:
-- title: HTML
+- title: Read HTML
+  contents:
+  - read_html
+  - read_html_live
+  - LiveHTML
+
+- title: Extract data from HTML
   contents:
   - html_attr
   - html_children
   - html_elements
-  - html_form
   - html_name
   - html_table
   - html_text
-  - minimal_html
 
 - title: Session
   contents:
   - session
+  - html_form
 
 - title: Miscellaneous helpers
   contents:
+  - minimal_html
   - html_encoding_guess
 
 news:
