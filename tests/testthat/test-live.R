@@ -57,15 +57,15 @@ test_that("can scroll in various ways", {
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 0))
 
   sess$scroll_to(500)
-  Sys.sleep(0.1)
+  Sys.sleep(0.2)
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 500))
 
   sess$scroll_by(-250)
-  Sys.sleep(0.1)
+  Sys.sleep(0.2)
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 250))
 
   sess$scroll_into_view("#bottom")
-  Sys.sleep(0.1)
+  Sys.sleep(0.2)
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 685))
 })
 
