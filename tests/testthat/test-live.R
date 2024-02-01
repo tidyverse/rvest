@@ -1,23 +1,21 @@
 test_that("has print method", {
   skip_if_no_chromote()
 
-  sess <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
-  expect_snapshot({
-    sess
-  })
+  bullets <- read_html_live(html_test_path("bullets"))
+  expect_snapshot(bullets)
 })
 
 test_that("can find multiple elements", {
   skip_if_no_chromote()
-  sess <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
 
+  bullets <- read_html_live(html_test_path("bullets"))
   # can extract from page
-  sections <- sess %>% html_elements("#main section")
-  expect_length(sections, 7)
+  ul <- bullets %>% html_elements("ul")
+  expect_length(ul, 1)
 
   # can extract from other elements
-  p <- sections %>% html_elements("p")
-  expect_length(p, 33)
+  li <- ul %>% html_elements("li")
+  expect_length(li, 4)
 })
 
 test_that("can find single element", {
