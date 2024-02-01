@@ -13,9 +13,21 @@ test_that("can find multiple elements", {
   ul <- bullets %>% html_elements("ul")
   expect_length(ul, 1)
 
+  # or with xpath
+  ul <- bullets %>% html_elements(xpath = ".//ul")
+  expect_length(ul, 1)
+
   # can extract from other elements
   li <- ul %>% html_elements("li")
   expect_length(li, 4)
+})
+
+test_that("can extract tables", {
+  skip_if_no_chromote()
+
+  page <- read_html_live(html_test_path("table"))
+  table <- page %>% html_table() %>% .[[1]]
+  expect_equal(dim(table), c(2, 3))
 })
 
 test_that("can find single element", {
