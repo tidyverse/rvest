@@ -31,10 +31,30 @@ test_that("can find single element", {
 
 test_that("can click a button", {
   skip_if_no_chromote()
+
   sess <- read_html_live(html_test_path("click"))
   sess$click("button")
   expect_equal(html_text(html_element(sess, "p")), "clicked")
 
   sess$click("button", 2)
   expect_equal(html_text(html_element(sess, "p")), "double clicked")
+})
+
+test_that("can scroll in various ways", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("scroll"))
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 0))
+
+  sess$scroll_to(500)
+  Sys.sleep(0.1)
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 500))
+
+  sess$scroll_by(-250)
+  Sys.sleep(0.1)
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 250))
+
+  sess$scroll_into_view("#bottom")
+  Sys.sleep(0.1)
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 685))
 })

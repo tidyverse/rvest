@@ -153,6 +153,15 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Get the current scroll position.
+    get_scroll_position = function() {
+      out <- self$session$Runtime$evaluate(
+        '({ x: window.scrollX, y: window.scrollY })',
+        returnByValue = TRUE
+      )
+      out$result$value
+    },
+
     #' @description Scroll selected element into view.
     #' @param css CSS selector or xpath expression.
     scroll_into_view = function(css) {

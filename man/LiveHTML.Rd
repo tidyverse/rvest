@@ -25,6 +25,7 @@ of the site.
 \item \href{#method-LiveHTML-view}{\code{LiveHTML$view()}}
 \item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
 \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
+\item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
 \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
 \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
 \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
@@ -112,6 +113,16 @@ Simulate a click on an HTML element.
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-get_scroll_position"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-get_scroll_position}{}}}
+\subsection{Method \code{get_scroll_position()}}{
+Get the current scroll position.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$get_scroll_position()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-scroll_into_view"></a>}}
