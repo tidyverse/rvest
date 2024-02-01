@@ -2,14 +2,33 @@
 % Please edit documentation in R/live.R
 \name{LiveHTML}
 \alias{LiveHTML}
-\title{LiveHTML, an R6 class}
+\title{Interact with a live web page}
 \description{
-You construct an LiveHTML object with \code{\link[=read_html_live]{read_html_live()}} and can interact
-with it using the methods described below. When debugging a scraping script
-it is particularly useful to use \verb{$view()}, which will open a live preview
-of the site.
+You construct an LiveHTML object with \code{\link[=read_html_live]{read_html_live()}} and then interact,
+like you're a human, using the methods described below. When debugging a
+scraping script it is particularly useful to use \verb{$view()}, which will open
+a live preview of the site, and you can actually see each of the operations
+performed on the real site.
+
+rvest provides relatively simple methods for scrolling, typing, and
+clicking. For richer interaction, you probably want to use a package
+that exposes a more powerful user interface, like
+\href{https://ashbythorpe.github.io/selenider/}{selendir}.
 }
-\keyword{internal}
+\examples{
+\dontrun{
+# To retrieve data for this paginated site, we need to repeatedly push
+# the "Load More" button
+sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
+sess$view()
+
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
+sess$click(".ExLoadMore-btn")
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
+sess$click(".ExLoadMore-btn")
+sess \%>\% html_elements(".ExResult-row") \%>\% length()
+}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

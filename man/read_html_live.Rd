@@ -11,9 +11,9 @@ read_html_live(url)
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact
-with it using the usual rvest functions and you can also call methods on
-it like \verb{$click()}, \verb{$scroll_to()}, to interact with the live page like
-a human would.
+with this object using the usual rvest functions, or call its methods,
+like \verb{$click()}, \verb{$scroll_to()}, and \verb{$type()} to interact with the live
+page like a human would.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -21,8 +21,8 @@ a human would.
 \code{\link[=read_html]{read_html()}} operates of the HTML source code downloaded from the server.
 This works for most websites but can fail if the site uses javascript to
 generate the HTML. \code{read_html_live()} provides an alternative interface
-that runs a live web browser in the background. This allows you to access
-elements of the HTML page that are generated dynamically by javascript
+that runs a live web browser (Chrome) in the background. This allows you to
+access elements of the HTML page that are generated dynamically by javascript
 and to interact to with the live page by clicking on buttons or typing in
 forms.
 
@@ -33,21 +33,18 @@ on your machine.
 }
 \examples{
 \dontrun{
-# Simple example where HTML is dynamically generated on view -----------
+# When we retrieve the raw HTML for this site, it doesn't contain the
+# data we're interested in:
+static <- read_html("https://www.forbes.com/top-colleges/")
+sess \%>\% html_elements(".TopColleges2023_tableRow__BYOSU")
+
+# Instead, we need to run the site in a real web browser, causing it to
+# download a JSON file and then dynamically generate the html:
+
 sess <- read_html_live("https://www.forbes.com/top-colleges/")
 sess$view()
 rows <- sess \%>\% html_elements(".TopColleges2023_tableRow__BYOSU")
 rows \%>\% html_element(".TopColleges2023_organizationName__J1lEV") \%>\% html_text()
 rows \%>\% html_element(".grant-aid") \%>\% html_text()
-
-# More complicated example that requires pushing some buttons -----------
-sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
-sess$view()
-
-sess \%>\% html_elements(".ExResult-row") \%>\% length()
-sess$click(".ExLoadMore-btn")
-sess \%>\% html_elements(".ExResult-row") \%>\% length()
-sess$click(".ExLoadMore-btn")
-sess \%>\% html_elements(".ExResult-row") \%>\% length()
 }
 }

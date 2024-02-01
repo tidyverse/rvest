@@ -6,8 +6,8 @@
 #' [read_html()] operates of the HTML source code downloaded from the server.
 #' This works for most websites but can fail if the site uses javascript to
 #' generate the HTML. `read_html_live()` provides an alternative interface
-#' that runs a live web browser in the background. This allows you to access
-#' elements of the HTML page that are generated dynamically by javascript
+#' that runs a live web browser (Chrome) in the background. This allows you to
+#' access elements of the HTML page that are generated dynamically by javascript
 #' and to interact to with the live page by clicking on buttons or typing in
 #' forms.
 #'
@@ -17,21 +17,51 @@
 #' on your machine.
 #'
 #' @return `read_html_live()` returns an R6 [LiveHTML] object. You can interact
-#'   with it using the usual rvest functions and you can also call methods on
-#'   it like `$click()`, `$scroll_to()`, to interact with the live page like
-#'   a human would.
+#'   with this object using the usual rvest functions, or call its methods,
+#'   like `$click()`, `$scroll_to()`, and `$type()` to interact with the live
+#'   page like a human would.
 #' @param url Website url to read from.
 #' @export
 #' @examples
 #' \dontrun{
-#' # Simple example where HTML is dynamically generated on view -----------
+#' # When we retrieve the raw HTML for this site, it doesn't contain the
+#' # data we're interested in:
+#' static <- read_html("https://www.forbes.com/top-colleges/")
+#' sess %>% html_elements(".TopColleges2023_tableRow__BYOSU")
+#'
+#' # Instead, we need to run the site in a real web browser, causing it to
+#' # download a JSON file and then dynamically generate the html:
+#'
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
 #' rows <- sess %>% html_elements(".TopColleges2023_tableRow__BYOSU")
 #' rows %>% html_element(".TopColleges2023_organizationName__J1lEV") %>% html_text()
 #' rows %>% html_element(".grant-aid") %>% html_text()
+#' }
+read_html_live <- function(url) {
+  check_installed(c("chromote", "R6"))
+  LiveHTML$new(url)
+}
+
+#' Interact with a live web page
 #'
-#' # More complicated example that requires pushing some buttons -----------
+#' @description
+#' You construct an LiveHTML object with [read_html_live()] and then interact,
+#' like you're a human, using the methods described below. When debugging a
+#' scraping script it is particularly useful to use `$view()`, which will open
+#' a live preview of the site, and you can actually see each of the operations
+#' performed on the real site.
+#'
+#' rvest provides relatively simple methods for scrolling, typing, and
+#' clicking. For richer interaction, you probably want to use a package
+#' that exposes a more powerful user interface, like
+#' [selendir](https://ashbythorpe.github.io/selenider/).
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' # To retrieve data for this paginated site, we need to repeatedly push
+#' # the "Load More" button
 #' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
 #' sess$view()
 #'
@@ -41,21 +71,6 @@
 #' sess$click(".ExLoadMore-btn")
 #' sess %>% html_elements(".ExResult-row") %>% length()
 #' }
-read_html_live <- function(url) {
-  check_installed(c("chromote", "R6"))
-  LiveHTML$new(url)
-}
-
-#' LiveHTML, an R6 class
-#'
-#' @description
-#' You construct an LiveHTML object with [read_html_live()] and can interact
-#' with it using the methods described below. When debugging a scraping script
-#' it is particularly useful to use `$view()`, which will open a live preview
-#' of the site.
-#'
-#' @export
-#' @keywords internal
 LiveHTML <- R6::R6Class(
   "LiveHTML",
   public = list(

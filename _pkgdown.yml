@@ -14,8 +14,9 @@ development:
 reference:
 - title: Read HTML
   contents:
-  - read_html_live
   - read_html
+  - read_html_live
+  - LiveHTML
 
 - title: Extract data from HTML
   contents:
