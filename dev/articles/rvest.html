@@ -190,11 +190,11 @@ page.</p>
 <h2 id="reading-html-with-rvest">Reading HTML with rvest<a class="anchor" aria-label="anchor" href="#reading-html-with-rvest"></a>
 </h2>
 <p>You’ll usually start the scraping process with
-<code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html()</a></code>. This returns a <code>xml_document</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;This class comes from the &lt;a href="https://xml2.r-lib.org" class="external-link"&gt;xml2&lt;/a&gt; package. xml2 is a low-level
+<code><a href="../reference/read_html.html">read_html()</a></code>. This returns a <code>xml_document</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;This class comes from the &lt;a href="https://xml2.r-lib.org" class="external-link"&gt;xml2&lt;/a&gt; package. xml2 is a low-level
 package that rvest builds on top of.&lt;/p&gt;'><sup>2</sup></a> object
 which you’ll then manipulate using rvest functions:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"http://rvest.tidyverse.org/"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_html.html">read_html</a></span><span class="op">(</span><span class="st">"http://rvest.tidyverse.org/"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">html</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "xml_document" "xml_node"</span></span></code></pre></div>
 <p>For examples and experimentation, rvest also includes a function that

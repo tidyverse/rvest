@@ -82,7 +82,7 @@ and submit it with <code>html_form_submit()</code>.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A document (from <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html()</a></code>), node set (from <code><a href="html_element.html">html_elements()</a></code>),
+<dd><p>A document (from <code><a href="read_html.html">read_html()</a></code>), node set (from <code><a href="html_element.html">html_elements()</a></code>),
 node (from <code><a href="html_element.html">html_element()</a></code>), or session (from <code><a href="session.html">session()</a></code>).</p></dd>
 
 
@@ -118,7 +118,7 @@ to a single element. It returns a list of <code>rvest_form</code> objects when
 applied to multiple elements or a document.</p></li>
 <li><p><code>html_form_set()</code> returns an <code>rvest_form</code> object.</p></li>
 <li><p><code>html_form_submit()</code> submits the form, returning an httr response which
-can be parsed with <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html()</a></code>.</p></li>
+can be parsed with <code><a href="read_html.html">read_html()</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -128,7 +128,7 @@ can be parsed with <code><a href="http://xml2.r-lib.org/reference/read_xml.html"
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"http://www.google.com"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_html.html">read_html</a></span><span class="op">(</span><span class="st">"http://www.google.com"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">search</span> <span class="op">&lt;-</span> <span class="fu">html_form</span><span class="op">(</span><span class="va">html</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">search</span> <span class="op">&lt;-</span> <span class="va">search</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_form_set</span><span class="op">(</span>q <span class="op">=</span> <span class="st">"My little pony"</span>, hl <span class="op">=</span> <span class="st">"fr"</span><span class="op">)</span></span></span>
@@ -142,7 +142,7 @@ can be parsed with <code><a href="http://xml2.r-lib.org/reference/read_xml.html"
 <span class="r-in"><span><span class="co"># To submit and get result:</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu">html_form_submit</span><span class="op">(</span><span class="va">search</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="read_html.html">read_html</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

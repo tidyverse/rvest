@@ -121,7 +121,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rvest.tidyverse.org/">rvest</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Start by reading a HTML page with read_html():</span></span>
-<span><span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_html.html">read_html</a></span><span class="op">(</span><span class="st">"https://rvest.tidyverse.org/articles/starwars.html"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Then find elements that match a css selector or XPath expression</span></span>
 <span><span class="co"># using html_elements(). In this example, each &lt;section&gt; corresponds</span></span>
@@ -158,7 +158,7 @@
 <span><span class="co">#&gt; [1] 1 2 3 4 5 6 7</span></span></code></pre></div>
 <p>If the page contains tabular data you can convert it directly to a data frame with <code><a href="reference/html_table.html">html_table()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="st">"https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&amp;oldid=998422565"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_html.html">read_html</a></span><span class="op">(</span><span class="st">"https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&amp;oldid=998422565"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".tracklist"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
