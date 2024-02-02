@@ -46,6 +46,8 @@ read_html_live <- function(url) {
 #' Interact with a live web page
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' You construct an LiveHTML object with [read_html_live()] and then interact,
 #' like you're a human, using the methods described below. When debugging a
 #' scraping script it is particularly useful to use `$view()`, which will open
