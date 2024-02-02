@@ -18,7 +18,7 @@ reference:
   - read_html_live
   - LiveHTML
 
-- title: Extract data from HTML
+- title: Extract data
   contents:
   - html_attr
   - html_children
@@ -27,7 +27,7 @@ reference:
   - html_table
   - html_text
 
-- title: Session
+- title: Move from page to page
   contents:
   - session
   - html_form

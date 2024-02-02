@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{read_html}
 \alias{url_absolute}
 \alias{\%>\%}
 \title{Objects exported from other packages}
@@ -15,6 +14,6 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{xml2}{\code{\link[xml2:read_xml]{read_html}}, \code{\link[xml2]{url_absolute}}}
+  \item{xml2}{\code{\link[xml2]{url_absolute}}}
 }}
 
