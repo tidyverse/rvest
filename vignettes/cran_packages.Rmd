@@ -1,5 +1,5 @@
 ---
-title: "Star Wars films"
+title: "CRAN packages"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cran Packages}
