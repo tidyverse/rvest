@@ -24,7 +24,12 @@ table
 ```
 ```{r, echo = FALSE, results = "asis"}
  
+
  
-table %>%
-    dplyr::filter( grepl("dplyr" , X2 ) )
+has_dplyr_keyword<- function(x) {   
+    isTRUE( grepl("dplyr" , x ) )
+}
+
+table[ Vectorize( has_dplyr_keyword)(table$X2) , ]
+
 ```
