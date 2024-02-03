@@ -3,3 +3,4 @@ docs/
 .Rhistory
 .RData
 inst/doc
+.DS_Store

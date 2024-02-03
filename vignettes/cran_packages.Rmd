@@ -1,0 +1,30 @@
+---
+title: "Star Wars films"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cran Packages}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+This vignette lists CRAN packages from its website.
+
+
+```{r, echo = FALSE, results = "asis"}
+library(rvest)
+
+cran_url <- "https://cran.r-project.org/web/packages/available_packages_by_name.html"
+
+table  <- read_html( cran_url )  %>%
+    html_element("table")  %>%
+    html_table()
+
+table
+
+ 
+```
+```{r, echo = FALSE, results = "asis"}
+ 
+ 
+table %>%
+    dplyr::filter( grepl("dplyr" , X2 ) )
+```
