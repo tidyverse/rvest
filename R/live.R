@@ -98,8 +98,7 @@ LiveHTML <- R6::R6Class(
     #' @description Called when `print()`ed
     #' @param ... Ignored
     print = function(...) {
-      private$check_active()
-      print(html_elements(self, "html"))
+      print(self$html_elements("html > *"))
       invisible(self)
     },
 
