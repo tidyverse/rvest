@@ -8,6 +8,5 @@ new_chromote <- NULL
     new_chromote <- FALSE
   }
 
-
   invisible()
 }
