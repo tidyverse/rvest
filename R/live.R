@@ -27,7 +27,7 @@
 #' # When we retrieve the raw HTML for this site, it doesn't contain the
 #' # data we're interested in:
 #' static <- read_html("https://www.forbes.com/top-colleges/")
-#' sess %>% html_elements(".TopColleges2023_tableRow__BYOSU")
+#' static %>% html_elements(".TopColleges2023_tableRow__BYOSU")
 #'
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
