@@ -18,12 +18,12 @@ page like a human would.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{\link[=read_html]{read_html()}} operates of the HTML source code downloaded from the server.
+\code{\link[=read_html]{read_html()}} operates on the HTML source code downloaded from the server.
 This works for most websites but can fail if the site uses javascript to
 generate the HTML. \code{read_html_live()} provides an alternative interface
 that runs a live web browser (Chrome) in the background. This allows you to
 access elements of the HTML page that are generated dynamically by javascript
-and to interact to with the live page by clicking on buttons or typing in
+and to interact with the live page by clicking on buttons or typing in
 forms.
 
 Behind the scenes, this function uses the
