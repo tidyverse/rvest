@@ -98,13 +98,14 @@ LiveHTML <- R6::R6Class(
     #' @description Called when `print()`ed
     #' @param ... Ignored
     print = function(...) {
-      print(html_elements(self, "html"))
+      print(self$html_elements("html > *"))
       invisible(self)
     },
 
     #' @description
     #' Display a live view of the site
     view = function() {
+      private$check_active()
       self$session$view()
       invisible(self)
     },
@@ -113,6 +114,7 @@ LiveHTML <- R6::R6Class(
     #' Extract HTML elements from the current page.
     #' @param css,xpath CSS selector or xpath expression.
     html_elements = function(css, xpath) {
+      private$check_active()
       nodes <- private$find_nodes(css, xpath)
 
       elements <- map_chr(nodes, function(node_id) {
@@ -128,6 +130,7 @@ LiveHTML <- R6::R6Class(
     #' @param css CSS selector or xpath expression.
     #' @param n_clicks Number of clicks
     click = function(css, n_clicks = 1) {
+      private$check_active()
       check_number_whole(n_clicks, min = 1)
 
       # Implementation based on puppeteer as described in
@@ -172,6 +175,7 @@ LiveHTML <- R6::R6Class(
 
     #' @description Get the current scroll position.
     get_scroll_position = function() {
+      private$check_active()
       out <- self$session$Runtime$evaluate(
         '({ x: window.scrollX, y: window.scrollY })',
         returnByValue = TRUE
@@ -182,6 +186,7 @@ LiveHTML <- R6::R6Class(
     #' @description Scroll selected element into view.
     #' @param css CSS selector or xpath expression.
     scroll_into_view = function(css) {
+      private$check_active()
       node <- private$wait_for_selector(css)
       self$session$DOM$scrollIntoViewIfNeeded(node)
 
@@ -191,6 +196,7 @@ LiveHTML <- R6::R6Class(
     #' @description Scroll to specified location
     #' @param top,left Number of pixels from top/left respectively.
     scroll_to = function(top = 0, left = 0) {
+      private$check_active()
       check_number_whole(top)
       check_number_whole(left)
 
@@ -206,6 +212,7 @@ LiveHTML <- R6::R6Class(
     #' @param top,left Number of pixels to scroll up/down and left/right
     #'   respectively.
     scroll_by = function(top = 0, left = 0) {
+      private$check_active()
       check_number_whole(top)
       check_number_whole(left)
 
@@ -224,6 +231,7 @@ LiveHTML <- R6::R6Class(
     #' @param css CSS selector or xpath expression.
     #' @param text A single string containing the text to type.
     type = function(css, text) {
+      private$check_active()
       check_string(text)
 
       node <- private$wait_for_selector(css)
@@ -240,6 +248,7 @@ LiveHTML <- R6::R6Class(
     #' @param modifiers A character vector of modifiers. Must be one or more
     #'   of `"Shift`, `"Control"`, `"Alt"`, or `"Meta"`.
     press = function(css, key_code, modifiers = character()) {
+      private$check_active()
       desc <- as_key_desc(key_code, modifiers)
 
       node <- private$wait_for_selector(css)
@@ -254,6 +263,15 @@ LiveHTML <- R6::R6Class(
 
   private = list(
     root_id = NULL,
+
+    check_active = function() {
+      if (new_chromote && !self$session$is_active()) {
+        suppressMessages({
+          self$session <- self$session$respawn()
+          private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
+        })
+      }
+    },
 
     wait_for_selector = function(css, timeout = 5) {
       done <- now() + timeout
