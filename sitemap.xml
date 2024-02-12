@@ -40,6 +40,9 @@
     <loc>https://rvest.tidyverse.org/news/index.html</loc>
   </url>
   <url>
+    <loc>https://rvest.tidyverse.org/reference/LiveHTML.html</loc>
+  </url>
+  <url>
     <loc>https://rvest.tidyverse.org/reference/google_form.html</loc>
   </url>
   <url>
@@ -71,6 +74,12 @@
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/minimal_html.html</loc>
+  </url>
+  <url>
+    <loc>https://rvest.tidyverse.org/reference/read_html.html</loc>
+  </url>
+  <url>
+    <loc>https://rvest.tidyverse.org/reference/read_html_live.html</loc>
   </url>
   <url>
     <loc>https://rvest.tidyverse.org/reference/reexports.html</loc>
