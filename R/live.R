@@ -12,7 +12,7 @@
 #' forms.
 #'
 #' Behind the scenes, this function uses the
-#' [chromote](https://rstudio.github.io/chromote) package, which requires that
+#' [chromote](https://rstudio.github.io/chromote/) package, which requires that
 #' you have a copy of [Google Chrome](https://www.google.com/chrome/) installed
 #' on your machine.
 #'
@@ -244,7 +244,7 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate pressing a single key (including special keys).
     #' @param css CSS selector or xpath expression. Set to `NULL`
     #' @param key_code Name of key. You can see a complete list of known
-    #'   keys at <https://pptr.dev/api/puppeteer.keyinput>.
+    #'   keys at <https://pptr.dev/api/puppeteer.keyinput/>.
     #' @param modifiers A character vector of modifiers. Must be one or more
     #'   of `"Shift`, `"Control"`, `"Alt"`, or `"Meta"`.
     press = function(css, key_code, modifiers = character()) {

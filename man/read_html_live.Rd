@@ -27,7 +27,7 @@ and to interact with the live page by clicking on buttons or typing in
 forms.
 
 Behind the scenes, this function uses the
-\href{https://rstudio.github.io/chromote}{chromote} package, which requires that
+\href{https://rstudio.github.io/chromote/}{chromote} package, which requires that
 you have a copy of \href{https://www.google.com/chrome/}{Google Chrome} installed
 on your machine.
 }
