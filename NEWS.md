@@ -1,3 +1,5 @@
+# rvest (development version)
+
 # rvest 1.0.4
 
 * New `read_html_live()` reads HTML into a real, live, HTML browser, meaning 
