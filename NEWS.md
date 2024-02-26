@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* New example vignette displays the same starwars data but rendered dynamically using JS, so you need to use `read_html_live()` to get the data.
+
 # rvest 1.0.4
 
 * New `read_html_live()` reads HTML into a real, live, HTML browser, meaning 

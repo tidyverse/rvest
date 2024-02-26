@@ -1,8 +1,8 @@
 ---
-title: "Star Wars films"
+title: "Star Wars films (static HTML)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Star Wars films}
+  %\VignetteIndexEntry{Star Wars films (static HTML)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
