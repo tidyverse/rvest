@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   selectorgadget: selectorgadget.html
   rvest: rvest.html
+  starwars-dynamic: starwars-dynamic.html
   starwars: starwars.html
-last_built: 2024-02-12T22:04Z
+last_built: 2024-02-26T16:02Z
 urls:
   reference: https://rvest.tidyverse.org/reference
   article: https://rvest.tidyverse.org/articles
