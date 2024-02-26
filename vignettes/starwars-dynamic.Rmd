@@ -85,7 +85,7 @@ This vignette contains some dynamic generated data about the Star Wars films for
 
     function generateMoviesInfo() {
       const moviesContainer = document.getElementById('moviesInfo');
-      moviesData.forEach(movie => {
+      moviesData.sort((a, b) => a.episode_id - b.episode_id).forEach(movie => {
         const movieElement = document.createElement('section');
         movieElement.innerHTML = `
           <h2 data-id='${movie.episode_id}'>${movie.title}</h2>
