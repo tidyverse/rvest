@@ -92,7 +92,7 @@ LiveHTML <- R6::R6Class(
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
 
-      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
+      private$refresh_root()
     },
 
     #' @description Called when `print()`ed
@@ -129,9 +129,20 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector or xpath expression.
     #' @param n_clicks Number of clicks
-    click = function(css, n_clicks = 1) {
+    #' @param new_page Whether to wait for a new page to load, such as after
+    #'   clicking a link.
+    click = function(css, n_clicks = 1, new_page = FALSE) {
       private$check_active()
       check_number_whole(n_clicks, min = 1)
+
+      # Wait for new page, #405.
+      if (new_page) {
+        p <- self$session$Page$loadEventFired(wait_ = FALSE)
+        on.exit({
+          self$session$wait_for(p)
+          private$refresh_root()
+        }, add = TRUE)
+      }
 
       # Implementation based on puppeteer as described in
       # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
@@ -170,6 +181,7 @@ LiveHTML <- R6::R6Class(
           button = "left"
         )
       }
+
       invisible(self)
     },
 
@@ -224,6 +236,7 @@ LiveHTML <- R6::R6Class(
         deltaX = left,
         deltaY = top
       )
+
       invisible(self)
     },
 
@@ -268,14 +281,14 @@ LiveHTML <- R6::R6Class(
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
           self$session <- self$session$respawn()
-          private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
+          private$refresh_root()
         })
       }
     },
 
     wait_for_selector = function(css, timeout = 5) {
       done <- now() + timeout
-      while(now() < done) {
+      while (now() < done) {
         nodes <- private$find_nodes(css)
         if (length(nodes) > 0) {
           return(nodes)
@@ -289,7 +302,22 @@ LiveHTML <- R6::R6Class(
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds)
+        node_ids <- try_fetch(
+          self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds,
+          error = function(cnd) {
+            if (grepl("-32000", cnd_message(cnd))) {
+              cli::cli_abort(
+                c(
+                  "Can't find root node.",
+                  i = "Did you issue a {.code click()} without waiting for a {.arg new_page}?"
+                ),
+                class = "rvest_error-missing_node",
+                parent = cnd
+              )
+            }
+          }
+        )
+        unlist(node_ids)
       } else {
         search <- glue::glue("
           (function() {{
@@ -324,6 +352,10 @@ LiveHTML <- R6::R6Class(
     object_id = function(node_id) {
       # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
       self$session$DOM$resolveNode(node_id)$object$objectId
+    },
+
+    refresh_root = function() {
+      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     }
   )
 )
