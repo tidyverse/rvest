@@ -1,6 +1,7 @@
 # rvest (development version)
 
 * New example vignette displays the same starwars data but rendered dynamically using JS, so you need to use `read_html_live()` to get the data.
+* The `click()` method for `LiveHTML` objects gains a `new_page` argument to deal with situations where a click loads a new web page (@jonthegeek, #405).
 
 # rvest 1.0.4
 
