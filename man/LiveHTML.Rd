@@ -122,7 +122,7 @@ Extract HTML elements from the current page.
 \subsection{Method \code{click()}}{
 Simulate a click on an HTML element.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1, new_page = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -131,6 +131,9 @@ Simulate a click on an HTML element.
 \item{\code{css}}{CSS selector or xpath expression.}
 
 \item{\code{n_clicks}}{Number of clicks}
+
+\item{\code{new_page}}{Whether to wait for a new page to load, such as after
+clicking a link.}
 }
 \if{html}{\out{</div>}}
 }
