@@ -87,12 +87,11 @@ LiveHTML <- R6::R6Class(
 
       self$session$Network$setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
 
+      self$session$Page$loadEventFired(callback_ = private$refresh_root)
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
-
-      private$refresh_root()
     },
 
     #' @description Called when `print()`ed
@@ -129,20 +128,9 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector or xpath expression.
     #' @param n_clicks Number of clicks
-    #' @param new_page Whether to wait for a new page to load, such as after
-    #'   clicking a link.
-    click = function(css, n_clicks = 1, new_page = FALSE) {
+    click = function(css, n_clicks = 1) {
       private$check_active()
       check_number_whole(n_clicks, min = 1)
-
-      # Wait for new page, #405.
-      if (new_page) {
-        p <- self$session$Page$loadEventFired(wait_ = FALSE)
-        on.exit({
-          self$session$wait_for(p)
-          private$refresh_root()
-        }, add = TRUE)
-      }
 
       # Implementation based on puppeteer as described in
       # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
@@ -157,6 +145,8 @@ LiveHTML <- R6::R6Class(
       content_quad <- as.numeric(quads$model$content)
       center_x <- mean(content_quad[c(1, 3, 5, 7)])
       center_y <- mean(content_quad[c(2, 4, 6, 8)])
+
+      private$loadEvent_promise <- self$session$Page$loadEventFired(wait_ = FALSE)
 
       # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
       self$session$Input$dispatchMouseEvent(
@@ -277,6 +267,8 @@ LiveHTML <- R6::R6Class(
   private = list(
     root_id = NULL,
 
+    loadEvent_promise = NULL,
+
     check_active = function() {
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
@@ -302,21 +294,7 @@ LiveHTML <- R6::R6Class(
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        node_ids <- try_fetch(
-          self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds,
-          error = function(cnd) {
-            if (grepl("-32000", cnd_message(cnd))) {
-              cli::cli_abort(
-                c(
-                  "Can't find root node.",
-                  i = "Did you issue a {.code click()} without waiting for a {.arg new_page}?"
-                ),
-                class = "rvest_error-missing_node",
-                parent = cnd
-              )
-            }
-          }
-        )
+        node_ids <- private$nodes_from_css(css)
         unlist(node_ids)
       } else {
         search <- glue::glue("
@@ -341,6 +319,20 @@ LiveHTML <- R6::R6Class(
       }
     },
 
+    nodes_from_css = function(css, retry = TRUE) {
+      try_fetch(
+        self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds,
+        error = function(cnd) {
+          if (retry) {
+            self$session$wait_for(private$loadEvent_promise)
+            private$nodes_from_css(css, retry = FALSE)
+          } else {
+            cli::cli_abort(cnd)
+          }
+        }
+      )
+    },
+
     # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
     call_node_method = function(node_id, method, ...) {
       js_fun <- paste0("function() { return this", method, "}")
@@ -354,7 +346,7 @@ LiveHTML <- R6::R6Class(
       self$session$DOM$resolveNode(node_id)$object$objectId
     },
 
-    refresh_root = function() {
+    refresh_root = function(...) {
       private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     }
   )

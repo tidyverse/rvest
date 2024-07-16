@@ -54,7 +54,7 @@ test_that("can find elements after click that navigates", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("navigate1"))
-  sess$click("a", new_page = TRUE)
+  sess$click("a")
   expect_equal(html_text2(html_element(sess, "p")), "Success!")
 })
 
@@ -94,17 +94,6 @@ test_that("can press special keys",{
 
   sess$press("#inputBox", "BracketRight")
   expect_equal(html_text(html_element(sess, "#keyInfo")), "]/BracketRight")
-})
-
-test_that("gracefully errors on missing root node", {
-  skip_if_no_chromote()
-
-  sess <- read_html_live(html_test_path("navigate1"))
-  sess$click("a")
-  expect_error(
-    html_element(sess, "p"),
-    class = "rvest_error-missing_node"
-  )
 })
 
 # as_key_desc -------------------------------------------------------------
