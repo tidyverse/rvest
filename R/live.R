@@ -27,16 +27,16 @@
 #' # When we retrieve the raw HTML for this site, it doesn't contain the
 #' # data we're interested in:
 #' static <- read_html("https://www.forbes.com/top-colleges/")
-#' static %>% html_elements(".TopColleges2023_tableRow__BYOSU")
+#' static |> html_elements(".TopColleges2023_tableRow__BYOSU")
 #'
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
 #'
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
-#' rows <- sess %>% html_elements(".TopColleges2023_tableRow__BYOSU")
-#' rows %>% html_element(".TopColleges2023_organizationName__J1lEV") %>% html_text()
-#' rows %>% html_element(".grant-aid") %>% html_text()
+#' rows <- sess |> html_elements(".TopColleges2023_tableRow__BYOSU")
+#' rows |> html_element(".TopColleges2023_organizationName__J1lEV") |> html_text()
+#' rows |> html_element(".grant-aid") |> html_text()
 #' }
 read_html_live <- function(url) {
   check_installed(c("chromote", "R6"))
@@ -67,11 +67,11 @@ read_html_live <- function(url) {
 #' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
 #' sess$view()
 #'
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' sess$click(".ExLoadMore-btn")
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' sess$click(".ExLoadMore-btn")
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' }
 LiveHTML <- R6::R6Class(
   "LiveHTML",

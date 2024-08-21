@@ -11,12 +11,12 @@
 #' # A file with bad encoding included in the package
 #' path <- system.file("html-ex", "bad-encoding.html", package = "rvest")
 #' x <- read_html(path)
-#' x %>% html_elements("p") %>% html_text()
+#' x |> html_elements("p") |> html_text()
 #'
 #' html_encoding_guess(x)
 #' # Two valid encodings, only one of which is correct
-#' read_html(path, encoding = "ISO-8859-1") %>% html_elements("p") %>% html_text()
-#' read_html(path, encoding = "ISO-8859-2") %>% html_elements("p") %>% html_text()
+#' read_html(path, encoding = "ISO-8859-1") |> html_elements("p") |> html_text()
+#' read_html(path, encoding = "ISO-8859-2") |> html_elements("p") |> html_text()
 html_encoding_guess <- function(x) {
   check_installed("stringi")
 

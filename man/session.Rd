@@ -68,19 +68,19 @@ and \code{\link[httr:status_code]{httr::status_code()}}.
 }
 \examples{
 s <- session("http://hadley.nz")
-s \%>\%
-  session_jump_to("hadley-wickham.jpg") \%>\%
-  session_jump_to("/") \%>\%
+s |>
+  session_jump_to("hadley-wickham.jpg") |>
+  session_jump_to("/") |>
   session_history()
 
-s \%>\%
-  session_jump_to("hadley-wickham.jpg") \%>\%
-  session_back() \%>\%
+s |>
+  session_jump_to("hadley-wickham.jpg") |>
+  session_back() |>
   session_history()
 
 \donttest{
-s \%>\%
-  session_follow_link(css = "p a") \%>\%
+s |>
+  session_follow_link(css = "p a") |>
   html_elements("p")
 }
 }

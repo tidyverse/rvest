@@ -22,11 +22,11 @@
 #' html <- read_html("http://www.google.com")
 #' search <- html_form(html)[[1]]
 #'
-#' search <- search %>% html_form_set(q = "My little pony", hl = "fr")
+#' search <- search |> html_form_set(q = "My little pony", hl = "fr")
 #'
 #' # Or if you have a list of values, use !!!
 #' vals <- list(q = "web scraping", hl = "en")
-#' search <- search %>% html_form_set(!!!vals)
+#' search <- search |> html_form_set(!!!vals)
 #'
 #' # To submit and get result:
 #' \dontrun{

@@ -8,9 +8,9 @@
 #' url <- "https://rvest.tidyverse.org/articles/starwars.html"
 #' html <- read_html(url)
 #'
-#' html %>%
-#'   html_element("div") %>%
-#'   html_children() %>%
+#' html |>
+#'   html_element("div") |>
+#'   html_children() |>
 #'   html_name()
 #' @export
 #' @importFrom xml2 xml_name
@@ -35,11 +35,11 @@ html_name <- function(x) {
 #'   <li><a href="https://c.com">b</a></li>
 #'   </ul>')
 #'
-#' html %>% html_elements("a") %>% html_attrs()
+#' html |> html_elements("a") |> html_attrs()
 #'
-#' html %>% html_elements("a") %>% html_attr("href")
-#' html %>% html_elements("li") %>% html_attr("class")
-#' html %>% html_elements("li") %>% html_attr("class", default = "inactive")
+#' html |> html_elements("a") |> html_attr("href")
+#' html |> html_elements("li") |> html_attr("class")
+#' html |> html_elements("li") |> html_attr("class", default = "inactive")
 #' @export
 #' @importFrom xml2 xml_attr
 html_attr <- function(x, name, default = NA_character_) {

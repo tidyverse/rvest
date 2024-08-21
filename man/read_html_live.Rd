@@ -36,15 +36,15 @@ on your machine.
 # When we retrieve the raw HTML for this site, it doesn't contain the
 # data we're interested in:
 static <- read_html("https://www.forbes.com/top-colleges/")
-static \%>\% html_elements(".TopColleges2023_tableRow__BYOSU")
+static |> html_elements(".TopColleges2023_tableRow__BYOSU")
 
 # Instead, we need to run the site in a real web browser, causing it to
 # download a JSON file and then dynamically generate the html:
 
 sess <- read_html_live("https://www.forbes.com/top-colleges/")
 sess$view()
-rows <- sess \%>\% html_elements(".TopColleges2023_tableRow__BYOSU")
-rows \%>\% html_element(".TopColleges2023_organizationName__J1lEV") \%>\% html_text()
-rows \%>\% html_element(".grant-aid") \%>\% html_text()
+rows <- sess |> html_elements(".TopColleges2023_tableRow__BYOSU")
+rows |> html_element(".TopColleges2023_organizationName__J1lEV") |> html_text()
+rows |> html_element(".grant-aid") |> html_text()
 }
 }
