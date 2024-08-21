@@ -27,17 +27,17 @@
 #'
 #' # html_text() returns the raw underlying text, which includes whitespace
 #' # that would be ignored by a browser, and ignores the <br>
-#' html %>% html_element("p") %>% html_text() %>% writeLines()
+#' html |> html_element("p") |> html_text() |> writeLines()
 #'
 #' # html_text2() simulates what a browser would display. Non-significant
 #' # whitespace is collapsed, and <br> is turned into a line break
-#' html %>% html_element("p") %>% html_text2() %>% writeLines()
+#' html |> html_element("p") |> html_text2() |> writeLines()
 #'
 #' # By default, html_text2() also converts non-breaking spaces to regular
 #' # spaces:
 #' html <- minimal_html("<p>x&nbsp;y</p>")
-#' x1 <- html %>% html_element("p") %>% html_text()
-#' x2 <- html %>% html_element("p") %>% html_text2()
+#' x1 <- html |> html_element("p") |> html_text()
+#' x2 <- html |> html_element("p") |> html_text2()
 #'
 #' # When printed, non-breaking spaces look exactly like regular spaces
 #' x1

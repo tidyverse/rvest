@@ -32,9 +32,9 @@ html <- minimal_html('<ul>
   <li><a href="https://c.com">b</a></li>
   </ul>')
 
-html \%>\% html_elements("a") \%>\% html_attrs()
+html |> html_elements("a") |> html_attrs()
 
-html \%>\% html_elements("a") \%>\% html_attr("href")
-html \%>\% html_elements("li") \%>\% html_attr("class")
-html \%>\% html_elements("li") \%>\% html_attr("class", default = "inactive")
+html |> html_elements("a") |> html_attr("href")
+html |> html_elements("li") |> html_attr("class")
+html |> html_elements("li") |> html_attr("class", default = "inactive")
 }

@@ -47,7 +47,7 @@ starwars <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 # Then find elements that match a css selector or XPath expression
 # using html_elements(). In this example, each <section> corresponds
 # to a different film
-films <- starwars %>% html_elements("section")
+films <- starwars |> html_elements("section")
 films
 #> {xml_nodeset (7)}
 #> [1] <section><h2 data-id="1">\nThe Phantom Menace\n</h2>\n<p>\nReleased: 1999 ...
@@ -57,23 +57,29 @@ films
 #> [5] <section><h2 data-id="5">\nThe Empire Strikes Back\n</h2>\n<p>\nReleased: ...
 #> [6] <section><h2 data-id="6">\nReturn of the Jedi\n</h2>\n<p>\nReleased: 1983 ...
 #> [7] <section><h2 data-id="7">\nThe Force Awakens\n</h2>\n<p>\nReleased: 2015- ...
+```
+
+``` r
 
 # Then use html_element() to extract one element per film. Here
 # we the title is given by the text inside <h2>
-title <- films %>% 
-  html_element("h2") %>% 
+title <- films |> 
+  html_element("h2") |> 
   html_text2()
 title
 #> [1] "The Phantom Menace"      "Attack of the Clones"   
 #> [3] "Revenge of the Sith"     "A New Hope"             
 #> [5] "The Empire Strikes Back" "Return of the Jedi"     
 #> [7] "The Force Awakens"
+```
+
+``` r
 
 # Or use html_attr() to get data out of attributes. html_attr() always
 # returns a string so we convert it to an integer using a readr function
-episode <- films %>% 
-  html_element("h2") %>% 
-  html_attr("data-id") %>% 
+episode <- films |> 
+  html_element("h2") |> 
+  html_attr("data-id") |> 
   readr::parse_integer()
 episode
 #> [1] 1 2 3 4 5 6 7
@@ -85,8 +91,8 @@ frame with `html_table()`:
 ``` r
 html <- read_html("https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&oldid=998422565")
 
-html %>% 
-  html_element(".tracklist") %>% 
+html |> 
+  html_element(".tracklist") |> 
   html_table()
 #> # A tibble: 29 × 4
 #>    No.   Title                       `Performer(s)`                       Length
