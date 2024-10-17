@@ -33,15 +33,21 @@
 #' # download a JSON file and then dynamically generate the html:
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
+#' Sys.sleep(2)
 #' cookies_seen <- length(html_elements(sess, "button[aria-label='Reject All']"))
 #' if (cookies_seen) {
 #'   sess$click("button[aria-label='Reject All']")
+#'   sess <- read_html_live("https://www.forbes.com/top-colleges/")
+#'   sess$view()
+#'   Sys.sleep(2)
 #' }
-#' sess$scroll_to(top = 2000)
-#' rows <- sess %>% html_elements("#top-colleges .ListTable_listTable__-N5U5")
-#' rows %>%
-#'   html_elements("tr td:nth-of-type(2)") %>%
-#'   html_text()
+#' table_seen <- length(html_elements(sess, "table"))
+#' if (table_seen) {
+#'   rows <- sess |> html_elements("table tr")
+#'   rows |>
+#'     html_elements("td:nth-of-type(2)") |>
+#'     html_text() |> 
+#'     print()
 #' }
 read_html_live <- function(url) {
   check_installed(c("chromote", "R6"))
