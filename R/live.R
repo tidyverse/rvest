@@ -36,7 +36,7 @@
 #' sess$scroll_into_view("#top-colleges")
 #' cookies_seen <- length(html_elements(sess, "button[aria-label='Reject All']"))
 #' if (cookies_seen) {
-#'   sess$click("button[aria-label='Accept All']")
+#'   sess$click("button[aria-label='Reject All']")
 #' }
 #' rows <- sess %>% html_elements("#top-colleges .ListTable_listTable__-N5U5")
 #' rows %>%
