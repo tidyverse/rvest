@@ -27,7 +27,7 @@
 #' # When we retrieve the raw HTML for this site, it doesn't contain the
 #' # data we're interested in:
 #' static <- read_html("https://www.forbes.com/top-colleges/")
-#' static |> html_elements(".ListTable_listTable__-N5U5")
+#' static %>% html_elements(".ListTable_listTable__-N5U5")
 #'
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
@@ -38,9 +38,9 @@
 #' if (cookies_seen) {
 #'   sess$click("button[aria-label='Accept All']")
 #' }
-#' rows <- sess |> html_elements("#top-colleges .ListTable_listTable__-N5U5")
-#' rows |>
-#'   html_elements("#top-colleges tbody tr td:nth-of-type(2)") |>
+#' rows <- sess %>% html_elements("#top-colleges .ListTable_listTable__-N5U5")
+#' rows %>%
+#'   html_elements("#top-colleges tbody tr td:nth-of-type(2)") %>%
 #'   html_text()
 #' }
 read_html_live <- function(url) {
