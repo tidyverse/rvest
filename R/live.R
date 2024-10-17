@@ -33,14 +33,14 @@
 #' # download a JSON file and then dynamically generate the html:
 #' sess <- read_html_live("https://www.forbes.com/top-colleges/")
 #' sess$view()
-#' sess$scroll_into_view("#top-colleges")
 #' cookies_seen <- length(html_elements(sess, "button[aria-label='Reject All']"))
 #' if (cookies_seen) {
 #'   sess$click("button[aria-label='Reject All']")
 #' }
+#' sess$scroll_to(top = 2000)
 #' rows <- sess %>% html_elements("#top-colleges .ListTable_listTable__-N5U5")
 #' rows %>%
-#'   html_elements("#top-colleges tbody tr td:nth-of-type(2)") %>%
+#'   html_elements("tr td:nth-of-type(2)") %>%
 #'   html_text()
 #' }
 read_html_live <- function(url) {
