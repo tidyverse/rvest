@@ -87,12 +87,11 @@ LiveHTML <- R6::R6Class(
 
       self$session$Network$setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
 
+      self$session$Page$loadEventFired(callback_ = private$refresh_root)
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
-
-      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     },
 
     #' @description Called when `print()`ed
@@ -147,6 +146,8 @@ LiveHTML <- R6::R6Class(
       center_x <- mean(content_quad[c(1, 3, 5, 7)])
       center_y <- mean(content_quad[c(2, 4, 6, 8)])
 
+      private$loadEvent_promise <- self$session$Page$loadEventFired(wait_ = FALSE)
+
       # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
       self$session$Input$dispatchMouseEvent(
         type = "mouseMoved",
@@ -170,6 +171,7 @@ LiveHTML <- R6::R6Class(
           button = "left"
         )
       }
+
       invisible(self)
     },
 
@@ -224,6 +226,7 @@ LiveHTML <- R6::R6Class(
         deltaX = left,
         deltaY = top
       )
+
       invisible(self)
     },
 
@@ -264,18 +267,20 @@ LiveHTML <- R6::R6Class(
   private = list(
     root_id = NULL,
 
+    loadEvent_promise = NULL,
+
     check_active = function() {
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
           self$session <- self$session$respawn()
-          private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
+          private$refresh_root()
         })
       }
     },
 
     wait_for_selector = function(css, timeout = 5) {
       done <- now() + timeout
-      while(now() < done) {
+      while (now() < done) {
         nodes <- private$find_nodes(css)
         if (length(nodes) > 0) {
           return(nodes)
@@ -289,7 +294,8 @@ LiveHTML <- R6::R6Class(
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds)
+        node_ids <- private$nodes_from_css(css)
+        unlist(node_ids)
       } else {
         search <- glue::glue("
           (function() {{
@@ -313,6 +319,20 @@ LiveHTML <- R6::R6Class(
       }
     },
 
+    nodes_from_css = function(css, retry = TRUE) {
+      try_fetch(
+        self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds,
+        error = function(cnd) {
+          if (retry) {
+            self$session$wait_for(private$loadEvent_promise)
+            private$nodes_from_css(css, retry = FALSE)
+          } else {
+            cli::cli_abort(cnd)
+          }
+        }
+      )
+    },
+
     # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
     call_node_method = function(node_id, method, ...) {
       js_fun <- paste0("function() { return this", method, "}")
@@ -324,6 +344,10 @@ LiveHTML <- R6::R6Class(
     object_id = function(node_id) {
       # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
       self$session$DOM$resolveNode(node_id)$object$objectId
+    },
+
+    refresh_root = function(...) {
+      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     }
   )
 )
