@@ -264,6 +264,10 @@ LiveHTML <- R6::R6Class(
   private = list(
     root_id = NULL,
 
+    finalize = function() {
+      self$session$close()
+    },
+
     check_active = function() {
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
