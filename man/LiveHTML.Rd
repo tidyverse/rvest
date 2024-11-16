@@ -122,13 +122,13 @@ Extract HTML elements from the current page.
 \subsection{Method \code{click()}}{
 Simulate a click on an HTML element.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, xpath, n_clicks = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css}}{CSS selector or xpath expression.}
+\item{\code{css, xpath}}{CSS selector or xpath expression.}
 
 \item{\code{n_clicks}}{Number of clicks}
 }

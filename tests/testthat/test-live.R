@@ -43,10 +43,14 @@ test_that("can click a button", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("click"))
-  sess$click("button")
+  sess$click(css = "button")
   expect_equal(html_text(html_element(sess, "p")), "clicked")
 
-  sess$click("button", 2)
+  sess <- read_html_live(html_test_path("click"))
+  sess$click(xpath = "//button")
+  expect_equal(html_text(html_element(sess, "p")), "clicked")
+
+  sess$click(css = "button", n_clicks = 2)
   expect_equal(html_text(html_element(sess, "p")), "double clicked")
 })
 

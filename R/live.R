@@ -127,17 +127,19 @@ LiveHTML <- R6::R6Class(
 
 
     #' @description Simulate a click on an HTML element.
-    #' @param css CSS selector or xpath expression.
+    #' @param css,xpath CSS selector or xpath expression.
     #' @param n_clicks Number of clicks
-    click = function(css, n_clicks = 1) {
+    click = function(css, xpath, n_clicks = 1) {
       private$check_active()
+      check_exclusive(css, xpath)
+
       check_number_whole(n_clicks, min = 1)
 
       # Implementation based on puppeteer as described in
       # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
       # With code from https://github.com/puppeteer/puppeteer/blob/b53de4e0942e93c/packages/puppeteer-core/src/cdp/Input.ts#L431-L459
 
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, xpath)
       self$session$DOM$scrollIntoViewIfNeeded(node)
 
       # Quad = location of four corners (x1, y1, x2, y2, x3, y3, x4, y4)
@@ -277,17 +279,28 @@ LiveHTML <- R6::R6Class(
       }
     },
 
-    wait_for_selector = function(css, timeout = 5) {
+    wait_for_selector = function(css, xpath, timeout = 5) {
+      check_exclusive(css, xpath)
+
       done <- now() + timeout
       while(now() < done) {
-        nodes <- private$find_nodes(css)
+        if (!missing(css)) {
+          nodes <- private$find_nodes(css = css)
+        } else {
+          nodes <- private$find_nodes(xpath = xpath)
+        }
         if (length(nodes) > 0) {
           return(nodes)
         }
 
         Sys.sleep(0.1)
       }
-      cli::cli_abort("Failed to find selector {.str {css}} in {timeout} seconds.")
+      
+      if(!missing(css)){
+        cli::cli_abort("Failed to find selector {.str {css}} in {timeout} seconds.")
+      } else {
+        cli::cli_abort("Failed to find xpath {.str {xpath}} in {timeout} seconds.")
+      }
     },
 
     find_nodes = function(css, xpath) {
