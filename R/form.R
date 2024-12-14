@@ -33,20 +33,35 @@
 #' resp <- html_form_submit(search)
 #' read_html(resp)
 #' }
-html_form <- function(x, base_url = NULL) UseMethod("html_form")
+html_form <- new_generic("html_form", "x", function(x, base_url = NULL) {
+  # TODO: verify that base_url is NULL or character?
+  S7_dispatch()
+})
 
 #' @export
-html_form.xml_document <- function(x, base_url = NULL) {
+method(html_form, new_S3_class("xml_document")) <- function(x, base_url = NULL) {
   html_form(xml2::xml_find_all(x, ".//form"), base_url = base_url)
 }
 
 #' @export
-html_form.xml_nodeset <- function(x, base_url = NULL) {
+method(html_form, new_S3_class("xml_nodeset")) <- function(x, base_url = NULL) {
   lapply(x, html_form, base_url = base_url)
 }
 
+rvest_form <- new_class(
+  "rvest_form",
+  package = "rvest",
+  properties = list(
+    name = class_character,
+    method = class_character,
+    action = class_character,
+    enctype = class_character,
+    fields = class_list # TODO: fix this
+  )
+)
+
 #' @export
-html_form.xml_node <- function(x, base_url = NULL) {
+method(html_form, new_S3_class("xml_node")) <- function(x, base_url = NULL) {
   if (xml2::xml_name(x) != "form") {
     cli::cli_abort("{.arg x} must be a <form> element.")
   }
@@ -66,23 +81,21 @@ html_form.xml_node <- function(x, base_url = NULL) {
       button = parse_button(x)
     )
   })
-  names(fields) <- map_chr(fields, function(x) x$name %||% "")
+  names(fields) <- map_chr(fields, function(x) x@name %||% "")
 
-  structure(
-    list(
-      name = name,
-      method = method,
-      action = xml2::url_absolute(attr$action, base_url %||% xml2::xml_url(x)),
-      enctype = enctype,
-      fields = fields
-    ),
-    class = "rvest_form")
+  rvest_form(
+    name = name,
+    method = method,
+    action = xml2::url_absolute(attr$action, base_url %||% xml2::xml_url(x)),
+    enctype = enctype,
+    fields = fields
+  )
 }
 
-#' @export
-print.rvest_form <- function(x, ...) {
-  cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
-  cat(format_list(x$fields, indent = 1), "\n", sep = "")
+baseprint <- new_external_generic("base", "print", "x")
+method(baseprint, rvest_form) <- function(x, ...) {
+  cat("<form> '", x@name, "' (", x@method, " ", x@action, ")\n", sep = "")
+  cat(format_list(x@fields, indent = 1), "\n", sep = "")
 }
 
 
@@ -96,6 +109,7 @@ print.rvest_form <- function(x, ...) {
 #'   Provide a character vector to set multiple checkboxes in a set or
 #'   select multiple values from a multi-select.
 #' @export
+# TODO: S7
 html_form_set <- function(form, ...) {
   check_form(form)
 
@@ -103,14 +117,14 @@ html_form_set <- function(form, ...) {
   check_fields(form, new_values)
 
   for (field in names(new_values)) {
-    type <- form$fields[[field]]$type %||% "non-input"
+    type <- form@fields[[field]]@type %||% "non-input"
     if (type == "hidden") {
       cli::cli_warn("Setting value of hidden field {.str {field}}.")
     } else if (type == "submit") {
       cli::cli_abort("Can't change value of input with type submit: {.str {field}}.")
     }
 
-    form$fields[[field]]$value <- new_values[[field]]
+    form@fields[[field]]@value <- new_values[[field]]
   }
 
   form
@@ -132,20 +146,20 @@ html_form_submit <- function(form, submit = NULL) {
 }
 
 submission_build <- function(form, submit, error_call = caller_env()) {
-  method <- form$method
+  method <- form@method
   if (!(method %in% c("POST", "GET"))) {
     cli::cli_warn("Invalid method ({method}), defaulting to GET.", call = error_call)
     method <- "GET"
   }
 
-  if (length(form$action) == 0) {
+  if (length(form@action) == 0) {
     cli::cli_abort("`form` doesn't contain a `action` attribute.", call = error_call)
   }
 
   list(
     method = method,
-    enctype = form$enctype,
-    action = form$action,
+    enctype = form@enctype,
+    action = form@action,
     values = submission_build_values(form, submit, error_call = error_call)
   )
 }
@@ -159,17 +173,23 @@ submission_submit <- function(x, ...) {
 }
 
 submission_build_values <- function(form, submit = NULL, error_call = caller_env()) {
-  fields <- form$fields
+  fields <- form@fields
   submit <- submission_find_submit(fields, submit, error_call = error_call)
+  # TODO: if submission_find_submit doesn't find anything, returns empty list. Need to handle this so don't try to `@` a list
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
-  entry_list <- Filter(function(x) !is.null(x$name), entry_list)
+  # print(entry_list)
+  # for (entry in entry_list) {
+  #   print(entry)
+  #   print(class(entry))
+  # }
+  entry_list <- Filter(function(x) !is.null(x@name), entry_list) # TODO: fix this--seems to take somehow lists and S7 objects???
 
   if (length(entry_list) == 0) {
     return(list())
   }
 
-  values <- lapply(entry_list, function(x) as.character(x$value))
-  names <- map_chr(entry_list, "[[", "name")
+  values <- lapply(entry_list, function(x) as.character(x@value))
+  names <- map_chr(entry_list, function(x) x@name)
 
   out <- set_names(unlist(values, use.names = FALSE), rep(names, lengths(values)))
   as.list(out)
@@ -183,7 +203,7 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
       list()
     } else {
       if (length(buttons) > 1) {
-        cli::cli_inform("Submitting with button {.str {buttons[[1]]$name}}.")
+        cli::cli_inform("Submitting with button {.str {buttons[[1]]@name}}.")
       }
       buttons[[1]]
     }
@@ -212,38 +232,55 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
 }
 
 is_button <- function(x) {
-  tolower(x$type) %in% c("submit", "image", "button")
+  tolower(x@type) %in% c("submit", "image", "button")
 }
 
 # Field parsing -----------------------------------------------------------
+# TODO: S7
+char_or_null <- new_property(class_any, validator = function(value) {
+  if (!is.null(value) && !is.character(value)) {
+    "must be `NULL` or a character"
+  }
+})
 
-rvest_field <- function(type, name, value, attr, ...) {
-  structure(
-    list(
-      type = type,
-      name = name,
-      value = value,
-      attr = attr,
-      ...
-    ),
-    class = "rvest_field"
-  )
-}
+rvest_field <- new_class(
+  "rvest_field",
+  package = "rvest",
+  properties = list(
+    # TODO: handle NULL
+    type = class_character,
+    name = char_or_null, # TODO: allow NULL--do so in validator? or make custom property character_or_null
+    value = char_or_null, # TODO: allow NULL
+    attr = class_list,
+    dots = class_list # TODO: handle dots
+  ),
+  constructor = function(type, name, value, attr, ...) {
+    force(type)
+    force(name)
+    force(value)
+    force(attr)
+    dots <- rlang::list2(...) # TODO: either expand dots out to actual properties somehow, or just force options to be a new property
 
+    new_object(S7_object(), type = type, name = name, value = value, attr = attr, dots = dots)
+  }
+)
+
+baseformat <- new_external_generic("base", "format", "x")
 #' @export
-format.rvest_field <- function(x, ...) {
-  if (x$type == "password") {
-    value <- paste0(rep("*", nchar(x$value %||% "")), collapse = "")
+method(baseformat, rvest_field) <- function(x, ...) {
+  if (x@type == "password") {
+    value <- paste0(rep("*", nchar(x@value %||% "")), collapse = "")
   } else {
-    value <- paste(x$value, collapse = ", ")
+    value <- paste(x@value, collapse = ", ")
     value <- str_trunc(encodeString(value), 20)
   }
 
-  paste0("<field> (", x$type, ") ", x$name, ": ", value)
+  paste0("<field> (", x@type, ") ", x@name, ": ", value)
 }
 
 #' @export
-print.rvest_field <- function(x, ...) {
+method(baseprint, rvest_field) <- function(x, ...) {
+  # TODO: make this work
   cat(format(x, ...), "\n", sep = "")
   invisible(x)
 }
@@ -281,7 +318,7 @@ parse_options <- function(options) {
   }
 
   parsed <- lapply(options, parse_option)
-  value <-  map_chr(parsed, "[[", "value")
+  value <- map_chr(parsed, "[[", "value")
   name <- map_chr(parsed, "[[", "name")
   selected <- map_lgl(parsed, "[[", "selected")
 
@@ -336,7 +373,7 @@ format_list <- function(x, indent = 0) {
 }
 
 check_fields <- function(form, values, error_call = caller_env()) {
-  no_match <- setdiff(names(values), names(form$fields))
+  no_match <- setdiff(names(values), names(form@fields))
   if (length(no_match) > 0) {
     cli::cli_abort(
       "Can't set value of fields that don't exist: {.str {no_match}}.",

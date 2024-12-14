@@ -39,8 +39,8 @@
 #' }
 session <- function(url, ...) {
   check_string(url)
-
-  session <-   structure(
+  # TODO: S7
+  session <- structure(
     list(
       handle   = httr::handle(url),
       config   = c(..., httr::config(autoreferer = 1L)),
@@ -58,6 +58,7 @@ session <- function(url, ...) {
 #' @export
 #' @rdname session
 is.session <- function(x) inherits(x, "rvest_session")
+# is.session <- function(x) S7_inherits(x, rvest_session)
 
 #' @export
 print.rvest_session <- function(x, ...) {
@@ -217,7 +218,9 @@ read_html.rvest_session <- function(x, ...) {
 
 is_html <- function(x) {
   type <- httr::headers(x)$`Content-Type`
-  if (is.null(type)) return(FALSE)
+  if (is.null(type)) {
+    return(FALSE)
+  }
 
   parsed <- httr::parse_media(type)
   parsed$complete %in% c("text/html", "application/xhtml+xml")
@@ -232,12 +235,12 @@ html_form.rvest_session <- function(x, base_url = NULL) {
 
 #' @export
 html_table.rvest_session <- function(x,
-                               header = NA,
-                               trim = TRUE,
-                               fill = deprecated(),
-                               dec = ".",
-                               na.strings = "NA",
-                               convert = TRUE) {
+                                     header = NA,
+                                     trim = TRUE,
+                                     fill = deprecated(),
+                                     dec = ".",
+                                     na.strings = "NA",
+                                     convert = TRUE) {
   html_table(
     read_html(x),
     header = header,
@@ -281,8 +284,9 @@ cookies.rvest_session <- function(x) {
 
 # helpers -----------------------------------------------------------------
 
+# TODO: S7
 check_form <- function(x, call = caller_env()) {
-  if (!inherits(x, "rvest_form")) {
+  if (!S7_inherits(x, rvest_form)) {
     cli::cli_abort(
       "{.arg form} must be a single form produced by {.fn html_form}.",
       call = call
@@ -291,6 +295,7 @@ check_form <- function(x, call = caller_env()) {
 }
 check_session <- function(x, call = caller_env()) {
   if (!inherits(x, "rvest_session")) {
+    # if (!S7_inherits(x, rvest_session)) {
     cli::cli_abort("{.arg x} must be produced by {.fn session}.", call = call)
   }
 }

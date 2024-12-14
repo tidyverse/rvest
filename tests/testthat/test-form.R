@@ -13,7 +13,7 @@ test_that("can find from from doc, nodes, and node", {
   expect_length(forms, 2)
 
   form <- html_form(html_element(html, "form"))
-  expect_s3_class(form, "rvest_form")
+  expect_true(S7_inherits(form, rvest_form))
 })
 
 test_that("has useful print method", {
@@ -27,7 +27,7 @@ test_that("has useful print method", {
     </form>
   ')
   expect_snapshot(html_form(html, base_url = "http://google.com")[[1]])
-  expect_snapshot(html_form(html)[[1]]$fields[[2]])
+  expect_snapshot(html_form(html)[[1]]@fields[[2]])
 })
 
 
@@ -41,8 +41,10 @@ test_that("select options are named character vector", {
     </form>
   ')
 
-  form <- select %>% html_element("form") %>% html_form()
-  expect_equal(form$fields[[1]]$options, c(a = "1", b = "2"))
+  form <- select %>%
+    html_element("form") %>%
+    html_form()
+  expect_equal(form@fields[[1]]@options, c(a = "1", b = "2"))
 })
 
 test_that("select values are inherited from names", {
@@ -53,8 +55,10 @@ test_that("select values are inherited from names", {
     </select>
   ')
 
-  opts <- page %>% html_element('select') %>% parse_select()
-  expect_equal(opts$options, c(x = "1", y = "y"))
+  opts <- page %>%
+    html_element("select") %>%
+    parse_select()
+  expect_equal(opts@options, c(x = "1", y = "y"))
 })
 
 test_that("parse_fields gets the button", {
@@ -64,8 +68,10 @@ test_that("parse_fields gets the button", {
     </form>
   ')
 
-  form <- select %>% html_element("form") %>% html_form()
-  expect_equal(form$fields[[1]]$type, "button")
+  form <- select %>%
+    html_element("form") %>%
+    html_form()
+  expect_equal(form@fields[[1]]@type, "button")
 })
 
 test_that("handles different encoding types", {
@@ -86,7 +92,6 @@ test_that("validates its inputs", {
     html_form(html_element(select, "button"))
     html_form(select, base_url = 1)
   })
-
 })
 
 # set --------------------------------------------------------------
@@ -101,11 +106,11 @@ test_that("can set values of inputs", {
   form <- html_form(html)[[1]]
 
   form <- html_form_set(form, text = "abc")
-  expect_equal(form$fields$text$value, "abc")
+  expect_equal(form@fields$text@value, "abc")
 
   # warns that setting hidden field
   expect_snapshot(form <- html_form_set(form, hidden = "abc"))
-  expect_equal(form$fields$hidden$value, "abc")
+  expect_equal(form@fields$hidden@value, "abc")
 })
 
 test_that("has informative errors", {
@@ -215,10 +220,10 @@ test_that("can submit using three primary techniques", {
   expect_snapshot({
     show_response(html_form_submit(form))
 
-    form$method <- "POST"
+    form@method <- "POST"
     show_response(html_form_submit(form))
 
-    form$enctype <- "multipart"
+    form@enctype <- "multipart"
     show_response(html_form_submit(form))
   })
 })
