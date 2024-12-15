@@ -109,7 +109,6 @@ method(baseprint, rvest_form) <- function(x, ...) {
 #'   Provide a character vector to set multiple checkboxes in a set or
 #'   select multiple values from a multi-select.
 #' @export
-# TODO: S7
 html_form_set <- function(form, ...) {
   check_form(form)
 
@@ -175,14 +174,14 @@ submission_submit <- function(x, ...) {
 submission_build_values <- function(form, submit = NULL, error_call = caller_env()) {
   fields <- form@fields
   submit <- submission_find_submit(fields, submit, error_call = error_call)
-  # TODO: if submission_find_submit doesn't find anything, returns empty list. Need to handle this so don't try to `@` a list
+  # TODO: if `submission_find_submit()` doesn't find anything, returns empty list. Need to handle this so don't try to `@` a list
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
   # print(entry_list)
   # for (entry in entry_list) {
   #   print(entry)
   #   print(class(entry))
   # }
-  entry_list <- Filter(function(x) !is.null(x@name), entry_list) # TODO: fix this--seems to take somehow lists and S7 objects???
+  entry_list <- Filter(function(x) !is.null(x@name), entry_list)
 
   if (length(entry_list) == 0) {
     return(list())
@@ -236,32 +235,22 @@ is_button <- function(x) {
 }
 
 # Field parsing -----------------------------------------------------------
-# TODO: S7
-char_or_null <- new_property(class_any, validator = function(value) {
-  if (!is.null(value) && !is.character(value)) {
-    "must be `NULL` or a character"
-  }
-})
-
 rvest_field <- new_class(
   "rvest_field",
   package = "rvest",
   properties = list(
-    # TODO: handle NULL
     type = class_character,
-    name = char_or_null, # TODO: allow NULL--do so in validator? or make custom property character_or_null
-    value = char_or_null, # TODO: allow NULL
+    name = class_character | NULL,
+    value = class_character | NULL,
     attr = class_list,
-    dots = class_list # TODO: handle dots
+    options = NULL | class_any # TODO: fix this
   ),
-  constructor = function(type, name, value, attr, ...) {
+  constructor = function(type, name, value, attr, options = NULL) {
     force(type)
     force(name)
     force(value)
     force(attr)
-    dots <- rlang::list2(...) # TODO: either expand dots out to actual properties somehow, or just force options to be a new property
-
-    new_object(S7_object(), type = type, name = name, value = value, attr = attr, dots = dots)
+    new_object(S7_object(), type = type, name = name, value = value, attr = attr, options = options)
   }
 )
 
@@ -304,7 +293,7 @@ parse_select <- function(x) {
     name = attr$name,
     value = options$value,
     attr = attr,
-    options = options$options
+    options = options$options # TODO: just make this an actual property default empty? Instead of relying on dots?
   )
 }
 parse_options <- function(options) {

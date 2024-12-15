@@ -11,10 +11,10 @@ test_that("basic session process works as expected", {
 
 test_that("session caches xml parsing and sets base url", {
   s <- session("https://rvest.tidyverse.org/")
-  expect_equal(s$cache$html, NULL)
+  expect_equal(s@cache$html, NULL)
 
   html <- read_html(s)
-  expect_true(rlang::is_reference(s$cache$html, html))
+  expect_true(rlang::is_reference(s@cache$html, html))
   expect_equal(xml2::xml_url(html), "https://rvest.tidyverse.org/")
 })
 
@@ -48,24 +48,24 @@ test_that("informative errors for bad inputs", {
 
 test_that("can navigate back and forward", {
   s <- session("https://hadley.nz/")
-  expect_equal(s$back, character())
-  expect_equal(s$forward, character())
+  expect_equal(s@back, character())
+  expect_equal(s@forward, character())
   expect_snapshot_error(session_back(s))
   expect_snapshot_error(session_forward(s))
 
   s <- session_jump_to(s, "https://r4ds.hadley.nz/")
-  expect_equal(s$back, "https://hadley.nz/")
-  expect_equal(s$forward, character())
+  expect_equal(s@back, "https://hadley.nz/")
+  expect_equal(s@forward, character())
 
-  expect_equal(session_forward(session_back(s))$url, s$url)
+  expect_equal(session_forward(session_back(s))@url, s@url)
 
   s <- session_back(s)
-  expect_equal(s$back, character())
-  expect_equal(s$forward, "https://r4ds.hadley.nz/")
+  expect_equal(s@back, character())
+  expect_equal(s@forward, "https://r4ds.hadley.nz/")
 
   s <- session_forward(s)
-  expect_equal(s$back, "https://hadley.nz/")
-  expect_equal(s$forward, character())
+  expect_equal(s@back, "https://hadley.nz/")
+  expect_equal(s@forward, character())
 })
 
 test_that("can find link by position, content, css, or xpath", {
@@ -100,7 +100,6 @@ test_that("can submit a form", {
   s <- session_submit(s, form)
   expect_s3_class(s, "rvest_session")
 
-  resp <- httr::content(s$response)
+  resp <- httr::content(s@response)
   expect_equal(resp$query, "x=1&y=2")
 })
-
