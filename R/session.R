@@ -207,6 +207,10 @@ session_submit <- function(x, form, submit = NULL, ...) {
 
 # xml2 methods ------------------------------------------------------------
 
+# TODO: Error in `UseMethod("read_xml")`: no applicable method for 'xml_find_all'/'read_xml' applied to an object of class "c('rvest::rvest_session', 'S7_object')"
+# xml2_xml_find_all <- new_external_generic("xml2", "xml_find_all", "x")
+# method(xml2_xml_find_all, rvest_session) <- function(x, ...) xml2::xml_find_all.rvest_session(x, ...)
+
 #' @importFrom xml2 read_html
 #' @export
 read_html.rvest_session <- function(x, ...) {
@@ -214,7 +218,7 @@ read_html.rvest_session <- function(x, ...) {
     cli::cli_abort("Page doesn't appear to be html.")
   }
 
-  env_cache(x$cache, "html", read_html(x@response, ..., base_url = x@url))
+  env_cache(x@cache, "html", read_html(x@response, ..., base_url = x@url))
 }
 
 is_html <- function(x) {
