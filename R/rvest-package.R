@@ -61,6 +61,7 @@ magrittr::`%>%`
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @importFrom glue glue
+#' @import S7
 ## usethis namespace: end
 NULL
 
