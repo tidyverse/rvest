@@ -207,13 +207,14 @@ session_submit <- function(x, form, submit = NULL, ...) {
 
 # xml2 methods ------------------------------------------------------------
 
-# TODO: Error in `UseMethod("read_xml")`: no applicable method for 'xml_find_all'/'read_xml' applied to an object of class "c('rvest::rvest_session', 'S7_object')"
+# TODO: Error in `UseMethod("read_xml")`: no applicable method for 'xml_vfind_all'/'read_xml' applied to an object of class "c('rvest::rvest_session', 'S7_object')"
 # xml2_xml_find_all <- new_external_generic("xml2", "xml_find_all", "x")
 # method(xml2_xml_find_all, rvest_session) <- function(x, ...) xml2::xml_find_all.rvest_session(x, ...)
 
 #' @importFrom xml2 read_html
 #' @export
-read_html.rvest_session <- function(x, ...) {
+xml2_read_html <- new_external_generic("xml2", "read_html", "x")
+method(xml2_read_html, rvest_session) <- function(x, ...) {
   if (!is_html(x@response)) {
     cli::cli_abort("Page doesn't appear to be html.")
   }
@@ -238,8 +239,10 @@ method(html_form, rvest_session) <- function(x, base_url = NULL) {
   html_form(read_html(x), base_url = base_url)
 }
 
-# TODO: S7 these? Should dispatch correctly regardless
 #' @export
+# TODO: fix this--html_table is a S3 generic and rvest_session is a S7 class. According to docs that should work.
+# S7 can register methods for: S7 class and S3 generic
+# https://rconsortium.github.io/S7/articles/compatibility.html
 html_table.rvest_session <- function(x,
                                      header = NA,
                                      trim = TRUE,
@@ -290,7 +293,6 @@ cookies.rvest_session <- function(x) {
 
 # helpers -----------------------------------------------------------------
 
-# TODO: S7
 check_form <- function(x, call = caller_env()) {
   if (!S7_inherits(x, rvest_form)) {
     cli::cli_abort(

@@ -98,7 +98,7 @@ test_that("can submit a form", {
 
   s <- session("http://hadley.nz/")
   s <- session_submit(s, form)
-  expect_s3_class(s, "rvest_session")
+  expect_true(S7_inherits(s, rvest_session))
 
   resp <- httr::content(s@response)
   expect_equal(resp$query, "x=1&y=2")

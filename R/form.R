@@ -174,14 +174,8 @@ submission_submit <- function(x, ...) {
 submission_build_values <- function(form, submit = NULL, error_call = caller_env()) {
   fields <- form@fields
   submit <- submission_find_submit(fields, submit, error_call = error_call)
-  # TODO: if `submission_find_submit()` doesn't find anything, returns empty list. Need to handle this so don't try to `@` a list
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
-  # print(entry_list)
-  # for (entry in entry_list) {
-  #   print(entry)
-  #   print(class(entry))
-  # }
-  entry_list <- Filter(function(x) !is.null(x@name), entry_list)
+  entry_list <- Filter(function(x) S7_inherits(x, rvest_field), entry_list)
 
   if (length(entry_list) == 0) {
     return(list())
