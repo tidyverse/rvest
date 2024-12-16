@@ -13,7 +13,7 @@
 ---
 
     Code
-      html_form(html)[[1]]$fields[[2]]
+      html_form(html)[[1]]@fields[[2]]
     Output
       <field> (text) name: Hadley
 
@@ -32,12 +32,12 @@
     Code
       html_form(html_element(select, "button"))
     Condition
-      Error in `html_form()`:
+      Error in `method(html_form, new_S3_class("xml_node"))`:
       ! `x` must be a <form> element.
     Code
       html_form(select, base_url = 1)
     Condition
-      Error in `FUN()`:
+      Error in `method(html_form, new_S3_class("xml_node"))`:
       ! `base_url` must be a single string or `NULL`, not the number 1.
 
 # can set values of inputs
@@ -121,14 +121,14 @@
       Query string: x=1&x=2&y=3
       
     Code
-      form$method <- "POST"
+      form@method <- "POST"
       show_response(html_form_submit(form))
     Output
       POST application/x-www-form-urlencoded
       Query string: 
       x=1&x=2&y=3
     Code
-      form$enctype <- "multipart"
+      form@enctype <- "multipart"
       show_response(html_form_submit(form))
     Output
       POST multipart/form-data; boundary=---{divider}
