@@ -61,8 +61,7 @@ rvest_session <- new_class(
 #' @rdname session
 is.session <- function(x) S7_inherits(x, rvest_session)
 
-#' @export
-method(baseprint, rvest_session) <- function(x, ...) {
+method(print, rvest_session) <- function(x, ...) {
   cat("<session> ", x@url, "\n", sep = "")
   cat("  Status: ", httr::status_code(x), "\n", sep = "")
   cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
@@ -208,7 +207,6 @@ session_submit <- function(x, form, submit = NULL, ...) {
 # xml2 methods ------------------------------------------------------------
 
 #' @importFrom xml2 read_html
-#' @export
 xml2_read_html <- new_external_generic("xml2", "read_html", "x")
 method(xml2_read_html, rvest_session) <- function(x, ...) {
   if (!is_html(x@response)) {
@@ -230,7 +228,6 @@ is_html <- function(x) {
 
 # rvest methods -----------------------------------------------------------------
 
-#' @export
 method(html_form, rvest_session) <- function(x, base_url = NULL) {
   html_form(read_html(x), base_url = base_url)
 }
@@ -267,21 +264,18 @@ method(html_form, rvest_session) <- function(x, base_url = NULL) {
 # httr methods -----------------------------------------------------------------
 
 #' @importFrom httr status_code
-#' @export
 httr_status_code <- new_external_generic("httr", "status_code", "x")
 method(httr_status_code, rvest_session) <- function(x) {
   status_code(x@response)
 }
 
 #' @importFrom httr headers
-#' @export
 httr_headers <- new_external_generic("httr", "headers", "x")
 method(httr_headers, rvest_session) <- function(x) {
   headers(x@response)
 }
 
 #' @importFrom httr cookies
-#' @export
 httr_cookies <- new_external_generic("httr", "cookies", "x")
 method(httr_cookies, rvest_session) <- function(x) {
   cookies(x@response)

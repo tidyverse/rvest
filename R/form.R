@@ -37,12 +37,10 @@ html_form <- new_generic("html_form", "x", function(x, base_url = NULL) {
   S7_dispatch()
 })
 
-#' @export
 method(html_form, new_S3_class("xml_document")) <- function(x, base_url = NULL) {
   html_form(xml2::xml_find_all(x, ".//form"), base_url = base_url)
 }
 
-#' @export
 method(html_form, new_S3_class("xml_nodeset")) <- function(x, base_url = NULL) {
   lapply(x, html_form, base_url = base_url)
 }
@@ -59,7 +57,6 @@ rvest_form <- new_class(
   )
 )
 
-#' @export
 method(html_form, new_S3_class("xml_node")) <- function(x, base_url = NULL) {
   if (xml2::xml_name(x) != "form") {
     cli::cli_abort("{.arg x} must be a <form> element.")
@@ -91,8 +88,8 @@ method(html_form, new_S3_class("xml_node")) <- function(x, base_url = NULL) {
   )
 }
 
-baseprint <- new_external_generic("base", "print", "x")
-method(baseprint, rvest_form) <- function(x, ...) {
+print <- new_external_generic("base", "print", "x")
+method(print, rvest_form) <- function(x, ...) {
   cat("<form> '", x@name, "' (", x@method, " ", x@action, ")\n", sep = "")
   cat(format_list(x@fields, indent = 1), "\n", sep = "")
 }
@@ -237,19 +234,11 @@ rvest_field <- new_class(
     value = class_character | NULL,
     attr = class_list,
     options = NULL | class_character
-  ),
-  constructor = function(type, name, value, attr, options = NULL) {
-    force(type)
-    force(name)
-    force(value)
-    force(attr)
-    new_object(S7_object(), type = type, name = name, value = value, attr = attr, options = options)
-  }
+  )
 )
 
-baseformat <- new_external_generic("base", "format", "x")
-#' @export
-method(baseformat, rvest_field) <- function(x, ...) {
+format <- new_external_generic("base", "format", "x")
+method(format, rvest_field) <- function(x, ...) {
   if (x@type == "password") {
     value <- paste0(rep("*", nchar(x@value %||% "")), collapse = "")
   } else {
@@ -260,8 +249,7 @@ method(baseformat, rvest_field) <- function(x, ...) {
   paste0("<field> (", x@type, ") ", x@name, ": ", value)
 }
 
-#' @export
-method(baseprint, rvest_field) <- function(x, ...) {
+method(print, rvest_field) <- function(x, ...) {
   cat(format(x, ...), "\n", sep = "")
   invisible(x)
 }
