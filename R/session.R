@@ -49,10 +49,10 @@ rvest_session <- new_class(
   properties = list(
     handle = new_S3_class("handle"),
     config = new_S3_class("request"),
-    response = NULL | new_S3_class("response"), # TODO: fix this
-    url = NULL | class_character, # TODO: fix this
+    response = NULL | new_S3_class("response"),
+    url = NULL | class_character,
     back = class_character,
-    forward = class_character, # TODO: change this
+    forward = class_character,
     cache = class_environment
   )
 )
@@ -207,10 +207,6 @@ session_submit <- function(x, form, submit = NULL, ...) {
 
 # xml2 methods ------------------------------------------------------------
 
-# TODO: Error in `UseMethod("read_xml")`: no applicable method for 'xml_vfind_all'/'read_xml' applied to an object of class "c('rvest::rvest_session', 'S7_object')"
-# xml2_xml_find_all <- new_external_generic("xml2", "xml_find_all", "x")
-# method(xml2_xml_find_all, rvest_session) <- function(x, ...) xml2::xml_find_all.rvest_session(x, ...)
-
 #' @importFrom xml2 read_html
 #' @export
 xml2_read_html <- new_external_generic("xml2", "read_html", "x")
@@ -240,16 +236,13 @@ method(html_form, rvest_session) <- function(x, base_url = NULL) {
 }
 
 #' @export
-# TODO: fix this--html_table is a S3 generic and rvest_session is a S7 class. According to docs that should work.
-# S7 can register methods for: S7 class and S3 generic
-# https://rconsortium.github.io/S7/articles/compatibility.html
-html_table.rvest_session <- function(x,
-                                     header = NA,
-                                     trim = TRUE,
-                                     fill = deprecated(),
-                                     dec = ".",
-                                     na.strings = "NA",
-                                     convert = TRUE) {
+`html_table.rvest::rvest_session` <- function(x,
+                                              header = NA,
+                                              trim = TRUE,
+                                              fill = deprecated(),
+                                              dec = ".",
+                                              na.strings = "NA",
+                                              convert = TRUE) {
   html_table(
     read_html(x),
     header = header,
@@ -262,12 +255,12 @@ html_table.rvest_session <- function(x,
 }
 
 #' @export
-html_element.rvest_session <- function(x, css, xpath) {
+`html_element.rvest::rvest_session` <- function(x, css, xpath) {
   html_element(read_html(x), css, xpath)
 }
 
 #' @export
-html_elements.rvest_session <- function(x, css, xpath) {
+`html_elements.rvest::rvest_session` <- function(x, css, xpath) {
   html_elements(read_html(x), css, xpath)
 }
 
@@ -275,20 +268,23 @@ html_elements.rvest_session <- function(x, css, xpath) {
 
 #' @importFrom httr status_code
 #' @export
-status_code.rvest_session <- function(x) {
-  status_code(x$response)
+httr_status_code <- new_external_generic("httr", "status_code", "x")
+method(httr_status_code, rvest_session) <- function(x) {
+  status_code(x@response)
 }
 
 #' @importFrom httr headers
 #' @export
-headers.rvest_session <- function(x) {
-  headers(x$response)
+httr_headers <- new_external_generic("httr", "headers", "x")
+method(httr_headers, rvest_session) <- function(x) {
+  headers(x@response)
 }
 
 #' @importFrom httr cookies
 #' @export
-cookies.rvest_session <- function(x) {
-  cookies(x$response)
+httr_cookies <- new_external_generic("httr", "cookies", "x")
+method(httr_cookies, rvest_session) <- function(x) {
+  cookies(x@response)
 }
 
 # helpers -----------------------------------------------------------------

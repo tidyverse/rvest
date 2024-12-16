@@ -34,7 +34,6 @@
 #' read_html(resp)
 #' }
 html_form <- new_generic("html_form", "x", function(x, base_url = NULL) {
-  # TODO: verify that base_url is NULL or character?
   S7_dispatch()
 })
 
@@ -56,7 +55,7 @@ rvest_form <- new_class(
     method = class_character,
     action = class_character,
     enctype = class_character,
-    fields = class_list # TODO: fix this
+    fields = class_list
   )
 )
 
@@ -237,7 +236,7 @@ rvest_field <- new_class(
     name = class_character | NULL,
     value = class_character | NULL,
     attr = class_list,
-    options = NULL | class_any # TODO: fix this
+    options = NULL | class_character
   ),
   constructor = function(type, name, value, attr, options = NULL) {
     force(type)
@@ -263,7 +262,6 @@ method(baseformat, rvest_field) <- function(x, ...) {
 
 #' @export
 method(baseprint, rvest_field) <- function(x, ...) {
-  # TODO: make this work
   cat(format(x, ...), "\n", sep = "")
   invisible(x)
 }
@@ -287,7 +285,7 @@ parse_select <- function(x) {
     name = attr$name,
     value = options$value,
     attr = attr,
-    options = options$options # TODO: just make this an actual property default empty? Instead of relying on dots?
+    options = options$options
   )
 }
 parse_options <- function(options) {
