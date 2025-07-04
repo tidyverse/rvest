@@ -267,6 +267,10 @@ LiveHTML <- R6::R6Class(
   private = list(
     root_id = NULL,
 
+    finalize = function() {
+      self$session$close()
+    },
+
     loadEvent_promise = NULL,
 
     check_active = function() {
