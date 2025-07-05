@@ -52,6 +52,7 @@ sess \%>\% html_elements(".ExResult-row") \%>\% length()
 \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
 \item \href{#method-LiveHTML-type}{\code{LiveHTML$type()}}
 \item \href{#method-LiveHTML-press}{\code{LiveHTML$press()}}
+\item \href{#method-LiveHTML-wait_for}{\code{LiveHTML$wait_for()}}
 \item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
 }
 }
@@ -122,7 +123,7 @@ Extract HTML elements from the current page.
 \subsection{Method \code{click()}}{
 Simulate a click on an HTML element.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1, wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -131,6 +132,10 @@ Simulate a click on an HTML element.
 \item{\code{css}}{CSS selector or xpath expression.}
 
 \item{\code{n_clicks}}{Number of clicks}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
 }
 \if{html}{\out{</div>}}
 }
@@ -151,13 +156,17 @@ Get the current scroll position.
 \subsection{Method \code{scroll_into_view()}}{
 Scroll selected element into view.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_into_view(css)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_into_view(css, wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{css}}{CSS selector or xpath expression.}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
 }
 \if{html}{\out{</div>}}
 }
@@ -168,13 +177,17 @@ Scroll selected element into view.
 \subsection{Method \code{scroll_to()}}{
 Scroll to specified location
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_to(top = 0, left = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_to(top = 0, left = 0, wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{top, left}}{Number of pixels from top/left respectively.}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
 }
 \if{html}{\out{</div>}}
 }
@@ -185,7 +198,7 @@ Scroll to specified location
 \subsection{Method \code{scroll_by()}}{
 Scroll by the specified amount
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_by(top = 0, left = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_by(top = 0, left = 0, wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -193,6 +206,10 @@ Scroll by the specified amount
 \describe{
 \item{\code{top, left}}{Number of pixels to scroll up/down and left/right
 respectively.}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
 }
 \if{html}{\out{</div>}}
 }
@@ -203,7 +220,7 @@ respectively.}
 \subsection{Method \code{type()}}{
 Type text in the selected element
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$type(css, text)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$type(css, text, wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -212,6 +229,10 @@ Type text in the selected element
 \item{\code{css}}{CSS selector or xpath expression.}
 
 \item{\code{text}}{A single string containing the text to type.}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
 }
 \if{html}{\out{</div>}}
 }
@@ -222,7 +243,7 @@ Type text in the selected element
 \subsection{Method \code{press()}}{
 Simulate pressing a single key (including special keys).
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$press(css, key_code, modifiers = character())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$press(css, key_code, modifiers = character(), wait_for = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -235,6 +256,28 @@ keys at \url{https://pptr.dev/api/puppeteer.keyinput/}.}
 
 \item{\code{modifiers}}{A character vector of modifiers. Must be one or more
 of \verb{"Shift}, \code{"Control"}, \code{"Alt"}, or \code{"Meta"}.}
+
+\item{\code{wait_for}}{What to wait for after the click. Can be \code{NULL} (the
+default, waits only for the click event to be sent), \code{"load"} (waits
+for a \code{Page.loadEventFired} event), or a custom promise.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-wait_for"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-wait_for}{}}}
+\subsection{Method \code{wait_for()}}{
+Wait for a promise to resolve and then sync the session
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$wait_for(promise = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{promise}}{A promise object to wait for. If \code{NULL}, the method
+returns immediately.}
 }
 \if{html}{\out{</div>}}
 }

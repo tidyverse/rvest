@@ -54,7 +54,7 @@ test_that("can find elements after click that navigates", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("navigate1"))
-  sess$click("a")
+  sess$click("a", wait_for = "load")
   expect_equal(html_text2(html_element(sess, "p")), "Success!")
 })
 
