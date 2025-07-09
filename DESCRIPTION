@@ -26,6 +26,7 @@ Suggests:
     chromote,
     covr,
     knitr,
+    promises,
     R6,
     readr,
     repurrrsive,

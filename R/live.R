@@ -82,12 +82,8 @@ LiveHTML <- R6::R6Class(
     #' @description initialize the object
     #' @param url URL to page.
     initialize = function(url) {
-      check_installed("chromote")
-      self$session <- chromote::ChromoteSession$new()
-
-      self$session$Network$setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
-      self$session$go_to(url)
-      private$refresh_root()
+      private$live_session <- LiveSession$new(url)
+      self$session <- private$live_session$session
     },
 
     #' @description Called when `print()`ed
@@ -99,25 +95,16 @@ LiveHTML <- R6::R6Class(
 
     #' @description
     #' Display a live view of the site
-    view = function() {
-      private$check_active()
-      self$session$view()
+    view = function() { # nocov start
+      private$live_session$view()
       invisible(self)
-    },
+    }, # nocov end
 
     #' @description
     #' Extract HTML elements from the current page.
     #' @param css,xpath CSS selector or xpath expression.
     html_elements = function(css, xpath) {
-      private$check_active()
-      nodes <- private$find_nodes(css, xpath)
-
-      elements <- map_chr(nodes, function(node_id) {
-        json <- private$call_node_method(node_id, ".outerHTML")
-        json$result$value
-      })
-      html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
-      xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
+      private$live_session$html_elements(css, xpath)
     },
 
     #' @description Simulate a click on an HTML element.
@@ -127,57 +114,13 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     click = function(css, n_clicks = 1, wait_for = NULL) {
-      private$check_active()
-      check_number_whole(n_clicks, min = 1)
-
-      node <- private$wait_for_selector(css)
-      self$session$DOM$scrollIntoViewIfNeeded(node)
-
-      quads <- self$session$DOM$getBoxModel(node)
-      content_quad <- as.numeric(quads$model$content)
-      center_x <- mean(content_quad[c(1, 3, 5, 7)])
-      center_y <- mean(content_quad[c(2, 4, 6, 8)])
-
-      p_wait <- private$expand_promise(wait_for)
-      is_async <- !is.null(p_wait)
-
-      self$session$Input$dispatchMouseEvent(
-        type = "mouseMoved",
-        x = center_x,
-        y = center_y,
-        wait_ = !is_async
-      )
-      for (i in seq_len(n_clicks)) {
-        self$session$Input$dispatchMouseEvent(
-          type = "mousePressed",
-          x = center_x,
-          y = center_y,
-          button = "left",
-          clickCount = i,
-          wait_ = !is_async
-        )
-        self$session$Input$dispatchMouseEvent(
-          type = "mouseReleased",
-          x = center_x,
-          y = center_y,
-          clickCount = i,
-          button = "left",
-          wait_ = !is_async
-        )
-      }
-
-      self$wait_for(p_wait)
+      private$live_session$click(css, n_clicks, wait_for)
       invisible(self)
     },
 
     #' @description Get the current scroll position.
     get_scroll_position = function() {
-      private$check_active()
-      out <- self$session$Runtime$evaluate(
-        '({ x: window.scrollX, y: window.scrollY })',
-        returnByValue = TRUE
-      )
-      out$result$value
+      private$live_session$get_scroll_position()
     },
 
     #' @description Scroll selected element into view.
@@ -186,11 +129,7 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     scroll_into_view = function(css, wait_for = NULL) {
-      private$check_active()
-      node <- private$wait_for_selector(css)
-      p_wait <- private$expand_promise(wait_for)
-      self$session$DOM$scrollIntoViewIfNeeded(node)
-      self$wait_for(p_wait)
+      private$live_session$scroll_into_view(css, wait_for)
       invisible(self)
     },
 
@@ -200,16 +139,7 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     scroll_to = function(top = 0, left = 0, wait_for = NULL) {
-      private$check_active()
-      check_number_whole(top)
-      check_number_whole(left)
-      p_wait <- private$expand_promise(wait_for)
-      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
-      private$call_node_method(
-        private$root_id,
-        paste0(".documentElement.scrollTo(", left, ", ", top, ")")
-      )
-      self$wait_for(p_wait)
+      private$live_session$scroll_to(top, left, wait_for)
       invisible(self)
     },
 
@@ -220,19 +150,7 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     scroll_by = function(top = 0, left = 0, wait_for = NULL) {
-      private$check_active()
-      check_number_whole(top)
-      check_number_whole(left)
-      p_wait <- private$expand_promise(wait_for)
-      # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
-      self$session$Input$dispatchMouseEvent(
-        type = "mouseWheel",
-        x = 0,
-        y = 0,
-        deltaX = left,
-        deltaY = top
-      )
-      self$wait_for(p_wait)
+      private$live_session$scroll_by(top, left, wait_for)
       invisible(self)
     },
 
@@ -243,13 +161,7 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     type = function(css, text, wait_for = NULL) {
-      private$check_active()
-      check_string(text)
-      node <- private$wait_for_selector(css)
-      p_wait <- private$expand_promise(wait_for)
-      self$session$DOM$focus(node)
-      self$session$Input$insertText(text)
-      self$wait_for(p_wait)
+      private$live_session$type(css, text, wait_for)
       invisible(self)
     },
 
@@ -263,14 +175,7 @@ LiveHTML <- R6::R6Class(
     #'   default, waits only for the click event to be sent), `"load"` (waits
     #'   for a `Page.loadEventFired` event), or a custom promise.
     press = function(css, key_code, modifiers = character(), wait_for = NULL) {
-      private$check_active()
-      desc <- as_key_desc(key_code, modifiers)
-      node <- private$wait_for_selector(css)
-      p_wait <- private$expand_promise(wait_for)
-      self$session$DOM$focus(node)
-      exec(self$session$Input$dispatchKeyEvent, type = "keyDown", !!!desc)
-      exec(self$session$Input$dispatchKeyEvent, type = "keyUp", !!!desc)
-      self$wait_for(p_wait)
+      private$live_session$press(css, key_code, modifiers, wait_for)
       invisible(self)
     },
 
@@ -278,148 +183,17 @@ LiveHTML <- R6::R6Class(
     #' @param promise A promise object to wait for. If `NULL`, the method
     #'   returns immediately.
     wait_for = function(promise = NULL) {
-      if (promises::is.promise(promise)) {
-        self$session$wait_for(promise)
-        private$refresh_root()
-      }
+      private$live_session$wait_for(promise)
       invisible(self)
     }
   ),
 
   private = list(
-    root_id = NULL,
-
-    finalize = function() {
-      self$session$close()
-    },
-
-    check_active = function() {
-      if (new_chromote && !self$session$is_active()) {
-        suppressMessages({
-          self$session <- self$session$respawn()
-          private$refresh_root()
-        })
-      }
-    },
-
-    wait_for_selector = function(css, timeout = 5) {
-      done <- now() + timeout
-      while (now() < done) {
-        nodes <- private$find_nodes(css)
-        if (length(nodes) > 0) {
-          return(nodes)
-        }
-
-        Sys.sleep(0.1)
-      }
-      cli::cli_abort("Failed to find selector {.str {css}} in {timeout} seconds.")
-    },
-
-    find_nodes = function(css, xpath) {
-      check_exclusive(css, xpath)
-
-      if (!missing(css)) {
-        private$find_nodes_css(css)
-      } else {
-        private$find_nodes_xpath(xpath)
-      }
-    },
-
-    find_nodes_css = function(css, retry = TRUE) {
-      try_fetch(
-        unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds),
-        error = function(cnd) {
-          if (retry) {
-            Sys.sleep(0.1)
-            private$refresh_root()
-            private$find_nodes_css(css, retry = FALSE)
-          } else {
-            cli::cli_abort(
-              c(
-                "Failed to find selector.",
-                "i" = "The page may have changed after your last action.",
-                "*" = "Try using `wait_for = \"load\"` in the action that caused the navigation."
-              ),
-              parent = cnd
-            )
-          }
-        }
-      )
-    },
-
-    find_nodes_xpath = function(xpath, retry = TRUE) {
-      try_fetch(
-        {
-          search <- glue::glue("
-            (function() {{
-              const xpathResult = document.evaluate('{xpath}', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-              const nodes = [];
-              for (let i = 0; i < xpathResult.snapshotLength; i++) {{
-                nodes.push(xpathResult.snapshotItem(i));
-              }}
-              return(nodes);
-            }})();
-          ")
-
-          object_id <- self$session$Runtime$evaluate(search)$result$objectId
-          props <- self$session$Runtime$getProperties(object_id, ownProperties = TRUE)
-
-          ids <- map_chr(props$result, function(prop) prop$value$objectId %||% NA_character_)
-          # Drop non-nodes
-          ids <- ids[!is.na(ids)]
-
-          unlist(map(ids, self$session$DOM$requestNode), use.names = FALSE)
-        },
-        error = function(cnd) {
-          if (retry) {
-            Sys.sleep(0.1)
-            private$refresh_root()
-            private$find_nodes_xpath(xpath, retry = FALSE)
-          } else {
-            cli::cli_abort(
-              c(
-                "Failed to find xpath.",
-                "i" = "The page may have changed after your last action.",
-                "*" = "Try using `wait_for = \"load\"` in the action that caused the navigation."
-              ),
-              parent = cnd
-            )
-          }
-        }
-      )
-    },
-
-    # To support more `wait_for` keywords, add them here.
-    expand_promise = function(wait_for = NULL) {
-      if (identical(wait_for, "load")) {
-        self$session$Page$loadEventFired(wait_ = FALSE)
-      } else if (promises::is.promise(wait_for)) {
-        wait_for
-      } else {
-        NULL
-      }
-    },
-
-    # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-    call_node_method = function(node_id, method, ...) {
-      js_fun <- paste0("function() { return this", method, "}")
-      obj_id <- private$object_id(node_id)
-      # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
-      self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
-    },
-
-    object_id = function(node_id) {
-      # https://chromedevtools.github.io/devtools-protocol/tot/DOM/#method-resolveNode
-      self$session$DOM$resolveNode(node_id)$object$objectId
-    },
-
-    refresh_root = function(...) {
-      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
-    }
+    live_session = NULL
   )
 )
 
-now <- function() proc.time()[[3]]
+# S3 Methods -----------------------------------------------------------------
 
 #' @export
 html_table.LiveHTML <- function(x,
@@ -454,63 +228,4 @@ html_element.LiveHTML <- function(x, css, xpath) {
   } else {
     out[[1]]
   }
-}
-
-# helpers -----------------------------------------------------------------
-
-has_chromote <- function() {
-  tryCatch(
-    {
-      default <- chromote::default_chromote_object()
-      local_bindings(default_timeout = 5, .env = default)
-      startup <- default$new_session(wait_ = FALSE)
-      default$wait_for(startup)
-      TRUE
-    },
-    error = function(cnd) {
-      FALSE
-    }
-  )
-}
-
-
-as_key_desc <- function(key, modifiers = character(), error_call = caller_env()) {
-  check_string(key, call = error_call)
-  modifiers <- arg_match(
-    modifiers,
-    values = c("Alt", "Control", "Meta", "Shift"),
-    multiple = TRUE,
-    error_call = error_call
-  )
-
-  if (!has_name(keydefs, key)) {
-    cli::cli_abort("No key definition for {.str {key}}.")
-  }
-
-  def <- keydefs[[key]]
-  desc <- list()
-
-  desc$key <- def$key %||% ""
-  if ("Shift" %in% modifiers && has_name(def, "shiftKey")) {
-    desc$key <- def$shiftKey
-  }
-
-  desc$windowsVirtualKeyCode <- def$keyCode %||% 0
-  if ("Shift" %in% modifiers && has_name(def, "shiftKeyCode")) {
-    desc$windowsVirtualKeyCode <- def$shiftKeyCode
-  }
-
-  desc$code <- def$code %||% ""
-  desc$location <- def$location %||% 0
-
-  desc$text <- if (nchar(desc$key) == 1) def$key else def$text
-  # no elements have shiftText field
-
-  #  if any modifiers besides shift are pressed, no text should be sent
-  if (any(modifiers != "Shift")) {
-    desc$text <- ''
-  }
-
-  desc$modifiers <- sum(c(Alt = 1, Control = 2, Meta = 4, Shift = 8)[modifiers])
-  desc
 }
