@@ -80,10 +80,10 @@ XpathSelector <- R6::R6Class(
           object_id <- session$Runtime$evaluate(search)$result$objectId
           props <- session$Runtime$getProperties(object_id, ownProperties = TRUE)
 
-          ids <- purrr::map_chr(props$result, function(prop) prop$value$objectId %||% NA_character_)
+          ids <- map_chr(props$result, function(prop) prop$value$objectId %||% NA_character_)
           ids <- ids[!is.na(ids)]
 
-          unlist(purrr::map(ids, session$DOM$requestNode), use.names = FALSE)
+          unlist(map(ids, session$DOM$requestNode), use.names = FALSE)
         },
         error = function(cnd) {
           if (retry) {

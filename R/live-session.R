@@ -42,7 +42,7 @@ LiveSession <- R6::R6Class(
       nodes <- private$finder$find_nodes(strategy)
 
       # Imperative part: get the HTML strings from the browser
-      elements <- purrr::map_chr(nodes, function(node_id) {
+      elements <- map_chr(nodes, function(node_id) {
         private$finder$get_outer_html(node_id)
       })
 
