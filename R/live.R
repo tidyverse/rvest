@@ -27,16 +27,21 @@
 #' # When we retrieve the raw HTML for this site, it doesn't contain the
 #' # data we're interested in:
 #' static <- read_html("https://www.forbes.com/top-colleges/")
-#' static |> html_elements(".TopColleges2023_tableRow__BYOSU")
+#' static |> html_element("table")
 #'
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
-#'
-#' sess <- read_html_live("https://www.forbes.com/top-colleges/")
-#' sess$view()
-#' rows <- sess |> html_elements(".TopColleges2023_tableRow__BYOSU")
-#' rows |> html_element(".TopColleges2023_organizationName__J1lEV") |> html_text()
-#' rows |> html_element(".grant-aid") |> html_text()
+#' dynamic <- read_html_live("https://www.forbes.com/top-colleges/")
+#' # You may need to click the cookie consent banner if it appears
+#' dynamic$view()
+#' 
+#' # Now we can find the table
+#' dynamic |> html_element("table")
+#' 
+#' # And extract data from it
+#' dynamic |> 
+#'   html_element("table") |> 
+#'   html_table()
 #' }
 read_html_live <- function(url) {
   check_installed(c("chromote", "R6"))
@@ -125,7 +130,7 @@ LiveHTML <- R6::R6Class(
 
 
     #' @description Simulate a click on an HTML element.
-    #' @param css CSS selector or xpath expression.
+    #' @param css CSS selector.
     #' @param n_clicks Number of clicks
     click = function(css, n_clicks = 1) {
       private$check_active()
@@ -182,7 +187,7 @@ LiveHTML <- R6::R6Class(
     },
 
     #' @description Scroll selected element into view.
-    #' @param css CSS selector or xpath expression.
+    #' @param css CSS selector.
     scroll_into_view = function(css) {
       private$check_active()
       node <- private$wait_for_selector(css)
@@ -226,7 +231,7 @@ LiveHTML <- R6::R6Class(
     },
 
     #' @description Type text in the selected element
-    #' @param css CSS selector or xpath expression.
+    #' @param css CSS selector.
     #' @param text A single string containing the text to type.
     type = function(css, text) {
       private$check_active()
@@ -240,7 +245,7 @@ LiveHTML <- R6::R6Class(
     },
 
     #' @description Simulate pressing a single key (including special keys).
-    #' @param css CSS selector or xpath expression. Set to `NULL`
+    #' @param css CSS selector.
     #' @param key_code Name of key. You can see a complete list of known
     #'   keys at <https://pptr.dev/api/puppeteer.keyinput/>.
     #' @param modifiers A character vector of modifiers. Must be one or more
