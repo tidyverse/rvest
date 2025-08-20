@@ -6,7 +6,7 @@ test_that("basic session process works as expected", {
 
     s <- session_follow_link(s, css = "p a")
     session_history(s)
-  })
+  }, transform = function(x) gsub("Size: .*", "Size:   <size>", x))
 })
 
 test_that("session caches xml parsing and sets base url", {
@@ -103,4 +103,3 @@ test_that("can submit a form", {
   resp <- httr::content(s$response)
   expect_equal(resp$query, "x=1&y=2")
 })
-
