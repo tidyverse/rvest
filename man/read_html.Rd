@@ -29,7 +29,7 @@ encoding directive, this allows you to supply a default.}
   \item{PEDANTIC}{pedantic error reporting}
   \item{NOBLANKS}{remove blank nodes}
   \item{SAX1}{use the SAX1 interface internally}
-  \item{XINCLUDE}{Implement XInclude substitition}
+  \item{XINCLUDE}{Implement XInclude substitution}
   \item{NONET}{Forbid network access}
   \item{NODICT}{Do not reuse the context dictionary}
   \item{NSCLEAN}{remove redundant namespaces declarations}
