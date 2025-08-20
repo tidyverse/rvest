@@ -7,7 +7,7 @@
       <session> https://hadley.nz/
         Status: 200
         Type:   text/html; charset=utf-8
-        Size:   821905
+        Size:   <size>
     Code
       expect_true(is.session(s))
       s <- session_follow_link(s, css = "p a")
