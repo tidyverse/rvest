@@ -116,17 +116,17 @@ simple selector.</p></li>
 <span class="r-in"><span><span class="st">  &lt;p class='important'&gt;This is an important paragraph&lt;/p&gt;</span></span></span>
 <span class="r-in"><span><span class="st">"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {html_node}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;h1&gt;</span>
-<span class="r-in"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (2)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span>
-<span class="r-in"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (1)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span>
-<span class="r-in"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (1)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span>
 <span class="r-in"><span></span></span>
@@ -139,11 +139,11 @@ simple selector.</p></li>
 <span class="r-in"><span><span class="st">    &lt;li&gt;&lt;b&gt;R4-P17&lt;/b&gt; is a &lt;i&gt;droid&lt;/i&gt;&lt;/li&gt;</span></span></span>
 <span class="r-in"><span><span class="st">  &lt;/ul&gt;</span></span></span>
 <span class="r-in"><span><span class="st">"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">li</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">li</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">|&gt;</span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># When applied to a node set, html_elements() returns all matching elements</span></span></span>
 <span class="r-in"><span><span class="co"># beneath any of the inputs, flattening results into a new node set.</span></span></span>
-<span class="r-in"><span><span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">li</span> <span class="op">|&gt;</span> <span class="fu">html_elements</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (3)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;i&gt;droid&lt;/i&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;i&gt;droid&lt;/i&gt;</span>
@@ -151,16 +151,16 @@ simple selector.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># When applied to a node set, html_element() always returns a vector the</span></span></span>
 <span class="r-in"><span><span class="co"># same length as the input, using a "missing" element where needed.</span></span></span>
-<span class="r-in"><span><span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">li</span> <span class="op">|&gt;</span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (4)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;i&gt;droid&lt;/i&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] &lt;i&gt;droid&lt;/i&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] &lt;i&gt;droid&lt;/i&gt;</span>
 <span class="r-in"><span><span class="co"># and html_text() and html_attr() will return NA</span></span></span>
-<span class="r-in"><span><span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">li</span> <span class="op">|&gt;</span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "droid" "droid" NA      "droid"</span>
-<span class="r-in"><span><span class="va">li</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"span"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"class"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">li</span> <span class="op">|&gt;</span> <span class="fu">html_element</span><span class="op">(</span><span class="st">"span"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"class"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "weight" "weight" "weight" NA      </span>
 </code></pre></div>
     </div>

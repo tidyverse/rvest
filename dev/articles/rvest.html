@@ -240,17 +240,17 @@ web docs</a>.</p>
 <code><a href="../reference/html_element.html">html_elements()</a></code>. Both functions take a document<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Or another element, more on that shortly.&lt;/p&gt;"><sup>3</sup></a> and a css
 selector:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {html_node}</span></span>
 <span><span class="co">#&gt; &lt;h1&gt;</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span></span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_nodeset (2)}</span></span>
 <span><span class="co">#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span></span>
 <span><span class="co">#&gt; [2] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span></span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".important"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_nodeset (1)}</span></span>
 <span><span class="co">#&gt; [1] &lt;p class="important"&gt;This is an important paragraph&lt;/p&gt;</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span></span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"#first"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; {xml_nodeset (1)}</span></span>
 <span><span class="co">#&gt; [1] &lt;p id="first"&gt;This is a paragraph&lt;/p&gt;</span></span></code></pre></div>
 <p>Selectors can also be combined in various ways using
@@ -283,8 +283,8 @@ an HTML element:</p>
 <span><span class="st">    &lt;li&gt;pineapple&lt;/li&gt;</span></span>
 <span><span class="st">  &lt;/ol&gt;</span></span>
 <span><span class="st">"</span><span class="op">)</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "apple &amp; pear" "banana"       "pineapple"</span></span></code></pre></div>
 <p>Note that the escaped ampersand is automatically converted to
@@ -293,8 +293,8 @@ HTML, not in the data returned by rvest.</p>
 <p>You might wonder why I used <code><a href="../reference/html_text.html">html_text2()</a></code>, since it seems
 to give the same result as <code><a href="../reference/html_text.html">html_text()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "apple &amp; pear" "banana"       "pineapple"</span></span></code></pre></div>
 <p>The main difference is how the two functions handle white space. In
@@ -315,9 +315,9 @@ of white space that HTML ignores.</p>
 <p><code><a href="../reference/html_text.html">html_text2()</a></code> gives you what you expect: two paragraphs
 of text separated by a blank line.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; This is a paragraph.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -325,9 +325,9 @@ of text separated by a blank line.</p>
 <p>Whereas <code><a href="../reference/html_text.html">html_text()</a></code> returns the garbled raw underlying
 text:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"body"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_text.html">html_text</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   </span></span>
@@ -352,13 +352,13 @@ source of images (the <code>src</code> attribute of the
 <p>The value of an attribute can be retrieved with
 <code><a href="../reference/html_attr.html">html_attr()</a></code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "https://en.wikipedia.org/wiki/Cat"</span></span>
 <span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"src"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "https://cataas.com/cat"</span></span></code></pre></div>
 <p>Note that <code><a href="../reference/html_attr.html">html_attr()</a></code> always returns a string, so you
@@ -366,14 +366,14 @@ may need to post-process with
 <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>/<code><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">readr::parse_integer()</a></code> or
 similar.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "100"</span></span>
 <span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"img"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"width"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 100</span></span></code></pre></div>
 </div>
@@ -410,8 +410,8 @@ rows:</p>
 handy <code><a href="../reference/html_table.html">html_table()</a></code> which converts a table into a data
 frame:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/rename.html">html_node</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/rename.html">html_node</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
@@ -448,32 +448,32 @@ constructed using a few entries from <code><a href="https://dplyr.tidyverse.org/
 with one vector of length four and two vectors of length three, and no
 way to align them:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "C-3PO"  "R2-D2"  "Yoda"   "R4-P17"</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "droid" "droid" "droid"</span></span>
-<span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"</span></span></code></pre></div>
 <p>Instead, use <code><a href="../reference/html_element.html">html_elements()</a></code> to find a element that
 corresponds to each character, then use <code><a href="../reference/html_element.html">html_element()</a></code> to
 extract each variable for all observations:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">characters</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">characters</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"li"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "C-3PO"  "R2-D2"  "Yoda"   "R4-P17"</span></span>
-<span><span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "droid" "droid" NA      "droid"</span></span>
-<span><span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "167 kg" "96 kg"  "66 kg"  NA</span></span></code></pre></div>
 <p><code><a href="../reference/html_element.html">html_element()</a></code> automatically fills in <code>NA</code>
 when no elements match, keeping all of the variables aligned and making
 it easy to create a data frame:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  name <span class="op">=</span> <span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  species <span class="op">=</span> <span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  weight <span class="op">=</span> <span class="va">characters</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  name <span class="op">=</span> <span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  species <span class="op">=</span> <span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  weight <span class="op">=</span> <span class="va">characters</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".weight"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;     name species weight</span></span>
 <span><span class="co">#&gt; 1  C-3PO   droid 167 kg</span></span>

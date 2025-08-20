@@ -153,8 +153,8 @@ the desired movie titles and nothing else. In this case, it looks like
 SelectorGadget figured it out on the first try, and we can use the
 selector in our R code:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The Phantom Menace"</span></span></code></pre></div>
 </li>
@@ -185,10 +185,10 @@ unhiglighted and everything else is yellow. The discovered selector is
 <li>
 <p>This looks good, so we convert it to R code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".crawl p"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="va">.</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">html</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">".crawl p"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="va">_</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute."                                                                                                               </span></span>
 <span><span class="co">#&gt; [2] "Hoping to resolve the matter with a blockade of deadly battleships, the greedy Trade Federation has stopped all shipping to the small planet of Naboo."                                                                         </span></span>
 <span><span class="co">#&gt; [3] "While the Congress of the Republic endlessly debates this alarming chain of events, the Supreme Chancellor has secretly dispatched two Jedi Knights, the guardians of peace and justice in the galaxy, to settle the conflict…."</span></span>
@@ -201,7 +201,7 @@ find an element that identifies all the data for one movie. By carefully
 hovering, we can figure out that the <code>section</code> selector seems
 to do the job:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span></span>
 <span><span class="va">films</span></span>
 <span><span class="co">#&gt; {xml_nodeset (7)}</span></span>
 <span><span class="co">#&gt; [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nRelea ...</span></span>
@@ -213,8 +213,8 @@ to do the job:</p>
 <span><span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleas ...</span></span></code></pre></div>
 <p>Then we can get the title for each film:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">films</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span></span>
 <span><span class="co">#&gt; [3] "Revenge of the Sith"     "A New Hope"             </span></span>
@@ -222,10 +222,10 @@ to do the job:</p>
 <span><span class="co">#&gt; [7] "The Force Awakens"</span></span></code></pre></div>
 <p>And the contents of that intro:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".crawl"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">films</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/html_element.html">html_element</a></span><span class="op">(</span><span class="st">".crawl"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="va">_</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Turmoil has engulfed the Galactic Republic. The taxation of trade routes to outlying star systems is in dispute.</span></span>
 <span><span class="co">#&gt; </span></span>

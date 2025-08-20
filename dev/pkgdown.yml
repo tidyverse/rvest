@@ -6,7 +6,7 @@ articles:
   articles/selectorgadget: selectorgadget.html
   starwars-dynamic: starwars-dynamic.html
   starwars: starwars.html
-last_built: 2025-08-20T21:50Z
+last_built: 2025-08-20T22:40Z
 urls:
   reference: https://rvest.tidyverse.org/reference
   article: https://rvest.tidyverse.org/articles

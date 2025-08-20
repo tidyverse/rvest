@@ -185,7 +185,7 @@ encoding directive, this allows you to supply a default.</p></dd>
 <span class="r-in"><span><span class="co"># Then find elements that match a css selector or XPath expression</span></span></span>
 <span class="r-in"><span><span class="co"># using html_elements(). In this example, each &lt;section&gt; corresponds</span></span></span>
 <span class="r-in"><span><span class="co"># to a different film</span></span></span>
-<span class="r-in"><span><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">films</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="html_element.html">html_elements</a></span><span class="op">(</span><span class="st">"section"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">films</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {xml_nodeset (7)}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] &lt;section&gt;&lt;h2 data-id="1"&gt;\nThe Phantom Menace\n&lt;/h2&gt;\n&lt;p&gt;\nRelea ...</span>
@@ -198,8 +198,8 @@ encoding directive, this allows you to supply a default.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Then use html_element() to extract one element per film. Here</span></span></span>
 <span class="r-in"><span><span class="co"># we the title is given by the text inside &lt;h2&gt;</span></span></span>
-<span class="r-in"><span><span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="html_text.html">html_text2</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">title</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The Phantom Menace"      "Attack of the Clones"   </span>
@@ -209,9 +209,9 @@ encoding directive, this allows you to supply a default.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Or use html_attr() to get data out of attributes. html_attr() always</span></span></span>
 <span class="r-in"><span><span class="co"># returns a string so we convert it to an integer using a readr function</span></span></span>
-<span class="r-in"><span><span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"h2"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"data-id"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">parse_integer</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">episode</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6 7</span>
