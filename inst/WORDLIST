@@ -4,6 +4,7 @@ Codecov
 DTD
 HyperText
 IMDB
+JS
 LiveHTML
 MDN
 PBC
@@ -16,12 +17,10 @@ XPath
 arounds
 bookmarklet
 chromote
-cloneable
 colspan
 colspans
 combinator
 combinators
-config
 css
 fixup
 funder
@@ -36,7 +35,7 @@ nodeset
 rowspan
 rowspans
 selendir
-substitition
+starwars
 tibble
 tibbles
 tidyverse
