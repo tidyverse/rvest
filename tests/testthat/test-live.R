@@ -88,6 +88,13 @@ test_that("can press special keys",{
   expect_equal(html_text(html_element(sess, "#keyInfo")), "]/BracketRight")
 })
 
+test_that("can find elements after click that navigates", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("navigate1"))
+  sess$click("a")
+  expect_equal(html_text2(html_element(sess, "p")), "Success!")
+})
 
 # as_key_desc -------------------------------------------------------------
 
