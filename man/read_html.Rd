@@ -4,7 +4,12 @@
 \alias{read_html}
 \title{Static web scraping (with xml2)}
 \usage{
-read_html(x, encoding = "", ..., options = c("RECOVER", "NOERROR", "NOBLANKS"))
+read_html(
+  x,
+  encoding = "",
+  ...,
+  options = c("RECOVER", "NOERROR", "NOBLANKS", "HUGE")
+)
 }
 \arguments{
 \item{x}{Usually a string representing a URL. See \code{\link[xml2:read_xml]{xml2::read_html()}} for
