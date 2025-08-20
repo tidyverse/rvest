@@ -27,27 +27,20 @@
 #' # When we retrieve the raw HTML for this site, it doesn't contain the
 #' # data we're interested in:
 #' static <- read_html("https://www.forbes.com/top-colleges/")
-#' static %>% html_elements(".ListTable_listTable__-N5U5")
+#' static %>% html_element("table")
 #'
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
-#' sess <- read_html_live("https://www.forbes.com/top-colleges/")
-#' sess$view()
-#' Sys.sleep(2)
-#' cookies_seen <- length(html_elements(sess, "button[aria-label='Reject All']"))
-#' if (cookies_seen) {
-#'   sess$click("button[aria-label='Reject All']")
-#'   sess <- read_html_live("https://www.forbes.com/top-colleges/")
-#'   sess$view()
-#'   Sys.sleep(2)
-#' }
-#' table_seen <- length(html_elements(sess, "table"))
-#' if (table_seen) {
-#'   rows <- sess |> html_elements("table tr")
-#'   rows |>
-#'     html_elements("td:nth-of-type(2)") |>
-#'     html_text() |> 
-#'     print()
+#' dynamic <- read_html_live("https://www.forbes.com/top-colleges/")
+#' dynamic$view()
+#' 
+#' # Now we can find the table
+#' dynamic |> html_element("table")
+#' 
+#' # And extract data from it
+#' dynamic |> 
+#'   html_element("table") |> 
+#'   html_table()
 #' }
 read_html_live <- function(url) {
   check_installed(c("chromote", "R6"))
