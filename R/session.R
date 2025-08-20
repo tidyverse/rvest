@@ -39,46 +39,47 @@
 #' }
 session <- function(url, ...) {
   check_string(url)
-
-  session <-   structure(
-    list(
-      handle   = httr::handle(url),
-      config   = c(..., httr::config(autoreferer = 1L)),
-      response = NULL,
-      url      = NULL,
-      back     = character(),
-      forward  = character(),
-      cache    = new_environment()
-    ),
-    class = "rvest_session"
-  )
+  session <- rvest_session(httr::handle(url), c(..., httr::config(autoreferer = 1L)))
   session_get(session, url)
 }
 
-#' @export
-#' @rdname session
-is.session <- function(x) inherits(x, "rvest_session")
+rvest_session <- new_class(
+  "rvest_session",
+  package = "rvest",
+  properties = list(
+    handle = new_S3_class("handle"),
+    config = new_S3_class("request"),
+    response = NULL | new_S3_class("response"),
+    url = NULL | class_character,
+    back = class_character,
+    forward = class_character,
+    cache = class_environment
+  )
+)
 
 #' @export
-print.rvest_session <- function(x, ...) {
-  cat("<session> ", x$url, "\n", sep = "")
+#' @rdname session
+is.session <- function(x) S7_inherits(x, rvest_session)
+
+method(print, rvest_session) <- function(x, ...) {
+  cat("<session> ", x@url, "\n", sep = "")
   cat("  Status: ", httr::status_code(x), "\n", sep = "")
   cat("  Type:   ", httr::headers(x)$`Content-Type`, "\n", sep = "")
-  cat("  Size:   ", length(x$response$content), "\n", sep = "")
+  cat("  Size:   ", length(x@response$content), "\n", sep = "")
   invisible(x)
 }
 
 session_get <- function(x, url, ...) {
-  resp <- httr::GET(url, x$config, ..., handle = x$handle)
+  resp <- httr::GET(url, x@config, ..., handle = x@handle)
   session_set_response(x, resp)
 }
 
 session_set_response <- function(x, response) {
   httr::warn_for_status(response)
 
-  x$response <- response
-  x$url <- response$url
-  x$cache <- new_environment()
+  x@response <- response
+  x@url <- response$url
+  x@cache <- new_environment()
   x
 }
 
@@ -90,12 +91,12 @@ session_jump_to <- function(x, url, ...) {
   check_session(x)
   check_string(url)
 
-  url <- xml2::url_absolute(url, x$url)
-  last_url <- x$url
+  url <- xml2::url_absolute(url, x@url)
+  last_url <- x@url
 
   x <- session_get(x, url, ...)
-  x$back <- c(last_url, x$back)
-  x$forward <- character()
+  x@back <- c(last_url, x@back)
+  x@forward <- character()
   x
 }
 
@@ -147,16 +148,16 @@ find_href <- function(x, i, css, xpath, error_call = caller_env()) {
 session_back <- function(x) {
   check_session(x)
 
-  if (length(x$back) == 0) {
+  if (length(x@back) == 0) {
     cli::cli_abort("Can't go back any further.")
   }
 
-  url <- x$back[[1]]
-  x$back <- x$back[-1]
-  old_url <- x$url
+  url <- x@back[[1]]
+  x@back <- x@back[-1]
+  old_url <- x@url
 
   x <- session_get(x, url)
-  x$forward <- c(old_url, x$forward)
+  x@forward <- c(old_url, x@forward)
   x
 }
 
@@ -165,16 +166,16 @@ session_back <- function(x) {
 session_forward <- function(x) {
   check_session(x)
 
-  if (length(x$forward) == 0) {
+  if (length(x@forward) == 0) {
     cli::cli_abort("Can't go forward any further.")
   }
 
-  url <- x$forward[[1]]
-  old_url <- x$url
+  url <- x@forward[[1]]
+  old_url <- x@url
 
   x <- session_get(x, url)
-  x$forward <- x$forward[-1]
-  x$back <- c(old_url, x$back)
+  x@forward <- x@forward[-1]
+  x@back <- c(old_url, x@back)
   x
 }
 
@@ -183,8 +184,8 @@ session_forward <- function(x) {
 session_history <- function(x) {
   check_session(x)
 
-  urls <- c(rev(x$back), x$url, x$forward)
-  prefix <- rep(c("  ", "- ", "  "), c(length(x$back), 1, length(x$forward)))
+  urls <- c(rev(x@back), x@url, x@forward)
+  prefix <- rep(c("  ", "- ", "  "), c(length(x@back), 1, length(x@forward)))
   cat_line(prefix, urls)
 }
 
@@ -199,25 +200,27 @@ session_submit <- function(x, form, submit = NULL, ...) {
   check_form(form)
 
   subm <- submission_build(form, submit)
-  resp <- submission_submit(subm, x$config, ..., handle = x$handle)
+  resp <- submission_submit(subm, x@config, ..., handle = x@handle)
   session_set_response(x, resp)
 }
 
 # xml2 methods ------------------------------------------------------------
 
 #' @importFrom xml2 read_html
-#' @export
-read_html.rvest_session <- function(x, ...) {
-  if (!is_html(x$response)) {
+xml2_read_html <- new_external_generic("xml2", "read_html", "x")
+method(xml2_read_html, rvest_session) <- function(x, ...) {
+  if (!is_html(x@response)) {
     cli::cli_abort("Page doesn't appear to be html.")
   }
 
-  env_cache(x$cache, "html", read_html(x$response, ..., base_url = x$url))
+  env_cache(x@cache, "html", read_html(x@response, ..., base_url = x@url))
 }
 
 is_html <- function(x) {
   type <- httr::headers(x)$`Content-Type`
-  if (is.null(type)) return(FALSE)
+  if (is.null(type)) {
+    return(FALSE)
+  }
 
   parsed <- httr::parse_media(type)
   parsed$complete %in% c("text/html", "application/xhtml+xml")
@@ -225,19 +228,18 @@ is_html <- function(x) {
 
 # rvest methods -----------------------------------------------------------------
 
-#' @export
-html_form.rvest_session <- function(x, base_url = NULL) {
+method(html_form, rvest_session) <- function(x, base_url = NULL) {
   html_form(read_html(x), base_url = base_url)
 }
 
 #' @export
-html_table.rvest_session <- function(x,
-                               header = NA,
-                               trim = TRUE,
-                               fill = deprecated(),
-                               dec = ".",
-                               na.strings = "NA",
-                               convert = TRUE) {
+`html_table.rvest::rvest_session` <- function(x,
+                                              header = NA,
+                                              trim = TRUE,
+                                              fill = deprecated(),
+                                              dec = ".",
+                                              na.strings = "NA",
+                                              convert = TRUE) {
   html_table(
     read_html(x),
     header = header,
@@ -250,39 +252,39 @@ html_table.rvest_session <- function(x,
 }
 
 #' @export
-html_element.rvest_session <- function(x, css, xpath) {
+`html_element.rvest::rvest_session` <- function(x, css, xpath) {
   html_element(read_html(x), css, xpath)
 }
 
 #' @export
-html_elements.rvest_session <- function(x, css, xpath) {
+`html_elements.rvest::rvest_session` <- function(x, css, xpath) {
   html_elements(read_html(x), css, xpath)
 }
 
 # httr methods -----------------------------------------------------------------
 
 #' @importFrom httr status_code
-#' @export
-status_code.rvest_session <- function(x) {
-  status_code(x$response)
+httr_status_code <- new_external_generic("httr", "status_code", "x")
+method(httr_status_code, rvest_session) <- function(x) {
+  status_code(x@response)
 }
 
 #' @importFrom httr headers
-#' @export
-headers.rvest_session <- function(x) {
-  headers(x$response)
+httr_headers <- new_external_generic("httr", "headers", "x")
+method(httr_headers, rvest_session) <- function(x) {
+  headers(x@response)
 }
 
 #' @importFrom httr cookies
-#' @export
-cookies.rvest_session <- function(x) {
-  cookies(x$response)
+httr_cookies <- new_external_generic("httr", "cookies", "x")
+method(httr_cookies, rvest_session) <- function(x) {
+  cookies(x@response)
 }
 
 # helpers -----------------------------------------------------------------
 
 check_form <- function(x, call = caller_env()) {
-  if (!inherits(x, "rvest_form")) {
+  if (!S7_inherits(x, rvest_form)) {
     cli::cli_abort(
       "{.arg form} must be a single form produced by {.fn html_form}.",
       call = call
@@ -290,7 +292,7 @@ check_form <- function(x, call = caller_env()) {
   }
 }
 check_session <- function(x, call = caller_env()) {
-  if (!inherits(x, "rvest_session")) {
+  if (!S7_inherits(x, rvest_session)) {
     cli::cli_abort("{.arg x} must be produced by {.fn session}.", call = call)
   }
 }
