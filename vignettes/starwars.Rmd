@@ -12,11 +12,11 @@ This vignette contains some data about the Star Wars films for use in rvest exam
 ```{r, echo = FALSE, results = "asis"}
 library(rvest)
 crawl_html <- function(x) {
-  x %>% 
-    gsub("\r", "", .) %>% 
-    gsub("\n\n", "</p><p>", .) %>% 
-    gsub("\n", " ", .) %>% 
-    paste0("<p>", ., "</p>")
+  out <- x |> 
+    gsub("\r", "", x = _) |> 
+    gsub("\n\n", "</p><p>", x = _) |> 
+    gsub("\n", " ", x = _) 
+  paste0("<p>", out, "</p>")
 }
 
 film_desc <- function(x) {
