@@ -91,8 +91,6 @@ LiveHTML <- R6::R6Class(
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
-
-      private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
     },
 
     #' @description Called when `print()`ed
@@ -202,7 +200,7 @@ LiveHTML <- R6::R6Class(
 
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
       private$call_node_method(
-        private$root_id,
+        private$root_id(),
         paste0(".documentElement.scrollTo(", left, ", ", top, ")")
       )
       invisible(self)
@@ -262,8 +260,9 @@ LiveHTML <- R6::R6Class(
   ),
 
   private = list(
-    root_id = NULL,
-
+    root_id = function() {
+      self$session$DOM$getDocument()$root$nodeId
+    },
     finalize = function() {
       self$session$close()
     },
@@ -272,7 +271,6 @@ LiveHTML <- R6::R6Class(
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
           self$session <- self$session$respawn()
-          private$root_id <- self$session$DOM$getDocument(0)$root$nodeId
         })
       }
     },
@@ -293,7 +291,7 @@ LiveHTML <- R6::R6Class(
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(self$session$DOM$querySelectorAll(private$root_id, css)$nodeIds)
+        unlist(self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds)
       } else {
         search <- glue::glue("
           (function() {{
