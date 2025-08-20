@@ -128,7 +128,7 @@ Simulate a click on an HTML element.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css}}{CSS selector or xpath expression.}
+\item{\code{css}}{CSS selector.}
 
 \item{\code{n_clicks}}{Number of clicks}
 }
@@ -157,7 +157,7 @@ Scroll selected element into view.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css}}{CSS selector or xpath expression.}
+\item{\code{css}}{CSS selector.}
 }
 \if{html}{\out{</div>}}
 }
@@ -209,7 +209,7 @@ Type text in the selected element
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css}}{CSS selector or xpath expression.}
+\item{\code{css}}{CSS selector.}
 
 \item{\code{text}}{A single string containing the text to type.}
 }
@@ -228,7 +228,7 @@ Simulate pressing a single key (including special keys).
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{css}}{CSS selector or xpath expression. Set to \code{NULL}}
+\item{\code{css}}{CSS selector.}
 
 \item{\code{key_code}}{Name of key. You can see a complete list of known
 keys at \url{https://pptr.dev/api/puppeteer.keyinput/}.}
