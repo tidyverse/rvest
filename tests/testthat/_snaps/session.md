@@ -7,12 +7,12 @@
       <session> https://hadley.nz/
         Status: 200
         Type:   text/html; charset=utf-8
-        Size:   821273
+        Size:   <size>
     Code
       expect_true(is.session(s))
       s <- session_follow_link(s, css = "p a")
     Message
-      Navigating to <http://rstudio.com>.
+      Navigating to <https://posit.co>.
     Code
       session_history(s)
     Output

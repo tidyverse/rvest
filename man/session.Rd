@@ -69,12 +69,12 @@ and \code{\link[httr:status_code]{httr::status_code()}}.
 \examples{
 s <- session("http://hadley.nz")
 s \%>\%
-  session_jump_to("hadley-wickham.jpg") \%>\%
+  session_jump_to("hadley.jpg") \%>\%
   session_jump_to("/") \%>\%
   session_history()
 
 s \%>\%
-  session_jump_to("hadley-wickham.jpg") \%>\%
+  session_jump_to("hadley.jpg") \%>\%
   session_back() \%>\%
   session_history()
 

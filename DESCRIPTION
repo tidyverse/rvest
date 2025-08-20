@@ -3,7 +3,8 @@ Title: Easily Harvest (Scrape) Web Pages
 Version: 1.0.4.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre")),
-    person("Posit Software, PBC", role = c("cph", "fnd"))
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "03wc8by49"))
   )
 Description: Wrappers around the 'xml2' and 'httr' packages to make it
     easy to download, then manipulate, HTML and XML.
@@ -11,7 +12,7 @@ License: MIT + file LICENSE
 URL: https://rvest.tidyverse.org/, https://github.com/tidyverse/rvest
 BugReports: https://github.com/tidyverse/rvest/issues
 Depends:
-    R (>= 3.6)
+    R (>= 4.1)
 Imports:
     cli,
     glue,
@@ -21,11 +22,12 @@ Imports:
     rlang (>= 1.1.0),
     selectr,
     tibble,
-    xml2 (>= 1.3)
+    xml2 (>= 1.4.0)
 Suggests:
     chromote,
     covr,
     knitr,
+    purrr,
     R6,
     readr,
     repurrrsive,
@@ -33,6 +35,7 @@ Suggests:
     spelling,
     stringi (>= 0.3.1),
     testthat (>= 3.0.2),
+    tidyr,
     webfakes
 VignetteBuilder: 
     knitr
@@ -42,4 +45,4 @@ Config/testthat/parallel: true
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
