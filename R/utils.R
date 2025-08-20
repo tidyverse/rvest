@@ -1,10 +1,3 @@
-map_chr <- function(.x, .f, ...) {
-  vapply(.x, .f, ..., FUN.VALUE = character(1), USE.NAMES = FALSE)
-}
-map_lgl <- function(.x, .f, ...) {
-  vapply(.x, .f, ..., FUN.VALUE = logical(1), USE.NAMES = FALSE)
-}
-
 str_trunc <- function(x, width) {
   ifelse(nchar(x) <= width, x, paste0(substr(x, 1, width - 3), "..."))
 }
