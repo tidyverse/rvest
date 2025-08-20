@@ -32,6 +32,7 @@
 #' # Instead, we need to run the site in a real web browser, causing it to
 #' # download a JSON file and then dynamically generate the html:
 #' dynamic <- read_html_live("https://www.forbes.com/top-colleges/")
+#' # You may need to click the cookie consent banner if it appears
 #' dynamic$view()
 #' 
 #' # Now we can find the table
