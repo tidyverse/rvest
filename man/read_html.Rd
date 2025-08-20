@@ -4,7 +4,12 @@
 \alias{read_html}
 \title{Static web scraping (with xml2)}
 \usage{
-read_html(x, encoding = "", ..., options = c("RECOVER", "NOERROR", "NOBLANKS"))
+read_html(
+  x,
+  encoding = "",
+  ...,
+  options = c("RECOVER", "NOERROR", "NOBLANKS", "HUGE")
+)
 }
 \arguments{
 \item{x}{Usually a string representing a URL. See \code{\link[xml2:read_xml]{xml2::read_html()}} for
@@ -29,7 +34,7 @@ encoding directive, this allows you to supply a default.}
   \item{PEDANTIC}{pedantic error reporting}
   \item{NOBLANKS}{remove blank nodes}
   \item{SAX1}{use the SAX1 interface internally}
-  \item{XINCLUDE}{Implement XInclude substitition}
+  \item{XINCLUDE}{Implement XInclude substitution}
   \item{NONET}{Forbid network access}
   \item{NODICT}{Do not reuse the context dictionary}
   \item{NSCLEAN}{remove redundant namespaces declarations}
