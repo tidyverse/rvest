@@ -10,10 +10,10 @@ vignette: >
 ```{r, eval = FALSE, echo = FALSE}
 library(magrittr)
 crawl_html <- function(x) {
-  x %>% 
-    gsub("\r", "", .) %>% 
-    gsub("\n\n", "</p><p>", .) %>% 
-    gsub("\n", " ", .) %>% 
+  x |> 
+    gsub("\r", "", .) |> 
+    gsub("\n\n", "</p><p>", .) |> 
+    gsub("\n", " ", .) |> 
     paste0("<p>", ., "</p>")
 }
 

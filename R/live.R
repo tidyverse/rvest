@@ -72,11 +72,11 @@ read_html_live <- function(url) {
 #' sess <- read_html_live("https://www.bodybuilding.com/exercises/finder")
 #' sess$view()
 #'
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' sess$click(".ExLoadMore-btn")
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' sess$click(".ExLoadMore-btn")
-#' sess %>% html_elements(".ExResult-row") %>% length()
+#' sess |> html_elements(".ExResult-row") |> length()
 #' }
 LiveHTML <- R6::R6Class(
   "LiveHTML",

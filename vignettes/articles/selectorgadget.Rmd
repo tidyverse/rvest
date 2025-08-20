@@ -10,7 +10,11 @@ vignette: >
 
 ```{r}
 #| include: false
-knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+knitr::opts_chunk$set(
+  comment = "#>", 
+  collapse = TRUE,
+  eval = getRversion() >= "4.2.0" # uses _[[]]
+)
 library(rvest)
 ```
 
@@ -76,8 +80,8 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 4.  Scroll around the document to verify that we have selected all the desired movie titles and nothing else. In this case, it looks like SelectorGadget figured it out on the first try, and we can use the selector in our R code:
 
     ```{r}
-    html %>% 
-      html_element("h2") %>% 
+    html |> 
+      html_element("h2") |> 
       html_text2()
     ```
 
@@ -110,10 +114,10 @@ Now let's try something a little more challenging: selecting all paragraphs of t
 3.  This looks good, so we convert it to R code:
 
     ```{r}
-    html %>% 
-      html_elements(".crawl p") %>% 
-      html_text2() %>% 
-      .[1:4]
+    html |> 
+      html_elements(".crawl p") |> 
+      html_text2() |> 
+      _[1:4]
     ```
 
 This is correct, but we've lost the connection between title and intro.
@@ -121,25 +125,25 @@ To fix this problem we need to take a step back and see if we can find an elemen
 By carefully hovering, we can figure out that the `section` selector seems to do the job:
 
 ```{r}
-films <- html %>% html_elements("section")
+films <- html |> html_elements("section")
 films
 ```
 
 Then we can get the title for each film:
 
 ```{r}
-films %>% 
-  html_element("h2") %>% 
+films |> 
+  html_element("h2") |> 
   html_text2()
 ```
 
 And the contents of that intro:
 
 ```{r}
-films %>% 
-  html_element(".crawl") %>% 
-  html_text2() %>% 
-  .[[1]] %>% 
+films |> 
+  html_element(".crawl") |>
+  html_text2() |> 
+  _[[1]] |> 
   writeLines()
 ```
 

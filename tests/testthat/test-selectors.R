@@ -35,26 +35,27 @@ test_that("css class selects from current value", {
 
 test_that("css selects don't select themselves", {
   test <- read_html(test_path("test.html"))
-  p <- test %>% html_elements("p") %>% html_elements("p")
+  p <- test |> html_elements("p") |> html_elements("p")
   expect_equal(length(p), 0)
 
-  p <- test %>% html_elements("p") %>% `[[`(1) %>% html_elements("p")
+  ps <- test |> html_elements("p") 
+  p <- ps[[1]] |> html_elements("p")
   expect_equal(length(p), 0)
 })
 
 test_that("css selects find all children", {
   test <- read_html(test_path("test.html"))
-  b <- test %>% html_elements("body") %>% html_elements("b")
+  b <- test |> html_elements("body") |> html_elements("b")
   expect_equal(length(b), 3)
 })
 
 test_that("empty matches returns empty list", {
   test <- read_html(test_path("test.html"))
-  none <- test %>% html_elements("none")
+  none <- test |> html_elements("none")
   expect_equal(length(none), 0)
 
-  expect_equal(none %>% html_element("none") %>% length(), 0)
-  expect_equal(none %>% html_elements("none") %>% length(), 0)
+  expect_equal(none |> html_element("none") |> length(), 0)
+  expect_equal(none |> html_elements("none") |> length(), 0)
 })
 
 # make_selector -----------------------------------------------------------

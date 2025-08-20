@@ -145,10 +145,10 @@ Both functions take a document[^3] and a css selector:
 [^3]: Or another element, more on that shortly.
 
 ```{r}
-html %>% html_element("h1")
-html %>% html_elements("p")
-html %>% html_elements(".important")
-html %>% html_elements("#first")
+html |> html_element("h1")
+html |> html_elements("p")
+html |> html_elements(".important")
+html |> html_elements("#first")
 ```
 
 Selectors can also be combined in various ways using **combinators**.
@@ -174,8 +174,8 @@ html <- minimal_html("
     <li>pineapple</li>
   </ol>
 ")
-html %>% 
-  html_elements("li") %>% 
+html |> 
+  html_elements("li") |> 
   html_text2()
 ```
 
@@ -184,8 +184,8 @@ Note that the escaped ampersand is automatically converted to `&`; you'll only e
 You might wonder why I used `html_text2()`, since it seems to give the same result as `html_text()`:
 
 ```{r}
-html %>% 
-  html_elements("li") %>% 
+html |> 
+  html_elements("li") |> 
   html_text()
 ```
 
@@ -209,18 +209,18 @@ html <- minimal_html("<body>
 `html_text2()` gives you what you expect: two paragraphs of text separated by a blank line.
 
 ```{r}
-html %>% 
-  html_element("body") %>% 
-  html_text2() %>% 
+html |> 
+  html_element("body") |> 
+  html_text2() |> 
   cat()
 ```
 
 Whereas `html_text()` returns the garbled raw underlying text:
 
 ```{r}
-html %>% 
-  html_element("body") %>% 
-  html_text() %>% 
+html |> 
+  html_element("body") |> 
+  html_text() |> 
   cat()
 ```
 
@@ -239,25 +239,25 @@ html <- minimal_html("
 The value of an attribute can be retrieved with `html_attr()`:
 
 ```{r}
-html %>% 
-  html_elements("a") %>% 
+html |> 
+  html_elements("a") |> 
   html_attr("href")
 
-html %>% 
-  html_elements("img") %>% 
+html |> 
+  html_elements("img") |> 
   html_attr("src")
 ```
 
 Note that `html_attr()` always returns a string, so you may need to post-process with `as.integer()`/`readr::parse_integer()` or similar.
 
 ```{r}
-html %>% 
-  html_elements("img") %>% 
+html |> 
+  html_elements("img") |> 
   html_attr("width")
 
-html %>% 
-  html_elements("img") %>% 
-  html_attr("width") %>% 
+html |> 
+  html_elements("img") |> 
+  html_attr("width") |> 
   as.integer()
 ```
 
@@ -292,8 +292,8 @@ html <- minimal_html("
 Because tables are a common way to store data, rvest includes the handy `html_table()` which converts a table into a data frame:
 
 ```{r}
-html %>% 
-  html_node("table") %>% 
+html |> 
+  html_node("table") |> 
   html_table()
 ```
 
@@ -319,27 +319,27 @@ html <- minimal_html("
 If you try to extract name, species, and weight directly, you end up with one vector of length four and two vectors of length three, and no way to align them:
 
 ```{r}
-html %>% html_elements("b") %>% html_text2()
-html %>% html_elements("i") %>% html_text2()
-html %>% html_elements(".weight") %>% html_text2()
+html |> html_elements("b") |> html_text2()
+html |> html_elements("i") |> html_text2()
+html |> html_elements(".weight") |> html_text2()
 ```
 
 Instead, use `html_elements()` to find a element that corresponds to each character, then use `html_element()` to extract each variable for all observations:
 
 ```{r}
-characters <- html %>% html_elements("li")
+characters <- html |> html_elements("li")
 
-characters %>% html_element("b") %>% html_text2()
-characters %>% html_element("i") %>% html_text2()
-characters %>% html_element(".weight") %>% html_text2()
+characters |> html_element("b") |> html_text2()
+characters |> html_element("i") |> html_text2()
+characters |> html_element(".weight") |> html_text2()
 ```
 
 `html_element()` automatically fills in `NA` when no elements match, keeping all of the variables aligned and making it easy to create a data frame:
 
 ```{r}
 data.frame(
-  name = characters %>% html_element("b") %>% html_text2(),
-  species = characters %>% html_element("i") %>% html_text2(),
-  weight = characters %>% html_element(".weight") %>% html_text2()
+  name = characters |> html_element("b") |> html_text2(),
+  species = characters |> html_element("i") |> html_text2(),
+  weight = characters |> html_element(".weight") |> html_text2()
 )
 ```
