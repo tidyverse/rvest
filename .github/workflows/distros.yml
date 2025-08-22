@@ -1,0 +1,38 @@
+name: Distros
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rhel:
+    runs-on: ubuntu-24.04${{matrix.arch=='arm64' && '-arm' || ''}}
+    name: ${{ matrix.distro }} ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [ 'rocky-8', 'rocky-9', 'debian-13', 'debian-14']
+        arch: [ 'amd64', 'arm64' ]
+    container:
+      image: ghcr.io/r-devel/${{ matrix.distro }}:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: '"--no-manual"'
+        env:
+          NOT_CRAN: false
+          _R_CHECK_DOC_SIZES_: FALSE
+          LANG: en_US.UTF-8
