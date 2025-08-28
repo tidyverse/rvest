@@ -32,7 +32,7 @@ test_that("has useful print method", {
 
 
 test_that("select options are named character vector", {
-  select <- minimal_html("select parsing", '
+  select <- minimal_html('
     <form>
       <select name="x">
         <option value="1">a</option>
@@ -46,7 +46,7 @@ test_that("select options are named character vector", {
 })
 
 test_that("select values are inherited from names", {
-  page <- minimal_html("optional values", '
+  page <- minimal_html('
     <select name="b" id="a">
       <option value="1">x</option>
       <option>y</option>
@@ -58,7 +58,7 @@ test_that("select values are inherited from names", {
 })
 
 test_that("parse_fields gets the button", {
-  select <- minimal_html("button test", '
+  select <- minimal_html('
     <form>
       <button type="submit">Click me</button>
     </form>
@@ -77,7 +77,7 @@ test_that("handles different encoding types", {
 })
 
 test_that("validates its inputs", {
-  select <- minimal_html("button test", '
+  select <- minimal_html('
     <form>
       <button type="submit">Click me</button>
     </form>
