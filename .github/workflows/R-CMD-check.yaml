@@ -30,7 +30,7 @@ jobs:
           - {os: windows-latest, r: 'oldrel-4'}
 
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'release', testlive: true}
           - {os: ubuntu-latest,  r: 'oldrel-1'}
           - {os: ubuntu-latest,  r: 'oldrel-2'}
           - {os: ubuntu-latest,  r: 'oldrel-3'}
@@ -60,3 +60,5 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+        env:
+          testlive: ${{ matrix.config.testlive }}

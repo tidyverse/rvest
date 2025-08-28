@@ -40,6 +40,9 @@ show_response <- function(x) {
 skip_if_no_chromote <- function() {
   skip_on_cran()
   skip_if(lacks_chromote(), "chromote not available")
+
+  # On CI we have to opt-in to testlive
+  skip_if(Sys.getenv("CI") == "true" && Sys.getenv('testlive') == "")
 }
 
 lacks_chromote <- function() {
