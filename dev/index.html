@@ -120,9 +120,8 @@
 <span><span class="co">#&gt; [4] &lt;section&gt;&lt;h2 data-id="4"&gt;\nA New Hope\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1977-05-25\n ...</span></span>
 <span><span class="co">#&gt; [5] &lt;section&gt;&lt;h2 data-id="5"&gt;\nThe Empire Strikes Back\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: ...</span></span>
 <span><span class="co">#&gt; [6] &lt;section&gt;&lt;h2 data-id="6"&gt;\nReturn of the Jedi\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 1983 ...</span></span>
-<span><span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [7] &lt;section&gt;&lt;h2 data-id="7"&gt;\nThe Force Awakens\n&lt;/h2&gt;\n&lt;p&gt;\nReleased: 2015- ...</span></span>
+<span></span>
 <span><span class="co"># Then use html_element() to extract one element per film. Here</span></span>
 <span><span class="co"># we the title is given by the text inside &lt;h2&gt;</span></span>
 <span><span class="va">title</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">|&gt;</span> </span>
@@ -132,9 +131,8 @@
 <span><span class="co">#&gt; [1] "The Phantom Menace"      "Attack of the Clones"   </span></span>
 <span><span class="co">#&gt; [3] "Revenge of the Sith"     "A New Hope"             </span></span>
 <span><span class="co">#&gt; [5] "The Empire Strikes Back" "Return of the Jedi"     </span></span>
-<span><span class="co">#&gt; [7] "The Force Awakens"</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [7] "The Force Awakens"</span></span>
+<span></span>
 <span><span class="co"># Or use html_attr() to get data out of attributes. html_attr() always</span></span>
 <span><span class="co"># returns a string so we convert it to an integer using a readr function</span></span>
 <span><span class="va">episode</span> <span class="op">&lt;-</span> <span class="va">films</span> <span class="op">|&gt;</span> </span>
@@ -144,7 +142,7 @@
 <span><span class="va">episode</span></span>
 <span><span class="co">#&gt; [1] 1 2 3 4 5 6 7</span></span></code></pre></div>
 <p>If the page contains tabular data you can convert it directly to a data frame with <code><a href="reference/html_table.html">html_table()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_html.html">read_html</a></span><span class="op">(</span><span class="st">"https://en.wikipedia.org/w/index.php?title=The_Lego_Movie&amp;oldid=998422565"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">html</span> <span class="op">|&gt;</span> </span>
