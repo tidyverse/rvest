@@ -1,4 +1,4 @@
-# rvest (development version)
+# rvest 1.0.5
 
 * Fixes `LiveHTML` objects returning 'could not find node with given id' errors if a page navigation occurred after a `$click()` event (#405).
 
