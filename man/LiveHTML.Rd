@@ -231,7 +231,7 @@ Simulate pressing a single key (including special keys).
 \item{\code{css}}{CSS selector.}
 
 \item{\code{key_code}}{Name of key. You can see a complete list of known
-keys at \url{https://pptr.dev/api/puppeteer.keyinput/}.}
+keys at \url{https://pptr.dev/api/puppeteer.keyinput}.}
 
 \item{\code{modifiers}}{A character vector of modifiers. Must be one or more
 of \verb{"Shift}, \code{"Control"}, \code{"Alt"}, or \code{"Meta"}.}

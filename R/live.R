@@ -247,7 +247,7 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate pressing a single key (including special keys).
     #' @param css CSS selector.
     #' @param key_code Name of key. You can see a complete list of known
-    #'   keys at <https://pptr.dev/api/puppeteer.keyinput/>.
+    #'   keys at <https://pptr.dev/api/puppeteer.keyinput>.
     #' @param modifiers A character vector of modifiers. Must be one or more
     #'   of `"Shift`, `"Control"`, `"Alt"`, or `"Meta"`.
     press = function(css, key_code, modifiers = character()) {
