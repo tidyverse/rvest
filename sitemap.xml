@@ -1,99 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rvest.tidyverse.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/articles/rvest.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/articles/selectorgadget.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/articles/starwars.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/LiveHTML.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/google_form.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_attr.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_children.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_element.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_encoding_guess.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_form.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_name.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_table.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/html_text.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/minimal_html.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/read_html.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/read_html_live.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/rename.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/repair_encoding.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/rvest-package.html</loc>
-  </url>
-  <url>
-    <loc>https://rvest.tidyverse.org/reference/session.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rvest.tidyverse.org/404.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/LICENSE-text.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/LICENSE.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/SUPPORT.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/articles/index.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/articles/rvest.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/articles/selectorgadget.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/articles/starwars-dynamic.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/articles/starwars.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/authors.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/index.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/news/index.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/LiveHTML.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/google_form.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_attr.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_children.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_element.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_encoding_guess.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_form.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_name.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_table.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/html_text.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/index.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/minimal_html.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/read_html.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/read_html_live.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/reexports.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/rename.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/repair_encoding.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/rvest-package.html</loc></url>
+<url><loc>https://rvest.tidyverse.org/reference/session.html</loc></url>
 </urlset>
+

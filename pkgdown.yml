@@ -1,12 +1,12 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  selectorgadget: selectorgadget.html
   rvest: rvest.html
+  articles/selectorgadget: selectorgadget.html
+  starwars-dynamic: starwars-dynamic.html
   starwars: starwars.html
-last_built: 2024-02-12T22:02Z
+last_built: 2025-08-29T14:10Z
 urls:
   reference: https://rvest.tidyverse.org/reference
   article: https://rvest.tidyverse.org/articles
-
