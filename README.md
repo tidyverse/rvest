@@ -57,9 +57,6 @@ films
 #> [5] <section><h2 data-id="5">\nThe Empire Strikes Back\n</h2>\n<p>\nReleased: ...
 #> [6] <section><h2 data-id="6">\nReturn of the Jedi\n</h2>\n<p>\nReleased: 1983 ...
 #> [7] <section><h2 data-id="7">\nThe Force Awakens\n</h2>\n<p>\nReleased: 2015- ...
-```
-
-``` r
 
 # Then use html_element() to extract one element per film. Here
 # we the title is given by the text inside <h2>
@@ -71,9 +68,6 @@ title
 #> [3] "Revenge of the Sith"     "A New Hope"             
 #> [5] "The Empire Strikes Back" "Return of the Jedi"     
 #> [7] "The Force Awakens"
-```
-
-``` r
 
 # Or use html_attr() to get data out of attributes. html_attr() always
 # returns a string so we convert it to an integer using a readr function
