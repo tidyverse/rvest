@@ -38,7 +38,7 @@ test_that("css selects don't select themselves", {
   p <- test |> html_elements("p") |> html_elements("p")
   expect_equal(length(p), 0)
 
-  ps <- test |> html_elements("p") 
+  ps <- test |> html_elements("p")
   p <- ps[[1]] |> html_elements("p")
   expect_equal(length(p), 0)
 })

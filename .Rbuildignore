@@ -15,3 +15,5 @@
 ^vignettes/articles$
 ^CRAN-SUBMISSION$
 ^data-raw$
+^[.]?air[.]toml$
+^\.vscode$

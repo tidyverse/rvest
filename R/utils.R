@@ -8,7 +8,11 @@ str_trunc <- function(x, width) {
 #' @export
 #' @keywords internal
 google_form <- function(x) {
-  xml2::read_html(httr::GET(paste0("https://docs.google.com/forms/d/", x, "/viewform")))
+  xml2::read_html(httr::GET(paste0(
+    "https://docs.google.com/forms/d/",
+    x,
+    "/viewform"
+  )))
 }
 
 #' Create an HTML document from inline HTML
@@ -24,7 +28,9 @@ minimal_html <- function(html, title = "") {
   xml2::read_html(paste0(
     "<!doctype html>\n",
     "<meta charset=utf-8>\n",
-    "<title>", title, "</title>\n",
+    "<title>",
+    title,
+    "</title>\n",
     html
   ))
 }

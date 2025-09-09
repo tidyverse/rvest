@@ -59,7 +59,8 @@ html_form.xml_node <- function(x, base_url = NULL) {
 
   nodes <- html_elements(x, "input, select, textarea, button")
   fields <- lapply(nodes, function(x) {
-    switch(xml2::xml_name(x),
+    switch(
+      xml2::xml_name(x),
       textarea = parse_textarea(x),
       input = parse_input(x),
       select = parse_select(x),
@@ -76,7 +77,8 @@ html_form.xml_node <- function(x, base_url = NULL) {
       enctype = enctype,
       fields = fields
     ),
-    class = "rvest_form")
+    class = "rvest_form"
+  )
 }
 
 #' @export
@@ -107,7 +109,9 @@ html_form_set <- function(form, ...) {
     if (type == "hidden") {
       cli::cli_warn("Setting value of hidden field {.str {field}}.")
     } else if (type == "submit") {
-      cli::cli_abort("Can't change value of input with type submit: {.str {field}}.")
+      cli::cli_abort(
+        "Can't change value of input with type submit: {.str {field}}."
+      )
     }
 
     form$fields[[field]]$value <- new_values[[field]]
@@ -134,12 +138,18 @@ html_form_submit <- function(form, submit = NULL) {
 submission_build <- function(form, submit, error_call = caller_env()) {
   method <- form$method
   if (!(method %in% c("POST", "GET"))) {
-    cli::cli_warn("Invalid method ({method}), defaulting to GET.", call = error_call)
+    cli::cli_warn(
+      "Invalid method ({method}), defaulting to GET.",
+      call = error_call
+    )
     method <- "GET"
   }
 
   if (length(form$action) == 0) {
-    cli::cli_abort("`form` doesn't contain a `action` attribute.", call = error_call)
+    cli::cli_abort(
+      "`form` doesn't contain a `action` attribute.",
+      call = error_call
+    )
   }
 
   list(
@@ -158,7 +168,11 @@ submission_submit <- function(x, ...) {
   }
 }
 
-submission_build_values <- function(form, submit = NULL, error_call = caller_env()) {
+submission_build_values <- function(
+  form,
+  submit = NULL,
+  error_call = caller_env()
+) {
   fields <- form$fields
   submit <- submission_find_submit(fields, submit, error_call = error_call)
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
@@ -171,7 +185,10 @@ submission_build_values <- function(form, submit = NULL, error_call = caller_env
   values <- lapply(entry_list, function(x) as.character(x$value))
   names <- map_chr(entry_list, "[[", "name")
 
-  out <- set_names(unlist(values, use.names = FALSE), rep(names, lengths(values)))
+  out <- set_names(
+    unlist(values, use.names = FALSE),
+    rep(names, lengths(values))
+  )
   as.list(out)
 }
 
@@ -281,7 +298,7 @@ parse_options <- function(options) {
   }
 
   parsed <- lapply(options, parse_option)
-  value <-  map_chr(parsed, "[[", "value")
+  value <- map_chr(parsed, "[[", "value")
   name <- map_chr(parsed, "[[", "name")
   selected <- map_lgl(parsed, "[[", "selected")
 
