@@ -78,3 +78,6 @@ html |>
   html_element(".tracklist") |> 
   html_table()
 ```
+## Getting Started
+
+Here is a [vignette](https://rvest.tidyverse.org/articles/rvest.html) to help you get started!
