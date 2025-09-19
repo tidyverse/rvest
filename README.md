@@ -103,3 +103,8 @@ html |>
 #> 10 10.   "\"Saloons and Wagons\""    ""                                   3:38  
 #> # ℹ 19 more rows
 ```
+
+## Getting Started
+
+Here is a [vignette](https://rvest.tidyverse.org/articles/rvest.html) to
+help you get started!
