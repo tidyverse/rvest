@@ -1,5 +1,10 @@
 # rvest (development version)
 
+* `read_html_live()` no longer fails with "invalid 'x' type in 'x && y'" when
+  chromote is installed after rvest is loaded. `.onLoad` now correctly records
+  the chromote availability in both branches, so the internal `new_chromote`
+  flag can no longer remain `NULL`.
+
 # rvest 1.0.5
 
 * Fixes `LiveHTML` objects returning 'could not find node with given id' errors if a page navigation occurred after a `$click()` event (#405).
