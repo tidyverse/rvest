@@ -1,12 +1,15 @@
 test_that("basic session process works as expected", {
-  expect_snapshot({
-    s <- session("http://hadley.nz/")
-    s
-    expect_true(is.session(s))
+  expect_snapshot(
+    {
+      s <- session("http://hadley.nz/")
+      s
+      expect_true(is.session(s))
 
-    s <- session_follow_link(s, css = "p a")
-    session_history(s)
-  }, transform = function(x) gsub("Size: .*", "Size:   <size>", x))
+      s <- session_follow_link(s, css = "p a")
+      session_history(s)
+    },
+    transform = function(x) gsub("Size: .*", "Size:   <size>", x)
+  )
 })
 
 test_that("session caches xml parsing and sets base url", {
@@ -69,10 +72,12 @@ test_that("can navigate back and forward", {
 })
 
 test_that("can find link by position, content, css, or xpath", {
-  html <- minimal_html("
+  html <- minimal_html(
+    "
     <a href='a'>a</a>
     <a href='b' class='b'>b</a>
-  ")
+  "
+  )
 
   expect_equal(find_href(html, i = 1), "a")
   expect_equal(find_href(html, i = "b"), "b")
@@ -88,12 +93,14 @@ test_that("can find link by position, content, css, or xpath", {
 test_that("can submit a form", {
   app <- local_test_app()
 
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form action="/">
     <input type="text", name="x" value="1">
     <input type="text", name="y" value="2">
     </form>
-  ')
+  '
+  )
   form <- html_form(html, base_url = app$url())[[1]]
 
   s <- session("http://hadley.nz/")

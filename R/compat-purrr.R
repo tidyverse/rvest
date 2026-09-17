@@ -74,11 +74,16 @@ imap <- function(.x, .f, ...) {
 pmap <- function(.l, .f, ...) {
   .f <- as.function(.f)
   args <- .rlang_purrr_args_recycle(.l)
-  do.call("mapply", c(
-    FUN = list(quote(.f)),
-    args, MoreArgs = quote(list(...)),
-    SIMPLIFY = FALSE, USE.NAMES = FALSE
-  ))
+  do.call(
+    "mapply",
+    c(
+      FUN = list(quote(.f)),
+      args,
+      MoreArgs = quote(list(...)),
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
+  )
 }
 .rlang_purrr_args_recycle <- function(args) {
   lengths <- map_int(args, length)

@@ -55,15 +55,15 @@
 #' sample3 |>
 #'   html_element("table") |>
 #'   html_table()
-html_table <- function(x,
-                       header = NA,
-                       trim = TRUE,
-                       fill = deprecated(),
-                       dec = ".",
-                       na.strings = "NA",
-                       convert = TRUE
-  ) {
-
+html_table <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   check_bool(header, allow_na = TRUE)
   check_bool(trim)
   check_string(dec)
@@ -74,13 +74,15 @@ html_table <- function(x,
 }
 
 #' @export
-html_table.xml_document <- function(x,
-                                    header = NA,
-                                    trim = TRUE,
-                                    fill = deprecated(),
-                                    dec = ".",
-                                    na.strings = "NA",
-                                    convert = TRUE) {
+html_table.xml_document <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   tables <- xml2::xml_find_all(x, ".//table")
   html_table(
     tables,
@@ -94,13 +96,15 @@ html_table.xml_document <- function(x,
 }
 
 #' @export
-html_table.xml_nodeset <- function(x,
-                                   header = NA,
-                                   trim = TRUE,
-                                   fill = deprecated(),
-                                   dec = ".",
-                                   na.strings = "NA",
-                                   convert = TRUE) {
+html_table.xml_nodeset <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   lapply(
     x,
     html_table,
@@ -114,14 +118,15 @@ html_table.xml_nodeset <- function(x,
 }
 
 #' @export
-html_table.xml_node <- function(x,
-                                header = NA,
-                                trim = TRUE,
-                                fill = deprecated(),
-                                dec = ".",
-                                na.strings = "NA",
-                                convert = TRUE) {
-
+html_table.xml_node <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   if (lifecycle::is_present(fill) && !isTRUE(fill)) {
     lifecycle::deprecate_warn(
       when = "1.0.0",
@@ -157,7 +162,7 @@ html_table.xml_node <- function(x,
 
   if (isTRUE(convert)) {
     df[] <- lapply(df, function(x) {
-        utils::type.convert(x, as.is = TRUE, dec = dec, na.strings = na.strings)
+      utils::type.convert(x, as.is = TRUE, dec = dec, na.strings = na.strings)
     })
   }
 
@@ -194,7 +199,7 @@ table_fill <- function(cells, trim = TRUE) {
     vals <- rep(NA_character_, width)
     col <- 1
     j <- 1
-    while(j <= length(row)) {
+    while (j <= length(row)) {
       if (col %in% dw$col) {
         cell <- dw_find(dw, col)
         cell_text <- cell$text
@@ -214,7 +219,7 @@ table_fill <- function(cells, trim = TRUE) {
     }
 
     # Add any downward cells after last <td>
-    for(j in seq2(col - 1L, width)) {
+    for (j in seq2(col - 1L, width)) {
       if (j %in% dw$col) {
         cell <- dw_find(dw, j)
         vals[j:(j + cell$colspan - 1L)] <- cell$text
@@ -266,8 +271,8 @@ dw_init <- function() {
 }
 
 dw_add <- function(dw, col, rowspan, colspan, text) {
-  dw$col <-     c(dw$col, col)
-  dw$text <-    c(dw$text, text)
+  dw$col <- c(dw$col, col)
+  dw$text <- c(dw$text, text)
   dw$rowspan <- c(dw$rowspan, rowspan)
   dw$colspan <- c(dw$colspan, colspan)
   dw
@@ -277,8 +282,8 @@ dw_prune <- function(dw) {
   dw$rowspan <- dw$rowspan - 1L
   keep <- dw$rowspan > 0L
 
-  dw$col <-     dw$col[keep]
-  dw$text <-    dw$text[keep]
+  dw$col <- dw$col[keep]
+  dw$text <- dw$text[keep]
   dw$rowspan <- dw$rowspan[keep]
   dw$colspan <- dw$colspan[keep]
   dw

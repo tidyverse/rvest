@@ -34,13 +34,13 @@
 #' dynamic <- read_html_live("https://www.forbes.com/top-colleges/")
 #' # You may need to click the cookie consent banner if it appears
 #' dynamic$view()
-#' 
+#'
 #' # Now we can find the table
 #' dynamic |> html_element("table")
-#' 
+#'
 #' # And extract data from it
-#' dynamic |> 
-#'   html_element("table") |> 
+#' dynamic |>
+#'   html_element("table") |>
 #'   html_table()
 #' }
 read_html_live <- function(url) {
@@ -90,7 +90,9 @@ LiveHTML <- R6::R6Class(
       check_installed("chromote")
       self$session <- chromote::ChromoteSession$new()
 
-      self$session$Network$setUserAgentOverride("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
+      self$session$Network$setUserAgentOverride(
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+      )
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
@@ -127,7 +129,6 @@ LiveHTML <- R6::R6Class(
       html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
       xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
     },
-
 
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector.
@@ -282,7 +283,7 @@ LiveHTML <- R6::R6Class(
 
     wait_for_selector = function(css, timeout = 5) {
       done <- now() + timeout
-      while(now() < done) {
+      while (now() < done) {
         nodes <- private$find_nodes(css)
         if (length(nodes) > 0) {
           return(nodes)
@@ -290,15 +291,20 @@ LiveHTML <- R6::R6Class(
 
         Sys.sleep(0.1)
       }
-      cli::cli_abort("Failed to find selector {.str {css}} in {timeout} seconds.")
+      cli::cli_abort(
+        "Failed to find selector {.str {css}} in {timeout} seconds."
+      )
     },
 
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds)
+        unlist(
+          self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds
+        )
       } else {
-        search <- glue::glue("
+        search <- glue::glue(
+          "
           (function() {{
           const xpathResult = document.evaluate('{xpath}', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
           const nodes = [];
@@ -307,12 +313,18 @@ LiveHTML <- R6::R6Class(
           }}
           return(nodes);
           }})();
-        ")
+        "
+        )
 
         object_id <- self$session$Runtime$evaluate(search)$result$objectId
-        props <- self$session$Runtime$getProperties(object_id, ownProperties = TRUE)
+        props <- self$session$Runtime$getProperties(
+          object_id,
+          ownProperties = TRUE
+        )
 
-        ids <- map_chr(props$result, function(prop) prop$value$objectId %||% NA_character_)
+        ids <- map_chr(props$result, function(prop) {
+          prop$value$objectId %||% NA_character_
+        })
         # Drop non-nodes
         ids <- ids[!is.na(ids)]
 
@@ -338,14 +350,15 @@ LiveHTML <- R6::R6Class(
 now <- function() proc.time()[[3]]
 
 #' @export
-html_table.LiveHTML <- function(x,
-                                    header = NA,
-                                    trim = TRUE,
-                                    fill = deprecated(),
-                                    dec = ".",
-                                    na.strings = "NA",
-                                    convert = TRUE) {
-
+html_table.LiveHTML <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   tables <- html_elements(x, "table")
   html_table(
     tables,
@@ -390,7 +403,11 @@ has_chromote <- function() {
 }
 
 
-as_key_desc <- function(key, modifiers = character(), error_call = caller_env()) {
+as_key_desc <- function(
+  key,
+  modifiers = character(),
+  error_call = caller_env()
+) {
   check_string(key, call = error_call)
   modifiers <- arg_match(
     modifiers,
