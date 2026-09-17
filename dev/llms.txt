@@ -96,6 +96,10 @@ html |>
 #> # ℹ 19 more rows
 ```
 
+For more details, please see [Get
+started](https://rvest.tidyverse.org/articles/rvest.html) in the
+package’s vignette.
+
 # Package index
 
 ## Read HTML
