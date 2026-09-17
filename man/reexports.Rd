@@ -12,8 +12,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+  \item{magrittr}{\code{\link[magrittr:\%>\%]{\%>\%}}}
 
-  \item{xml2}{\code{\link[xml2]{url_absolute}}}
+  \item{xml2}{\code{\link[xml2:url_absolute]{url_absolute()}}}
 }}
 

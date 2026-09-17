@@ -78,3 +78,5 @@ html |>
   html_element(".tracklist") |> 
   html_table()
 ```
+
+For more details, please see [Get Started](https://rvest.tidyverse.org/articles/rvest.html) in the package's vignette.

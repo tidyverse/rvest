@@ -12,7 +12,7 @@ read_html(
 )
 }
 \arguments{
-\item{x}{Usually a string representing a URL. See \code{\link[xml2:read_xml]{xml2::read_html()}} for
+\item{x}{Usually a string representing a URL. See \code{\link[xml2:read_html]{xml2::read_html()}} for
 other options.}
 
 \item{encoding}{Specify a default encoding for the document. Unless
