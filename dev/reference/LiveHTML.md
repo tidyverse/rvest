@@ -24,7 +24,7 @@ that exposes a more powerful user interface, like
 
 ### Public methods
 
-- [`LiveHTML$new()`](#method-LiveHTML-new)
+- [`LiveHTML$new()`](#method-LiveHTML-initialize)
 
 - [`LiveHTML$print()`](#method-LiveHTML-print)
 
@@ -50,7 +50,7 @@ that exposes a more powerful user interface, like
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LiveHTML$new()`
 
 initialize the object
 
@@ -66,7 +66,7 @@ initialize the object
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `LiveHTML$print()`
 
 Called when [`print()`](https://rdrr.io/r/base/print.html)ed
 
@@ -82,7 +82,7 @@ Called when [`print()`](https://rdrr.io/r/base/print.html)ed
 
 ------------------------------------------------------------------------
 
-### Method `view()`
+### `LiveHTML$view()`
 
 Display a live view of the site
 
@@ -92,7 +92,7 @@ Display a live view of the site
 
 ------------------------------------------------------------------------
 
-### Method [`html_elements()`](https://rvest.tidyverse.org/dev/reference/html_element.md)
+### `LiveHTML$html_elements()`
 
 Extract HTML elements from the current page.
 
@@ -108,7 +108,7 @@ Extract HTML elements from the current page.
 
 ------------------------------------------------------------------------
 
-### Method `click()`
+### `LiveHTML$click()`
 
 Simulate a click on an HTML element.
 
@@ -128,7 +128,7 @@ Simulate a click on an HTML element.
 
 ------------------------------------------------------------------------
 
-### Method `get_scroll_position()`
+### `LiveHTML$get_scroll_position()`
 
 Get the current scroll position.
 
@@ -138,7 +138,7 @@ Get the current scroll position.
 
 ------------------------------------------------------------------------
 
-### Method `scroll_into_view()`
+### `LiveHTML$scroll_into_view()`
 
 Scroll selected element into view.
 
@@ -154,7 +154,7 @@ Scroll selected element into view.
 
 ------------------------------------------------------------------------
 
-### Method `scroll_to()`
+### `LiveHTML$scroll_to()`
 
 Scroll to specified location
 
@@ -170,7 +170,7 @@ Scroll to specified location
 
 ------------------------------------------------------------------------
 
-### Method `scroll_by()`
+### `LiveHTML$scroll_by()`
 
 Scroll by the specified amount
 
@@ -186,7 +186,7 @@ Scroll by the specified amount
 
 ------------------------------------------------------------------------
 
-### Method `type()`
+### `LiveHTML$type()`
 
 Type text in the selected element
 
@@ -206,7 +206,7 @@ Type text in the selected element
 
 ------------------------------------------------------------------------
 
-### Method `press()`
+### `LiveHTML$press()`
 
 Simulate pressing a single key (including special keys).
 
@@ -232,7 +232,7 @@ Simulate pressing a single key (including special keys).
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LiveHTML$clone()`
 
 The objects of this class are cloneable with this method.
 

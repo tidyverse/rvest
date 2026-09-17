@@ -17,7 +17,7 @@ doesn't rely on the Chrome web browser installed on your computer.)
 ``` r
 read_html(
   x,
-  encoding = "",
+  encoding = "UTF-8",
   ...,
   options = c("RECOVER", "NOERROR", "NOBLANKS", "HUGE")
 )

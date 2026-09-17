@@ -92,8 +92,7 @@ that exposes a more powerful user interface, like
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-LiveHTML-new"><code>LiveHTML$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-LiveHTML-initialize"><code>LiveHTML$new()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-print"><code>LiveHTML$print()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-view"><code>LiveHTML$view()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-html_elements"><code>LiveHTML$html_elements()</code></a></p></li>
@@ -105,14 +104,12 @@ that exposes a more powerful user interface, like
 <li><p><a href="#method-LiveHTML-type"><code>LiveHTML$type()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-press"><code>LiveHTML$press()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-clone"><code>LiveHTML$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-LiveHTML-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-LiveHTML-initialize"></a><div class="section">
+<h3 id="livehtml-new-"><code>LiveHTML$new()</code><a class="anchor" aria-label="anchor" href="#livehtml-new-"></a></h3>
 <p>initialize the object</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/LiveHTML.html">LiveHTML</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>url</code></dt>
 <dd><p>URL to page.</p></dd>
@@ -121,14 +118,14 @@ that exposes a more powerful user interface, like
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-print"></a><div class="section">
+<h3 id="livehtml-print-"><code>LiveHTML$print()</code><a class="anchor" aria-label="anchor" href="#livehtml-print-"></a></h3>
 <p>Called when <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>ed</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>Ignored</p></dd>
@@ -137,22 +134,23 @@ that exposes a more powerful user interface, like
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-view"></a><div class="section">
-<h3 id="method-view-">Method <code>view()</code><a class="anchor" aria-label="anchor" href="#method-view-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-view"></a><div class="section">
+<h3 id="livehtml-view-"><code>LiveHTML$view()</code><a class="anchor" aria-label="anchor" href="#livehtml-view-"></a></h3>
 <p>Display a live view of the site</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">view</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-LiveHTML-html_elements"></a><div class="section">
-<h3 id="method-html-elements-">Method <code><a href="html_element.html">html_elements()</a></code><a class="anchor" aria-label="anchor" href="#method-html-elements-"></a></h3>
+<p></p><hr><a id="method-LiveHTML-html_elements"></a><div class="section">
+<h3 id="livehtml-html-elements-"><code>LiveHTML$html_elements()</code><a class="anchor" aria-label="anchor" href="#livehtml-html-elements-"></a></h3>
 <p>Extract HTML elements from the current page.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">html_elements</span><span class="op">(</span><span class="va">css</span>, <span class="va">xpath</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css, xpath</code></dt>
 <dd><p>CSS selector or xpath expression.</p></dd>
@@ -161,42 +159,42 @@ that exposes a more powerful user interface, like
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-click"></a><div class="section">
-<h3 id="method-click-">Method <code>click()</code><a class="anchor" aria-label="anchor" href="#method-click-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-click"></a><div class="section">
+<h3 id="livehtml-click-"><code>LiveHTML$click()</code><a class="anchor" aria-label="anchor" href="#livehtml-click-"></a></h3>
 <p>Simulate a click on an HTML element.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">click</span><span class="op">(</span><span class="va">css</span>, n_clicks <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
 <dd><p>CSS selector.</p></dd>
 
-
-<dt><code>n_clicks</code></dt>
+      <dt><code>n_clicks</code></dt>
 <dd><p>Number of clicks</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-get_scroll_position"></a><div class="section">
-<h3 id="method-get-scroll-position-">Method <code>get_scroll_position()</code><a class="anchor" aria-label="anchor" href="#method-get-scroll-position-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-get_scroll_position"></a><div class="section">
+<h3 id="livehtml-get-scroll-position-"><code>LiveHTML$get_scroll_position()</code><a class="anchor" aria-label="anchor" href="#livehtml-get-scroll-position-"></a></h3>
 <p>Get the current scroll position.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">get_scroll_position</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-LiveHTML-scroll_into_view"></a><div class="section">
-<h3 id="method-scroll-into-view-">Method <code>scroll_into_view()</code><a class="anchor" aria-label="anchor" href="#method-scroll-into-view-"></a></h3>
+<p></p><hr><a id="method-LiveHTML-scroll_into_view"></a><div class="section">
+<h3 id="livehtml-scroll-into-view-"><code>LiveHTML$scroll_into_view()</code><a class="anchor" aria-label="anchor" href="#livehtml-scroll-into-view-"></a></h3>
 <p>Scroll selected element into view.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">scroll_into_view</span><span class="op">(</span><span class="va">css</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
 <dd><p>CSS selector.</p></dd>
@@ -205,14 +203,14 @@ that exposes a more powerful user interface, like
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-scroll_to"></a><div class="section">
-<h3 id="method-scroll-to-">Method <code>scroll_to()</code><a class="anchor" aria-label="anchor" href="#method-scroll-to-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-scroll_to"></a><div class="section">
+<h3 id="livehtml-scroll-to-"><code>LiveHTML$scroll_to()</code><a class="anchor" aria-label="anchor" href="#livehtml-scroll-to-"></a></h3>
 <p>Scroll to specified location</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">scroll_to</span><span class="op">(</span>top <span class="op">=</span> <span class="fl">0</span>, left <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>top, left</code></dt>
 <dd><p>Number of pixels from top/left respectively.</p></dd>
@@ -221,14 +219,14 @@ that exposes a more powerful user interface, like
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-scroll_by"></a><div class="section">
-<h3 id="method-scroll-by-">Method <code>scroll_by()</code><a class="anchor" aria-label="anchor" href="#method-scroll-by-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-scroll_by"></a><div class="section">
+<h3 id="livehtml-scroll-by-"><code>LiveHTML$scroll_by()</code><a class="anchor" aria-label="anchor" href="#livehtml-scroll-by-"></a></h3>
 <p>Scroll by the specified amount</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">scroll_by</span><span class="op">(</span>top <span class="op">=</span> <span class="fl">0</span>, left <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>top, left</code></dt>
 <dd><p>Number of pixels to scroll up/down and left/right
@@ -238,45 +236,42 @@ respectively.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-type"></a><div class="section">
-<h3 id="method-type-">Method <code>type()</code><a class="anchor" aria-label="anchor" href="#method-type-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-type"></a><div class="section">
+<h3 id="livehtml-type-"><code>LiveHTML$type()</code><a class="anchor" aria-label="anchor" href="#livehtml-type-"></a></h3>
 <p>Type text in the selected element</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">type</span><span class="op">(</span><span class="va">css</span>, <span class="va">text</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
 <dd><p>CSS selector.</p></dd>
 
-
-<dt><code>text</code></dt>
+      <dt><code>text</code></dt>
 <dd><p>A single string containing the text to type.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-press"></a><div class="section">
-<h3 id="method-press-">Method <code>press()</code><a class="anchor" aria-label="anchor" href="#method-press-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-press"></a><div class="section">
+<h3 id="livehtml-press-"><code>LiveHTML$press()</code><a class="anchor" aria-label="anchor" href="#livehtml-press-"></a></h3>
 <p>Simulate pressing a single key (including special keys).</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">press</span><span class="op">(</span><span class="va">css</span>, <span class="va">key_code</span>, modifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
 <dd><p>CSS selector.</p></dd>
 
-
-<dt><code>key_code</code></dt>
+      <dt><code>key_code</code></dt>
 <dd><p>Name of key. You can see a complete list of known
 keys at <a href="https://pptr.dev/api/puppeteer.keyinput" class="external-link">https://pptr.dev/api/puppeteer.keyinput</a>.</p></dd>
 
-
-<dt><code>modifiers</code></dt>
+      <dt><code>modifiers</code></dt>
 <dd><p>A character vector of modifiers. Must be one or more
 of <code>"Shift</code>, <code>"Control"</code>, <code>"Alt"</code>, or <code>"Meta"</code>.</p></dd>
 
@@ -284,14 +279,14 @@ of <code>"Shift</code>, <code>"Control"</code>, <code>"Alt"</code>, or <code>"Me
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-LiveHTML-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-LiveHTML-clone"></a><div class="section">
+<h3 id="livehtml-clone-"><code>LiveHTML$clone()</code><a class="anchor" aria-label="anchor" href="#livehtml-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -301,6 +296,7 @@ of <code>"Shift</code>, <code>"Control"</code>, <code>"Alt"</code>, or <code>"Me
 </div>
 
 </div>
+
 
     </div>
 

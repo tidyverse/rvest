@@ -17,6 +17,11 @@ Useful links:
 
 **Maintainer**: Hadley Wickham <hadley@posit.co>
 
+Authors:
+
+- Hadley Wickham <hadley@posit.co>
+
 Other contributors:
 
-- Posit Software, PBC (03wc8by49) \[copyright holder, funder\]
+- Posit Software, PBC ([ROR](https://ror.org/03wc8by49)) \[copyright
+  holder, funder\]
