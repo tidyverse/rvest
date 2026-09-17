@@ -6,13 +6,13 @@
 \usage{
 read_html(
   x,
-  encoding = "",
+  encoding = "UTF-8",
   ...,
   options = c("RECOVER", "NOERROR", "NOBLANKS", "HUGE")
 )
 }
 \arguments{
-\item{x}{Usually a string representing a URL. See \code{\link[xml2:read_xml]{xml2::read_html()}} for
+\item{x}{Usually a string representing a URL. See \code{\link[xml2:read_html]{xml2::read_html()}} for
 other options.}
 
 \item{encoding}{Specify a default encoding for the document. Unless

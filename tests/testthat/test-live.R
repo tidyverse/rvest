@@ -32,7 +32,9 @@ test_that("can extract tables", {
 
 test_that("can find single element", {
   skip_if_no_chromote()
-  dynamic <- read_html_live("https://rvest.tidyverse.org/articles/starwars.html")
+  dynamic <- read_html_live(
+    "https://rvest.tidyverse.org/articles/starwars.html"
+  )
   static <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
 
   expect_equal(html_element(dynamic, "p"), html_element(static, "p"))
@@ -77,12 +79,15 @@ test_that("can type text", {
   expect_equal(html_text(html_element(sess, "#replicatedText")), "hello")
 })
 
-test_that("can press special keys",{
+test_that("can press special keys", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("press"))
   sess$press("#inputBox", "ArrowRight")
-  expect_equal(html_text(html_element(sess, "#keyInfo")), "ArrowRight/ArrowRight")
+  expect_equal(
+    html_text(html_element(sess, "#keyInfo")),
+    "ArrowRight/ArrowRight"
+  )
 
   sess$press("#inputBox", "BracketRight")
   expect_equal(html_text(html_element(sess, "#keyInfo")), "]/BracketRight")

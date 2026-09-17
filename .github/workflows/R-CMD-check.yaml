@@ -24,13 +24,9 @@ jobs:
       matrix:
         config:
           - {os: macos-latest,   r: 'release'}
-
           - {os: windows-latest, r: 'release'}
-          # use 4.0 or 4.1 to check with rtools40's older compiler
-          - {os: windows-latest, r: 'oldrel-4'}
-
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,  r: 'release', testlive: true}
+          - {os: ubuntu-latest,  r: 'release'}
           - {os: ubuntu-latest,  r: 'oldrel-1'}
           - {os: ubuntu-latest,  r: 'oldrel-2'}
           - {os: ubuntu-latest,  r: 'oldrel-3'}
@@ -41,7 +37,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -49,7 +45,6 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -60,5 +55,3 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
-        env:
-          testlive: ${{ matrix.config.testlive }}

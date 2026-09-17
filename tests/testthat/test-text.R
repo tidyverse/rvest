@@ -16,34 +16,40 @@ test_that("handles block containing only inline elements", {
 })
 
 test_that("handles multiple paragraphs with line breaks", {
-  html <- minimal_html("
+  html <- minimal_html(
+    "
     <body>
       <p>a
       <p>b<br>c
-    </body>")
+    </body>"
+  )
   expect_equal(html_text2(html), "a\n\nb\nc")
   expect_equal(html_text2(html_elements(html, "p")), c("a", "b\nc"))
 })
 
 test_that("handles table", {
-  html <- minimal_html("
+  html <- minimal_html(
+    "
     <table>
     <tr><th>a<th>b
     <tr><td>1<td>2
     <tr><td>2<td>3
     </table>
-  ")
+  "
+  )
 
   expect_equal(html_text2(html), "a\tb\n1\t2\n2\t3")
 })
 
 test_that("handles mixed block as well as can be expected", {
-  html <- minimal_html("
+  html <- minimal_html(
+    "
     <div>
      <p>a</p>
      b<br/>
     </div>
-  ")
+  "
+  )
   expect_equal(html_text2(html_element(html, "div")), "a\n\nb\n")
 })
 
