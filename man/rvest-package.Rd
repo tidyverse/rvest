@@ -22,9 +22,14 @@ Useful links:
 \author{
 \strong{Maintainer}: Hadley Wickham \email{hadley@posit.co}
 
+Authors:
+\itemize{
+  \item Hadley Wickham \email{hadley@posit.co}
+}
+
 Other contributors:
 \itemize{
-  \item Posit Software, PBC (03wc8by49) [copyright holder, funder]
+  \item Posit Software, PBC (\href{https://ror.org/03wc8by49}{ROR}) [copyright holder, funder]
 }
 
 }

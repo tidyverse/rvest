@@ -32,228 +32,248 @@ sess |> html_elements(".ExResult-row") |> length()
 }
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{session}}{Underlying chromote session object. For expert use only.}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{session}}{Underlying chromote session object. For expert use only.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-LiveHTML-new}{\code{LiveHTML$new()}}
-\item \href{#method-LiveHTML-print}{\code{LiveHTML$print()}}
-\item \href{#method-LiveHTML-view}{\code{LiveHTML$view()}}
-\item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
-\item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
-\item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
-\item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
-\item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
-\item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
-\item \href{#method-LiveHTML-type}{\code{LiveHTML$type()}}
-\item \href{#method-LiveHTML-press}{\code{LiveHTML$press()}}
-\item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
-}
+  \itemize{
+    \item \href{#method-LiveHTML-initialize}{\code{LiveHTML$new()}}
+    \item \href{#method-LiveHTML-print}{\code{LiveHTML$print()}}
+    \item \href{#method-LiveHTML-view}{\code{LiveHTML$view()}}
+    \item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
+    \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
+    \item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
+    \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
+    \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
+    \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
+    \item \href{#method-LiveHTML-type}{\code{LiveHTML$type()}}
+    \item \href{#method-LiveHTML-press}{\code{LiveHTML$press()}}
+    \item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-LiveHTML-new"></a>}}
-\if{latex}{\out{\hypertarget{method-LiveHTML-new}{}}}
-\subsection{Method \code{new()}}{
-initialize the object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$new(url)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-LiveHTML-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-initialize}{}}}
+\subsection{\code{LiveHTML$new()}}{
+  initialize the object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$new(url)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{url}}{URL to page.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{url}}{URL to page.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-print"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-print}{}}}
-\subsection{Method \code{print()}}{
-Called when \code{print()}ed
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$print()}}{
+  Called when \code{print()}ed
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{Ignored}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Ignored}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-view"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-view}{}}}
-\subsection{Method \code{view()}}{
-Display a live view of the site
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$view()}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$view()}}{
+  Display a live view of the site
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$view()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-html_elements"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-html_elements}{}}}
-\subsection{Method \code{html_elements()}}{
-Extract HTML elements from the current page.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$html_elements(css, xpath)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$html_elements()}}{
+  Extract HTML elements from the current page.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$html_elements(css, xpath)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css, xpath}}{CSS selector or xpath expression.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css, xpath}}{CSS selector or xpath expression.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-click"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-click}{}}}
-\subsection{Method \code{click()}}{
-Simulate a click on an HTML element.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$click(css, n_clicks = 1)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$click()}}{
+  Simulate a click on an HTML element.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$click(css, n_clicks = 1)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+      \item{\code{n_clicks}}{Number of clicks}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css}}{CSS selector.}
-
-\item{\code{n_clicks}}{Number of clicks}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-get_scroll_position"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-get_scroll_position}{}}}
-\subsection{Method \code{get_scroll_position()}}{
-Get the current scroll position.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$get_scroll_position()}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$get_scroll_position()}}{
+  Get the current scroll position.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$get_scroll_position()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-scroll_into_view"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-scroll_into_view}{}}}
-\subsection{Method \code{scroll_into_view()}}{
-Scroll selected element into view.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_into_view(css)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$scroll_into_view()}}{
+  Scroll selected element into view.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$scroll_into_view(css)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css}}{CSS selector.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-scroll_to"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-scroll_to}{}}}
-\subsection{Method \code{scroll_to()}}{
-Scroll to specified location
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_to(top = 0, left = 0)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$scroll_to()}}{
+  Scroll to specified location
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$scroll_to(top = 0, left = 0)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{top, left}}{Number of pixels from top/left respectively.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{top, left}}{Number of pixels from top/left respectively.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-scroll_by"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-scroll_by}{}}}
-\subsection{Method \code{scroll_by()}}{
-Scroll by the specified amount
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$scroll_by(top = 0, left = 0)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$scroll_by()}}{
+  Scroll by the specified amount
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$scroll_by(top = 0, left = 0)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{top, left}}{Number of pixels to scroll up/down and left/right
+respectively.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{top, left}}{Number of pixels to scroll up/down and left/right
-respectively.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-type"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-type}{}}}
-\subsection{Method \code{type()}}{
-Type text in the selected element
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$type(css, text)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$type()}}{
+  Type text in the selected element
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$type(css, text)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+      \item{\code{text}}{A single string containing the text to type.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css}}{CSS selector.}
-
-\item{\code{text}}{A single string containing the text to type.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-press"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-press}{}}}
-\subsection{Method \code{press()}}{
-Simulate pressing a single key (including special keys).
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$press(css, key_code, modifiers = character())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{css}}{CSS selector.}
-
-\item{\code{key_code}}{Name of key. You can see a complete list of known
+\subsection{\code{LiveHTML$press()}}{
+  Simulate pressing a single key (including special keys).
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$press(css, key_code, modifiers = character())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+      \item{\code{key_code}}{Name of key. You can see a complete list of known
 keys at \url{https://pptr.dev/api/puppeteer.keyinput}.}
-
-\item{\code{modifiers}}{A character vector of modifiers. Must be one or more
+      \item{\code{modifiers}}{A character vector of modifiers. Must be one or more
 of \verb{"Shift}, \code{"Control"}, \code{"Alt"}, or \code{"Meta"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LiveHTML-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-LiveHTML-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LiveHTML$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{LiveHTML$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
