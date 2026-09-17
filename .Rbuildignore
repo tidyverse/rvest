@@ -17,3 +17,5 @@
 ^data-raw$
 ^[.]?air[.]toml$
 ^\.vscode$
+^AGENTS\.md$
+^\.claude$
