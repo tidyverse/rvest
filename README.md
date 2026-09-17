@@ -105,5 +105,5 @@ html |>
 ```
 
 For more details, please see [Get
-Started](https://rvest.tidyverse.org/articles/rvest.html) in the
+started](https://rvest.tidyverse.org/articles/rvest.html) in the
 package’s vignette.
