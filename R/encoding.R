@@ -31,7 +31,11 @@ html_encoding_guess <- function(x) {
 #' @rdname html_encoding_guess
 #' @usage NULL
 guess_encoding <- function(x) {
-  lifecycle::deprecate_warn("1.0.0", "guess_encoding()", "html_encoding_guess()")
+  lifecycle::deprecate_warn(
+    "1.0.0",
+    "guess_encoding()",
+    "html_encoding_guess()"
+  )
   html_encoding_guess(x)
 }
 
@@ -46,7 +50,9 @@ guess_encoding <- function(x) {
 #' @param from The encoding that the string is actually in. If `NULL`,
 #'   `guess_encoding` will be used.
 repair_encoding <- function(x, from = NULL) {
-  lifecycle::deprecate_warn("1.0.0", "html_encoding_repair()",
+  lifecycle::deprecate_warn(
+    "1.0.0",
+    "html_encoding_repair()",
     details = "Instead, re-load using the `encoding` argument of `read_html()`"
   )
 

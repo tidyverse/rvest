@@ -40,15 +40,15 @@
 session <- function(url, ...) {
   check_string(url)
 
-  session <-   structure(
+  session <- structure(
     list(
-      handle   = httr::handle(url),
-      config   = c(..., httr::config(autoreferer = 1L)),
+      handle = httr::handle(url),
+      config = c(..., httr::config(autoreferer = 1L)),
       response = NULL,
-      url      = NULL,
-      back     = character(),
-      forward  = character(),
-      cache    = new_environment()
+      url = NULL,
+      back = character(),
+      forward = character(),
+      cache = new_environment()
     ),
     class = "rvest_session"
   )
@@ -217,7 +217,9 @@ read_html.rvest_session <- function(x, ...) {
 
 is_html <- function(x) {
   type <- httr::headers(x)$`Content-Type`
-  if (is.null(type)) return(FALSE)
+  if (is.null(type)) {
+    return(FALSE)
+  }
 
   parsed <- httr::parse_media(type)
   parsed$complete %in% c("text/html", "application/xhtml+xml")
@@ -231,13 +233,15 @@ html_form.rvest_session <- function(x, base_url = NULL) {
 }
 
 #' @export
-html_table.rvest_session <- function(x,
-                               header = NA,
-                               trim = TRUE,
-                               fill = deprecated(),
-                               dec = ".",
-                               na.strings = "NA",
-                               convert = TRUE) {
+html_table.rvest_session <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
   html_table(
     read_html(x),
     header = header,

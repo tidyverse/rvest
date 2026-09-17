@@ -115,7 +115,8 @@ html_text_block <- function(x, text, preserve_nbsp = FALSE) {
 
       text$add_margin(margin)
       html_text_block(child, text, preserve_nbsp = preserve_nbsp)
-      switch(name,
+      switch(
+        name,
         tr = if (i != n) text$add_text("\n"),
         th = ,
         td = if (i != n) text$add_text("\t"),
@@ -133,10 +134,39 @@ is_inline <- function(x) {
 
 block_tag <- c(
   # https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
-  "address", "article", "aside", "blockquote", "details", "dialog", "dd", "div",
-  "dl", "dt", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2",
-  "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "ol",
-  "p", "pre", "section", "table", "ul",
+  "address",
+  "article",
+  "aside",
+  "blockquote",
+  "details",
+  "dialog",
+  "dd",
+  "div",
+  "dl",
+  "dt",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "footer",
+  "form",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "header",
+  "hgroup",
+  "hr",
+  "li",
+  "main",
+  "nav",
+  "ol",
+  "p",
+  "pre",
+  "section",
+  "table",
+  "ul",
   "caption"
 )
 
@@ -189,42 +219,45 @@ collapse_whitespace <- function(x, preserve_nbsp = FALSE) {
 
 # Text with line break padding in between blocks, collapsing breaks
 # similarly to css margin collapsing rules
-PaddedText <- R6::R6Class("PaddedText", list(
-  text = character(),
-  lines = 0,
-  i = 1L,
+PaddedText <- R6::R6Class(
+  "PaddedText",
+  list(
+    text = character(),
+    lines = 0,
+    i = 1L,
 
-  add_margin = function(n) {
-    # Don't add breaks before encountering text
-    if (self$i == 1) {
-      return()
+    add_margin = function(n) {
+      # Don't add breaks before encountering text
+      if (self$i == 1) {
+        return()
+      }
+
+      self$lines <- max(self$lines, n)
+    },
+
+    convert_breaks = function() {
+      if (self$lines == 0) {
+        return()
+      }
+
+      self$text[[self$i]] <- strrep("\n", self$lines)
+      self$i <- self$i + 1
+      self$lines <- 0
+    },
+
+    add_text = function(x) {
+      # Ignore empty strings
+      if (identical(x, "")) {
+        return()
+      }
+
+      self$convert_breaks()
+      self$text[[self$i]] <- x
+      self$i <- self$i + 1L
+    },
+
+    output = function() {
+      paste(self$text, collapse = "")
     }
-
-    self$lines <- max(self$lines, n)
-  },
-
-  convert_breaks = function() {
-    if (self$lines == 0) {
-      return()
-    }
-
-    self$text[[self$i]] <- strrep("\n", self$lines)
-    self$i <- self$i + 1
-    self$lines <- 0
-  },
-
-  add_text = function(x) {
-    # Ignore empty strings
-    if (identical(x, "")) {
-      return()
-    }
-
-    self$convert_breaks()
-    self$text[[self$i]] <- x
-    self$i <- self$i + 1L
-  },
-
-  output = function() {
-    paste(self$text, collapse = "")
-  }
-))
+  )
+)

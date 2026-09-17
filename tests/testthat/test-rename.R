@@ -14,9 +14,11 @@ test_that("html_node(s) is superseded (no warnings)", {
 })
 
 test_that("set_values() is deprecated", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form><input type="text" name="text" /></form>
-  ')
+  '
+  )
   form <- html_form(html)[[1]]
   expect_snapshot(set_values(form, text = "abc"))
 })
@@ -33,4 +35,3 @@ test_that("prefixless session functions are deprecated", {
 })
 
 # session_submit() is tested in form-submit because it needs a test server
-

@@ -6,7 +6,7 @@
 \usage{
 read_html(
   x,
-  encoding = "",
+  encoding = "UTF-8",
   ...,
   options = c("RECOVER", "NOERROR", "NOBLANKS", "HUGE")
 )

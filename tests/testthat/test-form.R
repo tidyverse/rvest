@@ -1,8 +1,10 @@
 test_that("can find from from doc, nodes, and node", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form><input name="x" type="text"></form>
     <form><input name="x" type="text"></form>
-  ')
+  '
+  )
 
   forms <- html_form(html)
   expect_type(forms, "list")
@@ -17,7 +19,8 @@ test_that("can find from from doc, nodes, and node", {
 })
 
 test_that("has useful print method", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form id="test" method="post" action="/test-path">
       <select name="select" size="1"></select>
       <input type="text" name="name" value="Hadley" />
@@ -25,44 +28,51 @@ test_that("has useful print method", {
       <button type="submit" name="clickMe">Click me</button>
       <textarea name="address">ABCDEF</textarea>
     </form>
-  ')
+  '
+  )
   expect_snapshot(html_form(html, base_url = "http://google.com")[[1]])
   expect_snapshot(html_form(html)[[1]]$fields[[2]])
 })
 
 
 test_that("select options are named character vector", {
-  select <- minimal_html('
+  select <- minimal_html(
+    '
     <form>
       <select name="x">
         <option value="1">a</option>
         <option value="2">b</option>
       </select>
     </form>
-  ')
+  '
+  )
 
   form <- select |> html_element("form") |> html_form()
   expect_equal(form$fields[[1]]$options, c(a = "1", b = "2"))
 })
 
 test_that("select values are inherited from names", {
-  page <- minimal_html('
+  page <- minimal_html(
+    '
     <select name="b" id="a">
       <option value="1">x</option>
       <option>y</option>
     </select>
-  ')
+  '
+  )
 
   opts <- page |> html_element('select') |> parse_select()
   expect_equal(opts$options, c(x = "1", y = "y"))
 })
 
 test_that("parse_fields gets the button", {
-  select <- minimal_html('
+  select <- minimal_html(
+    '
     <form>
       <button type="submit">Click me</button>
     </form>
-  ')
+  '
+  )
 
   form <- select |> html_element("form") |> html_form()
   expect_equal(form$fields[[1]]$type, "button")
@@ -77,27 +87,30 @@ test_that("handles different encoding types", {
 })
 
 test_that("validates its inputs", {
-  select <- minimal_html('
+  select <- minimal_html(
+    '
     <form>
       <button type="submit">Click me</button>
     </form>
-  ')
+  '
+  )
   expect_snapshot(error = TRUE, {
     html_form(html_element(select, "button"))
     html_form(select, base_url = 1)
   })
-
 })
 
 # set --------------------------------------------------------------
 
 test_that("can set values of inputs", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form id="test" method="post" action="/test-path">
       <input type="text" name="text" />
       <input type="hidden" name="hidden" />
     </form>
-  ')
+  '
+  )
   form <- html_form(html)[[1]]
 
   form <- html_form_set(form, text = "abc")
@@ -109,11 +122,13 @@ test_that("can set values of inputs", {
 })
 
 test_that("has informative errors", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form id="test" method="post" action="/test-path">
       <input type="submit" name="text" />
     </form>
-  ')
+  '
+  )
 
   form <- html_form(html)[[1]]
   expect_snapshot(html_form_set(form, text = "x"), error = TRUE)
@@ -123,12 +138,14 @@ test_that("has informative errors", {
 # submit ------------------------------------------------------------------
 
 test_that("works as expected in simple case", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form method="post" action="/test-path">
     <input name="x" value="1">
     <button type="submit" name="clickMe">Click me</button>
     </form>
-  ')
+  '
+  )
   form <- html_form(html, base_url = "http://here.com")[[1]]
 
   sub <- submission_build(form, "clickMe")
@@ -149,12 +166,14 @@ test_that("useful feedback on invalid forms", {
 })
 
 test_that("can handle multiple values", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form method="post" action="/">
     <input type="text" name="x">
     <input type="text" name="y">
     </form>
-  ')
+  '
+  )
   form <- html_form(html)[[1]]
   form <- html_form_set(form, x = c("1", "2", "3"), y = character())
 
@@ -165,12 +184,14 @@ test_that("can handle multiple values", {
 })
 
 test_that("handles multiple buttons", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form action="/">
     <button type="submit" name="one" value="1">Click me</button>
     <button type="submit" name="two" value="2">Click me</button>
     </form>
-  ')
+  '
+  )
   form <- html_form(html)[[1]]
 
   # Messages when picking automatically
@@ -187,11 +208,13 @@ test_that("handles multiple buttons", {
 })
 
 test_that("handles no buttons", {
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form action="/">
     <input type="text", name="x" value="1">
     </form>
-  ')
+  '
+  )
   form <- html_form(html)[[1]]
 
   expect_equal(
@@ -203,13 +226,15 @@ test_that("handles no buttons", {
 test_that("can submit using three primary techniques", {
   app <- local_test_app()
 
-  html <- minimal_html('
+  html <- minimal_html(
+    '
     <form action="/">
     <input type="text", name="x" value="1">
     <input type="text", name="x" value="2">
     <input type="text", name="y" value="3">
     </form>
-  ')
+  '
+  )
   form <- html_form(html, base_url = app$url())[[1]]
 
   expect_snapshot({

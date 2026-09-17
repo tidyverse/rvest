@@ -97,4 +97,3 @@ make_selector <- function(css, xpath, error_call = caller_env()) {
     xpath
   }
 }
-
