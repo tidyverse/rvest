@@ -2,6 +2,10 @@
 
 ## rvest (development version)
 
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  now correctly handles `xpath` expressions containing single quotes
+  ([\#435](https://github.com/tidyverse/rvest/issues/435)).
+
 ## rvest 1.0.5
 
 CRAN release: 2025-08-29

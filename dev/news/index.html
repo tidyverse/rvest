@@ -48,7 +48,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rvest-development-version">rvest (development version)<a class="anchor" aria-label="anchor" href="#rvest-development-version"></a></h2>
-</div>
+<ul><li>
+<code><a href="../reference/read_html_live.html">read_html_live()</a></code> now correctly handles <code>xpath</code> expressions containing single quotes (<a href="https://github.com/tidyverse/rvest/issues/435" class="external-link">#435</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.5" id="rvest-105">rvest 1.0.5<a class="anchor" aria-label="anchor" href="#rvest-105"></a></h2><p class="text-muted">CRAN release: 2025-08-29</p>
 <ul><li><p>Fixes <code>LiveHTML</code> objects returning ‘could not find node with given id’ errors if a page navigation occurred after a <code>$click()</code> event (<a href="https://github.com/tidyverse/rvest/issues/405" class="external-link">#405</a>).</p></li>
