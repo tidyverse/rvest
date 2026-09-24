@@ -22,6 +22,32 @@ test_that("can find multiple elements", {
   expect_length(li, 4)
 })
 
+test_that("xpath works with single and double quotes", {
+  skip_if_no_chromote()
+
+  bullets <- read_html_live(html_test_path("bullets"))
+  expect_equal(
+    bullets |>
+      html_elements(xpath = '//li[contains(text(), "2")]') |>
+      html_text(),
+    "Item 2"
+  )
+  expect_equal(
+    bullets |>
+      html_elements(xpath = "//li[contains(text(), '2')]") |>
+      html_text(),
+    "Item 2"
+  )
+})
+
+test_that("js_string escapes for JS string literals", {
+  expect_equal(js_string("abc"), '"abc"')
+  expect_equal(js_string("a'b"), "\"a'b\"")
+  expect_equal(js_string('a"b'), '"a\\"b"')
+  expect_equal(js_string("a\\b"), '"a\\\\b"')
+  expect_equal(js_string("a\nb"), '"a\\nb"')
+})
+
 test_that("can extract tables", {
   skip_if_no_chromote()
 

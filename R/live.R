@@ -303,10 +303,13 @@ LiveHTML <- R6::R6Class(
           self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds
         )
       } else {
+        # Ensure DOM agent has loaded the document before requesting nodes
+        private$root_id()
+
         search <- glue::glue(
           "
           (function() {{
-          const xpathResult = document.evaluate('{xpath}', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          const xpathResult = document.evaluate({js_string(xpath)}, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
           const nodes = [];
           for (let i = 0; i < xpathResult.snapshotLength; i++) {{
               nodes.push(xpathResult.snapshotItem(i));
@@ -348,6 +351,14 @@ LiveHTML <- R6::R6Class(
 )
 
 now <- function() proc.time()[[3]]
+
+# Escape a string for inclusion in JavaScript source code
+js_string <- function(x) {
+  x <- gsub("\\", "\\\\", x, fixed = TRUE)
+  x <- gsub('"', '\\"', x, fixed = TRUE)
+  x <- gsub("\n", "\\n", x, fixed = TRUE)
+  paste0('"', x, '"')
+}
 
 #' @export
 html_table.LiveHTML <- function(
