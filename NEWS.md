@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `read_html_live()` now hides common tells of an automated browser (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent), making it less likely to be blocked by bot detection (#407).
+* `read_html_live()` gains `mode` and `view` arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to `--headless=new` (#407, #438).
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5

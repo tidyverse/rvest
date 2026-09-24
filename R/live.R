@@ -21,6 +21,11 @@
 #'   like `$click()`, `$scroll_to()`, and `$type()` to interact with the live
 #'   page like a human would.
 #' @param url Website url to read from.
+#' @param mode Either `"headless"` (the default) to run Chrome without a
+#'   visible window, or `"visible"` to open a browser window, which can be
+#'   useful when debugging a scraping script.
+#' @param view Either `"desktop"` (the default) or `"mobile"`, controlling
+#'   the viewport size that the page is rendered with.
 #' @export
 #' @examples
 #' \dontrun{
@@ -43,9 +48,13 @@
 #'   html_element("table") |>
 #'   html_table()
 #' }
-read_html_live <- function(url) {
+read_html_live <- function(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile")
+) {
   check_installed(c("chromote", "R6"))
-  LiveHTML$new(url)
+  LiveHTML$new(url, mode = mode, view = view)
 }
 
 #' Interact with a live web page
@@ -86,13 +95,15 @@ LiveHTML <- R6::R6Class(
 
     #' @description initialize the object
     #' @param url URL to page.
-    initialize = function(url) {
+    #' @param mode,view As described in [read_html_live()].
+    initialize = function(
+      url,
+      mode = c("headless", "visible"),
+      view = c("desktop", "mobile")
+    ) {
       check_installed("chromote")
-      self$session <- chromote::ChromoteSession$new()
 
-      self$session$Network$setUserAgentOverride(
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
-      )
+      self$session <- stealth_session(mode = mode, view = view)
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
@@ -271,6 +282,7 @@ LiveHTML <- R6::R6Class(
     },
     finalize = function() {
       self$session$close()
+      self$session$parent$close()
     },
 
     check_active = function() {
@@ -397,6 +409,45 @@ html_element.LiveHTML <- function(x, css, xpath) {
 }
 
 # helpers -----------------------------------------------------------------
+
+# Creates a chromote session that hides signs of automation (#407), using
+# our own browser (rather than the shared default) so that we can launch it
+# with extra flags. The parent browser is available via `session$parent` so
+# that the caller can close it.
+stealth_session <- function(
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile")
+) {
+  mode <- arg_match(mode)
+  view <- arg_match(view)
+  local_options(chromote.headless = if (mode == "headless") "new" else "false")
+  browser <- chromote::Chromote$new(
+    browser = chromote::Chrome$new(
+      args = c(
+        chromote::default_chrome_args(),
+        "--disable-blink-features=AutomationControlled"
+      )
+    )
+  )
+  session <- chromote::ChromoteSession$new(
+    parent = browser,
+    mobile = view == "mobile",
+    width = if (view == "mobile") 390 else 1280,
+    height = if (view == "mobile") 844 else 800
+  )
+
+  # Even with headless=new, the UA contains "HeadlessChrome"; fix that
+  # while keeping the correct platform and version
+  ua <- session$Runtime$evaluate(
+    "navigator.userAgent",
+    returnByValue = TRUE
+  )$result$value
+  session$Network$setUserAgentOverride(
+    gsub("HeadlessChrome", "Chrome", ua, fixed = TRUE)
+  )
+
+  session
+}
 
 has_chromote <- function() {
   tryCatch(
