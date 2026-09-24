@@ -49,8 +49,8 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
     element currently under the mouse will be highlighted in orange.
 
     ![A screenshot of the starwars vignette with an orange box drawn
-    around the top few lines of the page. SelectorGadget reports "no
-    valid path found"](selectorgadget-hover.png)
+    around the top few lines of the page. SelectorGadget reports 'no
+    valid path found'](selectorgadget-hover.png)
 
 3.  Click on the movie name to select it. The element you selected will
     be highlighted in green. SelectorGadget guesses which css selector
@@ -58,8 +58,8 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
     (see total count equal to 7 as indicated on on the “Clear” button).
 
     ![A screenshot of the starwars vignette with an green box around the
-    heading "Attack of the Clones". SelectorGadget reports that a css
-    selector of "h2" selects this element.](selectorgadget-click.png)
+    heading 'Attack of the Clones'. SelectorGadget reports that a css
+    selector of 'h2' selects this element.](selectorgadget-click.png)
 
 4.  Scroll around the document to verify that we have selected all the
     desired movie titles and nothing else. In this case, it looks like
@@ -82,7 +82,7 @@ paragraphs of the movie intro.
     paragraph of the intro.
 
     ![A screenshot of the starwars vignette with an green box around the
-    paragraph that begins "There is unrest in the Galactic Senate" Every
+    paragraph that begins 'There is unrest in the Galactic Senate' Every
     other paragraph is coloured yellow.](selectorgadget-too-many.png)
 
 2.  This obviously selects too many elements, so click on one of the
@@ -90,10 +90,10 @@ paragraphs of the movie intro.
     element shouldn’t be matched.
 
     ![A screenshot of the starwars vignette with an green box around the
-    paragraph that begins "There is unrest in the Galactic Senate" and a
-    red box around the sentence "Released: 2002-05-16". The sentence
+    paragraph that begins 'There is unrest in the Galactic Senate' and a
+    red box around the sentence 'Released: 2002-05-16'. The sentence
     giving the director is unhiglighted and everything else is yellow.
-    The discovered selector is ".crawl p".](selectorgadget-remove.png)
+    The discovered selector is '.crawl p'.](selectorgadget-remove.png)
 
 3.  This looks good, so we convert it to R code:
 
