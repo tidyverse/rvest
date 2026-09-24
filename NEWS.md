@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
+
 # rvest 1.0.5
 
 * Fixes `LiveHTML` objects returning 'could not find node with given id' errors if a page navigation occurred after a `$click()` event (#405).
