@@ -62,13 +62,18 @@ sess |> html_elements(".ExResult-row") |> length()
   initialize the object
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$new(url)}
+    \preformatted{LiveHTML$new(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile")
+)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{url}}{URL to page.}
+      \item{\code{mode, view}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
     }
     \if{html}{\out{</div>}}
   }

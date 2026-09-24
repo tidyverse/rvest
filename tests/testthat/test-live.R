@@ -94,7 +94,7 @@ test_that("can scroll in various ways", {
 
   sess$scroll_into_view("#bottom")
   Sys.sleep(0.2)
-  expect_equal(sess$get_scroll_position(), list(x = 0, y = 685))
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 1208))
 })
 
 test_that("can type text", {
@@ -125,6 +125,37 @@ test_that("can find elements after click that navigates", {
   sess <- read_html_live(html_test_path("navigate1"))
   sess$click("a")
   expect_equal(html_text2(html_element(sess, "p")), "Success!")
+})
+
+test_that("hides automated browser tells", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("bullets"))
+  js <- function(code) {
+    sess$session$Runtime$evaluate(code, returnByValue = TRUE)$result$value
+  }
+
+  expect_false(js("navigator.webdriver"))
+  expect_true(js("navigator.languages.length") > 0)
+  expect_true(js("navigator.plugins.length") > 0)
+  expect_false(grepl("HeadlessChrome", js("navigator.userAgent")))
+})
+
+test_that("view controls viewport size", {
+  skip_if_no_chromote()
+
+  inner_width <- function(sess) {
+    sess$session$Runtime$evaluate(
+      "window.innerWidth",
+      returnByValue = TRUE
+    )$result$value
+  }
+  desktop <- read_html_live(html_test_path("bullets"), view = "desktop")
+  expect_equal(inner_width(desktop), 1280)
+
+  mobile <- read_html_live(html_test_path("bullets"), view = "mobile")
+  # Without a viewport meta tag, mobile Chrome lays out at a 980px fallback
+  expect_equal(inner_width(mobile), 980)
 })
 
 # as_key_desc -------------------------------------------------------------

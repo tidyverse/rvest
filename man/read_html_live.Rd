@@ -4,10 +4,21 @@
 \alias{read_html_live}
 \title{Live web scraping (with chromote)}
 \usage{
-read_html_live(url)
+read_html_live(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile")
+)
 }
 \arguments{
 \item{url}{Website url to read from.}
+
+\item{mode}{Either \code{"headless"} (the default) to run Chrome without a
+visible window, or \code{"visible"} to open a browser window, which can be
+useful when debugging a scraping script.}
+
+\item{view}{Either \code{"desktop"} (the default) or \code{"mobile"}, controlling
+the viewport size that the page is rendered with.}
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact
@@ -48,8 +59,8 @@ dynamic$view()
 dynamic |> html_element("table")
 
 # And extract data from it
-dynamic |> 
-  html_element("table") |> 
+dynamic |>
+  html_element("table") |>
   html_table()
 }
 }
