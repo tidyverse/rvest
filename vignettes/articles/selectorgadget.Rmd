@@ -61,8 +61,8 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
     #| echo: false
     #| fig-alt: >
     #|   A screenshot of the starwars vignette with an orange box drawn around
-    #|   the top few lines of the page. SelectorGadget reports "no valid
-    #|   path found"
+    #|   the top few lines of the page. SelectorGadget reports 'no valid
+    #|   path found'
     knitr::include_graphics("selectorgadget-hover.png", dpi = 144)
     ```
 
@@ -72,8 +72,8 @@ html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
     #| echo: false
     #| fig-alt: >
     #|   A screenshot of the starwars vignette with an green box around 
-    #|   the heading "Attack of the Clones". SelectorGadget reports that
-    #|   a css selector of "h2" selects this element.
+    #|   the heading 'Attack of the Clones'. SelectorGadget reports that
+    #|   a css selector of 'h2' selects this element.
     knitr::include_graphics("selectorgadget-click.png", dpi = 144)
     ```
 
@@ -93,7 +93,7 @@ Now let's try something a little more challenging: selecting all paragraphs of t
     #| echo: false
     #| fig-alt: >
     #|   A screenshot of the starwars vignette with an green box around 
-    #|   the paragraph that begins "There is unrest in the Galactic Senate"
+    #|   the paragraph that begins 'There is unrest in the Galactic Senate'
     #|   Every other paragraph is coloured yellow.
     knitr::include_graphics("selectorgadget-too-many.png", dpi = 144)
     ```
@@ -104,10 +104,10 @@ Now let's try something a little more challenging: selecting all paragraphs of t
     #| echo: false
     #| fig-alt: >
     #|   A screenshot of the starwars vignette with an green box around 
-    #|   the paragraph that begins "There is unrest in the Galactic Senate"
-    #|   and a red box around the sentence "Released: 2002-05-16". The
+    #|   the paragraph that begins 'There is unrest in the Galactic Senate'
+    #|   and a red box around the sentence 'Released: 2002-05-16'. The
     #|   sentence giving the director is unhiglighted and everything
-    #|   else is yellow. The discovered selector is ".crawl p".
+    #|   else is yellow. The discovered selector is '.crawl p'.
     knitr::include_graphics("selectorgadget-remove.png", dpi = 144)
     ```
 
