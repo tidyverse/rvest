@@ -89,6 +89,7 @@ LiveHTML <- R6::R6Class(
     initialize = function(url) {
       check_installed("chromote")
       self$session <- chromote::ChromoteSession$new()
+      private$document <- DocumentRoot$new(self$session)
 
       self$session$Network$setUserAgentOverride(
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
@@ -206,7 +207,7 @@ LiveHTML <- R6::R6Class(
 
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
       private$call_node_method(
-        private$root_id(),
+        private$document$id(),
         paste0(".documentElement.scrollTo(", left, ", ", top, ")")
       )
       invisible(self)
@@ -266,9 +267,8 @@ LiveHTML <- R6::R6Class(
   ),
 
   private = list(
-    root_id = function() {
-      self$session$DOM$getDocument()$root$nodeId
-    },
+    document = NULL,
+
     finalize = function() {
       self$session$close()
     },
@@ -278,33 +278,60 @@ LiveHTML <- R6::R6Class(
         suppressMessages({
           self$session <- self$session$respawn()
         })
+        private$document <- DocumentRoot$new(self$session)
       }
     },
 
-    wait_for_selector = function(css, timeout = 5) {
-      done <- now() + timeout
-      while (now() < done) {
-        nodes <- private$find_nodes(css)
-        if (length(nodes) > 0) {
-          return(nodes)
-        }
-
-        Sys.sleep(0.1)
-      }
-      cli::cli_abort(
-        "Failed to find selector {.str {css}} in {timeout} seconds."
+    wait_for_selector = function(css, timeout = 5, call = caller_env()) {
+      js <- glue::glue(
+        "
+        new Promise(resolve => {{
+          const sel = {js_string(css)};
+          if (document.querySelector(sel)) return resolve(true);
+          const obs = new MutationObserver(() => {{
+            if (document.querySelector(sel)) {{
+              obs.disconnect(); clearTimeout(timer); resolve(true);
+            }}
+          }});
+          obs.observe(document, {{childList: true, subtree: true, attributes: true}});
+          const timer = setTimeout(() => {{ obs.disconnect(); resolve(false); }}, {timeout * 1000});
+        }})
+        "
       )
+      res <- self$session$Runtime$evaluate(
+        js,
+        awaitPromise = TRUE,
+        returnByValue = TRUE,
+        timeout_ = timeout + 1
+      )
+      if (!is.null(res$exceptionDetails)) {
+        cli::cli_abort("Invalid selector {.str {css}}.", call = call)
+      }
+      if (!isTRUE(res$result$value)) {
+        cli::cli_abort(
+          "Failed to find selector {.str {css}} in {timeout} seconds.",
+          call = call
+        )
+      }
+      private$find_nodes(css)[[1]]
     },
 
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(
-          self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds
-        )
+        query <- function() {
+          self$session$DOM$querySelectorAll(private$document$id(), css)$nodeIds
+        }
+        # Cached root may be stale if the page navigated before the
+        # documentUpdated event was processed; refresh and retry once
+        ids <- tryCatch(query(), error = function(cnd) {
+          private$document$reset()
+          query()
+        })
+        unlist(ids)
       } else {
         # Ensure DOM agent has loaded the document before requesting nodes
-        private$root_id()
+        private$document$id()
 
         search <- glue::glue(
           "
@@ -350,7 +377,32 @@ LiveHTML <- R6::R6Class(
   )
 )
 
-now <- function() proc.time()[[3]]
+# Caches the document's root node id, dropping it whenever the page
+# navigates or replaces its document (which invalidates all node ids)
+DocumentRoot <- R6::R6Class(
+  "DocumentRoot",
+  public = list(
+    initialize = function(session) {
+      private$session <- session
+      session$DOM$documentUpdated(callback_ = function(...) self$reset())
+    },
+
+    id = function() {
+      private$root <- private$root %||%
+        private$session$DOM$getDocument(depth = 0)$root$nodeId
+      private$root
+    },
+
+    reset = function() {
+      private$root <- NULL
+      invisible(self)
+    }
+  ),
+  private = list(
+    session = NULL,
+    root = NULL
+  )
+)
 
 # Escape a string for inclusion in JavaScript source code
 js_string <- function(x) {

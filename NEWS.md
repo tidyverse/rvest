@@ -2,6 +2,8 @@
 
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
+* `read_html_live()` methods `$click()`, `$type()`, `$press()`, and `$scroll_into_view()` now wait for elements more efficiently, error immediately on invalid CSS selectors, and use the first element when a selector matches more than one.
+
 # rvest 1.0.5
 
 * Fixes `LiveHTML` objects returning 'could not find node with given id' errors if a page navigation occurred after a `$click()` event (#405).
