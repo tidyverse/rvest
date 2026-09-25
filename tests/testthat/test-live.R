@@ -105,6 +105,33 @@ test_that("can type text", {
   expect_equal(html_text(html_element(sess, "#replicatedText")), "hello")
 })
 
+test_that("can select an option", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  sess$select("select", value = "b")
+  expect_equal(html_text(html_element(sess, "p")), "b")
+
+  sess$select("select", text = "Cherry")
+  expect_equal(html_text(html_element(sess, "p")), "c")
+})
+
+test_that("select errors when no option matches", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  expect_snapshot(error = TRUE, sess$select("select", value = "z"))
+  expect_snapshot(error = TRUE, sess$select("select", text = "Fig"))
+})
+
+test_that("select errors when element is not a select", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  expect_snapshot(error = TRUE, sess$select("p", value = "b"))
+  expect_snapshot(error = TRUE, sess$select("p", text = "Banana"))
+})
+
 test_that("can press special keys", {
   skip_if_no_chromote()
 

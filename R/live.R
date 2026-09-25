@@ -245,6 +245,70 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Select an option in a `<select>` element.
+    #' @param css CSS selector.
+    #' @param value,text A single string giving the value or the visible text
+    #'   of the option to select. Supply exactly one.
+    select = function(css, value, text) {
+      private$check_active()
+      check_exclusive(value, text)
+
+      node <- private$wait_for_selector(css)
+      if (!missing(value)) {
+        check_string(value)
+        by <- "value"
+        target <- value
+      } else {
+        check_string(text)
+        by <- "text"
+        target <- text
+      }
+
+      tag <- tolower(
+        private$call_node_method(
+          node[[1]],
+          ".tagName",
+          returnByValue = TRUE
+        )$result$value
+      )
+      if (tag != "select") {
+        cli::cli_abort(
+          "{.str {css}} selects a `<{tag}>` element, not a `<select>`."
+        )
+      }
+
+      js <- paste0(
+        "function() {",
+        " for (const opt of this.options) {",
+        "   const label = opt.text.trim();",
+        if (by == "value") {
+          paste0("   if (opt.value === ", js_string(target), ") {")
+        } else {
+          paste0("   if (label === ", js_string(target), ") {")
+        },
+        "     this.value = opt.value;",
+        "     this.dispatchEvent(new Event('input', {bubbles: true}));",
+        "     this.dispatchEvent(new Event('change', {bubbles: true}));",
+        "     return true;",
+        "   }",
+        " }",
+        " return false;",
+        "}"
+      )
+      out <- self$session$Runtime$callFunctionOn(
+        js,
+        objectId = private$object_id(node[[1]]),
+        returnByValue = TRUE
+      )$result$value
+      if (!isTRUE(out)) {
+        cli::cli_abort(
+          "No option with {by} {.str {target}} in {.str {css}}."
+        )
+      }
+
+      invisible(self)
+    },
+
     #' @description Simulate pressing a single key (including special keys).
     #' @param css CSS selector.
     #' @param key_code Name of key. You can see a complete list of known

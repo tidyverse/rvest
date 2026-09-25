@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Event Example</title>
+    <script>
+        function updateText(event) {
+            document.getElementById('statusText').textContent = event.target.value;
+        }
+    </script>
+</head>
+<body>
+    <select id="picker" onchange="updateText(event)">
+        <option value="a">Apple</option>
+        <option value="b">Banana</option>
+        <option value="c">Cherry</option>
+    </select>
+    <p id="statusText"></p>
+</body>
+</html>

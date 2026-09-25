@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
+
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5
