@@ -71,6 +71,14 @@
       Error in `sess$click()`:
       ! `n_clicks` is not supported when `method = 'js'`.
 
+# invalid selectors error immediately
+
+    Code
+      sess$click("button[")
+    Condition
+      Error in `sess$click()`:
+      ! Invalid selector "button[".
+
 # select errors when no option matches
 
     Code
