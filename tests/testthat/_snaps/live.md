@@ -4,8 +4,8 @@
       bullets
     Output
       {xml_nodeset (2)}
-      [1] <title>Simple Bulleted List</title>
-      [2] <ul>\n<li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n  <li>Item 4 ...
+      [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+      [2] <body>\n\n<ul>\n<li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n   ...
 
 # gracefully errors on bad inputs
 

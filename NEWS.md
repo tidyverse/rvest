@@ -2,6 +2,8 @@
 
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
+* `read_html_live()` objects now return the correct nodes when selecting `<html>`, `<head>`, or `<body>`, so printing shows `<head>` and `<body>` rather than their children (#396).
+
 # rvest 1.0.5
 
 * Fixes `LiveHTML` objects returning 'could not find node with given id' errors if a page navigation occurred after a `$click()` event (#405).
