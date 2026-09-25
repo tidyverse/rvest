@@ -4,10 +4,13 @@
 \alias{read_html_live}
 \title{Live web scraping (with chromote)}
 \usage{
-read_html_live(url)
+read_html_live(url, timeout = 10)
 }
 \arguments{
 \item{url}{Website url to read from.}
+
+\item{timeout}{Number of seconds to wait for the page to finish loading.
+You may need to increase this if you're using a slow proxy.}
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact
@@ -48,8 +51,8 @@ dynamic$view()
 dynamic |> html_element("table")
 
 # And extract data from it
-dynamic |> 
-  html_element("table") |> 
+dynamic |>
+  html_element("table") |>
   html_table()
 }
 }

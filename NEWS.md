@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `read_html_live()` gains a `timeout` argument to control how long to wait for the initial page load, which is useful when using slow proxies (#427).
+
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5

@@ -158,3 +158,10 @@ test_that("modifiers are bitflag", {
   expect_equal(as_key_desc("KeyA", "Shift")$modifiers, 8)
   expect_equal(as_key_desc("KeyA", c("Alt", "Control"))$modifiers, 3)
 })
+
+test_that("read_html_live() checks timeout", {
+  expect_snapshot(
+    read_html_live("https://example.com", timeout = "x"),
+    error = TRUE
+  )
+})
