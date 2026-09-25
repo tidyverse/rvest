@@ -22,6 +22,19 @@ test_that("can find multiple elements", {
   expect_length(li, 4)
 })
 
+test_that("can select html, head, and body elements", {
+  skip_if_no_chromote()
+
+  bullets <- read_html_live(html_test_path("bullets"))
+  expect_equal(html_name(html_elements(bullets, "html > *")), c("head", "body"))
+  expect_equal(html_name(html_elements(bullets, "body")), "body")
+  expect_equal(html_name(html_elements(bullets, "html")), "html")
+  expect_equal(
+    html_name(html_elements(bullets, "head, li")),
+    c("head", rep("li", 4))
+  )
+})
+
 test_that("xpath works with single and double quotes", {
   skip_if_no_chromote()
 

@@ -122,12 +122,15 @@ LiveHTML <- R6::R6Class(
       private$check_active()
       nodes <- private$find_nodes(css, xpath)
 
-      elements <- map_chr(nodes, function(node_id) {
-        json <- private$call_node_method(node_id, ".outerHTML")
-        json$result$value
+      elements <- lapply(nodes, function(node_id) {
+        json <- self$session$Runtime$callFunctionOn(
+          "function() { return [this.localName, this.outerHTML] }",
+          objectId = private$object_id(node_id),
+          returnByValue = TRUE
+        )
+        parse_element(json$result$value[[1]], json$result$value[[2]])
       })
-      html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
-      xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
+      structure(elements, class = "xml_nodeset")
     },
 
     #' @description Simulate a click on an HTML element.
@@ -457,4 +460,12 @@ as_key_desc <- function(
 
   desc$modifiers <- sum(c(Alt = 1, Control = 2, Meta = 4, Shift = 8)[modifiers])
   desc
+}
+
+# Parse the outerHTML of a single element. libxml2 adds implicit <html> and
+# <body> wrappers as needed, so we find the element by its tag name rather
+# than assuming a fixed depth.
+parse_element <- function(tag, html) {
+  doc <- xml2::read_html(html)
+  xml2::xml_find_first(doc, paste0("descendant-or-self::", tag))
 }
