@@ -78,6 +78,21 @@ test_that("can click a button", {
   expect_equal(html_text(html_element(sess, "p")), "double clicked")
 })
 
+test_that("click() uses first element when selector matches many", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("click-multiple"))
+  sess$click("button")
+  expect_equal(html_text(html_element(sess, "p")), "first")
+})
+
+test_that("invalid selectors error immediately", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("click"))
+  expect_snapshot(error = TRUE, sess$click("button["))
+})
+
 test_that("can scroll in various ways", {
   skip_if_no_chromote()
 
