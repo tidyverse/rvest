@@ -21,3 +21,11 @@
       ! `modifiers` must be one of "Alt", "Control", "Meta", or "Shift", not "Malt".
       i Did you mean "Alt"?
 
+# read_html_live() checks timeout
+
+    Code
+      read_html_live("https://example.com", timeout = "x")
+    Condition
+      Error in `read_html_live()`:
+      ! `timeout` must be a number, not the string "x".
+

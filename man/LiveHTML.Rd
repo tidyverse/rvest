@@ -62,13 +62,14 @@ sess |> html_elements(".ExResult-row") |> length()
   initialize the object
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$new(url)}
+    \preformatted{LiveHTML$new(url, timeout = 10)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{url}}{URL to page.}
+      \item{\code{timeout}}{Number of seconds to wait for the page to load.}
     }
     \if{html}{\out{</div>}}
   }

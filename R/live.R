@@ -21,6 +21,8 @@
 #'   like `$click()`, `$scroll_to()`, and `$type()` to interact with the live
 #'   page like a human would.
 #' @param url Website url to read from.
+#' @param timeout Number of seconds to wait for the page to finish loading.
+#'   You may need to increase this if you're using a slow proxy.
 #' @export
 #' @examples
 #' \dontrun{
@@ -43,9 +45,10 @@
 #'   html_element("table") |>
 #'   html_table()
 #' }
-read_html_live <- function(url) {
+read_html_live <- function(url, timeout = 10) {
   check_installed(c("chromote", "R6"))
-  LiveHTML$new(url)
+  check_number_decimal(timeout, min = 0)
+  LiveHTML$new(url, timeout = timeout)
 }
 
 #' Interact with a live web page
@@ -86,7 +89,8 @@ LiveHTML <- R6::R6Class(
 
     #' @description initialize the object
     #' @param url URL to page.
-    initialize = function(url) {
+    #' @param timeout Number of seconds to wait for the page to load.
+    initialize = function(url, timeout = 10) {
       check_installed("chromote")
       self$session <- chromote::ChromoteSession$new()
 
@@ -95,7 +99,7 @@ LiveHTML <- R6::R6Class(
       )
 
       # https://github.com/rstudio/chromote/issues/102
-      p <- self$session$Page$loadEventFired(wait_ = FALSE)
+      p <- self$session$Page$loadEventFired(wait_ = FALSE, timeout_ = timeout)
       self$session$Page$navigate(url, wait_ = FALSE)
       self$session$wait_for(p)
     },
