@@ -71,11 +71,33 @@ test_that("can click a button", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("click"))
-  sess$click("button")
+  sess$click("#actionButton")
   expect_equal(html_text(html_element(sess, "p")), "clicked")
 
-  sess$click("button", 2)
+  sess$click("#actionButton", 2)
   expect_equal(html_text(html_element(sess, "p")), "double clicked")
+})
+
+test_that("can click hidden element with js method", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("click"))
+  sess$click("#hiddenButton", method = "js")
+  expect_equal(html_text(html_element(sess, "p")), "hidden clicked")
+})
+
+test_that("mouse click on hidden element errors helpfully", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("click"))
+  expect_snapshot(
+    sess$click("#hiddenButton"),
+    error = TRUE
+  )
+  expect_snapshot(
+    sess$click("#hiddenButton", n_clicks = 2, method = "js"),
+    error = TRUE
+  )
 })
 
 test_that("can scroll in various ways", {

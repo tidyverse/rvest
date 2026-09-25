@@ -133,20 +133,51 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector.
     #' @param n_clicks Number of clicks
-    click = function(css, n_clicks = 1) {
+    #' @param method Click method. `"mouse"` simulates a real mouse click and
+    #'   requires the element to be visible on the page. `"js"` calls
+    #'   JavaScript's `element.click()` directly, which works even for hidden
+    #'   or off-screen elements, but only fires the `click` event (no
+    #'   `mousedown`, `mouseup`, or hover events).
+    click = function(css, n_clicks = 1, method = c("mouse", "js")) {
       private$check_active()
       check_number_whole(n_clicks, min = 1)
+      method <- arg_match(method)
+
+      node <- private$wait_for_selector(css)
+
+      if (method == "js") {
+        if (n_clicks != 1) {
+          cli::cli_abort(
+            "{.arg n_clicks} is not supported when {.code method = 'js'}."
+          )
+        }
+        private$call_node_method(node, ".click()")
+        return(invisible(self))
+      }
 
       # Implementation based on puppeteer as described in
       # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
       # With code from https://github.com/puppeteer/puppeteer/blob/b53de4e0942e93c/packages/puppeteer-core/src/cdp/Input.ts#L431-L459
 
-      node <- private$wait_for_selector(css)
-      self$session$DOM$scrollIntoViewIfNeeded(node)
-
       # Quad = location of four corners (x1, y1, x2, y2, x3, y3, x4, y4)
       # Relative to viewport
-      quads <- self$session$DOM$getBoxModel(node)
+      quads <- tryCatch(
+        {
+          self$session$DOM$scrollIntoViewIfNeeded(node)
+          self$session$DOM$getBoxModel(node)
+        },
+        error = function(cnd) {
+          cli::cli_abort(
+            c(
+              "Element {.str {css}} can't be clicked with the mouse.",
+              i = "It may be hidden or zero-sized.",
+              i = "Try {.code method = 'js'} to fire a JavaScript click event instead."
+            ),
+            parent = cnd,
+            class = "rvest_error_not_clickable"
+          )
+        }
+      )
       content_quad <- as.numeric(quads$model$content)
       center_x <- mean(content_quad[c(1, 3, 5, 7)])
       center_y <- mean(content_quad[c(2, 4, 6, 8)])

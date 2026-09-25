@@ -131,7 +131,7 @@ sess |> html_elements(".ExResult-row") |> length()
   Simulate a click on an HTML element.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$click(css, n_clicks = 1)}
+    \preformatted{LiveHTML$click(css, n_clicks = 1, method = c("mouse", "js"))}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -139,6 +139,11 @@ sess |> html_elements(".ExResult-row") |> length()
     \describe{
       \item{\code{css}}{CSS selector.}
       \item{\code{n_clicks}}{Number of clicks}
+      \item{\code{method}}{Click method. \code{"mouse"} simulates a real mouse click and
+requires the element to be visible on the page. \code{"js"} calls
+JavaScript's \code{element.click()} directly, which works even for hidden
+or off-screen elements, but only fires the \code{click} event (no
+\code{mousedown}, \code{mouseup}, or hover events).}
     }
     \if{html}{\out{</div>}}
   }
