@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
+
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5
