@@ -7,6 +7,19 @@
       [1] <title>Simple Bulleted List</title>
       [2] <ul>\n<li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n  <li>Item 4 ...
 
+# download_path falls back to suggested filename
+
+    Code
+      download_path(list(), dir, "b.txt")
+    Condition
+      Error:
+      ! Download completed but couldn't find the file in '<dir>'.
+    Code
+      download_path(list(), dir, NULL)
+    Condition
+      Error:
+      ! Download completed but couldn't find the file in '<dir>'.
+
 # gracefully errors on bad inputs
 
     Code

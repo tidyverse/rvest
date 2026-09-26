@@ -177,6 +177,65 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Click on an element that triggers a download, and wait
+    #'   for the download to complete.
+    #' @param css CSS selector.
+    #' @param dir Directory to save the file in. Will be created if needed.
+    #' @param timeout Maximum number of seconds to wait for the download to
+    #'   complete.
+    #' @return The path to the downloaded file, invisibly. The file name is
+    #'   determined by the server.
+    download = function(css, dir = tempdir(), timeout = 30) {
+      private$check_active()
+      check_string(dir)
+      check_number_decimal(timeout, min = 0)
+
+      dir.create(dir, showWarnings = FALSE, recursive = TRUE)
+      self$session$Browser$setDownloadBehavior(
+        behavior = "allow",
+        downloadPath = normalizePath(dir),
+        eventsEnabled = TRUE
+      )
+
+      guid <- NULL
+      filename <- NULL
+      result <- NULL
+      unbegin <- self$session$Browser$downloadWillBegin(
+        callback_ = function(event) {
+          if (is.null(guid)) {
+            guid <<- event$guid
+            filename <<- event$suggestedFilename
+          }
+        }
+      )
+      unprogress <- self$session$Browser$downloadProgress(
+        callback_ = function(event) {
+          if (identical(event$guid, guid) && event$state != "inProgress") {
+            result <<- event
+          }
+        }
+      )
+      on.exit({
+        unbegin()
+        unprogress()
+      })
+
+      self$click(css)
+
+      done <- now() + timeout
+      while (is.null(result) && now() < done) {
+        later::run_now(0.1)
+      }
+
+      if (is.null(result)) {
+        cli::cli_abort("Download did not complete in {timeout} seconds.")
+      }
+      if (result$state != "completed") {
+        cli::cli_abort("Download was {result$state}.")
+      }
+      invisible(download_path(result, dir, filename))
+    },
+
     #' @description Get the current scroll position.
     get_scroll_position = function() {
       private$check_active()
@@ -351,6 +410,23 @@ LiveHTML <- R6::R6Class(
 )
 
 now <- function() proc.time()[[3]]
+
+# `filePath` is optional in completed Browser.downloadProgress events, so
+# fall back to the suggested filename in the download directory
+download_path <- function(event, dir, filename, error_call = caller_env()) {
+  if (!is.null(event$filePath)) {
+    return(event$filePath)
+  }
+
+  path <- file.path(normalizePath(dir), filename %||% "")
+  if (is.null(filename) || !file.exists(path)) {
+    cli::cli_abort(
+      "Download completed but couldn't find the file in {.path {dir}}.",
+      call = error_call
+    )
+  }
+  path
+}
 
 # Escape a string for inclusion in JavaScript source code
 js_string <- function(x) {
