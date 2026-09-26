@@ -90,6 +90,26 @@ test_that("can download a file", {
   expect_equal(readLines(path, warn = FALSE), "hello")
 })
 
+test_that("download_path falls back to suggested filename", {
+  dir <- tempfile()
+  dir.create(dir)
+  on.exit(unlink(dir, recursive = TRUE))
+  file.create(file.path(dir, "a.txt"))
+
+  expect_equal(
+    download_path(list(filePath = "x/y.txt"), dir, "a.txt"),
+    "x/y.txt"
+  )
+  expect_equal(
+    download_path(list(), dir, "a.txt"),
+    file.path(normalizePath(dir), "a.txt")
+  )
+  expect_snapshot(error = TRUE, transform = \(x) gsub(dir, "<dir>", x), {
+    download_path(list(), dir, "b.txt")
+    download_path(list(), dir, NULL)
+  })
+})
+
 test_that("can scroll in various ways", {
   skip_if_no_chromote()
 

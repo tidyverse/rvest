@@ -198,10 +198,14 @@ LiveHTML <- R6::R6Class(
       )
 
       guid <- NULL
+      filename <- NULL
       result <- NULL
       unbegin <- self$session$Browser$downloadWillBegin(
         callback_ = function(event) {
-          guid <<- guid %||% event$guid
+          if (is.null(guid)) {
+            guid <<- event$guid
+            filename <<- event$suggestedFilename
+          }
         }
       )
       unprogress <- self$session$Browser$downloadProgress(
@@ -229,7 +233,7 @@ LiveHTML <- R6::R6Class(
       if (result$state != "completed") {
         cli::cli_abort("Download was {result$state}.")
       }
-      invisible(result$filePath)
+      invisible(download_path(result, dir, filename))
     },
 
     #' @description Get the current scroll position.
@@ -406,6 +410,23 @@ LiveHTML <- R6::R6Class(
 )
 
 now <- function() proc.time()[[3]]
+
+# `filePath` is optional in completed Browser.downloadProgress events, so
+# fall back to the suggested filename in the download directory
+download_path <- function(event, dir, filename, error_call = caller_env()) {
+  if (!is.null(event$filePath)) {
+    return(event$filePath)
+  }
+
+  path <- file.path(normalizePath(dir), filename %||% "")
+  if (is.null(filename) || !file.exists(path)) {
+    cli::cli_abort(
+      "Download completed but couldn't find the file in {.path {dir}}.",
+      call = error_call
+    )
+  }
+  path
+}
 
 # Escape a string for inclusion in JavaScript source code
 js_string <- function(x) {
