@@ -27,6 +27,7 @@ Suggests:
     chromote,
     covr,
     knitr,
+    later,
     purrr,
     R6,
     readr,
