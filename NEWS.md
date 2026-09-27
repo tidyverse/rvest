@@ -1,5 +1,6 @@
 # rvest (development version)
 
+* `LiveHTML` gains a `$download()` method that clicks an element that triggers a download, waits for it to complete, and returns the path to the downloaded file (#437).
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5

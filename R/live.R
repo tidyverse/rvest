@@ -177,6 +177,61 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Click on an element that triggers a download, and wait
+    #'   for the download to complete.
+    #' @param css CSS selector.
+    #' @param dir Directory to save the file in. Will be created if needed.
+    #' @param timeout Maximum number of seconds to wait for the download to
+    #'   complete.
+    #' @return The path to the downloaded file, invisibly. The file name is
+    #'   determined by the server.
+    download = function(css, dir = tempdir(), timeout = 30) {
+      private$check_active()
+      check_string(dir)
+      check_number_decimal(timeout, min = 0)
+
+      dir.create(dir, showWarnings = FALSE, recursive = TRUE)
+      self$session$Browser$setDownloadBehavior(
+        behavior = "allow",
+        downloadPath = normalizePath(dir),
+        eventsEnabled = TRUE
+      )
+
+      guid <- NULL
+      result <- NULL
+      unbegin <- self$session$Browser$downloadWillBegin(
+        callback_ = function(event) {
+          guid <<- guid %||% event$guid
+        }
+      )
+      unprogress <- self$session$Browser$downloadProgress(
+        callback_ = function(event) {
+          if (identical(event$guid, guid) && event$state != "inProgress") {
+            result <<- event
+          }
+        }
+      )
+      on.exit({
+        unbegin()
+        unprogress()
+      })
+
+      self$click(css)
+
+      done <- now() + timeout
+      while (is.null(result) && now() < done) {
+        later::run_now(0.1)
+      }
+
+      if (is.null(result)) {
+        cli::cli_abort("Download did not complete in {timeout} seconds.")
+      }
+      if (result$state != "completed") {
+        cli::cli_abort("Download was {result$state}.")
+      }
+      invisible(result$filePath)
+    },
+
     #' @description Get the current scroll position.
     get_scroll_position = function() {
       private$check_active()

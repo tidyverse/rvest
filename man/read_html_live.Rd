@@ -48,8 +48,8 @@ dynamic$view()
 dynamic |> html_element("table")
 
 # And extract data from it
-dynamic |> 
-  html_element("table") |> 
+dynamic |>
+  html_element("table") |>
   html_table()
 }
 }

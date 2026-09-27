@@ -78,6 +78,18 @@ test_that("can click a button", {
   expect_equal(html_text(html_element(sess, "p")), "double clicked")
 })
 
+test_that("can download a file", {
+  skip_if_no_chromote()
+
+  dir <- tempfile()
+  on.exit(unlink(dir, recursive = TRUE))
+  sess <- read_html_live(html_test_path("download"))
+  path <- sess$download("#download", dir = dir)
+
+  expect_equal(basename(path), "hello.txt")
+  expect_equal(readLines(path, warn = FALSE), "hello")
+})
+
 test_that("can scroll in various ways", {
   skip_if_no_chromote()
 
