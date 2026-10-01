@@ -1,5 +1,7 @@
 # rvest (development version)
 
+* `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351).
+
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5
