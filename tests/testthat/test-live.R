@@ -138,25 +138,19 @@ test_that("hides automated browser tells", {
   skip_if_no_chromote()
 
   sess <- read_html_live(html_test_path("bullets"))
-  js <- function(code) {
-    sess$session$Runtime$evaluate(code, returnByValue = TRUE)$result$value
-  }
-
-  expect_false(js("navigator.webdriver"))
-  expect_true(js("navigator.languages.length") > 0)
-  expect_true(js("navigator.plugins.length") > 0)
-  expect_false(grepl("HeadlessChrome", js("navigator.userAgent")))
+  expect_false(eval_js(sess$session, "navigator.webdriver"))
+  expect_true(eval_js(sess$session, "navigator.languages.length") > 0)
+  expect_true(eval_js(sess$session, "navigator.plugins.length") > 0)
+  expect_false(grepl(
+    "HeadlessChrome",
+    eval_js(sess$session, "navigator.userAgent")
+  ))
 })
 
 test_that("view controls viewport size", {
   skip_if_no_chromote()
 
-  inner_width <- function(sess) {
-    sess$session$Runtime$evaluate(
-      "window.innerWidth",
-      returnByValue = TRUE
-    )$result$value
-  }
+  inner_width <- function(sess) eval_js(sess$session, "window.innerWidth")
   desktop <- read_html_live(html_test_path("bullets"), view = "desktop")
   expect_equal(inner_width(desktop), 1280)
 
