@@ -54,7 +54,7 @@ read_html_live <- function(
   view = c("desktop", "mobile")
 ) {
   check_installed(c("chromote", "R6"))
-  LiveHTML$new(url, mode = mode, view = view)
+  LiveHTML$new(url, mode = mode, view = view, error = current_env())
 }
 
 #' Interact with a live web page
@@ -96,14 +96,16 @@ LiveHTML <- R6::R6Class(
     #' @description initialize the object
     #' @param url URL to page.
     #' @param mode,view As described in [read_html_live()].
+    #' @param error Execution environment used for error messages.
     initialize = function(
       url,
       mode = c("headless", "visible"),
-      view = c("desktop", "mobile")
+      view = c("desktop", "mobile"),
+      error = caller_env()
     ) {
       check_installed("chromote")
 
-      self$session <- stealth_session(mode = mode, view = view)
+      self$session <- stealth_session(mode = mode, view = view, error = error)
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
@@ -418,10 +420,11 @@ html_element.LiveHTML <- function(x, css, xpath) {
 # that the caller can close it.
 stealth_session <- function(
   mode = c("headless", "visible"),
-  view = c("desktop", "mobile")
+  view = c("desktop", "mobile"),
+  error = caller_env()
 ) {
-  mode <- arg_match(mode)
-  view <- arg_match(view)
+  mode <- arg_match(mode, error_call = error)
+  view <- arg_match(view, error_call = error)
   local_options(chromote.headless = if (mode == "headless") "new" else "false")
   browser <- chromote::Chromote$new(
     browser = chromote::Chrome$new(

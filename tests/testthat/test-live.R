@@ -1,3 +1,10 @@
+test_that("mode and view are validated", {
+  expect_snapshot(error = TRUE, {
+    read_html_live("https://rvest.tidyverse.org", mode = "invisible")
+    read_html_live("https://rvest.tidyverse.org", view = "tablet")
+  })
+})
+
 test_that("has print method", {
   skip_if_no_chromote()
 

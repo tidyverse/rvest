@@ -65,7 +65,8 @@ sess |> html_elements(".ExResult-row") |> length()
     \preformatted{LiveHTML$new(
   url,
   mode = c("headless", "visible"),
-  view = c("desktop", "mobile")
+  view = c("desktop", "mobile"),
+  error = caller_env()
 )}
     \if{html}{\out{</div>}}
   }
