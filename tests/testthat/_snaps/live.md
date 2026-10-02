@@ -1,3 +1,32 @@
+# url is validated
+
+    Code
+      read_html_live("")
+    Condition
+      Error in `read_html_live()`:
+      ! `url` must be a single string, not the empty string "".
+    Code
+      read_html_live(123)
+    Condition
+      Error in `read_html_live()`:
+      ! `url` must be a single string, not the number 123.
+
+# errors when navigation fails
+
+    Code
+      read_html_live("https://doeasdfsdafastnexist.com")
+    Condition
+      Error in `read_html_live()`:
+      ! Failed to load <https://doeasdfsdafastnexist.com>: net::ERR_NAME_NOT_RESOLVED
+    Code
+      read_html_live(".//")
+    Condition
+      Error in `read_html_live()`:
+      ! Failed to load <.//>
+      Caused by error in `callback()`:
+      ! code: -32000
+        message: Cannot navigate to invalid URL
+
 # mode and view are validated
 
     Code
