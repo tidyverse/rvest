@@ -281,8 +281,10 @@ LiveHTML <- R6::R6Class(
       self$session$DOM$getDocument()$root$nodeId
     },
     finalize = function() {
-      self$session$close()
-      self$session$parent$close()
+      # Closing the parent browser terminates the session too; doing both
+      # races the websocket close and the browser may already be
+      # unresponsive during GC, so ignore errors
+      try(self$session$parent$close(), silent = TRUE)
     },
 
     check_active = function() {
