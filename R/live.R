@@ -60,6 +60,7 @@ read_html_live <- function(
   browser = NULL
 ) {
   check_installed(c("chromote", "R6"))
+  check_string(url, allow_empty = FALSE)
   LiveHTML$new(
     url,
     mode = mode,
@@ -127,7 +128,22 @@ LiveHTML <- R6::R6Class(
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
-      self$session$Page$navigate(url, wait_ = FALSE)
+      res <- withCallingHandlers(
+        self$session$Page$navigate(url),
+        error = function(cnd) {
+          cli::cli_abort(
+            "Failed to load {.url {url}}",
+            call = error,
+            parent = cnd
+          )
+        }
+      )
+      if (!is.null(res$errorText)) {
+        cli::cli_abort(
+          "Failed to load {.url {url}}: {res$errorText}",
+          call = error
+        )
+      }
       self$session$wait_for(p)
     },
 

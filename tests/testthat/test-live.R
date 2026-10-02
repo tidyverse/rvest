@@ -1,3 +1,19 @@
+test_that("url is validated", {
+  expect_snapshot(error = TRUE, {
+    read_html_live("")
+    read_html_live(123)
+  })
+})
+
+test_that("errors when navigation fails", {
+  skip_if_no_chromote()
+
+  expect_snapshot(error = TRUE, {
+    read_html_live("https://doeasdfsdafastnexist.com")
+    read_html_live(".//")
+  })
+})
+
 test_that("mode and view are validated", {
   expect_snapshot(error = TRUE, {
     read_html_live("https://rvest.tidyverse.org", mode = "invisible")
