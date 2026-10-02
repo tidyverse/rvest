@@ -153,9 +153,8 @@ LiveHTML <- R6::R6Class(
       private$check_active()
       nodes <- private$find_nodes(css, xpath)
 
-      elements <- map_chr(nodes, function(node_id) {
-        json <- private$call_node_method(node_id, ".outerHTML")
-        json$result$value
+      elements <- map_chr(nodes, \(node_id) {
+        private$call_node_method(node_id, ".outerHTML")
       })
       html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
       xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
@@ -291,13 +290,7 @@ LiveHTML <- R6::R6Class(
         target <- text
       }
 
-      tag <- tolower(
-        private$call_node_method(
-          node[[1]],
-          ".tagName",
-          returnByValue = TRUE
-        )$result$value
-      )
+      tag <- tolower(private$call_node_method(node[[1]], ".tagName"))
       if (tag != "select") {
         cli::cli_abort(
           "{.str {css}} selects a `<{tag}>` element, not a `<select>`."
@@ -322,11 +315,7 @@ LiveHTML <- R6::R6Class(
         " return false;",
         "}"
       )
-      out <- self$session$Runtime$callFunctionOn(
-        js,
-        objectId = private$object_id(node[[1]]),
-        returnByValue = TRUE
-      )$result$value
+      out <- private$call_node_js(node[[1]], js)
       if (!isTRUE(out)) {
         cli::cli_abort(
           "No option with {by} {.str {target}} in {.str {css}}."
@@ -429,11 +418,20 @@ LiveHTML <- R6::R6Class(
     },
 
     # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-    call_node_method = function(node_id, method, ...) {
-      js_fun <- paste0("function() { return this", method, "}")
-      obj_id <- private$object_id(node_id)
+    # Evaluate `js_fun` with `this` bound to `node_id`, returning an R value
+    call_node_js = function(node_id, js_fun) {
       # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
-      self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
+      self$session$Runtime$callFunctionOn(
+        js_fun,
+        objectId = private$object_id(node_id),
+        returnByValue = TRUE
+      )$result$value
+    },
+
+    # Evaluate `.method` on `node_id`, returning an R value
+    call_node_method = function(node_id, method) {
+      js_fun <- paste0("function() { return this", method, "}")
+      private$call_node_js(node_id, js_fun)
     },
 
     object_id = function(node_id) {
