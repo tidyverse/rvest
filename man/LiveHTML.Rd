@@ -62,13 +62,21 @@ sess |> html_elements(".ExResult-row") |> length()
   initialize the object
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$new(url)}
+    \preformatted{LiveHTML$new(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile"),
+  browser = NULL,
+  error = caller_env()
+)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{url}}{URL to page.}
+      \item{\code{mode, view, browser}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
+      \item{\code{error}}{Execution environment used for error messages.}
     }
     \if{html}{\out{</div>}}
   }
