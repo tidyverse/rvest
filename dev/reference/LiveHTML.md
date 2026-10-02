@@ -44,6 +44,8 @@ that exposes a more powerful user interface, like
 
 - [`LiveHTML$type()`](#method-LiveHTML-type)
 
+- [`LiveHTML$select()`](#method-LiveHTML-select)
+
 - [`LiveHTML$press()`](#method-LiveHTML-press)
 
 - [`LiveHTML$clone()`](#method-LiveHTML-clone)
@@ -218,6 +220,27 @@ Type text in the selected element
 - `text`:
 
   A single string containing the text to type.
+
+------------------------------------------------------------------------
+
+### `LiveHTML$select()`
+
+Select an option in a `<select>` element.
+
+#### Usage
+
+    LiveHTML$select(css, value, text)
+
+#### Arguments
+
+- `css`:
+
+  CSS selector.
+
+- `value, text`:
+
+  A single string giving the value or the visible text of the option to
+  select. Supply exactly one.
 
 ------------------------------------------------------------------------
 

@@ -102,6 +102,7 @@ that exposes a more powerful user interface, like
 <li><p><a href="#method-LiveHTML-scroll_to"><code>LiveHTML$scroll_to()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-scroll_by"><code>LiveHTML$scroll_by()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-type"><code>LiveHTML$type()</code></a></p></li>
+<li><p><a href="#method-LiveHTML-select"><code>LiveHTML$select()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-press"><code>LiveHTML$press()</code></a></p></li>
 <li><p><a href="#method-LiveHTML-clone"><code>LiveHTML$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-LiveHTML-initialize"></a><div class="section">
@@ -269,13 +270,33 @@ respectively.</p></dd>
 
 </div>
 
+<p></p><hr><a id="method-LiveHTML-select"></a><div class="section">
+<h3 id="livehtml-select-"><code>LiveHTML$select()</code><a class="anchor" aria-label="anchor" href="#livehtml-select-"></a></h3>
+<p>Select an option in a <code>&lt;select&gt;</code> element.</p><div class="section">
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">css</span>, <span class="va">value</span>, <span class="va">text</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>css</code></dt>
+<dd><p>CSS selector.</p></dd>
+
+      <dt><code>value, text</code></dt>
+<dd><p>A single string giving the value or the visible text
+of the option to select. Supply exactly one.</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-LiveHTML-press"></a><div class="section">
 <h3 id="livehtml-press-"><code>LiveHTML$press()</code><a class="anchor" aria-label="anchor" href="#livehtml-press-"></a></h3>
 <p>Simulate pressing a single key (including special keys).</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">press</span><span class="op">(</span><span class="va">css</span>, <span class="va">key_code</span>, modifiers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
+<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
 <dd><p>CSS selector.</p></dd>
 
@@ -296,10 +317,10 @@ of <code>"Shift</code>, <code>"Control"</code>, <code>"Alt"</code>, or <code>"Me
 <p></p><hr><a id="method-LiveHTML-clone"></a><div class="section">
 <h3 id="livehtml-clone-"><code>LiveHTML$clone()</code><a class="anchor" aria-label="anchor" href="#livehtml-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
+<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

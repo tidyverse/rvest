@@ -49,6 +49,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rvest-development-version">rvest (development version)<a class="anchor" aria-label="anchor" href="#rvest-development-version"></a></h2>
 <ul><li>
+<code>LiveHTML</code> gains a <code>$select()</code> method for selecting options from a <code>&lt;select&gt;</code> dropdown, either by value or by visible text (<a href="https://github.com/tidyverse/rvest/issues/411" class="external-link">#411</a>).</li>
+<li>
 <code><a href="../reference/read_html_live.html">read_html_live()</a></code> now hides common tells of an automated browser (e.g. <code>navigator.webdriver</code> and the <code>HeadlessChrome</code> user agent), making it less likely to be blocked by bot detection (<a href="https://github.com/tidyverse/rvest/issues/407" class="external-link">#407</a>).</li>
 <li>
 <code><a href="../reference/read_html_live.html">read_html_live()</a></code> gains <code>mode</code> and <code>view</code> arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to <code>--headless=new</code> (<a href="https://github.com/tidyverse/rvest/issues/407" class="external-link">#407</a>, <a href="https://github.com/tidyverse/rvest/issues/438" class="external-link">#438</a>).</li>

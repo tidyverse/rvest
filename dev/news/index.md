@@ -2,6 +2,9 @@
 
 ## rvest (development version)
 
+- `LiveHTML` gains a `$select()` method for selecting options from a
+  `<select>` dropdown, either by value or by visible text
+  ([\#411](https://github.com/tidyverse/rvest/issues/411)).
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now hides common tells of an automated browser
   (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent),
