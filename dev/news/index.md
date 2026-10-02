@@ -23,6 +23,9 @@
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now correctly handles `xpath` expressions containing single quotes
   ([\#435](https://github.com/tidyverse/rvest/issues/435)).
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  now errors immediately if the page fails to load (e.g. the domain
+  doesn’t exist) instead of hanging.
 
 ## rvest 1.0.5
 
