@@ -86,7 +86,12 @@ on your machine.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_html_live</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_html_live</span><span class="op">(</span></span>
+<span>  <span class="va">url</span>,</span>
+<span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"headless"</span>, <span class="st">"visible"</span><span class="op">)</span>,</span>
+<span>  view <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desktop"</span>, <span class="st">"mobile"</span><span class="op">)</span>,</span>
+<span>  browser <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -95,6 +100,25 @@ on your machine.</p>
 
 <dl><dt id="arg-url">url<a class="anchor" aria-label="anchor" href="#arg-url"></a></dt>
 <dd><p>Website url to read from.</p></dd>
+
+
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
+<dd><p>Either <code>"headless"</code> (the default) to run Chrome without a
+visible window, or <code>"visible"</code> to open a browser window, which can be
+useful when debugging a scraping script.</p></dd>
+
+
+<dt id="arg-view">view<a class="anchor" aria-label="anchor" href="#arg-view"></a></dt>
+<dd><p>Either <code>"desktop"</code> (the default) or <code>"mobile"</code>, controlling
+the viewport size that the page is rendered with.</p></dd>
+
+
+<dt id="arg-browser">browser<a class="anchor" aria-label="anchor" href="#arg-browser"></a></dt>
+<dd><p>An existing <a href="https://rstudio.github.io/chromote/reference/Chromote.html" class="external-link">chromote::Chromote</a> browser object to use.
+By default, all sessions share a single browser (one per <code>mode</code>) that
+is launched on first use and closed when the package is unloaded; each
+session gets its own tab. Supply your own browser if you need full
+control over its lifecycle.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -123,8 +147,8 @@ page like a human would.</p>
 <span class="r-in"><span><span class="va">dynamic</span> <span class="op">|&gt;</span> <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># And extract data from it</span></span></span>
-<span class="r-in"><span><span class="va">dynamic</span> <span class="op">|&gt;</span> </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op">|&gt;</span> </span></span>
+<span class="r-in"><span><span class="va">dynamic</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="html_element.html">html_element</a></span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="html_table.html">html_table</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

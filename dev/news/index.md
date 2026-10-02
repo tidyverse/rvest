@@ -3,6 +3,21 @@
 ## rvest (development version)
 
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  now hides common tells of an automated browser
+  (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent),
+  making it less likely to be blocked by bot detection
+  ([\#407](https://github.com/tidyverse/rvest/issues/407)).
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  gains `mode` and `view` arguments to optionally run Chrome with a
+  visible window or with a mobile viewport, and headless mode now
+  defaults to `--headless=new`
+  ([\#407](https://github.com/tidyverse/rvest/issues/407),
+  [\#438](https://github.com/tidyverse/rvest/issues/438)).
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  now shares a single browser across all sessions (one per `mode`), so
+  repeated calls no longer pay the cost of launching Chrome each time;
+  use the new `browser` argument to supply your own browser instead.
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now correctly handles `xpath` expressions containing single quotes
   ([\#435](https://github.com/tidyverse/rvest/issues/435)).
 

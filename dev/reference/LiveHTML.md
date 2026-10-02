@@ -56,13 +56,28 @@ initialize the object
 
 #### Usage
 
-    LiveHTML$new(url)
+    LiveHTML$new(
+      url,
+      mode = c("headless", "visible"),
+      view = c("desktop", "mobile"),
+      browser = NULL,
+      error = caller_env()
+    )
 
 #### Arguments
 
 - `url`:
 
   URL to page.
+
+- `mode, view, browser`:
+
+  As described in
+  [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md).
+
+- `error`:
+
+  Execution environment used for error messages.
 
 ------------------------------------------------------------------------
 

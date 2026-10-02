@@ -19,7 +19,12 @@ installed on your machine.
 ## Usage
 
 ``` r
-read_html_live(url)
+read_html_live(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile"),
+  browser = NULL
+)
 ```
 
 ## Arguments
@@ -27,6 +32,26 @@ read_html_live(url)
 - url:
 
   Website url to read from.
+
+- mode:
+
+  Either `"headless"` (the default) to run Chrome without a visible
+  window, or `"visible"` to open a browser window, which can be useful
+  when debugging a scraping script.
+
+- view:
+
+  Either `"desktop"` (the default) or `"mobile"`, controlling the
+  viewport size that the page is rendered with.
+
+- browser:
+
+  An existing
+  [chromote::Chromote](https://rstudio.github.io/chromote/reference/Chromote.html)
+  browser object to use. By default, all sessions share a single browser
+  (one per `mode`) that is launched on first use and closed when the
+  package is unloaded; each session gets its own tab. Supply your own
+  browser if you need full control over its lifecycle.
 
 ## Value
 
@@ -55,8 +80,8 @@ dynamic$view()
 dynamic |> html_element("table")
 
 # And extract data from it
-dynamic |> 
-  html_element("table") |> 
+dynamic |>
+  html_element("table") |>
   html_table()
 } # }
 ```
