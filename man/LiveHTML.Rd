@@ -66,6 +66,7 @@ sess |> html_elements(".ExResult-row") |> length()
   url,
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
+  browser = NULL,
   error = caller_env()
 )}
     \if{html}{\out{</div>}}
@@ -74,7 +75,8 @@ sess |> html_elements(".ExResult-row") |> length()
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{url}}{URL to page.}
-      \item{\code{mode, view}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
+      \item{\code{mode, view, browser}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
+      \item{\code{error}}{Execution environment used for error messages.}
     }
     \if{html}{\out{</div>}}
   }

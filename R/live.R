@@ -26,6 +26,11 @@
 #'   useful when debugging a scraping script.
 #' @param view Either `"desktop"` (the default) or `"mobile"`, controlling
 #'   the viewport size that the page is rendered with.
+#' @param browser An existing [chromote::Chromote] browser object to use.
+#'   By default, all sessions share a single browser (per `mode`) that
+#'   is launched on first use and closed when the package is unloaded; each
+#'   session gets its own tab. Supply your own browser if you need full
+#'   control over its lifecycle.
 #' @export
 #' @examples
 #' \dontrun{
@@ -51,10 +56,17 @@
 read_html_live <- function(
   url,
   mode = c("headless", "visible"),
-  view = c("desktop", "mobile")
+  view = c("desktop", "mobile"),
+  browser = NULL
 ) {
   check_installed(c("chromote", "R6"))
-  LiveHTML$new(url, mode = mode, view = view, error = current_env())
+  LiveHTML$new(
+    url,
+    mode = mode,
+    view = view,
+    browser = browser,
+    error = current_env()
+  )
 }
 
 #' Interact with a live web page
@@ -95,17 +107,23 @@ LiveHTML <- R6::R6Class(
 
     #' @description initialize the object
     #' @param url URL to page.
-    #' @param mode,view As described in [read_html_live()].
+    #' @param mode,view,browser As described in [read_html_live()].
     #' @param error Execution environment used for error messages.
     initialize = function(
       url,
       mode = c("headless", "visible"),
       view = c("desktop", "mobile"),
+      browser = NULL,
       error = caller_env()
     ) {
       check_installed("chromote")
 
-      self$session <- stealth_session(mode = mode, view = view, error = error)
+      self$session <- stealth_session(
+        mode = mode,
+        view = view,
+        browser = browser,
+        error = error
+      )
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE)
@@ -279,10 +297,9 @@ LiveHTML <- R6::R6Class(
       self$session$DOM$getDocument()$root$nodeId
     },
     finalize = function() {
-      # Closing the parent browser terminates the session too; doing both
-      # races the websocket close and the browser may already be
-      # unresponsive during GC, so ignore errors
-      try(self$session$parent$close(), silent = TRUE)
+      # The browser is shared, so just close this session's tab; the
+      # browser may already be unresponsive during GC, so ignore errors
+      try(self$session$close(), silent = TRUE)
     },
 
     check_active = function() {
@@ -416,25 +433,19 @@ html_element.LiveHTML <- function(x, css, xpath) {
 # helpers -----------------------------------------------------------------
 
 # Creates a chromote session that hides signs of automation (#407), using
-# our own browser (rather than the shared default) so that we can launch it
-# with extra flags. The parent browser is available via `session$parent` so
-# that the caller can close it.
+# our own browser (rather than chromote's shared default) so that we can
+# launch it with extra flags. By default the browser is shared by all
+# sessions (see `default_live_browser()`).
 stealth_session <- function(
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
+  browser = NULL,
   error = caller_env()
 ) {
   mode <- arg_match(mode, error_call = error)
   view <- arg_match(view, error_call = error)
-  local_options(chromote.headless = if (mode == "headless") "new" else "false")
-  browser <- chromote::Chromote$new(
-    browser = chromote::Chrome$new(
-      args = c(
-        chromote::default_chrome_args(),
-        "--disable-blink-features=AutomationControlled"
-      )
-    )
-  )
+
+  browser <- browser %||% default_live_browser(mode)
   session <- chromote::ChromoteSession$new(
     parent = browser,
     mobile = view == "mobile",
@@ -450,6 +461,44 @@ stealth_session <- function(
   )
 
   session
+}
+
+# Package-wide browsers (one per mode) shared by all read_html_live()
+# calls, so we don't pay the cost of launching Chrome for every session.
+# Closed when the package is unloaded.
+default_live_browser <- function(mode) {
+  key <- paste0("live_browser_", mode)
+  browser <- the[[key]]
+  if (is.null(browser) || !browser$is_active()) {
+    headless <- if (mode == "headless") "new" else "false"
+    local_options(chromote.headless = headless)
+    browser <- new_stealth_browser()
+    the[[key]] <- browser
+  }
+  browser
+}
+
+close_live_browsers <- function() {
+  for (mode in c("headless", "visible")) {
+    browser <- the[[paste0("live_browser_", mode)]]
+    if (!is.null(browser)) {
+      try(browser$close(), silent = TRUE)
+    }
+  }
+}
+
+# Launch a browser with automation tells disabled (#407). If you create one
+# yourself, you are responsible for closing it.
+new_stealth_browser <- function() {
+  check_installed("chromote")
+  chromote::Chromote$new(
+    browser = chromote::Chrome$new(
+      args = c(
+        chromote::default_chrome_args(),
+        "--disable-blink-features=AutomationControlled"
+      )
+    )
+  )
 }
 
 has_chromote <- function() {

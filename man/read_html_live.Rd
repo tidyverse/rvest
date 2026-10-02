@@ -7,7 +7,8 @@
 read_html_live(
   url,
   mode = c("headless", "visible"),
-  view = c("desktop", "mobile")
+  view = c("desktop", "mobile"),
+  browser = NULL
 )
 }
 \arguments{
@@ -19,6 +20,12 @@ useful when debugging a scraping script.}
 
 \item{view}{Either \code{"desktop"} (the default) or \code{"mobile"}, controlling
 the viewport size that the page is rendered with.}
+
+\item{browser}{An existing \link[chromote:Chromote]{chromote::Chromote} browser object to use.
+By default, all sessions share a single browser (one per \code{mode}) that
+is launched on first use and closed when the package is unloaded; each
+session gets its own tab. Supply your own browser if you need full
+control over its lifecycle.}
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact
