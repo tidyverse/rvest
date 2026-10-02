@@ -1,7 +1,9 @@
 # rvest (development version)
 
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
-
+* `read_html_live()` now hides common tells of an automated browser (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent), making it less likely to be blocked by bot detection (#407).
+* `read_html_live()` gains `mode` and `view` arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to `--headless=new` (#407, #438).
+* `read_html_live()` now shares a single browser across all sessions (one per `mode`), so repeated calls no longer pay the cost of launching Chrome each time; use the new `browser` argument to supply your own browser instead.
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 
 # rvest 1.0.5

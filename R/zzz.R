@@ -10,3 +10,7 @@ new_chromote <- NULL
 
   invisible()
 }
+
+.onUnload <- function(...) {
+  close_live_browsers()
+}

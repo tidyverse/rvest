@@ -1,3 +1,17 @@
+# mode and view are validated
+
+    Code
+      read_html_live("https://rvest.tidyverse.org", mode = "invisible")
+    Condition
+      Error in `read_html_live()`:
+      ! `mode` must be one of "headless" or "visible", not "invisible".
+      i Did you mean "visible"?
+    Code
+      read_html_live("https://rvest.tidyverse.org", view = "tablet")
+    Condition
+      Error in `read_html_live()`:
+      ! `view` must be one of "desktop" or "mobile", not "tablet".
+
 # has print method
 
     Code
