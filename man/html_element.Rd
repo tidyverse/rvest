@@ -27,6 +27,12 @@ or XPath expressions. CSS selectors are particularly useful in conjunction
 with \url{https://selectorgadget.com/}, which makes it very easy to discover the
 selector you need.
 }
+\details{
+When applied to a node or node set, these functions only search the
+\emph{descendants} of the input; the input nodes themselves are never matched.
+This makes it safe to recursively walk a document without re-selecting the
+same elements.
+}
 \section{CSS selector support}{
 
 
