@@ -237,7 +237,6 @@ html_table.rvest_session <- function(
   x,
   header = NA,
   trim = TRUE,
-  fill = deprecated(),
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -246,7 +245,6 @@ html_table.rvest_session <- function(
     read_html(x),
     header = header,
     trim = trim,
-    fill = fill,
     dec = dec,
     na.strings = na.strings,
     convert = convert
