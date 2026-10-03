@@ -1,7 +1,6 @@
 #' Live web scraping (with chromote)
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #'
 #' [read_html()] operates on the HTML source code downloaded from the server.
 #' This works for most websites but can fail if the site uses javascript to
@@ -78,7 +77,6 @@ read_html_live <- function(
 #' Interact with a live web page
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #'
 #' You construct an LiveHTML object with [read_html_live()] and then interact,
 #' like you're a human, using the methods described below. When debugging a
@@ -527,7 +525,6 @@ html_table.LiveHTML <- function(
   x,
   header = NA,
   trim = TRUE,
-  fill = deprecated(),
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -537,7 +534,6 @@ html_table.LiveHTML <- function(
     tables,
     header = header,
     trim = trim,
-    fill = fill,
     dec = dec,
     na.strings = na.strings,
     convert = convert
