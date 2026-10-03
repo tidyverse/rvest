@@ -133,26 +133,29 @@ LiveHTML <- R6::R6Class(
         error = error
       )
 
+      # Must subscribe to event before navigating:
+      # Subscribe to load event before navigating to avoid a race
       # https://github.com/rstudio/chromote/issues/102
-      p <- self$session$Page$loadEventFired(wait_ = FALSE, timeout_ = timeout)
-      nav_p <- self$session$Page$navigate(url, wait_ = FALSE)
-      withCallingHandlers(
-        {
-          res <- self$session$wait_for(nav_p)
+      load_event <- self$session$Page$loadEventFired(
+        wait_ = FALSE,
+        timeout_ = timeout
+      )
+      page_loaded <- self$session$Page$navigate(url, wait_ = FALSE) |>
+        promises::then(function(res) {
           if (!is.null(res$errorText)) {
             cli::cli_abort(res$errorText, call = NULL)
           }
-        },
-        error = function(cnd) {
+          load_event
+        }) |>
+        promises::catch(function(cnd) {
           cli::cli_abort(
             "Failed to load {.url {url}}",
             call = error,
             parent = cnd
           )
-        }
-      )
+        })
 
-      self$session$wait_for(p)
+      self$session$wait_for(page_loaded)
     },
 
     #' @description Called when `print()`ed
