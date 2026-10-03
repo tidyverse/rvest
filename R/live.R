@@ -125,13 +125,13 @@ LiveHTML <- R6::R6Class(
       error = caller_env()
     ) {
       check_installed("chromote")
-
       self$session <- stealth_session(
         mode = mode,
         view = view,
         browser = browser,
         error = error
       )
+      private$document <- DocumentRoot$new(self$session)
 
       # Must subscribe to event before navigating:
       # Subscribe to load event before navigating to avoid a race
@@ -189,8 +189,8 @@ LiveHTML <- R6::R6Class(
         # Parse the outerHTML of a single element. libxml2 adds implicit <html> and
         # <body> wrappers as needed, so we find the element by its tag name rather
         # than assuming a fixed depth.
-        doc <- xml2::read_html(json[[1]])
-        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[2]]))
+        doc <- xml2::read_html(json[[2]])
+        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[1]]))
       })
       structure(elements, class = "xml_nodeset")
     },
@@ -298,7 +298,7 @@ LiveHTML <- R6::R6Class(
 
       # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
       private$call_node_method(
-        private$root_id(),
+        private$document$id(),
         paste0(".documentElement.scrollTo(", left, ", ", top, ")")
       )
       invisible(self)
@@ -412,9 +412,8 @@ LiveHTML <- R6::R6Class(
   ),
 
   private = list(
-    root_id = function() {
-      self$session$DOM$getDocument()$root$nodeId
-    },
+    document = NULL,
+
     finalize = function() {
       # The browser is shared, so just close this session's tab; the
       # browser may already be unresponsive during GC, so ignore errors
@@ -426,33 +425,60 @@ LiveHTML <- R6::R6Class(
         suppressMessages({
           self$session <- self$session$respawn()
         })
+        private$document <- DocumentRoot$new(self$session)
       }
     },
 
-    wait_for_selector = function(css, timeout = 5) {
-      done <- now() + timeout
-      while (now() < done) {
-        nodes <- private$find_nodes(css)
-        if (length(nodes) > 0) {
-          return(nodes)
-        }
-
-        Sys.sleep(0.1)
-      }
-      cli::cli_abort(
-        "Failed to find selector {.str {css}} in {timeout} seconds."
+    wait_for_selector = function(css, timeout = 5, call = caller_env()) {
+      js <- glue::glue(
+        "
+        new Promise(resolve => {{
+          const sel = {js_string(css)};
+          if (document.querySelector(sel)) return resolve(true);
+          const obs = new MutationObserver(() => {{
+            if (document.querySelector(sel)) {{
+              obs.disconnect(); clearTimeout(timer); resolve(true);
+            }}
+          }});
+          obs.observe(document, {{childList: true, subtree: true, attributes: true}});
+          const timer = setTimeout(() => {{ obs.disconnect(); resolve(false); }}, {timeout * 1000});
+        }})
+        "
       )
+      res <- self$session$Runtime$evaluate(
+        js,
+        awaitPromise = TRUE,
+        returnByValue = TRUE,
+        timeout_ = timeout + 1
+      )
+      if (!is.null(res$exceptionDetails)) {
+        cli::cli_abort("Invalid selector {.str {css}}.", call = call)
+      }
+      if (!isTRUE(res$result$value)) {
+        cli::cli_abort(
+          "Failed to find selector {.str {css}} in {timeout} seconds.",
+          call = call
+        )
+      }
+      private$find_nodes(css)[[1]]
     },
 
     find_nodes = function(css, xpath) {
       check_exclusive(css, xpath)
       if (!missing(css)) {
-        unlist(
-          self$session$DOM$querySelectorAll(private$root_id(), css)$nodeIds
-        )
+        query <- function() {
+          self$session$DOM$querySelectorAll(private$document$id(), css)$nodeIds
+        }
+        # Cached root may be stale if the page navigated before the
+        # documentUpdated event was processed; refresh and retry once
+        ids <- tryCatch(query(), error = function(cnd) {
+          private$document$reset()
+          query()
+        })
+        unlist(ids)
       } else {
         # Ensure DOM agent has loaded the document before requesting nodes
-        private$root_id()
+        private$document$id()
 
         search <- glue::glue(
           "
@@ -507,7 +533,32 @@ LiveHTML <- R6::R6Class(
   )
 )
 
-now <- function() proc.time()[[3]]
+# Caches the document's root node id, dropping it whenever the page
+# navigates or replaces its document (which invalidates all node ids)
+DocumentRoot <- R6::R6Class(
+  "DocumentRoot",
+  public = list(
+    initialize = function(session) {
+      private$session <- session
+      session$DOM$documentUpdated(callback_ = function(...) self$reset())
+    },
+
+    id = function() {
+      private$root <- private$root %||%
+        private$session$DOM$getDocument(depth = 0)$root$nodeId
+      private$root
+    },
+
+    reset = function() {
+      private$root <- NULL
+      invisible(self)
+    }
+  ),
+  private = list(
+    session = NULL,
+    root = NULL
+  )
+)
 
 # Evaluate `expr` in the page, returning the result as an R value
 eval_js <- function(session, expr) {
