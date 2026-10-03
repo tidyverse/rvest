@@ -174,7 +174,12 @@ LiveHTML <- R6::R6Class(
           node_id,
           "function() { return [this.localName, this.outerHTML] }"
         )
-        parse_element(json[[1]], json[[2]])
+
+        # Parse the outerHTML of a single element. libxml2 adds implicit <html> and
+        # <body> wrappers as needed, so we find the element by its tag name rather
+        # than assuming a fixed depth.
+        doc <- xml2::read_html(json[[1]])
+        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[2]]))
       })
       structure(elements, class = "xml_nodeset")
     },
@@ -641,12 +646,4 @@ as_key_desc <- function(
 
   desc$modifiers <- sum(c(Alt = 1, Control = 2, Meta = 4, Shift = 8)[modifiers])
   desc
-}
-
-# Parse the outerHTML of a single element. libxml2 adds implicit <html> and
-# <body> wrappers as needed, so we find the element by its tag name rather
-# than assuming a fixed depth.
-parse_element <- function(tag, html) {
-  doc <- xml2::read_html(html)
-  xml2::xml_find_first(doc, paste0("descendant-or-self::", tag))
 }
