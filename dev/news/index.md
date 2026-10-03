@@ -30,6 +30,11 @@
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now errors immediately if the page fails to load (e.g. the domain
   doesn’t exist) instead of hanging.
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  objects now return the correct nodes when selecting `<html>`,
+  `<head>`, or `<body>`, so printing shows `<head>` and `<body>` rather
+  than their children
+  ([\#396](https://github.com/tidyverse/rvest/issues/396)).
 
 ## rvest 1.0.5
 
