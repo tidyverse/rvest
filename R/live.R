@@ -178,8 +178,8 @@ LiveHTML <- R6::R6Class(
         # Parse the outerHTML of a single element. libxml2 adds implicit <html> and
         # <body> wrappers as needed, so we find the element by its tag name rather
         # than assuming a fixed depth.
-        doc <- xml2::read_html(json[[1]])
-        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[2]]))
+        doc <- xml2::read_html(json[[2]])
+        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[1]]))
       })
       structure(elements, class = "xml_nodeset")
     },
