@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>static</p>
+    <script>
+      setTimeout(function() {
+        var el = document.createElement("div");
+        el.id = "delayed";
+        el.textContent = "loaded";
+        document.body.appendChild(el);
+      }, 500);
+    </script>
+  </body>
+</html>

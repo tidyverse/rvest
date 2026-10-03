@@ -195,6 +195,17 @@ LiveHTML <- R6::R6Class(
       structure(elements, class = "xml_nodeset")
     },
 
+    #' @description Wait for an element to appear on the page.
+    #'   Useful when a page renders content with JavaScript after the initial
+    #'   page load.
+    #' @param css CSS selector.
+    #' @param timeout Maximum number of seconds to wait before erroring.
+    wait_for = function(css, timeout = 5) {
+      private$check_active()
+      private$wait_for_selector(css, timeout = timeout)
+      invisible(self)
+    },
+
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector.
     #' @param n_clicks Number of clicks

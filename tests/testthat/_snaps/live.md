@@ -52,6 +52,14 @@
       [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
       [2] <body>\n\n<ul>\n<li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n   ...
 
+# wait_for errors when element never appears
+
+    Code
+      sess$wait_for("#nope", timeout = 0.2)
+    Condition
+      Error in `private$wait_for_selector()`:
+      ! Failed to find selector "#nope" in 0.2 seconds.
+
 # mouse click on hidden element errors helpfully
 
     Code
