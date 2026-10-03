@@ -1,5 +1,6 @@
 # rvest (development version)
 
+* `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
 * `read_html_live()` gains a `timeout` argument to control how long to wait for the initial page load, which is useful when using slow proxies (#427).

@@ -85,6 +85,22 @@ test_that("converts br to \n", {
   expect_equal(html_text_inline(html_element(html, "p")), "\n\n")
 })
 
+test_that("converts br nested in inline elements to \n", {
+  html <- minimal_html("<p><span>line 1<br>line 2</span></p>")
+  expect_equal(html_text2(html), "line 1\nline 2")
+
+  html <- minimal_html("<p>a <b>b<br>c</b> <i><u>d<br>e</u></i> f</p>")
+  expect_equal(html_text2(html), "a b\nc d\ne f")
+
+  html <- minimal_html("<p><span>a<br></span>b</p>")
+  expect_equal(html_text2(html), "a\nb")
+})
+
+test_that("comments are ignored", {
+  html <- minimal_html("<p>a <b>x<!-- h -->y<br>z</b> <!-- k --></p>")
+  expect_equal(html_text2(html), "a xy\nz")
+})
+
 test_that("empty block returns empty string", {
   html <- minimal_html("<p></p>")
   expect_equal(html_text_inline(html_element(html, "p")), "")
