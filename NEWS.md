@@ -1,5 +1,6 @@
 # rvest (development version)
 
+* Functions deprecated in rvest 1.0.0 have been removed: `set_values()`, `submit_form()`, `xml_tag()`, `xml_node()`, `xml_nodes()`, `back()`, `forward()`, `jump_to()`, `follow_link()`, `html_session()`, `guess_encoding()`, and `repair_encoding()`. The `fill` argument to `html_table()` has also been removed. `read_html_live()` and `LiveHTML` are no longer experimental.
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).

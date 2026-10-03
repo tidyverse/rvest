@@ -1,6 +1,5 @@
 #' @keywords internal
 #' @import rlang
-#' @importFrom lifecycle deprecated
 "_PACKAGE"
 
 
