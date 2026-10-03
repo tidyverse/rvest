@@ -15,6 +15,21 @@ test_that("handles block containing only inline elements", {
   expect_equal(html_text2(html), "a b c")
 })
 
+test_that("preserves whitespace between inline elements (#372)", {
+  html <- minimal_html("<div><span>a</span><span> </span><span>b</span></div>")
+  expect_equal(html_text2(html), "a b")
+
+  html <- minimal_html("<div><span>a </span><span>b</span></div>")
+  expect_equal(html_text2(html), "a b")
+
+  html <- minimal_html("<div><span>a</span> <span>b</span></div>")
+  expect_equal(html_text2(html), "a b")
+
+  # but not at the start or end of a line
+  html <- minimal_html("<div> <p>a </p> <p> b</p> </div>")
+  expect_equal(html_text2(html), "a\n\nb")
+})
+
 test_that("handles multiple paragraphs with line breaks", {
   html <- minimal_html(
     "
