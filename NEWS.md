@@ -1,5 +1,6 @@
 # rvest (development version)
 
+* `html_form_submit()` now only submits checked checkboxes and radio buttons (not all of them), and `html_form_set()` now sets the checked state of checkbox and radio button fields instead of their values (#316).
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
