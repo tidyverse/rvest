@@ -17,7 +17,9 @@
       read_html_live("https://doeasdfsdafastnexist.com")
     Condition
       Error in `read_html_live()`:
-      ! Failed to load <https://doeasdfsdafastnexist.com>: net::ERR_NAME_NOT_RESOLVED
+      ! Failed to load <https://doeasdfsdafastnexist.com>
+      Caused by error:
+      ! net::ERR_NAME_NOT_RESOLVED
     Code
       read_html_live(".//")
     Condition
@@ -116,4 +118,12 @@
       Error:
       ! `modifiers` must be one of "Alt", "Control", "Meta", or "Shift", not "Malt".
       i Did you mean "Alt"?
+
+# read_html_live() checks timeout
+
+    Code
+      read_html_live("https://example.com", timeout = "x")
+    Condition
+      Error in `read_html_live()`:
+      ! `timeout` must be a number, not the string "x".
 

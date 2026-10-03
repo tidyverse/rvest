@@ -8,7 +8,8 @@ read_html_live(
   url,
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
-  browser = NULL
+  browser = NULL,
+  timeout = 10
 )
 }
 \arguments{
@@ -22,10 +23,13 @@ useful when debugging a scraping script.}
 the viewport size that the page is rendered with.}
 
 \item{browser}{An existing \link[chromote:Chromote]{chromote::Chromote} browser object to use.
-By default, all sessions share a single browser (one per \code{mode}) that
+By default, all sessions share a single browser (per \code{mode}) that
 is launched on first use and closed when the package is unloaded; each
 session gets its own tab. Supply your own browser if you need full
 control over its lifecycle.}
+
+\item{timeout}{Number of seconds to wait for the page to finish loading.
+You may need to increase this if you're using a slow proxy.}
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact

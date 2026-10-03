@@ -68,6 +68,7 @@ sess |> html_elements(".ExResult-row") |> length()
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
   browser = NULL,
+  timeout = 10,
   error = caller_env()
 )}
     \if{html}{\out{</div>}}
@@ -77,6 +78,7 @@ sess |> html_elements(".ExResult-row") |> length()
     \describe{
       \item{\code{url}}{URL to page.}
       \item{\code{mode, view, browser}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
+      \item{\code{timeout}}{Number of seconds to wait for the page to load.}
       \item{\code{error}}{Execution environment used for error messages.}
     }
     \if{html}{\out{</div>}}

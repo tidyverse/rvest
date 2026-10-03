@@ -21,6 +21,8 @@
 #'   like `$click()`, `$scroll_to()`, and `$type()` to interact with the live
 #'   page like a human would.
 #' @param url Website url to read from.
+#' @param timeout Number of seconds to wait for the page to finish loading.
+#'   You may need to increase this if you're using a slow proxy.
 #' @param mode Either `"headless"` (the default) to run Chrome without a
 #'   visible window, or `"visible"` to open a browser window, which can be
 #'   useful when debugging a scraping script.
@@ -57,15 +59,18 @@ read_html_live <- function(
   url,
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
-  browser = NULL
+  browser = NULL,
+  timeout = 10
 ) {
   check_installed(c("chromote", "R6"))
   check_string(url, allow_empty = FALSE)
+  check_number_decimal(timeout, min = 0)
   LiveHTML$new(
     url,
     mode = mode,
     view = view,
     browser = browser,
+    timeout = timeout,
     error = current_env()
   )
 }
@@ -109,12 +114,14 @@ LiveHTML <- R6::R6Class(
     #' @description initialize the object
     #' @param url URL to page.
     #' @param mode,view,browser As described in [read_html_live()].
+    #' @param timeout Number of seconds to wait for the page to load.
     #' @param error Execution environment used for error messages.
     initialize = function(
       url,
       mode = c("headless", "visible"),
       view = c("desktop", "mobile"),
       browser = NULL,
+      timeout = 10,
       error = caller_env()
     ) {
       check_installed("chromote")
@@ -126,25 +133,29 @@ LiveHTML <- R6::R6Class(
         error = error
       )
 
+      # Must subscribe to event before navigating:
+      # Subscribe to load event before navigating to avoid a race
       # https://github.com/rstudio/chromote/issues/102
-      p <- self$session$Page$loadEventFired(wait_ = FALSE)
-      res <- withCallingHandlers(
-        self$session$Page$navigate(url),
-        error = function(cnd) {
+      load_event <- self$session$Page$loadEventFired(
+        wait_ = FALSE,
+        timeout_ = timeout
+      )
+      page_loaded <- self$session$Page$navigate(url, wait_ = FALSE) |>
+        promises::then(function(res) {
+          if (!is.null(res$errorText)) {
+            cli::cli_abort(res$errorText, call = NULL)
+          }
+          load_event
+        }) |>
+        promises::catch(function(cnd) {
           cli::cli_abort(
             "Failed to load {.url {url}}",
             call = error,
             parent = cnd
           )
-        }
-      )
-      if (!is.null(res$errorText)) {
-        cli::cli_abort(
-          "Failed to load {.url {url}}: {res$errorText}",
-          call = error
-        )
-      }
-      self$session$wait_for(p)
+        })
+
+      self$session$wait_for(page_loaded)
     },
 
     #' @description Called when `print()`ed
