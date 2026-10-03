@@ -1,5 +1,6 @@
 # rvest (development version)
 
+* `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
 * `read_html_live()` now hides common tells of an automated browser (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent), making it less likely to be blocked by bot detection (#407).
 * `read_html_live()` gains `mode` and `view` arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to `--headless=new` (#407, #438).
