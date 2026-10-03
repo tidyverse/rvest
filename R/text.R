@@ -190,31 +190,24 @@ html_text_inline <- function(x, preserve_nbsp = FALSE) {
     return("")
   }
 
-  text <- pieces$text
-  is_br <- pieces$br
-
-  line_num <- cumsum(c(TRUE, is_br[-n]))
-  lines <- split(text, line_num)
+  line_num <- cumsum(c(TRUE, pieces$br[-n]))
+  lines <- split(pieces$text, line_num)
   lines <- vapply(lines, paste0, collapse = "", FUN.VALUE = character(1))
 
   if (xml2::xml_name(x) != "pre") {
     lines <- collapse_whitespace(lines, preserve_nbsp)
   }
 
-  has_br <- unname(tapply(is_br, line_num, any))
+  has_br <- unname(tapply(pieces$br, line_num, any))
   paste0(lines, ifelse(has_br, "\n", ""), collapse = "")
 }
 
 # Text of each child. Child elements containing a nested <br> are replaced
-# by their own contents so that the <br> is seen. Comments and processing
-# instructions only count as direct children.
-inline_pieces <- function(x, nested = FALSE) {
+# by their own contents so that the <br> is seen.
+inline_pieces <- function(x) {
   nodes <- xml2::xml_contents(x)
+  nodes <- nodes[xml2::xml_type(nodes) %in% c("text", "cdata", "element")]
   type <- xml2::xml_type(nodes)
-  if (nested) {
-    nodes <- nodes[type %in% c("text", "cdata", "element")]
-    type <- xml2::xml_type(nodes)
-  }
 
   name <- xml2::xml_name(nodes)
   text <- as.list(xml2::xml_text(nodes))
@@ -223,7 +216,7 @@ inline_pieces <- function(x, nested = FALSE) {
   for (i in which(type == "element" & name != "br")) {
     child_br <- xml2::xml_find_first(nodes[[i]], ".//br")
     if (!inherits(child_br, "xml_missing")) {
-      pieces <- inline_pieces(nodes[[i]], nested = TRUE)
+      pieces <- inline_pieces(nodes[[i]])
       text[i] <- list(pieces$text)
       is_br[i] <- list(pieces$br)
     }

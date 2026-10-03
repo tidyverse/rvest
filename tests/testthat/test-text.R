@@ -96,9 +96,9 @@ test_that("converts br nested in inline elements to \n", {
   expect_equal(html_text2(html), "a\nb")
 })
 
-test_that("nested br does not change how comments are treated", {
+test_that("comments are ignored", {
   html <- minimal_html("<p>a <b>x<!-- h -->y<br>z</b> <!-- k --></p>")
-  expect_equal(html_text2(html), "a xy\nz k")
+  expect_equal(html_text2(html), "a xy\nz")
 })
 
 test_that("empty block returns empty string", {
