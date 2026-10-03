@@ -64,6 +64,15 @@
       Error in `html_form_set()`:
       ! Can't set value of fields that don't exist: "missing".
 
+# can set checkboxes and radio buttons
+
+    Code
+      html_form_set(form, x = "4")
+    Condition
+      Error in `html_form_set()`:
+      ! Can't check "4" for field "x".
+      i Possible values: "1", "2", and "3".
+
 # useful feedback on invalid forms
 
     Code
