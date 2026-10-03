@@ -178,7 +178,7 @@ that exposes a more powerful user interface, like
 <h3 id="livehtml-click-"><code>LiveHTML$click()</code><a class="anchor" aria-label="anchor" href="#livehtml-click-"></a></h3>
 <p>Simulate a click on an HTML element.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">click</span><span class="op">(</span><span class="va">css</span>, n_clicks <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">LiveHTML</span><span class="op">$</span><span class="fu">click</span><span class="op">(</span><span class="va">css</span>, n_clicks <span class="op">=</span> <span class="fl">1</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mouse"</span>, <span class="st">"js"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>css</code></dt>
@@ -186,6 +186,13 @@ that exposes a more powerful user interface, like
 
       <dt><code>n_clicks</code></dt>
 <dd><p>Number of clicks</p></dd>
+
+      <dt><code>method</code></dt>
+<dd><p>Click method. <code>"mouse"</code> simulates a real mouse click and
+requires the element to be visible on the page. <code>"js"</code> calls
+JavaScript's <code>element.click()</code> directly, which works even for hidden
+or off-screen elements, but only fires the <code>click</code> event (no
+<code>mousedown</code>, <code>mouseup</code>, or hover events).</p></dd>
 
 
 </dl><p></p></div>

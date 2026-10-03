@@ -131,7 +131,7 @@ Simulate a click on an HTML element.
 
 #### Usage
 
-    LiveHTML$click(css, n_clicks = 1)
+    LiveHTML$click(css, n_clicks = 1, method = c("mouse", "js"))
 
 #### Arguments
 
@@ -142,6 +142,14 @@ Simulate a click on an HTML element.
 - `n_clicks`:
 
   Number of clicks
+
+- `method`:
+
+  Click method. `"mouse"` simulates a real mouse click and requires the
+  element to be visible on the page. `"js"` calls JavaScript's
+  `element.click()` directly, which works even for hidden or off-screen
+  elements, but only fires the `click` event (no `mousedown`, `mouseup`,
+  or hover events).
 
 ------------------------------------------------------------------------
 
