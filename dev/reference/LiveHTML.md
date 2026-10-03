@@ -63,6 +63,7 @@ initialize the object
       mode = c("headless", "visible"),
       view = c("desktop", "mobile"),
       browser = NULL,
+      timeout = 10,
       error = caller_env()
     )
 
@@ -76,6 +77,10 @@ initialize the object
 
   As described in
   [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md).
+
+- `timeout`:
+
+  Number of seconds to wait for the page to load.
 
 - `error`:
 

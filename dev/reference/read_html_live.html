@@ -90,7 +90,8 @@ on your machine.</p>
 <span>  <span class="va">url</span>,</span>
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"headless"</span>, <span class="st">"visible"</span><span class="op">)</span>,</span>
 <span>  view <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desktop"</span>, <span class="st">"mobile"</span><span class="op">)</span>,</span>
-<span>  browser <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  browser <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  timeout <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,10 +116,15 @@ the viewport size that the page is rendered with.</p></dd>
 
 <dt id="arg-browser">browser<a class="anchor" aria-label="anchor" href="#arg-browser"></a></dt>
 <dd><p>An existing <a href="https://rstudio.github.io/chromote/reference/Chromote.html" class="external-link">chromote::Chromote</a> browser object to use.
-By default, all sessions share a single browser (one per <code>mode</code>) that
+By default, all sessions share a single browser (per <code>mode</code>) that
 is launched on first use and closed when the package is unloaded; each
 session gets its own tab. Supply your own browser if you need full
 control over its lifecycle.</p></dd>
+
+
+<dt id="arg-timeout">timeout<a class="anchor" aria-label="anchor" href="#arg-timeout"></a></dt>
+<dd><p>Number of seconds to wait for the page to finish loading.
+You may need to increase this if you're using a slow proxy.</p></dd>
 
 </dl></div>
     <div class="section level2">

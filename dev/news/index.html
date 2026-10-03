@@ -53,9 +53,11 @@
 <li>
 <code>LiveHTML</code> gains a <code>$select()</code> method for selecting options from a <code>&lt;select&gt;</code> dropdown, either by value or by visible text (<a href="https://github.com/tidyverse/rvest/issues/411" class="external-link">#411</a>).</li>
 <li>
-<code><a href="../reference/read_html_live.html">read_html_live()</a></code> now hides common tells of an automated browser (e.g. <code>navigator.webdriver</code> and the <code>HeadlessChrome</code> user agent), making it less likely to be blocked by bot detection (<a href="https://github.com/tidyverse/rvest/issues/407" class="external-link">#407</a>).</li>
+<code><a href="../reference/read_html_live.html">read_html_live()</a></code> gains a <code>timeout</code> argument to control how long to wait for the initial page load, which is useful when using slow proxies (<a href="https://github.com/tidyverse/rvest/issues/427" class="external-link">#427</a>).</li>
 <li>
 <code><a href="../reference/read_html_live.html">read_html_live()</a></code> gains <code>mode</code> and <code>view</code> arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to <code>--headless=new</code> (<a href="https://github.com/tidyverse/rvest/issues/407" class="external-link">#407</a>, <a href="https://github.com/tidyverse/rvest/issues/438" class="external-link">#438</a>).</li>
+<li>
+<code><a href="../reference/read_html_live.html">read_html_live()</a></code> now hides common tells of an automated browser (e.g. <code>navigator.webdriver</code> and the <code>HeadlessChrome</code> user agent), making it less likely to be blocked by bot detection (<a href="https://github.com/tidyverse/rvest/issues/407" class="external-link">#407</a>).</li>
 <li>
 <code><a href="../reference/read_html_live.html">read_html_live()</a></code> now shares a single browser across all sessions (one per <code>mode</code>), so repeated calls no longer pay the cost of launching Chrome each time; use the new <code>browser</code> argument to supply your own browser instead.</li>
 <li>

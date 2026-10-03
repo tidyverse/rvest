@@ -114,6 +114,7 @@ that exposes a more powerful user interface, like
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"headless"</span>, <span class="st">"visible"</span><span class="op">)</span>,</span>
 <span>  view <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"desktop"</span>, <span class="st">"mobile"</span><span class="op">)</span>,</span>
 <span>  browser <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  timeout <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  error <span class="op">=</span> <span class="fu">caller_env</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
@@ -123,6 +124,9 @@ that exposes a more powerful user interface, like
 
       <dt><code>mode, view, browser</code></dt>
 <dd><p>As described in <code><a href="read_html_live.html">read_html_live()</a></code>.</p></dd>
+
+      <dt><code>timeout</code></dt>
+<dd><p>Number of seconds to wait for the page to load.</p></dd>
 
       <dt><code>error</code></dt>
 <dd><p>Execution environment used for error messages.</p></dd>

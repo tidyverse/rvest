@@ -23,7 +23,8 @@ read_html_live(
   url,
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
-  browser = NULL
+  browser = NULL,
+  timeout = 10
 )
 ```
 
@@ -49,9 +50,14 @@ read_html_live(
   An existing
   [chromote::Chromote](https://rstudio.github.io/chromote/reference/Chromote.html)
   browser object to use. By default, all sessions share a single browser
-  (one per `mode`) that is launched on first use and closed when the
-  package is unloaded; each session gets its own tab. Supply your own
-  browser if you need full control over its lifecycle.
+  (per `mode`) that is launched on first use and closed when the package
+  is unloaded; each session gets its own tab. Supply your own browser if
+  you need full control over its lifecycle.
+
+- timeout:
+
+  Number of seconds to wait for the page to finish loading. You may need
+  to increase this if you're using a slow proxy.
 
 ## Value
 
