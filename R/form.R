@@ -182,14 +182,21 @@ submission_build_values <- function(
     return(list())
   }
 
-  values <- lapply(entry_list, function(x) as.character(x$value))
+  values <- lapply(entry_list, function(x) {
+    value <- x$value
+    # Preserve non-character values (e.g. httr::upload_file() objects)
+    if (is.null(value) || is.character(value)) {
+      as.list(as.character(value))
+    } else {
+      list(value)
+    }
+  })
   names <- map_chr(entry_list, "[[", "name")
 
-  out <- set_names(
-    unlist(values, use.names = FALSE),
+  set_names(
+    unlist(values, use.names = FALSE, recursive = FALSE),
     rep(names, lengths(values))
   )
-  as.list(out)
 }
 
 submission_find_submit <- function(fields, idx, error_call = caller_env()) {
