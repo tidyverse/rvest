@@ -73,14 +73,14 @@ html_form.xml_node <- function(x, base_url = NULL) {
     list(
       name = name,
       method = method,
-      action = xml2::url_absolute(attr$action, base_url %||% xml2::xml_url(x)),
+      action = form_action(attr$action, base_url %||% xml2::xml_url(x)),
       enctype = enctype,
       fields = fields
     ),
     class = "rvest_form"
   )
 }
-
+  
 #' @export
 print.rvest_form <- function(x, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
@@ -331,6 +331,14 @@ parse_button <- function(x) {
 }
 
 # Helpers -----------------------------------------------------------------
+
+# A missing action attribute defaults to the url of the document (HTML5)
+form_action <- function(action, url) {
+  if (is.null(action) && !is.na(url)) {
+    action <- ""
+  }
+  xml2::url_absolute(action, url)
+}
 
 convert_enctype <- function(x) {
   if (is.null(x)) {
