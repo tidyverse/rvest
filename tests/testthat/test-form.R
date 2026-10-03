@@ -229,6 +229,24 @@ test_that("unchecked checkboxes and radio buttons are not submitted", {
   )
 })
 
+test_that("preserves file upload objects", {
+  html <- minimal_html(
+    '
+    <form method="post" action="/" enctype="multipart/form-data">
+    <input type="file" name="file">
+    </form>
+  '
+  )
+  form <- html_form(html)[[1]]
+  upload <- httr::upload_file(test_path("test-form.R"))
+  form <- html_form_set(form, file = upload)
+
+  expect_equal(
+    submission_build_values(form),
+    list(file = upload)
+  )
+})
+
 test_that("handles multiple buttons", {
   html <- minimal_html(
     '

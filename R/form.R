@@ -215,20 +215,23 @@ submission_build_values <- function(
   }
 
   values <- lapply(entry_list, function(x) {
-    if (is.null(x$value) && x$type %in% c("checkbox", "radio")) {
+    value <- x$value
+    if (is.null(value) && x$type %in% c("checkbox", "radio")) {
       # Default value for checked checkboxes/radio buttons
-      "on"
+      list("on")
+    } else if (is.null(value) || is.character(value)) {
+      as.list(as.character(value))
     } else {
-      as.character(x$value)
+      # Preserve non-character values (e.g. httr::upload_file() objects)
+      list(value)
     }
   })
   names <- map_chr(entry_list, "[[", "name")
 
-  out <- set_names(
-    unlist(values, use.names = FALSE),
+  set_names(
+    unlist(values, use.names = FALSE, recursive = FALSE),
     rep(names, lengths(values))
   )
-  as.list(out)
 }
 
 submission_find_submit <- function(fields, idx, error_call = caller_env()) {
