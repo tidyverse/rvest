@@ -51,6 +51,7 @@ sess |> html_elements(".ExResult-row") |> length()
     \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
     \item \href{#method-LiveHTML-scroll_by}{\code{LiveHTML$scroll_by()}}
     \item \href{#method-LiveHTML-type}{\code{LiveHTML$type()}}
+    \item \href{#method-LiveHTML-select}{\code{LiveHTML$select()}}
     \item \href{#method-LiveHTML-press}{\code{LiveHTML$press()}}
     \item \href{#method-LiveHTML-clone}{\code{LiveHTML$clone()}}
   }
@@ -62,13 +63,21 @@ sess |> html_elements(".ExResult-row") |> length()
   initialize the object
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$new(url)}
+    \preformatted{LiveHTML$new(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile"),
+  browser = NULL,
+  error = caller_env()
+)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{url}}{URL to page.}
+      \item{\code{mode, view, browser}}{As described in \code{\link[=read_html_live]{read_html_live()}}.}
+      \item{\code{error}}{Execution environment used for error messages.}
     }
     \if{html}{\out{</div>}}
   }
@@ -229,6 +238,27 @@ respectively.}
     \describe{
       \item{\code{css}}{CSS selector.}
       \item{\code{text}}{A single string containing the text to type.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-select"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-select}{}}}
+\subsection{\code{LiveHTML$select()}}{
+  Select an option in a \verb{<select>} element.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$select(css, value, text)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+      \item{\code{value, text}}{A single string giving the value or the visible text
+of the option to select. Supply exactly one.}
     }
     \if{html}{\out{</div>}}
   }

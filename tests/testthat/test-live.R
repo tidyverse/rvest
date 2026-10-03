@@ -1,3 +1,26 @@
+test_that("url is validated", {
+  expect_snapshot(error = TRUE, {
+    read_html_live("")
+    read_html_live(123)
+  })
+})
+
+test_that("errors when navigation fails", {
+  skip_if_no_chromote()
+
+  expect_snapshot(error = TRUE, {
+    read_html_live("https://doeasdfsdafastnexist.com")
+    read_html_live(".//")
+  })
+})
+
+test_that("mode and view are validated", {
+  expect_snapshot(error = TRUE, {
+    read_html_live("https://rvest.tidyverse.org", mode = "invisible")
+    read_html_live("https://rvest.tidyverse.org", view = "tablet")
+  })
+})
+
 test_that("has print method", {
   skip_if_no_chromote()
 
@@ -107,7 +130,7 @@ test_that("can scroll in various ways", {
 
   sess$scroll_into_view("#bottom")
   Sys.sleep(0.2)
-  expect_equal(sess$get_scroll_position(), list(x = 0, y = 685))
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 1208))
 })
 
 test_that("can type text", {
@@ -116,6 +139,33 @@ test_that("can type text", {
   sess <- read_html_live(html_test_path("type"))
   sess$type("#inputText", "hello")
   expect_equal(html_text(html_element(sess, "#replicatedText")), "hello")
+})
+
+test_that("can select an option", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  sess$select("select", value = "b")
+  expect_equal(html_text(html_element(sess, "p")), "b")
+
+  sess$select("select", text = "Cherry")
+  expect_equal(html_text(html_element(sess, "p")), "c")
+})
+
+test_that("select errors when no option matches", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  expect_snapshot(error = TRUE, sess$select("select", value = "z"))
+  expect_snapshot(error = TRUE, sess$select("select", text = "Fig"))
+})
+
+test_that("select errors when element is not a select", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("select"))
+  expect_snapshot(error = TRUE, sess$select("p", value = "b"))
+  expect_snapshot(error = TRUE, sess$select("p", text = "Banana"))
 })
 
 test_that("can press special keys", {
@@ -138,6 +188,31 @@ test_that("can find elements after click that navigates", {
   sess <- read_html_live(html_test_path("navigate1"))
   sess$click("a")
   expect_equal(html_text2(html_element(sess, "p")), "Success!")
+})
+
+test_that("hides automated browser tells", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("bullets"))
+  expect_false(eval_js(sess$session, "navigator.webdriver"))
+  expect_true(eval_js(sess$session, "navigator.languages.length") > 0)
+  expect_true(eval_js(sess$session, "navigator.plugins.length") > 0)
+  expect_false(grepl(
+    "HeadlessChrome",
+    eval_js(sess$session, "navigator.userAgent")
+  ))
+})
+
+test_that("view controls viewport size", {
+  skip_if_no_chromote()
+
+  inner_width <- function(sess) eval_js(sess$session, "window.innerWidth")
+  desktop <- read_html_live(html_test_path("bullets"), view = "desktop")
+  expect_equal(inner_width(desktop), 1280)
+
+  mobile <- read_html_live(html_test_path("bullets"), view = "mobile")
+  # Without a viewport meta tag, mobile Chrome lays out at a 980px fallback
+  expect_equal(inner_width(mobile), 980)
 })
 
 # as_key_desc -------------------------------------------------------------
