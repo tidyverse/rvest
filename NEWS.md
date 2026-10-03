@@ -6,7 +6,6 @@
 * `read_html_live()` now shares a single browser across all sessions (one per `mode`), so repeated calls no longer pay the cost of launching Chrome each time; use the new `browser` argument to supply your own browser instead.
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 * `read_html_live()` now errors immediately if the page fails to load (e.g. the domain doesn't exist) instead of hanging.
-
 * `read_html_live()` objects now return the correct nodes when selecting `<html>`, `<head>`, or `<body>`, so printing shows `<head>` and `<body>` rather than their children (#396).
 
 # rvest 1.0.5
