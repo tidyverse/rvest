@@ -234,3 +234,39 @@ test_that("can handle tables consisting of only empty rows", {
   table <- html_table(html)[[1]]
   expect_snapshot_output(table)
 })
+
+test_that("html_table2() uses html_text2() to extract cell text", {
+  html <- minimal_html(
+    "<table>
+      <tr><th>x</th><th>y</th></tr>
+      <tr><td>a<br>b</td><td>1</td></tr>
+    </table>"
+  )
+  table <- html_table2(html)[[1]]
+  expect_equal(table$x, "a\nb")
+
+  table1 <- html_table(html)[[1]]
+  expect_equal(table1$x, "ab")
+})
+
+test_that("html_table2() works with all inputs", {
+  html <- minimal_html(
+    "<table><tr><th>x</th></tr><tr><td>1</td></tr></table>"
+  )
+  expect_equal(html_table2(html)[[1]], tibble::tibble(x = 1L))
+  expect_equal(
+    html_table2(html_elements(html, "table")),
+    list(tibble::tibble(x = 1L))
+  )
+  expect_equal(
+    html_table2(html_element(html, "table")),
+    tibble::tibble(x = 1L)
+  )
+})
+
+test_that("html_table2() respects arguments", {
+  html <- minimal_html(
+    "<table><tr><td>a</td></tr><tr><td>1</td></tr></table>"
+  )
+  expect_named(html_table2(html, header = TRUE)[[1]], "a")
+})
