@@ -23,6 +23,16 @@
 #' @param url Website url to read from.
 #' @param timeout Number of seconds to wait for the page to finish loading.
 #'   You may need to increase this if you're using a slow proxy.
+#' @param mode Either `"headless"` (the default) to run Chrome without a
+#'   visible window, or `"visible"` to open a browser window, which can be
+#'   useful when debugging a scraping script.
+#' @param view Either `"desktop"` (the default) or `"mobile"`, controlling
+#'   the viewport size that the page is rendered with.
+#' @param browser An existing [chromote::Chromote] browser object to use.
+#'   By default, all sessions share a single browser (per `mode`) that
+#'   is launched on first use and closed when the package is unloaded; each
+#'   session gets its own tab. Supply your own browser if you need full
+#'   control over its lifecycle.
 #' @export
 #' @examples
 #' \dontrun{
@@ -45,10 +55,24 @@
 #'   html_element("table") |>
 #'   html_table()
 #' }
-read_html_live <- function(url, timeout = 10) {
+read_html_live <- function(
+  url,
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile"),
+  browser = NULL,
+  timeout = 10
+) {
   check_installed(c("chromote", "R6"))
+  check_string(url, allow_empty = FALSE)
   check_number_decimal(timeout, min = 0)
-  LiveHTML$new(url, timeout = timeout)
+  LiveHTML$new(
+    url,
+    mode = mode,
+    view = view,
+    browser = browser,
+    timeout = timeout,
+    error = current_env()
+  )
 }
 
 #' Interact with a live web page
@@ -89,18 +113,45 @@ LiveHTML <- R6::R6Class(
 
     #' @description initialize the object
     #' @param url URL to page.
+    #' @param mode,view,browser As described in [read_html_live()].
     #' @param timeout Number of seconds to wait for the page to load.
-    initialize = function(url, timeout = 10) {
+    #' @param error Execution environment used for error messages.
+    initialize = function(
+      url,
+      mode = c("headless", "visible"),
+      view = c("desktop", "mobile"),
+      browser = NULL,
+      timeout = 10,
+      error = caller_env()
+    ) {
       check_installed("chromote")
-      self$session <- chromote::ChromoteSession$new()
 
-      self$session$Network$setUserAgentOverride(
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+      self$session <- stealth_session(
+        mode = mode,
+        view = view,
+        browser = browser,
+        error = error
       )
 
       # https://github.com/rstudio/chromote/issues/102
       p <- self$session$Page$loadEventFired(wait_ = FALSE, timeout_ = timeout)
-      self$session$Page$navigate(url, wait_ = FALSE)
+      nav_p <- self$session$Page$navigate(url, wait_ = FALSE)
+      withCallingHandlers(
+        {
+          res <- self$session$wait_for(nav_p)
+          if (!is.null(res$errorText)) {
+            cli::cli_abort(res$errorText, call = NULL)
+          }
+        },
+        error = function(cnd) {
+          cli::cli_abort(
+            "Failed to load {.url {url}}",
+            call = error,
+            parent = cnd
+          )
+        }
+      )
+
       self$session$wait_for(p)
     },
 
@@ -126,9 +177,8 @@ LiveHTML <- R6::R6Class(
       private$check_active()
       nodes <- private$find_nodes(css, xpath)
 
-      elements <- map_chr(nodes, function(node_id) {
-        json <- private$call_node_method(node_id, ".outerHTML")
-        json$result$value
+      elements <- map_chr(nodes, \(node_id) {
+        private$call_node_method(node_id, ".outerHTML")
       })
       html <- paste0("<html>", paste0(elements, collapse = "\n"), "</html>")
       xml2::xml_children(xml2::xml_children(xml2::read_html(html)))
@@ -137,20 +187,51 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector.
     #' @param n_clicks Number of clicks
-    click = function(css, n_clicks = 1) {
+    #' @param method Click method. `"mouse"` simulates a real mouse click and
+    #'   requires the element to be visible on the page. `"js"` calls
+    #'   JavaScript's `element.click()` directly, which works even for hidden
+    #'   or off-screen elements, but only fires the `click` event (no
+    #'   `mousedown`, `mouseup`, or hover events).
+    click = function(css, n_clicks = 1, method = c("mouse", "js")) {
       private$check_active()
       check_number_whole(n_clicks, min = 1)
+      method <- arg_match(method)
+
+      node <- private$wait_for_selector(css)
+
+      if (method == "js") {
+        if (n_clicks != 1) {
+          cli::cli_abort(
+            "{.arg n_clicks} is not supported when {.code method = 'js'}."
+          )
+        }
+        private$call_node_method(node, ".click()")
+        return(invisible(self))
+      }
 
       # Implementation based on puppeteer as described in
       # https://medium.com/@aslushnikov/automating-clicks-in-chromium-a50e7f01d3fb
       # With code from https://github.com/puppeteer/puppeteer/blob/b53de4e0942e93c/packages/puppeteer-core/src/cdp/Input.ts#L431-L459
 
-      node <- private$wait_for_selector(css)
-      self$session$DOM$scrollIntoViewIfNeeded(node)
-
       # Quad = location of four corners (x1, y1, x2, y2, x3, y3, x4, y4)
       # Relative to viewport
-      quads <- self$session$DOM$getBoxModel(node)
+      quads <- tryCatch(
+        {
+          self$session$DOM$scrollIntoViewIfNeeded(node)
+          self$session$DOM$getBoxModel(node)
+        },
+        error = function(cnd) {
+          cli::cli_abort(
+            c(
+              "Element {.str {css}} can't be clicked with the mouse.",
+              i = "It may be hidden or zero-sized.",
+              i = "Try {.code method = 'js'} to fire a JavaScript click event instead."
+            ),
+            parent = cnd,
+            class = "rvest_error_not_clickable"
+          )
+        }
+      )
       content_quad <- as.numeric(quads$model$content)
       center_x <- mean(content_quad[c(1, 3, 5, 7)])
       center_y <- mean(content_quad[c(2, 4, 6, 8)])
@@ -184,11 +265,7 @@ LiveHTML <- R6::R6Class(
     #' @description Get the current scroll position.
     get_scroll_position = function() {
       private$check_active()
-      out <- self$session$Runtime$evaluate(
-        '({ x: window.scrollX, y: window.scrollY })',
-        returnByValue = TRUE
-      )
-      out$result$value
+      eval_js(self$session, '({ x: window.scrollX, y: window.scrollY })')
     },
 
     #' @description Scroll selected element into view.
@@ -249,6 +326,60 @@ LiveHTML <- R6::R6Class(
       invisible(self)
     },
 
+    #' @description Select an option in a `<select>` element.
+    #' @param css CSS selector.
+    #' @param value,text A single string giving the value or the visible text
+    #'   of the option to select. Supply exactly one.
+    select = function(css, value, text) {
+      private$check_active()
+      check_exclusive(value, text)
+
+      node <- private$wait_for_selector(css)
+      if (!missing(value)) {
+        check_string(value)
+        by <- "value"
+        target <- value
+      } else {
+        check_string(text)
+        by <- "text"
+        target <- text
+      }
+
+      tag <- tolower(private$call_node_method(node[[1]], ".tagName"))
+      if (tag != "select") {
+        cli::cli_abort(
+          "{.str {css}} selects a `<{tag}>` element, not a `<select>`."
+        )
+      }
+
+      js <- paste0(
+        "function() {",
+        " for (const opt of this.options) {",
+        "   const label = opt.text.trim();",
+        if (by == "value") {
+          paste0("   if (opt.value === ", js_string(target), ") {")
+        } else {
+          paste0("   if (label === ", js_string(target), ") {")
+        },
+        "     this.value = opt.value;",
+        "     this.dispatchEvent(new Event('input', {bubbles: true}));",
+        "     this.dispatchEvent(new Event('change', {bubbles: true}));",
+        "     return true;",
+        "   }",
+        " }",
+        " return false;",
+        "}"
+      )
+      out <- private$call_node_js(node[[1]], js)
+      if (!isTRUE(out)) {
+        cli::cli_abort(
+          "No option with {by} {.str {target}} in {.str {css}}."
+        )
+      }
+
+      invisible(self)
+    },
+
     #' @description Simulate pressing a single key (including special keys).
     #' @param css CSS selector.
     #' @param key_code Name of key. You can see a complete list of known
@@ -274,7 +405,9 @@ LiveHTML <- R6::R6Class(
       self$session$DOM$getDocument()$root$nodeId
     },
     finalize = function() {
-      self$session$close()
+      # The browser is shared, so just close this session's tab; the
+      # browser may already be unresponsive during GC, so ignore errors
+      try(self$session$close(), silent = TRUE)
     },
 
     check_active = function() {
@@ -340,11 +473,20 @@ LiveHTML <- R6::R6Class(
     },
 
     # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R
-    call_node_method = function(node_id, method, ...) {
-      js_fun <- paste0("function() { return this", method, "}")
-      obj_id <- private$object_id(node_id)
+    # Evaluate `js_fun` with `this` bound to `node_id`, returning an R value
+    call_node_js = function(node_id, js_fun) {
       # https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-callFunctionOn
-      self$session$Runtime$callFunctionOn(js_fun, objectId = obj_id, ...)
+      self$session$Runtime$callFunctionOn(
+        js_fun,
+        objectId = private$object_id(node_id),
+        returnByValue = TRUE
+      )$result$value
+    },
+
+    # Evaluate `.method` on `node_id`, returning an R value
+    call_node_method = function(node_id, method) {
+      js_fun <- paste0("function() { return this", method, "}")
+      private$call_node_js(node_id, js_fun)
     },
 
     object_id = function(node_id) {
@@ -355,6 +497,11 @@ LiveHTML <- R6::R6Class(
 )
 
 now <- function() proc.time()[[3]]
+
+# Evaluate `expr` in the page, returning the result as an R value
+eval_js <- function(session, expr) {
+  session$Runtime$evaluate(expr, returnByValue = TRUE)$result$value
+}
 
 # Escape a string for inclusion in JavaScript source code
 js_string <- function(x) {
@@ -401,6 +548,75 @@ html_element.LiveHTML <- function(x, css, xpath) {
 }
 
 # helpers -----------------------------------------------------------------
+
+# Creates a chromote session that hides signs of automation (#407), using
+# our own browser (rather than chromote's shared default) so that we can
+# launch it with extra flags. By default the browser is shared by all
+# sessions (see `default_live_browser()`).
+stealth_session <- function(
+  mode = c("headless", "visible"),
+  view = c("desktop", "mobile"),
+  browser = NULL,
+  error = caller_env()
+) {
+  mode <- arg_match(mode, error_call = error)
+  view <- arg_match(view, error_call = error)
+
+  browser <- browser %||% default_live_browser(mode)
+  session <- chromote::ChromoteSession$new(
+    parent = browser,
+    mobile = view == "mobile",
+    width = if (view == "mobile") 390 else 1280,
+    height = if (view == "mobile") 844 else 800
+  )
+
+  # Even with headless=new, the UA contains "HeadlessChrome"; fix that
+  # while keeping the correct platform and version
+  ua <- eval_js(session, "navigator.userAgent")
+  session$Network$setUserAgentOverride(
+    gsub("HeadlessChrome", "Chrome", ua, fixed = TRUE)
+  )
+
+  session
+}
+
+# Package-wide browsers (one per mode) shared by all read_html_live()
+# calls, so we don't pay the cost of launching Chrome for every session.
+# Closed when the package is unloaded.
+default_live_browser <- function(mode) {
+  key <- paste0("live_browser_", mode)
+  browser <- the[[key]]
+  if (is.null(browser) || !browser$is_active()) {
+    headless <- if (mode == "headless") "new" else "false"
+    local_options(chromote.headless = headless)
+    browser <- new_stealth_browser()
+    the[[key]] <- browser
+  }
+  browser
+}
+
+close_live_browsers <- function() {
+  for (mode in c("headless", "visible")) {
+    browser <- the[[paste0("live_browser_", mode)]]
+    if (!is.null(browser)) {
+      try(browser$close(), silent = TRUE)
+    }
+  }
+}
+
+# Launch a browser with automation tells disabled (#407). If you create one
+# yourself, you are responsible for closing it.
+new_stealth_browser <- function() {
+  check_installed("chromote")
+  chromote::Chromote$new(
+    browser = chromote::Chrome$new(
+      args = c(
+        chromote::default_chrome_args(),
+        "--disable-blink-features=AutomationControlled"
+      )
+    )
+  )
+}
 
 has_chromote <- function() {
   tryCatch(

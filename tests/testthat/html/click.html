@@ -11,6 +11,7 @@
 </head>
 <body>
     <button id="actionButton" onclick="updateText(event)" ondblclick="updateText(event)">Click Me</button>
+    <button id="hiddenButton" style="display:none" onclick="document.getElementById('statusText').textContent = 'hidden clicked'">Hidden</button>
     <p id="statusText"></p>
 </body>
 </html>
