@@ -86,6 +86,12 @@ test_that("handles different encoding types", {
   expect_snapshot(convert_enctype("unknown"))
 })
 
+test_that("missing action defaults to document url", {
+  html <- minimal_html("<form><input name='x'></form>")
+  form <- html_form(html, base_url = "http://here.com/path")[[1]]
+  expect_equal(form$action, "http://here.com/path")
+})
+
 test_that("validates its inputs", {
   select <- minimal_html(
     '
