@@ -2,6 +2,12 @@
 
 ## rvest (development version)
 
+- Functions deprecated in rvest 1.0.0 have been removed: `set_values()`,
+  `submit_form()`, `xml_tag()`, `xml_node()`, `xml_nodes()`, `back()`,
+  `forward()`, `jump_to()`, `follow_link()`, `html_session()`,
+  `guess_encoding()`, and `repair_encoding()`.
+  [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  and `LiveHTML` are no longer experimental.
 - [`html_form()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   now defaults a missing `action` attribute to the URL of the document,
   following the HTML5 spec, so forms without an `action` can be
@@ -13,6 +19,9 @@
   now sets the checked state of checkbox and radio button fields instead
   of their values
   ([\#316](https://github.com/tidyverse/rvest/issues/316)).
+- [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
+  now always warns when `fill` is supplied; previously `fill = TRUE` was
+  silently accepted, so many packages never saw the deprecation.
 - [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   now converts `<br>` to a line break when it is nested inside an inline
   element like `<span>`
@@ -181,11 +190,9 @@ continue to work (albeit with a few new warnings).
   Fields within a form now have class `rvest_field`, instead of a
   variety of classes that were lacking the `rvest_` prefix. All
   functions for working with forms have a common `html_form_` prefix:
-  [`set_values()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  became
+  `set_values()` became
   [`html_form_set()`](https://rvest.tidyverse.org/dev/reference/html_form.md).
-  [`submit_form()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  was renamed to
+  `submit_form()` was renamed to
   [`session_submit()`](https://rvest.tidyverse.org/dev/reference/session.md)
   because it returns a session.
 
@@ -199,8 +206,7 @@ continue to work (albeit with a few new warnings).
   since they (almost) always return elements, not nodes
   ([\#298](https://github.com/tidyverse/rvest/issues/298)).
 
-- [`html_session()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  is now
+- `html_session()` is now
   [`session()`](https://rvest.tidyverse.org/dev/reference/session.md)
   and returns an object of class `rvest_session` (instead of `session`).
   All functions that work with session objects now have a common
@@ -213,13 +219,12 @@ continue to work (albeit with a few new warnings).
   (which doesn’t appear to be used by any other package) has had its
   arguments flipped to make it more intuitive.
 
-- [`guess_encoding()`](https://rvest.tidyverse.org/dev/reference/html_encoding_guess.md)
-  has been renamed to
+- `guess_encoding()` has been renamed to
   [`html_encoding_guess()`](https://rvest.tidyverse.org/dev/reference/html_encoding_guess.md)
   to avoid a clash with `stringr::guess_encoding()`
   ([\#209](https://github.com/tidyverse/rvest/issues/209)).
-  [`repair_encoding()`](https://rvest.tidyverse.org/dev/reference/repair_encoding.md)
-  has been deprecated because it doesn’t appear to work.
+  `repair_encoding()` has been deprecated because it doesn’t appear to
+  work.
 
 - `pluck()` is no longer exported to avoid a clash with
   [`purrr::pluck()`](https://purrr.tidyverse.org/reference/pluck.html);
@@ -228,11 +233,8 @@ continue to work (albeit with a few new warnings).
   and friends instead
   ([\#209](https://github.com/tidyverse/rvest/issues/209)).
 
-- [`xml_tag()`](https://rvest.tidyverse.org/dev/reference/rename.md),
-  [`xml_node()`](https://rvest.tidyverse.org/dev/reference/rename.md),
-  and
-  [`xml_nodes()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  have been formally deprecated in favor of their `html_` equivalents.
+- `xml_tag()`, `xml_node()`, and `xml_nodes()` have been formally
+  deprecated in favor of their `html_` equivalents.
 
 ### Minor improvements and bug fixes
 
@@ -306,10 +308,8 @@ CRAN release: 2019-04-11
 
 CRAN release: 2016-06-17
 
-- Fixes to
-  [`follow_link()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  and [`back()`](https://rvest.tidyverse.org/dev/reference/rename.md) to
-  correctly manage session history.
+- Fixes to `follow_link()` and `back()` to correctly manage session
+  history.
 
 - If you’re using xml2 1.0.0,
   [`html_node()`](https://rvest.tidyverse.org/dev/reference/rename.md)
@@ -365,19 +365,15 @@ CRAN release: 2015-09-23
   in xml2) highlights id and class attributes
   ([\#78](https://github.com/tidyverse/rvest/issues/78)).
 
-- [`submit_form()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  now works with forms that use GET
+- `submit_form()` now works with forms that use GET
   ([\#66](https://github.com/tidyverse/rvest/issues/66)).
 
-- `submit_request()` (and hence
-  [`submit_form()`](https://rvest.tidyverse.org/dev/reference/rename.md))
-  is now case-insensitive, and so will find `<input type=SUBMIT>` as
-  well as`<input type="submit">`.
+- `submit_request()` (and hence `submit_form()`) is now
+  case-insensitive, and so will find `<input type=SUBMIT>` as well
+  as`<input type="submit">`.
 
-- `submit_request()` (and hence
-  [`submit_form()`](https://rvest.tidyverse.org/dev/reference/rename.md))
-  recognizes forms with `<input type="image">` as a valid form
-  submission button.
+- `submit_request()` (and hence `submit_form()`) recognizes forms with
+  `<input type="image">` as a valid form submission button.
 
 ## rvest 0.2.0
 
@@ -391,10 +387,8 @@ CRAN release: 2015-01-01
   ([\#48](https://github.com/tidyverse/rvest/issues/48)).
 
 - Add xml support: parse with `xml()`, then work with using
-  [`xml_node()`](https://rvest.tidyverse.org/dev/reference/rename.md),
-  `xml_attr()`, `xml_attrs()`, `xml_text()` and
-  [`xml_tag()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  ([\#24](https://github.com/tidyverse/rvest/issues/24)).
+  `xml_node()`, `xml_attr()`, `xml_attrs()`, `xml_text()` and
+  `xml_tag()` ([\#24](https://github.com/tidyverse/rvest/issues/24)).
 
 - `xml_structure()`: new function that displays the structure (i.e. tag
   and attribute names) of a xml/html object
@@ -402,8 +396,7 @@ CRAN release: 2015-01-01
 
 ### Bug fixes
 
-- [`follow_link()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  now accepts css and xpath selectors.
+- `follow_link()` now accepts css and xpath selectors.
   ([\#38](https://github.com/tidyverse/rvest/issues/38),
   [\#41](https://github.com/tidyverse/rvest/issues/41),
   [\#42](https://github.com/tidyverse/rvest/issues/42))
@@ -425,8 +418,7 @@ CRAN release: 2015-01-01
   now returns an empty list if no elements are found
   ([\#31](https://github.com/tidyverse/rvest/issues/31)).
 
-- [`submit_form()`](https://rvest.tidyverse.org/dev/reference/rename.md)
-  converts relative paths to absolute URLs
+- `submit_form()` converts relative paths to absolute URLs
   ([\#52](https://github.com/tidyverse/rvest/issues/52)). It also deals
   better with 0-length inputs
   ([\#29](https://github.com/tidyverse/rvest/issues/29)).

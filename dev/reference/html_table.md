@@ -45,8 +45,8 @@ html_table(
 
 - fill:
 
-  Deprecated - missing cells in tables are now always automatically
-  filled with `NA`.
+  **\[deprecated\]** Missing cells in tables are now always
+  automatically filled with `NA`.
 
 - dec:
 

@@ -5,9 +5,9 @@
 - [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
   : Static web scraping (with xml2)
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
-  **\[experimental\]** : Live web scraping (with chromote)
-- [`LiveHTML`](https://rvest.tidyverse.org/dev/reference/LiveHTML.md)
-  **\[experimental\]** : Interact with a live web page
+  : Live web scraping (with chromote)
+- [`LiveHTML`](https://rvest.tidyverse.org/dev/reference/LiveHTML.md) :
+  Interact with a live web page
 
 ## Extract data
 

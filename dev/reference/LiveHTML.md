@@ -1,7 +1,5 @@
 # Interact with a live web page
 
-**\[experimental\]**
-
 You construct an LiveHTML object with
 [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
 and then interact, like you're a human, using the methods described

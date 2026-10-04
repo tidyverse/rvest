@@ -4,7 +4,6 @@
 incorrect encoding. Use `html_encoding_guess()` to generate a list of
 possible encodings, then try each out by using `encoding` argument of
 [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md).
-`html_encoding_guess()` replaces the deprecated `guess_encoding()`.
 
 ## Usage
 

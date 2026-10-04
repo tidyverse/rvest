@@ -1,7 +1,5 @@
 # Live web scraping (with chromote)
 
-**\[experimental\]**
-
 [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
 operates on the HTML source code downloaded from the server. This works
 for most websites but can fail if the site uses javascript to generate
