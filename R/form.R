@@ -80,7 +80,6 @@ html_form.xml_node <- function(x, base_url = NULL) {
     class = "rvest_form"
   )
 }
-  
 #' @export
 print.rvest_form <- function(x, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
