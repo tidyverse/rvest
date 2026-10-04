@@ -525,6 +525,7 @@ html_table.LiveHTML <- function(
   x,
   header = NA,
   trim = TRUE,
+  fill = deprecated(),
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -534,6 +535,7 @@ html_table.LiveHTML <- function(
     tables,
     header = header,
     trim = trim,
+    fill = fill,
     dec = dec,
     na.strings = na.strings,
     convert = convert

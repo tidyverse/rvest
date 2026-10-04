@@ -69,13 +69,6 @@ html_table <- function(
   check_string(dec)
   check_character(na.strings)
   check_bool(convert)
-  if (lifecycle::is_present(fill)) {
-    lifecycle::deprecate_warn(
-      when = "1.0.0",
-      what = "html_table(fill)",
-      details = "An improved algorithm fills by default so it is no longer needed."
-    )
-  }
 
   UseMethod("html_table")
 }
@@ -95,6 +88,7 @@ html_table.xml_document <- function(
     tables,
     header = header,
     trim = trim,
+    fill = fill,
     dec = dec,
     na.strings = na.strings,
     convert = convert
@@ -116,6 +110,7 @@ html_table.xml_nodeset <- function(
     html_table,
     header = header,
     trim = trim,
+    fill = fill,
     dec = dec,
     na.strings = na.strings,
     convert = convert
@@ -132,6 +127,15 @@ html_table.xml_node <- function(
   na.strings = "NA",
   convert = TRUE
 ) {
+  if (lifecycle::is_present(fill)) {
+    lifecycle::deprecate_warn(
+      when = "1.0.0",
+      what = "html_table(fill)",
+      details = "An improved algorithm fills by default so it is no longer needed.",
+      user_env = caller_env(2) # S3 generic
+    )
+  }
+
   ns <- xml2::xml_ns(x)
   rows <- xml2::xml_find_all(x, ".//tr", ns = ns)
   cells <- lapply(rows, xml2::xml_find_all, ".//td|.//th", ns = ns)
