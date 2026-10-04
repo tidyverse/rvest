@@ -27,9 +27,10 @@ read_html(
 
 - x:
 
-  Usually a string representing a URL. See
-  [`xml2::read_html()`](http://xml2.r-lib.org/reference/read_xml.md) for
-  other options.
+  Usually a string representing a URL, an [httr2
+  response](https://httr2.r-lib.org/reference/response.html), or any
+  other input handled by
+  [`xml2::read_html()`](http://xml2.r-lib.org/reference/read_xml.md).
 
 - encoding:
 

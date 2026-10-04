@@ -21,6 +21,9 @@
 - `LiveHTML` gains a `$select()` method for selecting options from a
   `<select>` dropdown, either by value or by visible text
   ([\#411](https://github.com/tidyverse/rvest/issues/411)).
+- [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
+  can now read an httr2 response directly
+  ([\#406](https://github.com/tidyverse/rvest/issues/406)).
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   gains a `timeout` argument to control how long to wait for the initial
   page load, which is useful when using slow proxies
