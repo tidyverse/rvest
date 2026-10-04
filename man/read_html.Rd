@@ -12,8 +12,8 @@ read_html(
 )
 }
 \arguments{
-\item{x}{Usually a string representing a URL. See \code{\link[xml2:read_html]{xml2::read_html()}} for
-other options.}
+\item{x}{Usually a string representing a URL, an \link[httr2:response]{httr2 response}, or any other input handled by
+\code{\link[xml2:read_html]{xml2::read_html()}}.}
 
 \item{encoding}{Specify a default encoding for the document. Unless
 otherwise specified XML documents are assumed to be in UTF-8 or
