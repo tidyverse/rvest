@@ -200,19 +200,10 @@ test_that("no conversion", {
   expect_snapshot_output(table)
 })
 
-test_that("fill = FALSE is deprecated", {
-  html <- minimal_html(
-    '
-    <table>
-      <tr><th>x</th></tr>
-      <tr><td>1</td></tr>
-      </tr>
-    </table>
-  '
-  )
-  expect_snapshot({
-    . <- html_table(html, fill = FALSE)
 
+test_that("html_table(fill) is deprecated", {
+  html <- minimal_html("<table><tr><td>1</td></tr></table>")
+  expect_snapshot({
     . <- html_table(html, fill = TRUE)
   })
 })
