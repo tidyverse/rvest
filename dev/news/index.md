@@ -2,6 +2,10 @@
 
 ## rvest (development version)
 
+- [`html_form()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
+  now defaults a missing `action` attribute to the URL of the document,
+  following the HTML5 spec, so forms without an `action` can be
+  submitted ([\#319](https://github.com/tidyverse/rvest/issues/319)).
 - [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   now only submits checked checkboxes and radio buttons (not all of
   them), and
