@@ -220,7 +220,7 @@ submission_build_values <- function(
       # Default value for checked checkboxes/radio buttons
       list("on")
     } else if (is.null(value) || is.character(value)) {
-      as.list(as.character(value))
+      as.list(value)
     } else {
       # Preserve non-character values (e.g. httr::upload_file() objects)
       list(value)
