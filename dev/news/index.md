@@ -2,6 +2,13 @@
 
 ## rvest (development version)
 
+- [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
+  now only submits checked checkboxes and radio buttons (not all of
+  them), and
+  [`html_form_set()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
+  now sets the checked state of checkbox and radio button fields instead
+  of their values
+  ([\#316](https://github.com/tidyverse/rvest/issues/316)).
 - [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   now converts `<br>` to a line break when it is nested inside an inline
   element like `<span>`

@@ -49,6 +49,8 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="rvest-development-version">rvest (development version)<a class="anchor" aria-label="anchor" href="#rvest-development-version"></a></h2>
 <ul><li>
+<code><a href="../reference/html_form.html">html_form_submit()</a></code> now only submits checked checkboxes and radio buttons (not all of them), and <code><a href="../reference/html_form.html">html_form_set()</a></code> now sets the checked state of checkbox and radio button fields instead of their values (<a href="https://github.com/tidyverse/rvest/issues/316" class="external-link">#316</a>).</li>
+<li>
 <code><a href="../reference/html_text.html">html_text2()</a></code> now converts <code>&lt;br&gt;</code> to a line break when it is nested inside an inline element like <code>&lt;span&gt;</code> (<a href="https://github.com/tidyverse/rvest/issues/351" class="external-link">#351</a>). It also no longer includes the text of HTML comments.</li>
 <li>
 <code>LiveHTML$click()</code> gains a <code>method</code> argument: <code>method = "js"</code> fires a JavaScript click event that works on hidden elements, and clicking an element that isn’t clickable with the mouse now gives an informative error (<a href="https://github.com/tidyverse/rvest/issues/431" class="external-link">#431</a>).</li>
