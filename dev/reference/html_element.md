@@ -30,6 +30,13 @@ html_elements(x, css, xpath)
 `html_elements()` flattens the output so there's no direct way to map
 the output to the input.
 
+## Details
+
+When applied to a node or node set, these functions only search the
+*descendants* of the input; the input nodes themselves are never
+matched. This makes it safe to recursively walk a document without
+re-selecting the same elements.
+
 ## CSS selector support
 
 CSS selectors are translated to XPath selectors by the selectr package,
