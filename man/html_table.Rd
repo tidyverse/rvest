@@ -8,6 +8,7 @@ html_table(
   x,
   header = NA,
   trim = TRUE,
+  fill = deprecated(),
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -25,6 +26,9 @@ document, which may require post-processing to generate a valid data
 frame.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
+
+\item{fill}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Missing cells in tables are
+now always automatically filled with \code{NA}.}
 
 \item{dec}{The character used as decimal place marker.}
 

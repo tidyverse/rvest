@@ -73,6 +73,15 @@
       <chr> <chr>
     1 001   100.0
 
+# html_table(fill) is deprecated
+
+    Code
+      . <- html_table(html, fill = TRUE)
+    Condition
+      Warning:
+      The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
+      i An improved algorithm fills by default so it is no longer needed.
+
 # can handle empty tables
 
     # A tibble: 0 x 0

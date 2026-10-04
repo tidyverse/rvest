@@ -65,6 +65,7 @@ importFrom(httr,
   headers,
   status_code
 )
+importFrom(lifecycle,deprecated)
 importFrom(magrittr,"%>%")
 importFrom(xml2,
   read_html,

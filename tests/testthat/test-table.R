@@ -201,6 +201,13 @@ test_that("no conversion", {
 })
 
 
+test_that("html_table(fill) is deprecated", {
+  html <- minimal_html("<table><tr><td>1</td></tr></table>")
+  expect_snapshot({
+    . <- html_table(html, fill = TRUE)
+  })
+})
+
 test_that("can handle empty tables", {
   html <- minimal_html('<table></table>')
   table <- html_table(html)[[1]]
