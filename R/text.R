@@ -45,7 +45,7 @@
 #' # But aren't actually the same:
 #' x1 == x2
 #' # Which you can confirm by looking at their underlying binary
-#' # representaion:
+#' # representation:
 #' charToRaw(x1)
 #' charToRaw(x2)
 #' @export
@@ -97,7 +97,7 @@ html_text2.xml_missing <- function(x, preserve_nbsp = FALSE) {
 
 # Algorithm roughly inspired by
 # https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute
-# but following deatils in
+# but following details in
 # https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#How_does_CSS_process_whitespace
 html_text_block <- function(x, text, preserve_nbsp = FALSE) {
   if (xml2::xml_type(x) == "text") {
