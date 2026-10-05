@@ -19,6 +19,11 @@
   now sets the checked state of checkbox and radio button fields instead
   of their values
   ([\#316](https://github.com/tidyverse/rvest/issues/316)).
+- [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
+  once again supports file uploads: file fields set to
+  [`httr::upload_file()`](https://httr.r-lib.org/reference/upload_file.html)
+  objects are no longer mangled into strings
+  ([\#320](https://github.com/tidyverse/rvest/issues/320)).
 - [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
   now always warns when `fill` is supplied; previously `fill = TRUE` was
   silently accepted, so many packages never saw the deprecation.
