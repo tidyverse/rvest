@@ -3,6 +3,7 @@
 * Functions deprecated in rvest 1.0.0 have been removed: `set_values()`, `submit_form()`, `xml_tag()`, `xml_node()`, `xml_nodes()`, `back()`, `forward()`, `jump_to()`, `follow_link()`, `html_session()`, `guess_encoding()`, and `repair_encoding()`. `read_html_live()` and `LiveHTML` are no longer experimental.
 * `html_form()` now defaults a missing `action` attribute to the URL of the document, following the HTML5 spec, so forms without an `action` can be submitted (#319).
 * `html_form_submit()` now only submits checked checkboxes and radio buttons (not all of them), and `html_form_set()` now sets the checked state of checkbox and radio button fields instead of their values (#316).
+* `html_form_submit()` once again supports file uploads: file fields set to `httr::upload_file()` objects are no longer mangled into strings (#320).
 * `html_table()` now always warns when `fill` is supplied; previously `fill = TRUE` was silently accepted, so many packages never saw the deprecation.
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
