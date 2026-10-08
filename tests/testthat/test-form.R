@@ -264,6 +264,7 @@ test_that("handles multiple buttons", {
 
   expect_equal(submission_build_values(form, "two"), list(two = "2"))
   expect_equal(submission_build_values(form, 2L), list(two = "2"))
+  expect_equal(submission_build_values(form, FALSE), list())
 
   # Useful failure messages
   expect_snapshot(submission_build_values(form, 3L), error = TRUE)

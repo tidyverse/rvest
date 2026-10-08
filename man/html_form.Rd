@@ -32,6 +32,8 @@ select multiple values from a multi-select.}
 \item \code{NULL}, the default, uses the first button.
 \item A string selects a button by its name.
 \item A number selects a button using its relative position.
+\item \code{FALSE} submits the form without any button. This is useful for forms
+that are submitted by JavaScript when a field changes.
 }}
 }
 \value{
