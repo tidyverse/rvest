@@ -65,7 +65,7 @@ x2
 # But aren't actually the same:
 x1 == x2
 # Which you can confirm by looking at their underlying binary
-# representaion:
+# representation:
 charToRaw(x1)
 charToRaw(x2)
 }
