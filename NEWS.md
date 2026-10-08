@@ -1,9 +1,16 @@
 # rvest (development version)
 
+* Functions deprecated in rvest 1.0.0 have been removed: `set_values()`, `submit_form()`, `xml_tag()`, `xml_node()`, `xml_nodes()`, `back()`, `forward()`, `jump_to()`, `follow_link()`, `html_session()`, `guess_encoding()`, and `repair_encoding()`. `read_html_live()` and `LiveHTML` are no longer experimental.
+* `html_form()` now defaults a missing `action` attribute to the URL of the document, following the HTML5 spec, so forms without an `action` can be submitted (#319).
+* `html_form_submit()` now only submits checked checkboxes and radio buttons (not all of them), and `html_form_set()` now sets the checked state of checkbox and radio button fields instead of their values (#316).
+* `html_form_submit()` once again supports file uploads: file fields set to `httr::upload_file()` objects are no longer mangled into strings (#320).
+* `html_table()` now always warns when `fill` is supplied; previously `fill = TRUE` was silently accepted, so many packages never saw the deprecation.
+* New `html_table2()` is like `html_table()` but uses `html_text2()` to extract cell text, so `<br>` elements become newlines and cell text more closely resembles how it appears in a browser (#361).
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
 * `LiveHTML` gains a `$wait_for()` method that waits for an element to appear on the page, which is useful when a page renders content with JavaScript after the initial page load (#428).
+* `read_html()` can now read an httr2 response directly (#406).
 * `read_html_live()` gains a `timeout` argument to control how long to wait for the initial page load, which is useful when using slow proxies (#427).
 * `read_html_live()` gains `mode` and `view` arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to `--headless=new` (#407, #438).
 * `read_html_live()` now hides common tells of an automated browser (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent), making it less likely to be blocked by bot detection (#407).

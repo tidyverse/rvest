@@ -1,7 +1,16 @@
-#' Parse an html table into a data frame
+#' Parse an HTML table into a data frame
 #'
-#' The algorithm mimics what a browser does, but repeats the values of merged
-#' cells in every cell that cover.
+#' @description
+#' `html_table()` parses a `<table>` element into a data frame, following
+#' the same [algorithm](https://html.spec.whatwg.org/multipage/tables.html#forming-a-table)
+#' that browsers use to form a table. Cells that span multiple rows or
+#' columns (via the `rowspan` and `colspan` attributes) have their values
+#' repeated in every cell they cover, and rows with missing cells are
+#' padded with `NA`s.
+#'
+#' `html_table2()` works just like `html_table()` but uses [html_text2()]
+#' instead of [html_text()] to extract the text from each cell. This ensures
+#' that the cell text more closely resembles what you see in a browser.
 #'
 #' @inheritParams html_name
 #' @param header Use first row as header? If `NA`, will use first row
@@ -11,8 +20,8 @@
 #'   document, which may require post-processing to generate a valid data
 #'   frame.
 #' @param trim Remove leading and trailing whitespace within each cell?
-#' @param fill Deprecated - missing cells in tables are now always
-#'    automatically filled with `NA`.
+#' @param fill `r lifecycle::badge("deprecated")` Missing cells in tables are
+#'   now always automatically filled with `NA`.
 #' @param dec The character used as decimal place marker.
 #' @param na.strings Character vector of values that will be converted to `NA`
 #'    if `convert` is `TRUE`.
@@ -55,6 +64,15 @@
 #' sample3 |>
 #'   html_element("table") |>
 #'   html_table()
+#'
+#' # html_table2() uses html_text2() so often has better output for
+#' # text heavy tables
+#' sample4 <- minimal_html("<table>
+#'   <tr><th>Col A</th><th>Col B</th></tr>
+#'   <tr><td>1<br>2</td><td>x<br>y</td></tr>
+#' </table>")
+#' sample4 |> html_element("table") |> html_table()
+#' sample4 |> html_element("table") |> html_table2()
 html_table <- function(
   x,
   header = NA,
@@ -127,15 +145,99 @@ html_table.xml_node <- function(
   na.strings = "NA",
   convert = TRUE
 ) {
-  if (lifecycle::is_present(fill) && !isTRUE(fill)) {
+  if (lifecycle::is_present(fill)) {
     lifecycle::deprecate_warn(
       when = "1.0.0",
-      what = "html_table(fill = )",
+      what = "html_table(fill)",
       details = "An improved algorithm fills by default so it is no longer needed.",
       user_env = caller_env(2) # S3 generic
     )
   }
 
+  table_parse(x, header, trim, dec, na.strings, convert, html_text)
+}
+
+#'
+#' @rdname html_table
+#' @export
+html_table2 <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
+  check_bool(header, allow_na = TRUE)
+  check_bool(trim)
+  check_string(dec)
+  check_character(na.strings)
+  check_bool(convert)
+
+  UseMethod("html_table2")
+}
+
+#' @export
+html_table2.xml_document <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
+  tables <- xml2::xml_find_all(x, ".//table")
+  html_table2(
+    tables,
+    header = header,
+    trim = trim,
+    dec = dec,
+    na.strings = na.strings,
+    convert = convert
+  )
+}
+
+#' @export
+html_table2.xml_nodeset <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
+  lapply(
+    x,
+    html_table2,
+    header = header,
+    trim = trim,
+    dec = dec,
+    na.strings = na.strings,
+    convert = convert
+  )
+}
+
+#' @export
+html_table2.xml_node <- function(
+  x,
+  header = NA,
+  trim = TRUE,
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+) {
+  table_parse(x, header, trim, dec, na.strings, convert, html_text2)
+}
+
+table_parse <- function(
+  x,
+  header,
+  trim,
+  dec,
+  na.strings,
+  convert,
+  text_fun
+) {
   ns <- xml2::xml_ns(x)
   rows <- xml2::xml_find_all(x, ".//tr", ns = ns)
   cells <- lapply(rows, xml2::xml_find_all, ".//td|.//th", ns = ns)
@@ -145,7 +247,7 @@ html_table.xml_node <- function(
     return(tibble::tibble())
   }
 
-  out <- table_fill(cells, trim = trim)
+  out <- table_fill(cells, trim = trim, text_fun = text_fun)
 
   if (is.na(header)) {
     header <- all(html_name(cells[[1]]) == "th")
@@ -172,7 +274,7 @@ html_table.xml_node <- function(
 # Table fillng algorithm --------------------------------------------------
 # Base on https://html.spec.whatwg.org/multipage/tables.html#forming-a-table
 
-table_fill <- function(cells, trim = TRUE) {
+table_fill <- function(cells, trim = TRUE, text_fun = html_text) {
   width <- 0
   height <- length(cells) # initial estimate
   values <- vector("list", height)
@@ -191,7 +293,7 @@ table_fill <- function(cells, trim = TRUE) {
     rowspan[is.na(rowspan)] <- 1
     colspan <- as.integer(html_attr(row, "colspan", default = NA_character_))
     colspan[is.na(colspan)] <- 1
-    text <- html_text(row)
+    text <- text_fun(row)
     if (isTRUE(trim)) {
       text <- gsub("^[[:space:]\u00a0]+|[[:space:]\u00a0]+$", "", text)
     }
