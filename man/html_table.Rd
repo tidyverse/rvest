@@ -46,7 +46,7 @@ now always automatically filled with \code{NA}.}
 if \code{convert} is \code{TRUE}.}
 
 \item{convert}{If \code{TRUE}, will run \code{\link[=type.convert]{type.convert()}} to interpret texts as
-integer, double, or \code{NA}.}
+logical, integer, double, or \code{NA}.}
 }
 \value{
 When applied to a single element, \code{html_table()} returns a single tibble.

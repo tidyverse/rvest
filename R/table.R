@@ -26,7 +26,7 @@
 #' @param na.strings Character vector of values that will be converted to `NA`
 #'    if `convert` is `TRUE`.
 #' @param convert If `TRUE`, will run [`type.convert()`] to interpret texts as
-#'    integer, double, or `NA`.
+#'    logical, integer, double, or `NA`.
 #' @return
 #' When applied to a single element, `html_table()` returns a single tibble.
 #' When applied to multiple elements or a document, `html_table()` returns
