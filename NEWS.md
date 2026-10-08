@@ -7,6 +7,7 @@
 * `html_table()` now always warns when `fill` is supplied; previously `fill = TRUE` was silently accepted, so many packages never saw the deprecation.
 * New `html_table2()` is like `html_table()` but uses `html_text2()` to extract cell text, so `<br>` elements become newlines and cell text more closely resembles how it appears in a browser (#361).
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
+* `html_text2()` no longer drops spaces between inline elements when the space is in a separate element (e.g. `<span>a</span><span> </span><span>b</span>`) (#372).
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
 * `LiveHTML` gains a `$wait_for()` method that waits for an element to appear on the page, which is useful when a page renders content with JavaScript after the initial page load (#428).

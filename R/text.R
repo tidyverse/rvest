@@ -101,9 +101,18 @@ html_text2.xml_missing <- function(x, preserve_nbsp = FALSE) {
 # https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace#How_does_CSS_process_whitespace
 html_text_block <- function(x, text, preserve_nbsp = FALSE) {
   if (xml2::xml_type(x) == "text") {
-    text$add_text(collapse_whitespace(xml2::xml_text(x), preserve_nbsp))
+    add_collapsed_text(text, xml2::xml_text(x), preserve_nbsp = preserve_nbsp)
   } else if (is_inline(x)) {
-    text$add_text(html_text_inline(x, preserve_nbsp))
+    if (xml2::xml_name(x) == "pre") {
+      text$add_text(html_text_inline(x, preserve_nbsp))
+    } else {
+      add_collapsed_text(
+        text,
+        xml2::xml_text(x),
+        preserve_nbsp = preserve_nbsp,
+        collapsed = html_text_inline(x, preserve_nbsp)
+      )
+    }
   } else {
     children <- xml2::xml_contents(x)
     n <- length(children)
@@ -228,6 +237,24 @@ inline_pieces <- function(x) {
   )
 }
 
+# Adds text following CSS whitespace collapsing rules: leading and trailing
+# whitespace become a pending space that is only kept if more text follows
+# on the same line, and whitespace-only content collapses to a single space
+add_collapsed_text <- function(
+  text,
+  raw,
+  preserve_nbsp = FALSE,
+  collapsed = collapse_whitespace(raw, preserve_nbsp)
+) {
+  if (grepl("^[ \t\n\r\f]", raw)) {
+    text$add_space()
+  }
+  text$add_text(collapsed)
+  if (grepl("[ \t\n\r\f]$", raw)) {
+    text$add_space()
+  }
+}
+
 # https://drafts.csswg.org/css-text/#white-space-phase-1
 collapse_whitespace <- function(x, preserve_nbsp = FALSE) {
   # Remove leading and trailing whitespace
@@ -248,6 +275,7 @@ PaddedText <- R6::R6Class(
     text = character(),
     lines = 0,
     i = 1L,
+    space = FALSE,
 
     add_margin = function(n) {
       # Don't add breaks before encountering text
@@ -268,6 +296,15 @@ PaddedText <- R6::R6Class(
       self$lines <- 0
     },
 
+    add_space = function() {
+      # Don't add spaces before encountering text
+      if (self$i == 1) {
+        return()
+      }
+
+      self$space <- TRUE
+    },
+
     add_text = function(x) {
       # Ignore empty strings
       if (identical(x, "")) {
@@ -275,6 +312,14 @@ PaddedText <- R6::R6Class(
       }
 
       self$convert_breaks()
+      if (self$space) {
+        self$space <- FALSE
+        # Spaces are not kept at line boundaries
+        prev <- self$text[[self$i - 1]]
+        if (!grepl("[\n\t]$", prev) && !grepl("^[\n\t]", x)) {
+          x <- paste0(" ", x)
+        }
+      }
       self$text[[self$i]] <- x
       self$i <- self$i + 1L
     },
