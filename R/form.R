@@ -157,6 +157,8 @@ field_set_checked <- function(form, name, value, error_call = caller_env()) {
 #'   * `NULL`, the default, uses the first button.
 #'   * A string selects a button by its name.
 #'   * A number selects a button using its relative position.
+#'   * `FALSE` submits the form without any button. This is useful for forms
+#'     that are submitted by JavaScript when a field changes.
 #' @export
 html_form_submit <- function(form, submit = NULL) {
   check_form(form)
@@ -237,7 +239,9 @@ submission_build_values <- function(
 submission_find_submit <- function(fields, idx, error_call = caller_env()) {
   buttons <- Filter(is_button, fields)
 
-  if (is.null(idx)) {
+  if (isFALSE(idx)) {
+    list()
+  } else if (is.null(idx)) {
     if (length(buttons) == 0) {
       list()
     } else {
@@ -264,7 +268,7 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
     buttons[[idx]]
   } else {
     cli::cli_abort(
-      "{.arg submit} must be NULL, a string, or a number.",
+      "{.arg submit} must be NULL, FALSE, a string, or a number.",
       call = error_call
     )
   }

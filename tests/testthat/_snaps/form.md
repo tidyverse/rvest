@@ -119,7 +119,7 @@
       submission_build_values(form, TRUE)
     Condition
       Error:
-      ! `submit` must be NULL, a string, or a number.
+      ! `submit` must be NULL, FALSE, a string, or a number.
 
 # can submit using three primary techniques
 
