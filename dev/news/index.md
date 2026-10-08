@@ -48,6 +48,10 @@
 - `LiveHTML` gains a `$select()` method for selecting options from a
   `<select>` dropdown, either by value or by visible text
   ([\#411](https://github.com/tidyverse/rvest/issues/411)).
+- `LiveHTML` gains a `$wait_for()` method that waits for an element to
+  appear on the page, which is useful when a page renders content with
+  JavaScript after the initial page load
+  ([\#428](https://github.com/tidyverse/rvest/issues/428)).
 - [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
   can now read an httr2 response directly
   ([\#406](https://github.com/tidyverse/rvest/issues/406)).

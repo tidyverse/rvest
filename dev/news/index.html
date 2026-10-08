@@ -65,6 +65,8 @@
 <li>
 <code>LiveHTML</code> gains a <code>$select()</code> method for selecting options from a <code>&lt;select&gt;</code> dropdown, either by value or by visible text (<a href="https://github.com/tidyverse/rvest/issues/411" class="external-link">#411</a>).</li>
 <li>
+<code>LiveHTML</code> gains a <code>$wait_for()</code> method that waits for an element to appear on the page, which is useful when a page renders content with JavaScript after the initial page load (<a href="https://github.com/tidyverse/rvest/issues/428" class="external-link">#428</a>).</li>
+<li>
 <code><a href="../reference/read_html.html">read_html()</a></code> can now read an httr2 response directly (<a href="https://github.com/tidyverse/rvest/issues/406" class="external-link">#406</a>).</li>
 <li>
 <code><a href="../reference/read_html_live.html">read_html_live()</a></code> gains a <code>timeout</code> argument to control how long to wait for the initial page load, which is useful when using slow proxies (<a href="https://github.com/tidyverse/rvest/issues/427" class="external-link">#427</a>).</li>

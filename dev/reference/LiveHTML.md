@@ -30,6 +30,8 @@ that exposes a more powerful user interface, like
 
 - [`LiveHTML$html_elements()`](#method-LiveHTML-html_elements)
 
+- [`LiveHTML$wait_for()`](#method-LiveHTML-wait_for)
+
 - [`LiveHTML$click()`](#method-LiveHTML-click)
 
 - [`LiveHTML$get_scroll_position()`](#method-LiveHTML-get_scroll_position)
@@ -125,6 +127,27 @@ Extract HTML elements from the current page.
 - `css, xpath`:
 
   CSS selector or xpath expression.
+
+------------------------------------------------------------------------
+
+### `LiveHTML$wait_for()`
+
+Wait for an element to appear on the page. Useful when a page renders
+content with JavaScript after the initial page load.
+
+#### Usage
+
+    LiveHTML$wait_for(css, timeout = 5)
+
+#### Arguments
+
+- `css`:
+
+  CSS selector.
+
+- `timeout`:
+
+  Maximum number of seconds to wait before erroring.
 
 ------------------------------------------------------------------------
 
