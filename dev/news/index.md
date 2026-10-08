@@ -8,10 +8,12 @@
   `guess_encoding()`, and `repair_encoding()`.
   [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   and `LiveHTML` are no longer experimental.
+
 - [`html_form()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   now defaults a missing `action` attribute to the URL of the document,
   following the HTML5 spec, so forms without an `action` can be
   submitted ([\#319](https://github.com/tidyverse/rvest/issues/319)).
+
 - [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   now only submits checked checkboxes and radio buttons (not all of
   them), and
@@ -19,14 +21,17 @@
   now sets the checked state of checkbox and radio button fields instead
   of their values
   ([\#316](https://github.com/tidyverse/rvest/issues/316)).
+
 - [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   once again supports file uploads: file fields set to
   [`httr::upload_file()`](https://httr.r-lib.org/reference/upload_file.html)
   objects are no longer mangled into strings
   ([\#320](https://github.com/tidyverse/rvest/issues/320)).
+
 - [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
   now always warns when `fill` is supplied; previously `fill = TRUE` was
   silently accepted, so many packages never saw the deprecation.
+
 - New
   [`html_table2()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
   is like
@@ -36,63 +41,83 @@
   to extract cell text, so `<br>` elements become newlines and cell text
   more closely resembles how it appears in a browser
   ([\#361](https://github.com/tidyverse/rvest/issues/361)).
+
 - [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   now converts `<br>` to a line break when it is nested inside an inline
   element like `<span>`
   ([\#351](https://github.com/tidyverse/rvest/issues/351)). It also no
   longer includes the text of HTML comments.
+
 - [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   no longer drops spaces between inline elements when the space is in a
   separate element (e.g. `<span>a</span><span> </span><span>b</span>`)
   ([\#372](https://github.com/tidyverse/rvest/issues/372)).
+
 - `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a
   JavaScript click event that works on hidden elements, and clicking an
   element that isn’t clickable with the mouse now gives an informative
   error ([\#431](https://github.com/tidyverse/rvest/issues/431)).
+
 - `LiveHTML` gains a `$download()` method that clicks an element that
   triggers a download, waits for it to complete, and returns the path to
   the downloaded file
   ([\#437](https://github.com/tidyverse/rvest/issues/437)).
+
 - `LiveHTML` gains a `$select()` method for selecting options from a
   `<select>` dropdown, either by value or by visible text
   ([\#411](https://github.com/tidyverse/rvest/issues/411)).
+
 - `LiveHTML` gains a `$wait_for()` method that waits for an element to
   appear on the page, which is useful when a page renders content with
   JavaScript after the initial page load
   ([\#428](https://github.com/tidyverse/rvest/issues/428)).
+
 - [`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
   can now read an httr2 response directly
   ([\#406](https://github.com/tidyverse/rvest/issues/406)).
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   gains a `timeout` argument to control how long to wait for the initial
   page load, which is useful when using slow proxies
   ([\#427](https://github.com/tidyverse/rvest/issues/427)).
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   gains `mode` and `view` arguments to optionally run Chrome with a
   visible window or with a mobile viewport, and headless mode now
   defaults to `--headless=new`
   ([\#407](https://github.com/tidyverse/rvest/issues/407),
   [\#438](https://github.com/tidyverse/rvest/issues/438)).
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now hides common tells of an automated browser
   (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent),
   making it less likely to be blocked by bot detection
   ([\#407](https://github.com/tidyverse/rvest/issues/407)).
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now shares a single browser across all sessions (one per `mode`), so
   repeated calls no longer pay the cost of launching Chrome each time;
   use the new `browser` argument to supply your own browser instead.
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now correctly handles `xpath` expressions containing single quotes
   ([\#435](https://github.com/tidyverse/rvest/issues/435)).
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   now errors immediately if the page fails to load (e.g. the domain
   doesn’t exist) instead of hanging.
+
 - [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
   objects now return the correct nodes when selecting `<html>`,
   `<head>`, or `<body>`, so printing shows `<head>` and `<body>` rather
   than their children
   ([\#396](https://github.com/tidyverse/rvest/issues/396)).
+
+- [`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+  methods `$click()`, `$type()`, `$press()`, and `$scroll_into_view()`
+  now wait for elements more efficiently, error immediately on invalid
+  CSS selectors, and use the first element when a selector matches more
+  than one.
 
 ## rvest 1.0.5
 

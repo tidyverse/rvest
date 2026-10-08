@@ -82,7 +82,7 @@ html_table2(
 
   If `TRUE`, will run
   [`type.convert()`](https://rdrr.io/r/utils/type.convert.html) to
-  interpret texts as integer, double, or `NA`.
+  interpret texts as logical, integer, double, or `NA`.
 
 ## Value
 
