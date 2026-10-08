@@ -81,7 +81,7 @@ x2
 x1 == x2
 #> [1] FALSE
 # Which you can confirm by looking at their underlying binary
-# representaion:
+# representation:
 charToRaw(x1)
 #> [1] 78 c2 a0 79
 charToRaw(x2)
