@@ -103,6 +103,21 @@ test_that("can find single element", {
   expect_equal(html_element(dynamic, "xyz"), html_element(static, "xyz"))
 })
 
+test_that("can wait for dynamically added element", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("dynamic"))
+  sess$wait_for("#delayed")
+  expect_equal(html_text(html_element(sess, "#delayed")), "loaded")
+})
+
+test_that("wait_for errors when element never appears", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("dynamic"))
+  expect_snapshot(sess$wait_for("#nope", timeout = 0.2), error = TRUE)
+})
+
 test_that("can click a button", {
   skip_if_no_chromote()
 
