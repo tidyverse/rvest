@@ -2,7 +2,6 @@
 % Please edit documentation in R/encoding.R
 \name{html_encoding_guess}
 \alias{html_encoding_guess}
-\alias{guess_encoding}
 \title{Guess faulty character encoding}
 \usage{
 html_encoding_guess(x)
@@ -14,7 +13,6 @@ html_encoding_guess(x)
 \code{html_encoding_guess()} helps you handle web pages that declare an incorrect
 encoding. Use \code{html_encoding_guess()} to generate a list of possible
 encodings, then try each out by using \code{encoding} argument of \code{read_html()}.
-\code{html_encoding_guess()} replaces the deprecated \code{guess_encoding()}.
 }
 \examples{
 # A file with bad encoding included in the package

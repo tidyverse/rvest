@@ -2,13 +2,23 @@
 % Please edit documentation in R/table.R
 \name{html_table}
 \alias{html_table}
-\title{Parse an html table into a data frame}
+\alias{html_table2}
+\title{Parse an HTML table into a data frame}
 \usage{
 html_table(
   x,
   header = NA,
   trim = TRUE,
   fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+)
+
+html_table2(
+  x,
+  header = NA,
+  trim = TRUE,
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -27,8 +37,8 @@ frame.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
 
-\item{fill}{Deprecated - missing cells in tables are now always
-automatically filled with \code{NA}.}
+\item{fill}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Missing cells in tables are
+now always automatically filled with \code{NA}.}
 
 \item{dec}{The character used as decimal place marker.}
 
@@ -44,8 +54,16 @@ When applied to multiple elements or a document, \code{html_table()} returns
 a list of tibbles.
 }
 \description{
-The algorithm mimics what a browser does, but repeats the values of merged
-cells in every cell that cover.
+\code{html_table()} parses a \verb{<table>} element into a data frame, following
+the same \href{https://html.spec.whatwg.org/multipage/tables.html#forming-a-table}{algorithm}
+that browsers use to form a table. Cells that span multiple rows or
+columns (via the \code{rowspan} and \code{colspan} attributes) have their values
+repeated in every cell they cover, and rows with missing cells are
+padded with \code{NA}s.
+
+\code{html_table2()} works just like \code{html_table()} but uses \code{\link[=html_text2]{html_text2()}}
+instead of \code{\link[=html_text]{html_text()}} to extract the text from each cell. This ensures
+that the cell text more closely resembles what you see in a browser.
 }
 \examples{
 sample1 <- minimal_html("<table>
@@ -79,4 +97,13 @@ sample3 <- minimal_html("<table>
 sample3 |>
   html_element("table") |>
   html_table()
+
+# html_table2() uses html_text2() so often has better output for
+# text heavy tables
+sample4 <- minimal_html("<table>
+  <tr><th>Col A</th><th>Col B</th></tr>
+  <tr><td>1<br>2</td><td>x<br>y</td></tr>
+</table>")
+sample4 |> html_element("table") |> html_table()
+sample4 |> html_element("table") |> html_table2()
 }

@@ -86,6 +86,12 @@ test_that("handles different encoding types", {
   expect_snapshot(convert_enctype("unknown"))
 })
 
+test_that("missing action defaults to document url", {
+  html <- minimal_html("<form><input name='x'></form>")
+  form <- html_form(html, base_url = "http://here.com/path")[[1]]
+  expect_equal(form$action, "http://here.com/path")
+})
+
 test_that("validates its inputs", {
   select <- minimal_html(
     '
@@ -135,6 +141,26 @@ test_that("has informative errors", {
   expect_snapshot(html_form_set(form, missing = "x"), error = TRUE)
 })
 
+test_that("can set checkboxes and radio buttons", {
+  html <- minimal_html(
+    '
+    <form>
+      <input type="checkbox" name="x" value="1">
+      <input type="checkbox" name="x" value="2" checked>
+      <input type="checkbox" name="x" value="3">
+      <input type="radio" name="y" value="a" checked>
+      <input type="radio" name="y" value="b">
+    </form>
+  '
+  )
+  form <- html_form(html)[[1]]
+
+  form <- html_form_set(form, x = c("1", "3"), y = "b")
+  expect_equal(submission_build_values(form), list(x = "1", x = "3", y = "b"))
+
+  expect_snapshot(html_form_set(form, x = "4"), error = TRUE)
+})
+
 # submit ------------------------------------------------------------------
 
 test_that("works as expected in simple case", {
@@ -180,6 +206,44 @@ test_that("can handle multiple values", {
   expect_equal(
     submission_build_values(form),
     list(x = "1", x = "2", x = "3")
+  )
+})
+
+test_that("unchecked checkboxes and radio buttons are not submitted", {
+  html <- minimal_html(
+    '
+    <form action="/">
+      <input type="checkbox" name="x" value="1">
+      <input type="checkbox" name="x" value="2" checked>
+      <input type="radio" name="y" value="a">
+      <input type="radio" name="y" value="b" checked>
+      <input type="checkbox" name="z" checked>
+    </form>
+  '
+  )
+  form <- html_form(html)[[1]]
+
+  expect_equal(
+    submission_build_values(form),
+    list(x = "2", y = "b", z = "on")
+  )
+})
+
+test_that("preserves file upload objects", {
+  html <- minimal_html(
+    '
+    <form method="post" action="/" enctype="multipart/form-data">
+    <input type="file" name="file">
+    </form>
+  '
+  )
+  form <- html_form(html)[[1]]
+  upload <- httr::upload_file(test_path("test-form.R"))
+  form <- html_form_set(form, file = upload)
+
+  expect_equal(
+    submission_build_values(form),
+    list(file = upload)
   )
 })
 

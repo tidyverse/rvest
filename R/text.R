@@ -184,25 +184,48 @@ tag_margin <- function(name) {
 }
 
 html_text_inline <- function(x, preserve_nbsp = FALSE) {
-  children <- xml2::xml_contents(x)
-  n <- length(children)
+  pieces <- inline_pieces(x)
+  n <- length(pieces$text)
   if (n == 0) {
     return("")
   }
 
-  text <- xml2::xml_text(children)
-  is_br <- xml2::xml_name(children) == "br"
-
-  line_num <- cumsum(c(TRUE, is_br[-n]))
-  lines <- split(text, line_num)
+  line_num <- cumsum(c(TRUE, pieces$br[-n]))
+  lines <- split(pieces$text, line_num)
   lines <- vapply(lines, paste0, collapse = "", FUN.VALUE = character(1))
 
   if (xml2::xml_name(x) != "pre") {
     lines <- collapse_whitespace(lines, preserve_nbsp)
   }
 
-  has_br <- unname(tapply(is_br, line_num, any))
+  has_br <- unname(tapply(pieces$br, line_num, any))
   paste0(lines, ifelse(has_br, "\n", ""), collapse = "")
+}
+
+# Text of each child. Child elements containing a nested <br> are replaced
+# by their own contents so that the <br> is seen.
+inline_pieces <- function(x) {
+  nodes <- xml2::xml_contents(x)
+  nodes <- nodes[xml2::xml_type(nodes) %in% c("text", "cdata", "element")]
+  type <- xml2::xml_type(nodes)
+
+  name <- xml2::xml_name(nodes)
+  text <- as.list(xml2::xml_text(nodes))
+  is_br <- as.list(name == "br")
+
+  for (i in which(type == "element" & name != "br")) {
+    child_br <- xml2::xml_find_first(nodes[[i]], ".//br")
+    if (!inherits(child_br, "xml_missing")) {
+      pieces <- inline_pieces(nodes[[i]])
+      text[i] <- list(pieces$text)
+      is_br[i] <- list(pieces$br)
+    }
+  }
+
+  list(
+    text = as.character(unlist(text)),
+    br = as.logical(unlist(is_br))
+  )
 }
 
 # https://drafts.csswg.org/css-text/#white-space-phase-1

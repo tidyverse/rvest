@@ -18,8 +18,9 @@
 #' doesn't rely on the Chrome web browser installed on your computer.)
 #'
 #' @inheritParams xml2::read_html
-#' @param x Usually a string representing a URL. See [xml2::read_html()] for
-#'   other options.
+#' @param x Usually a string representing a URL, an [httr2
+#'   response][httr2::response()], or any other input handled by
+#'   [xml2::read_html()].
 #' @rdname read_html
 #' @importFrom xml2 read_html
 #' @export

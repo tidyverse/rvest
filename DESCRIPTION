@@ -26,8 +26,10 @@ Imports:
 Suggests:
     chromote,
     covr,
+    httr2,
     knitr,
     later,
+    promises,
     purrr,
     R6,
     readr,

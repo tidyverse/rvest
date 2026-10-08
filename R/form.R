@@ -73,14 +73,13 @@ html_form.xml_node <- function(x, base_url = NULL) {
     list(
       name = name,
       method = method,
-      action = xml2::url_absolute(attr$action, base_url %||% xml2::xml_url(x)),
+      action = form_action(attr$action, base_url %||% xml2::xml_url(x)),
       enctype = enctype,
       fields = fields
     ),
     class = "rvest_form"
   )
 }
-
 #' @export
 print.rvest_form <- function(x, ...) {
   cat("<form> '", x$name, "' (", x$method, " ", x$action, ")\n", sep = "")
@@ -114,7 +113,38 @@ html_form_set <- function(form, ...) {
       )
     }
 
-    form$fields[[field]]$value <- new_values[[field]]
+    if (type %in% c("checkbox", "radio")) {
+      form <- field_set_checked(form, field, new_values[[field]])
+    } else {
+      form$fields[[field]]$value <- new_values[[field]]
+    }
+  }
+
+  form
+}
+
+field_set_checked <- function(form, name, value, error_call = caller_env()) {
+  idx <- which(names(form$fields) == name)
+  field_values <- map_chr(form$fields[idx], function(x) x$value %||% "on")
+
+  if (!all(value %in% field_values)) {
+    cli::cli_abort(
+      c(
+        "Can't check {.str {setdiff(value, field_values)}} for field {.str {name}}.",
+        i = "Possible values: {.str {field_values}}."
+      ),
+      call = error_call
+    )
+  }
+
+  for (i in idx) {
+    field <- form$fields[[i]]
+    if ((field$value %||% "on") %in% value) {
+      field$attr$checked <- "checked"
+    } else {
+      field$attr$checked <- NULL
+    }
+    form$fields[[i]] <- field
   }
 
   form
@@ -177,19 +207,31 @@ submission_build_values <- function(
   submit <- submission_find_submit(fields, submit, error_call = error_call)
   entry_list <- c(Filter(Negate(is_button), fields), list(submit))
   entry_list <- Filter(function(x) !is.null(x$name), entry_list)
+  # Unchecked checkboxes and radio buttons are not successful controls
+  entry_list <- Filter(is_successful, entry_list)
 
   if (length(entry_list) == 0) {
     return(list())
   }
 
-  values <- lapply(entry_list, function(x) as.character(x$value))
+  values <- lapply(entry_list, function(x) {
+    value <- x$value
+    if (is.null(value) && x$type %in% c("checkbox", "radio")) {
+      # Default value for checked checkboxes/radio buttons
+      list("on")
+    } else if (is.null(value) || is.character(value)) {
+      as.list(value)
+    } else {
+      # Preserve non-character values (e.g. httr::upload_file() objects)
+      list(value)
+    }
+  })
   names <- map_chr(entry_list, "[[", "name")
 
-  out <- set_names(
-    unlist(values, use.names = FALSE),
+  set_names(
+    unlist(values, use.names = FALSE, recursive = FALSE),
     rep(names, lengths(values))
   )
-  as.list(out)
 }
 
 submission_find_submit <- function(fields, idx, error_call = caller_env()) {
@@ -230,6 +272,10 @@ submission_find_submit <- function(fields, idx, error_call = caller_env()) {
 
 is_button <- function(x) {
   tolower(x$type) %in% c("submit", "image", "button")
+}
+
+is_successful <- function(x) {
+  !x$type %in% c("checkbox", "radio") || !is.null(x$attr$checked)
 }
 
 # Field parsing -----------------------------------------------------------
@@ -331,6 +377,14 @@ parse_button <- function(x) {
 }
 
 # Helpers -----------------------------------------------------------------
+
+# A missing action attribute defaults to the url of the document (HTML5)
+form_action <- function(action, url) {
+  if (is.null(action) && !is.na(url)) {
+    action <- ""
+  }
+  xml2::url_absolute(action, url)
+}
 
 convert_enctype <- function(x) {
   if (is.null(x)) {
