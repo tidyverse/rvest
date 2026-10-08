@@ -27,6 +27,15 @@
 - [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
   now always warns when `fill` is supplied; previously `fill = TRUE` was
   silently accepted, so many packages never saw the deprecation.
+- New
+  [`html_table2()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
+  is like
+  [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
+  but uses
+  [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
+  to extract cell text, so `<br>` elements become newlines and cell text
+  more closely resembles how it appears in a browser
+  ([\#361](https://github.com/tidyverse/rvest/issues/361)).
 - [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   now converts `<br>` to a line break when it is nested inside an inline
   element like `<span>`

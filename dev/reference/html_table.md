@@ -1,7 +1,19 @@
-# Parse an html table into a data frame
+# Parse an HTML table into a data frame
 
-The algorithm mimics what a browser does, but repeats the values of
-merged cells in every cell that cover.
+`html_table()` parses a `<table>` element into a data frame, following
+the same
+[algorithm](https://html.spec.whatwg.org/multipage/tables.html#forming-a-table)
+that browsers use to form a table. Cells that span multiple rows or
+columns (via the `rowspan` and `colspan` attributes) have their values
+repeated in every cell that they cover, and rows with missing cells are
+padded with missing values (`NA`).
+
+`html_table2()` works just like `html_table()` but uses
+[`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
+instead of
+[`html_text()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
+to extract the text from each cell. This ensures that the cell text more
+closely resembles what you see in a browser.
 
 ## Usage
 
@@ -11,6 +23,15 @@ html_table(
   header = NA,
   trim = TRUE,
   fill = deprecated(),
+  dec = ".",
+  na.strings = "NA",
+  convert = TRUE
+)
+
+html_table2(
+  x,
+  header = NA,
+  trim = TRUE,
   dec = ".",
   na.strings = "NA",
   convert = TRUE
@@ -121,4 +142,21 @@ sample3 |>
 #> 1     1     1     2
 #> 2     3     3    NA
 #> 3     4    NA    NA
+
+# html_table2() uses html_text2() so often has better output for
+# text heavy tables
+sample4 <- minimal_html("<table>
+  <tr><th>Col A</th><th>Col B</th></tr>
+  <tr><td>1<br>2</td><td>x<br>y</td></tr>
+</table>")
+sample4 |> html_element("table") |> html_table()
+#> # A tibble: 1 × 2
+#>   `Col A` `Col B`
+#>     <int> <chr>  
+#> 1      12 xy     
+sample4 |> html_element("table") |> html_table2()
+#> # A tibble: 1 × 2
+#>   `Col A` `Col B`
+#>   <chr>   <chr>  
+#> 1 "1\n2"  "x\ny" 
 ```

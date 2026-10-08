@@ -57,6 +57,7 @@
 <code><a href="../reference/html_form.html">html_form_submit()</a></code> once again supports file uploads: file fields set to <code><a href="https://httr.r-lib.org/reference/upload_file.html" class="external-link">httr::upload_file()</a></code> objects are no longer mangled into strings (<a href="https://github.com/tidyverse/rvest/issues/320" class="external-link">#320</a>).</li>
 <li>
 <code><a href="../reference/html_table.html">html_table()</a></code> now always warns when <code>fill</code> is supplied; previously <code>fill = TRUE</code> was silently accepted, so many packages never saw the deprecation.</li>
+<li>New <code><a href="../reference/html_table.html">html_table2()</a></code> is like <code><a href="../reference/html_table.html">html_table()</a></code> but uses <code><a href="../reference/html_text.html">html_text2()</a></code> to extract cell text, so <code>&lt;br&gt;</code> elements become newlines and cell text more closely resembles how it appears in a browser (<a href="https://github.com/tidyverse/rvest/issues/361" class="external-link">#361</a>).</li>
 <li>
 <code><a href="../reference/html_text.html">html_text2()</a></code> now converts <code>&lt;br&gt;</code> to a line break when it is nested inside an inline element like <code>&lt;span&gt;</code> (<a href="https://github.com/tidyverse/rvest/issues/351" class="external-link">#351</a>). It also no longer includes the text of HTML comments.</li>
 <li>

@@ -22,7 +22,8 @@
 - [`html_name()`](https://rvest.tidyverse.org/dev/reference/html_name.md)
   : Get element name
 - [`html_table()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
-  : Parse an html table into a data frame
+  [`html_table2()`](https://rvest.tidyverse.org/dev/reference/html_table.md)
+  : Parse an HTML table into a data frame
 - [`html_text()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
   : Get element text
