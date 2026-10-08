@@ -49,6 +49,10 @@
   JavaScript click event that works on hidden elements, and clicking an
   element that isn’t clickable with the mouse now gives an informative
   error ([\#431](https://github.com/tidyverse/rvest/issues/431)).
+- `LiveHTML` gains a `$download()` method that clicks an element that
+  triggers a download, waits for it to complete, and returns the path to
+  the downloaded file
+  ([\#437](https://github.com/tidyverse/rvest/issues/437)).
 - `LiveHTML` gains a `$select()` method for selecting options from a
   `<select>` dropdown, either by value or by visible text
   ([\#411](https://github.com/tidyverse/rvest/issues/411)).

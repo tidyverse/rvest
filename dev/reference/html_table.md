@@ -5,8 +5,8 @@ the same
 [algorithm](https://html.spec.whatwg.org/multipage/tables.html#forming-a-table)
 that browsers use to form a table. Cells that span multiple rows or
 columns (via the `rowspan` and `colspan` attributes) have their values
-repeated in every cell that they cover, and rows with missing cells are
-padded with missing values (`NA`).
+repeated in every cell they cover, and rows with missing cells are
+padded with `NA`s.
 
 `html_table2()` works just like `html_table()` but uses
 [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)

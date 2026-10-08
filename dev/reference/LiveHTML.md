@@ -34,6 +34,8 @@ that exposes a more powerful user interface, like
 
 - [`LiveHTML$click()`](#method-LiveHTML-click)
 
+- [`LiveHTML$download()`](#method-LiveHTML-download)
+
 - [`LiveHTML$get_scroll_position()`](#method-LiveHTML-get_scroll_position)
 
 - [`LiveHTML$scroll_into_view()`](#method-LiveHTML-scroll_into_view)
@@ -176,6 +178,36 @@ Simulate a click on an HTML element.
   `element.click()` directly, which works even for hidden or off-screen
   elements, but only fires the `click` event (no `mousedown`, `mouseup`,
   or hover events).
+
+------------------------------------------------------------------------
+
+### `LiveHTML$download()`
+
+Click on an element that triggers a download, and wait for the download
+to complete.
+
+#### Usage
+
+    LiveHTML$download(css, dir = tempdir(), timeout = 30)
+
+#### Arguments
+
+- `css`:
+
+  CSS selector.
+
+- `dir`:
+
+  Directory to save the file in. Will be created if needed.
+
+- `timeout`:
+
+  Maximum number of seconds to wait for the download to complete.
+
+#### Returns
+
+The path to the downloaded file, invisibly. The file name is determined
+by the server.
 
 ------------------------------------------------------------------------
 

@@ -65,6 +65,8 @@
 <li>
 <code>LiveHTML$click()</code> gains a <code>method</code> argument: <code>method = "js"</code> fires a JavaScript click event that works on hidden elements, and clicking an element that isn’t clickable with the mouse now gives an informative error (<a href="https://github.com/tidyverse/rvest/issues/431" class="external-link">#431</a>).</li>
 <li>
+<code>LiveHTML</code> gains a <code>$download()</code> method that clicks an element that triggers a download, waits for it to complete, and returns the path to the downloaded file (<a href="https://github.com/tidyverse/rvest/issues/437" class="external-link">#437</a>).</li>
+<li>
 <code>LiveHTML</code> gains a <code>$select()</code> method for selecting options from a <code>&lt;select&gt;</code> dropdown, either by value or by visible text (<a href="https://github.com/tidyverse/rvest/issues/411" class="external-link">#411</a>).</li>
 <li>
 <code>LiveHTML</code> gains a <code>$wait_for()</code> method that waits for an element to appear on the page, which is useful when a page renders content with JavaScript after the initial page load (<a href="https://github.com/tidyverse/rvest/issues/428" class="external-link">#428</a>).</li>
