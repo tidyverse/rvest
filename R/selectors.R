@@ -1,9 +1,15 @@
 #' Select elements from an HTML document
 #'
+#' @description
 #' `html_element()` and `html_elements()` find HTML element using CSS selectors
 #' or XPath expressions. CSS selectors are particularly useful in conjunction
 #' with <https://selectorgadget.com/>, which makes it very easy to discover the
 #' selector you need.
+#'
+#' When applied to a node or node set, these functions only search the
+#' _descendants_ of the input; the input nodes themselves are never matched.
+#' This makes it safe to recursively walk a document without re-selecting the
+#' same elements.
 #'
 #' @section CSS selector support:
 #'

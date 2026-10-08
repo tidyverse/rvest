@@ -26,6 +26,7 @@ Imports:
 Suggests:
     chromote,
     covr,
+    httr2,
     knitr,
     promises,
     purrr,

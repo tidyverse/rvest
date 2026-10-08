@@ -37,8 +37,8 @@ frame.}
 
 \item{trim}{Remove leading and trailing whitespace within each cell?}
 
-\item{fill}{Deprecated - missing cells in tables are now always
-automatically filled with \code{NA}.}
+\item{fill}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Missing cells in tables are
+now always automatically filled with \code{NA}.}
 
 \item{dec}{The character used as decimal place marker.}
 
