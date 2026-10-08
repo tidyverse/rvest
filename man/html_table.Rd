@@ -58,8 +58,8 @@ a list of tibbles.
 the same \href{https://html.spec.whatwg.org/multipage/tables.html#forming-a-table}{algorithm}
 that browsers use to form a table. Cells that span multiple rows or
 columns (via the \code{rowspan} and \code{colspan} attributes) have their values
-repeated in every cell that they cover, and rows with missing cells are
-padded with missing values (\code{NA}).
+repeated in every cell they cover, and rows with missing cells are
+padded with \code{NA}s.
 
 \code{html_table2()} works just like \code{html_table()} but uses \code{\link[=html_text2]{html_text2()}}
 instead of \code{\link[=html_text]{html_text()}} to extract the text from each cell. This ensures

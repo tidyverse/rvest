@@ -9,6 +9,7 @@
 * `html_text2()` now converts `<br>` to a line break when it is nested inside an inline element like `<span>` (#351). It also no longer includes the text of HTML comments.
 * `html_text2()` no longer drops spaces between inline elements when the space is in a separate element (e.g. `<span>a</span><span> </span><span>b</span>`) (#372).
 * `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a JavaScript click event that works on hidden elements, and clicking an element that isn't clickable with the mouse now gives an informative error (#431).
+* `LiveHTML` gains a `$download()` method that clicks an element that triggers a download, waits for it to complete, and returns the path to the downloaded file (#437).
 * `LiveHTML` gains a `$select()` method for selecting options from a `<select>` dropdown, either by value or by visible text (#411).
 * `LiveHTML` gains a `$wait_for()` method that waits for an element to appear on the page, which is useful when a page renders content with JavaScript after the initial page load (#428).
 * `read_html()` can now read an httr2 response directly (#406).

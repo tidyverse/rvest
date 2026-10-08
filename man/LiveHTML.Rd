@@ -45,6 +45,7 @@ sess |> html_elements(".ExResult-row") |> length()
     \item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
     \item \href{#method-LiveHTML-wait_for}{\code{LiveHTML$wait_for()}}
     \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
+    \item \href{#method-LiveHTML-download}{\code{LiveHTML$download()}}
     \item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
     \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
     \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
@@ -178,6 +179,33 @@ or off-screen elements, but only fires the \code{click} event (no
 \code{mousedown}, \code{mouseup}, or hover events).}
     }
     \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-download"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-download}{}}}
+\subsection{\code{LiveHTML$download()}}{
+  Click on an element that triggers a download, and wait
+for the download to complete.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$download(css, dir = tempdir(), timeout = 30)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{css}}{CSS selector.}
+      \item{\code{dir}}{Directory to save the file in. Will be created if needed.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the download to
+complete.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The path to the downloaded file, invisibly. The file name is
+determined by the server.
   }
 }
 
