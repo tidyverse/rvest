@@ -61,6 +61,8 @@
 <li>
 <code><a href="../reference/html_text.html">html_text2()</a></code> now converts <code>&lt;br&gt;</code> to a line break when it is nested inside an inline element like <code>&lt;span&gt;</code> (<a href="https://github.com/tidyverse/rvest/issues/351" class="external-link">#351</a>). It also no longer includes the text of HTML comments.</li>
 <li>
+<code><a href="../reference/html_text.html">html_text2()</a></code> no longer drops spaces between inline elements when the space is in a separate element (e.g. <code>&lt;span&gt;a&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;b&lt;/span&gt;</code>) (<a href="https://github.com/tidyverse/rvest/issues/372" class="external-link">#372</a>).</li>
+<li>
 <code>LiveHTML$click()</code> gains a <code>method</code> argument: <code>method = "js"</code> fires a JavaScript click event that works on hidden elements, and clicking an element that isn’t clickable with the mouse now gives an informative error (<a href="https://github.com/tidyverse/rvest/issues/431" class="external-link">#431</a>).</li>
 <li>
 <code>LiveHTML</code> gains a <code>$select()</code> method for selecting options from a <code>&lt;select&gt;</code> dropdown, either by value or by visible text (<a href="https://github.com/tidyverse/rvest/issues/411" class="external-link">#411</a>).</li>

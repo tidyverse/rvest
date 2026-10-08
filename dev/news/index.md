@@ -41,6 +41,10 @@
   element like `<span>`
   ([\#351](https://github.com/tidyverse/rvest/issues/351)). It also no
   longer includes the text of HTML comments.
+- [`html_text2()`](https://rvest.tidyverse.org/dev/reference/html_text.md)
+  no longer drops spaces between inline elements when the space is in a
+  separate element (e.g. `<span>a</span><span> </span><span>b</span>`)
+  ([\#372](https://github.com/tidyverse/rvest/issues/372)).
 - `LiveHTML$click()` gains a `method` argument: `method = "js"` fires a
   JavaScript click event that works on hidden elements, and clicking an
   element that isn’t clickable with the mouse now gives an informative
