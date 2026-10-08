@@ -126,10 +126,10 @@ html_text_block <- function(x, text, preserve_nbsp = FALSE) {
       html_text_block(child, text, preserve_nbsp = preserve_nbsp)
       switch(
         name,
-        tr = if (i != n) text$add_break("\n"),
+        tr = if (i != n) text$add_text("\n"),
         th = ,
-        td = if (i != n) text$add_break("\t"),
-        br = text$add_break("\n")
+        td = if (i != n) text$add_text("\t"),
+        br = text$add_text("\n")
       )
       text$add_margin(margin)
     }
@@ -294,8 +294,6 @@ PaddedText <- R6::R6Class(
       self$text[[self$i]] <- strrep("\n", self$lines)
       self$i <- self$i + 1
       self$lines <- 0
-      # Spaces are not kept at the start of a line
-      self$space <- FALSE
     },
 
     add_space = function() {
@@ -315,17 +313,15 @@ PaddedText <- R6::R6Class(
 
       self$convert_breaks()
       if (self$space) {
-        x <- paste0(" ", x)
         self$space <- FALSE
+        # Spaces are not kept at line boundaries
+        prev <- self$text[[self$i - 1]]
+        if (!grepl("[\n\t]$", prev) && !grepl("^[\n\t]", x)) {
+          x <- paste0(" ", x)
+        }
       }
       self$text[[self$i]] <- x
       self$i <- self$i + 1L
-    },
-
-    add_break = function(x) {
-      # Spaces are not kept at the end of a line
-      self$space <- FALSE
-      self$add_text(x)
     },
 
     output = function() {
