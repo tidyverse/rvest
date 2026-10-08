@@ -53,6 +53,9 @@ html_form_submit(form, submit = NULL)
 
   - A number selects a button using its relative position.
 
+  - `FALSE` submits the form without any button. This is useful for
+    forms that are submitted by JavaScript when a field changes.
+
 ## Value
 
 - `html_form()` returns as S3 object with class `rvest_form` when

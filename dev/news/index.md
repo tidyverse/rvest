@@ -15,6 +15,12 @@
   submitted ([\#319](https://github.com/tidyverse/rvest/issues/319)).
 
 - [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
+  and
+  [`session_submit()`](https://rvest.tidyverse.org/dev/reference/session.md)
+  now accept `submit = FALSE` to submit a form without including any
+  button ([\#439](https://github.com/tidyverse/rvest/issues/439)).
+
+- [`html_form_submit()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
   now only submits checked checkboxes and radio buttons (not all of
   them), and
   [`html_form_set()`](https://rvest.tidyverse.org/dev/reference/html_form.md)
