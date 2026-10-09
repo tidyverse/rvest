@@ -597,6 +597,8 @@ LiveHTML <- R6::R6Class(
   )
 )
 
+now <- function() proc.time()[[3]]
+
 # Caches the document's root node id, dropping it whenever the page
 # navigates or replaces its document (which invalidates all node ids)
 DocumentRoot <- R6::R6Class(

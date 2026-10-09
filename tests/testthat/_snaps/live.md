@@ -57,7 +57,7 @@
     Code
       sess$wait_for("#nope", timeout = 0.2)
     Condition
-      Error in `private$wait_for_selector()`:
+      Error in `sess$wait_for()`:
       ! Failed to find selector "#nope" in 0.2 seconds.
 
 # mouse click on hidden element errors helpfully
