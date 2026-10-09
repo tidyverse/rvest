@@ -208,6 +208,26 @@ test_that("html_table(fill) is deprecated", {
   })
 })
 
+test_that("html_table(fill) deprecation blames the caller", {
+  local_options(lifecycle_verbosity = "warning")
+  html <- minimal_html("<table><tr><td>1</td></tr></table>")
+  user_fun <- function(x) {
+    # Otherwise lifecycle treats all code in rvest as direct usage
+    old <- Sys.getenv("TESTTHAT_PKG")
+    Sys.setenv(TESTTHAT_PKG = "")
+    on.exit(Sys.setenv(TESTTHAT_PKG = old))
+
+    . <- html_table(x, fill = TRUE)
+  }
+  environment(user_fun) <- new_environment(parent = global_env())
+
+  expect_snapshot({
+    user_fun(html)
+    user_fun(html_elements(html, "table"))
+    user_fun(html_element(html, "table"))
+  })
+})
+
 test_that("can handle empty tables", {
   html <- minimal_html('<table></table>')
   table <- html_table(html)[[1]]
