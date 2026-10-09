@@ -1,0 +1,103 @@
+---
+title: "Navigation and Authentication"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Navigation and Authentication}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette demonstrates two advanced use cases of web scraping using rvest: Navigation and Authentication. First, you'll learn how to use `rvest` to navigate across web pages. Then, you'll see how you can navigate across web sites that require authentication.
+
+```{r}
+library(rvest)
+```
+
+## Navigation
+
+In the web scraping context, navigation is the ability to go from page to page in a website. Usually, when using `rvest` to fetch contents from a single web page, you use `read_html()`. However, if you need to navigate from one page to another, `rvest` provides `session()`.
+
+```{r}
+turtles <- session("https://www.scrapethissite.com/pages/frames/")
+```
+
+`session()` creates a persistent web session that you can navigate in with the following rvest functions `session_jump_to()`, `session_follow_link()`, `session_back()` and `session_forward()`.
+
+So, if you need to check the Carettochelyidae family of Turtles, you can use an absolute url:
+
+```{r}
+turtles %>%
+  session_jump_to("https://www.scrapethissite.com/pages/frames/?frame=i&family=Carettochelyidae") %>%
+  session_history()
+```
+
+And then go to the Cheloniidae within the same session (using a relative url in this case):
+```{r}
+turtles %>%
+  session_jump_to("?frame=i&family=Cheloniidae") %>%
+  session_history()
+```
+
+If you need to follow a link within the web page you can use `session_follow_link()` specifying the name of the link:
+```{r}
+turtles %>%
+  session_jump_to("?frame=i&family=Cheloniidae") %>%
+  session_follow_link("Back to all Turtles")
+```
+
+You can also use `session_back()` and `session_forward()` to navigate back and forth across pages:
+```{r}
+turtles %>%
+  session_jump_to("?frame=i&family=Cheloniidae") %>%
+  session_back() %>%
+  session_forward() %>%
+  session_history()
+```
+
+### Forms
+
+Let's suppose you're fan of the NHL team Boston Bruins and want to retrieve all the campaigns from 1990 to 2011.
+In this case, you can submit a form with the text "Boston" and you'll get the expected result, using `html_form()` to extract the form, `html_form_set()` to set the form values and finally submit with `session_submit()`.
+```{r}
+teams <- session("https://www.scrapethissite.com/pages/forms/")
+
+search <- teams %>%
+  html_node("form") %>%
+  html_form() %>%
+  html_form_set(q = "Boston")
+
+boston_campaigns <- teams %>%
+  session_submit(search) %>%
+  html_table()
+
+boston_campaigns
+```
+
+### rvest<1.0.0
+
+Prior to `rvest 1.0.0` the functions `session()`, `session_jump_to()`, `session_follow_link()`, `session_back()` and `session_forward()` were called `html_session`, `jump_to()`, `follow_link()`, `back()` and `forward()`, so if you encounter any of these in some R code, make sure you upgrade to the latest version of `rvest`.
+
+## Authentication
+
+Most of the web sites rely on forms for login. In this case, you can use the same approach described on the navigation section to provide credentials and log in.
+
+```{r}
+gh_session <- session("https://github.com/login")
+
+login <- gh_session %>%
+  html_element("form")%>%
+  html_form()%>%
+  html_form_set(login = "YourGitHubUsername", password = "SuperSecureP@ssw0rd")
+
+github <- gh_session %>%
+  session_submit(login, submit = "commit") %>%
+  read_html()
+github
+```
