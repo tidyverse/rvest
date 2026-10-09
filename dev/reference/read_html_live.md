@@ -9,6 +9,15 @@ elements of the HTML page that are generated dynamically by javascript
 and to interact with the live page by clicking on buttons or typing in
 forms.
 
+`read_html_live()` requires Chrome to be installed and is considerably
+slower and more resource intensive than
+[`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md),
+so we recommend using
+[`read_html()`](https://rvest.tidyverse.org/dev/reference/read_html.md)
+by default and only switching to `read_html_live()` if the data you want
+isn't present in the static HTML, or you need to interact with the page
+(e.g. clicking buttons or filling in forms).
+
 Behind the scenes, this function uses the
 [chromote](https://rstudio.github.io/chromote/) package, which requires
 that you have a copy of [Google Chrome](https://www.google.com/chrome/)

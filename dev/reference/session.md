@@ -28,6 +28,13 @@ website, using forms and navigating from page to page.
   and
   [`httr::status_code()`](https://httr.r-lib.org/reference/status_code.html).
 
+`session()` works with the static HTML returned by the server, so it is
+fast and has no external dependencies. Use
+[`read_html_live()`](https://rvest.tidyverse.org/dev/reference/read_html_live.md)
+instead if the page is dynamically generated with javascript, or if you
+need interactions that a real browser provides, like clicking buttons
+that run javascript or scrolling to load more content.
+
 ## Usage
 
 ``` r

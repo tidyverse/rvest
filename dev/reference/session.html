@@ -12,7 +12,12 @@ complete HTML document with read_html().
 Inspect the HTTP response with httr::cookies(), httr::headers(),
 and httr::status_code().
 
-"><meta property="og:description" content="This set of functions allows you to simulate a user interacting with a
+
+session() works with the static HTML returned by the server, so it is
+fast and has no external dependencies. Use read_html_live() instead if
+the page is dynamically generated with javascript, or if you need
+interactions that a real browser provides, like clicking buttons that run
+javascript or scrolling to load more content."><meta property="og:description" content="This set of functions allows you to simulate a user interacting with a
 website, using forms and navigating from page to page.
 Create a session with session(url)
 Navigate to a specified url with session_jump_to(), or follow a link on the
@@ -25,7 +30,12 @@ complete HTML document with read_html().
 Inspect the HTTP response with httr::cookies(), httr::headers(),
 and httr::status_code().
 
-"><meta property="og:image" content="https://rvest.tidyverse.org/logo.png"><meta name="robots" content="noindex"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="rvest.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script></head><body>
+
+session() works with the static HTML returned by the server, so it is
+fast and has no external dependencies. Use read_html_live() instead if
+the page is dynamically generated with javascript, or if you need
+interactions that a real browser provides, like clicking buttons that run
+javascript or scrolling to load more content."><meta property="og:image" content="https://rvest.tidyverse.org/logo.png"><meta name="robots" content="noindex"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="rvest.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
 
 
@@ -85,7 +95,12 @@ with <code>session_back()</code> and <code>session_forward()</code>.</p></li>
 complete HTML document with <code><a href="read_html.html">read_html()</a></code>.</p></li>
 <li><p>Inspect the HTTP response with <code><a href="https://httr.r-lib.org/reference/cookies.html" class="external-link">httr::cookies()</a></code>, <code><a href="https://httr.r-lib.org/reference/headers.html" class="external-link">httr::headers()</a></code>,
 and <code><a href="https://httr.r-lib.org/reference/status_code.html" class="external-link">httr::status_code()</a></code>.</p></li>
-</ul></div>
+</ul><p><code>session()</code> works with the static HTML returned by the server, so it is
+fast and has no external dependencies. Use <code><a href="read_html_live.html">read_html_live()</a></code> instead if
+the page is dynamically generated with javascript, or if you need
+interactions that a real browser provides, like clicking buttons that run
+javascript or scrolling to load more content.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
