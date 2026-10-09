@@ -15,6 +15,12 @@
 #' * Inspect the HTTP response with [httr::cookies()], [httr::headers()],
 #'   and [httr::status_code()].
 #'
+#' `session()` works with the static HTML returned by the server, so it is
+#' fast and has no external dependencies. Use [read_html_live()] instead if
+#' the page is dynamically generated with javascript, or if you need
+#' interactions that a real browser provides, like clicking buttons that run
+#' javascript or scrolling to load more content.
+#'
 #' @param url For `session()` location to start, for `session_jump_to()`
 #'   location to go to next.
 #' @param ... Any additional httr config to use throughout the session.

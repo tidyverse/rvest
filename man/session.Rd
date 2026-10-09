@@ -67,6 +67,12 @@ complete HTML document with \code{\link[=read_html]{read_html()}}.
 \item Inspect the HTTP response with \code{\link[httr:cookies]{httr::cookies()}}, \code{\link[httr:headers]{httr::headers()}},
 and \code{\link[httr:status_code]{httr::status_code()}}.
 }
+
+\code{session()} works with the static HTML returned by the server, so it is
+fast and has no external dependencies. Use \code{\link[=read_html_live]{read_html_live()}} instead if
+the page is dynamically generated with javascript, or if you need
+interactions that a real browser provides, like clicking buttons that run
+javascript or scrolling to load more content.
 }
 \examples{
 s <- session("http://hadley.nz")
