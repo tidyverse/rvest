@@ -82,6 +82,27 @@
       The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
       i An improved algorithm fills by default so it is no longer needed.
 
+# html_table(fill) deprecation blames the caller
+
+    Code
+      user_fun(html)
+    Condition
+      Warning:
+      The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
+      i An improved algorithm fills by default so it is no longer needed.
+    Code
+      user_fun(html_elements(html, "table"))
+    Condition
+      Warning:
+      The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
+      i An improved algorithm fills by default so it is no longer needed.
+    Code
+      user_fun(html_element(html, "table"))
+    Condition
+      Warning:
+      The `fill` argument of `html_table()` is deprecated as of rvest 1.0.0.
+      i An improved algorithm fills by default so it is no longer needed.
+
 # can handle empty tables
 
     # A tibble: 0 x 0
