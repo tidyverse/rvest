@@ -205,6 +205,21 @@ test_that("can type text", {
   expect_equal(html_text(html_element(sess, "#replicatedText")), "hello")
 })
 
+test_that("can clear existing text before typing", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("type"))
+  sess$type("#inputText", "hello")
+  sess$type("#inputText", " world")
+  expect_equal(html_text(html_element(sess, "#replicatedText")), "hello world")
+
+  sess$type("#inputText", "bye", clear = TRUE)
+  expect_equal(html_text(html_element(sess, "#replicatedText")), "bye")
+
+  sess$type("#inputText", "", clear = TRUE)
+  expect_equal(html_text(html_element(sess, "#replicatedText")), "")
+})
+
 test_that("can select an option", {
   skip_if_no_chromote()
 

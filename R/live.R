@@ -396,13 +396,31 @@ LiveHTML <- R6::R6Class(
     #' @description Type text in the selected element
     #' @param css CSS selector.
     #' @param text A single string containing the text to type.
-    type = function(css, text) {
+    #' @param clear If `TRUE`, delete any existing text in the element before
+    #'   typing. If `FALSE`, the default, the text is added at the cursor.
+    type = function(css, text, clear = FALSE) {
       private$check_active()
       check_string(text)
+      check_bool(clear)
 
       node <- private$wait_for_selector(css)
       self$session$DOM$focus(node)
-      self$session$Input$insertText(text)
+      if (clear) {
+        # Select existing text, then delete it with a real key press so
+        # that the page sees the usual input events
+        private$call_node_js(
+          node,
+          "function() {
+            if (this.select) this.select(); else document.execCommand('selectAll');
+          }"
+        )
+        desc <- as_key_desc("Backspace")
+        exec(self$session$Input$dispatchKeyEvent, type = "keyDown", !!!desc)
+        exec(self$session$Input$dispatchKeyEvent, type = "keyUp", !!!desc)
+      }
+      if (text != "") {
+        self$session$Input$insertText(text)
+      }
 
       invisible(self)
     },
