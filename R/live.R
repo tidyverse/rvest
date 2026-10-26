@@ -366,11 +366,8 @@ LiveHTML <- R6::R6Class(
       check_number_whole(top)
       check_number_whole(left)
 
-      # https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo
-      private$call_node_method(
-        private$document$id(),
-        paste0(".documentElement.scrollTo(", left, ", ", top, ")")
-      )
+      # https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      eval_js(self$session, paste0("window.scrollTo(", left, ", ", top, ")"))
       invisible(self)
     },
 
