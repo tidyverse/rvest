@@ -286,7 +286,7 @@ respectively.}
   Type text in the selected element
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$type(css, text)}
+    \preformatted{LiveHTML$type(css, text, clear = FALSE)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -294,6 +294,8 @@ respectively.}
     \describe{
       \item{\code{css}}{CSS selector.}
       \item{\code{text}}{A single string containing the text to type.}
+      \item{\code{clear}}{If \code{TRUE}, delete any existing text in the element before
+typing. If \code{FALSE}, the default, the text is added at the cursor.}
     }
     \if{html}{\out{</div>}}
   }
