@@ -14,6 +14,18 @@ test_that("errors when navigation fails", {
   })
 })
 
+test_that("closes tab when navigation fails", {
+  skip_if_no_chromote()
+
+  n_tabs <- function() {
+    targets <- default_live_browser("headless")$Target$getTargets()
+    sum(map_chr(targets$targetInfos, \(x) x$type) == "page")
+  }
+  before <- n_tabs()
+  try(read_html_live(".//"), silent = TRUE)
+  expect_equal(n_tabs(), before)
+})
+
 test_that("mode and view are validated", {
   expect_snapshot(error = TRUE, {
     read_html_live("https://rvest.tidyverse.org", mode = "invisible")
