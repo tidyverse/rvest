@@ -254,6 +254,19 @@ test_that("can find elements after click that navigates", {
   expect_equal(html_text2(html_element(sess, "p")), "Success!")
 })
 
+test_that("reopens current page with same settings if session closes", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("navigate1"), view = "mobile")
+  sess$click("a")
+  html_element(sess, "p")
+  sess$session$close()
+
+  expect_equal(html_text2(html_element(sess, "p")), "Success!")
+  expect_equal(eval_js(sess$session, "screen.width"), 390)
+  expect_no_match(eval_js(sess$session, "navigator.userAgent"), "Headless")
+})
+
 test_that("hides automated browser tells", {
   skip_if_no_chromote()
 

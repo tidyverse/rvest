@@ -129,37 +129,14 @@ LiveHTML <- R6::R6Class(
       error = caller_env()
     ) {
       check_installed("chromote")
-      self$session <- stealth_session(
-        mode = mode,
-        view = view,
+      private$settings <- list(
+        mode = arg_match(mode, error_call = error),
+        view = arg_match(view, error_call = error),
         browser = browser,
-        error = error
+        timeout = timeout
       )
-      private$document <- DocumentRoot$new(self$session)
 
-      # Must subscribe to event before navigating:
-      # Subscribe to load event before navigating to avoid a race
-      # https://github.com/rstudio/chromote/issues/102
-      load_event <- self$session$Page$loadEventFired(
-        wait_ = FALSE,
-        timeout_ = timeout
-      )
-      page_loaded <- self$session$Page$navigate(url, wait_ = FALSE) |>
-        promises::then(function(res) {
-          if (!is.null(res$errorText)) {
-            cli::cli_abort(res$errorText, call = NULL)
-          }
-          load_event
-        }) |>
-        promises::catch(function(cnd) {
-          cli::cli_abort(
-            "Failed to load {.url {url}}",
-            call = error,
-            parent = cnd
-          )
-        })
-
-      self$session$wait_for(page_loaded)
+      private$open(url, error = error)
     },
 
     #' @description Called when `print()`ed
@@ -483,6 +460,50 @@ LiveHTML <- R6::R6Class(
 
   private = list(
     document = NULL,
+    url = NULL,
+    settings = NULL,
+
+    # Create a new session and navigate it to `url`
+    open = function(url, error = caller_env()) {
+      self$session <- stealth_session(
+        mode = private$settings$mode,
+        view = private$settings$view,
+        browser = private$settings$browser,
+        error = error
+      )
+      private$document <- DocumentRoot$new(self$session)
+
+      # Track the current url so we can reopen it if the session dies
+      private$url <- url
+      self$session$Page$frameNavigated(callback_ = function(event) {
+        if (is.null(event$frame$parentId)) {
+          private$url <- event$frame$url
+        }
+      })
+
+      # Subscribe to load event before navigating to avoid a race
+      # https://github.com/rstudio/chromote/issues/102
+      load_event <- self$session$Page$loadEventFired(
+        wait_ = FALSE,
+        timeout_ = private$settings$timeout
+      )
+      page_loaded <- self$session$Page$navigate(url, wait_ = FALSE) |>
+        promises::then(function(res) {
+          if (!is.null(res$errorText)) {
+            cli::cli_abort(res$errorText, call = NULL)
+          }
+          load_event
+        }) |>
+        promises::catch(function(cnd) {
+          cli::cli_abort(
+            "Failed to load {.url {url}}",
+            call = error,
+            parent = cnd
+          )
+        })
+
+      self$session$wait_for(page_loaded)
+    },
 
     finalize = function() {
       # The browser is shared, so just close this session's tab; the
@@ -492,10 +513,7 @@ LiveHTML <- R6::R6Class(
 
     check_active = function() {
       if (new_chromote && !self$session$is_active()) {
-        suppressMessages({
-          self$session <- self$session$respawn()
-        })
-        private$document <- DocumentRoot$new(self$session)
+        private$open(private$url)
       }
     },
 
