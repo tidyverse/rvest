@@ -165,7 +165,21 @@ LiveHTML <- R6::R6Class(
     #' @description Called when `print()`ed
     #' @param ... Ignored
     print = function(...) {
+      if (private$closed) {
+        cli::cat_line("<LiveHTML> (closed)")
+        return(invisible(self))
+      }
       print(self$html_elements("html > *"))
+      invisible(self)
+    },
+
+    #' @description Close the browser tab used by this session. You can't use
+    #'   the object after closing it.
+    close = function() {
+      if (!private$closed) {
+        private$closed <- TRUE
+        try(self$session$close(), silent = TRUE)
+      }
       invisible(self)
     },
 
@@ -483,14 +497,20 @@ LiveHTML <- R6::R6Class(
 
   private = list(
     document = NULL,
+    closed = FALSE,
 
     finalize = function() {
-      # The browser is shared, so just close this session's tab; the
-      # browser may already be unresponsive during GC, so ignore errors
-      try(self$session$close(), silent = TRUE)
+      # The browser is shared, so just close this session's tab
+      self$close()
     },
 
-    check_active = function() {
+    check_active = function(call = caller_env()) {
+      if (private$closed) {
+        cli::cli_abort(
+          "Can't use a {.cls LiveHTML} object after calling {.code $close()}.",
+          call = call
+        )
+      }
       if (new_chromote && !self$session$is_active()) {
         suppressMessages({
           self$session <- self$session$respawn()

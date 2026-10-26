@@ -41,6 +41,7 @@ sess |> html_elements(".ExResult-row") |> length()
   \itemize{
     \item \href{#method-LiveHTML-initialize}{\code{LiveHTML$new()}}
     \item \href{#method-LiveHTML-print}{\code{LiveHTML$print()}}
+    \item \href{#method-LiveHTML-close}{\code{LiveHTML$close()}}
     \item \href{#method-LiveHTML-view}{\code{LiveHTML$view()}}
     \item \href{#method-LiveHTML-html_elements}{\code{LiveHTML$html_elements()}}
     \item \href{#method-LiveHTML-wait_for}{\code{LiveHTML$wait_for()}}
@@ -100,6 +101,19 @@ sess |> html_elements(".ExResult-row") |> length()
     \describe{
       \item{\code{...}}{Ignored}
     }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-close"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-close}{}}}
+\subsection{\code{LiveHTML$close()}}{
+  Close the browser tab used by this session. You can't use
+the object after closing it.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$close()}
     \if{html}{\out{</div>}}
   }
 }

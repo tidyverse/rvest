@@ -52,6 +52,23 @@
       [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
       [2] <body>\n\n<ul>\n<li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n   ...
 
+# can close a session
+
+    Code
+      sess
+    Output
+      <LiveHTML> (closed)
+    Code
+      sess$click("li")
+    Condition
+      Error in `sess$click()`:
+      ! Can't use a <LiveHTML> object after calling `$close()`.
+    Code
+      html_elements(sess, "li")
+    Condition
+      Error in `x$html_elements()`:
+      ! Can't use a <LiveHTML> object after calling `$close()`.
+
 # wait_for errors when element never appears
 
     Code
