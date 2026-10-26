@@ -143,3 +143,11 @@
       Error in `read_html_live()`:
       ! `timeout` must be a number, not the string "x".
 
+# resource_get() errors when nothing matches
+
+    Code
+      sess$resource_get("nope")
+    Condition
+      Error in `sess$resource_get()`:
+      ! No loaded resource matches "nope".
+

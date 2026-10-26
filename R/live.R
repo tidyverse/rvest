@@ -59,6 +59,13 @@
 #' dynamic |>
 #'   html_element("table") |>
 #'   html_table()
+#'
+#' # Alternatively, you can skip the HTML and get the data directly from the
+#' # JSON file that the page downloaded. First find it:
+#' dynamic$resource_list(c("XHR", "Fetch"))
+#' # Then parse it:
+#' colleges <- dynamic$resource_get_json("lists-api/getListData")
+#' head(colleges$data)
 #' }
 read_html_live <- function(
   url,
@@ -136,6 +143,8 @@ LiveHTML <- R6::R6Class(
         error = error
       )
       private$document <- DocumentRoot$new(self$session)
+      # Must start recording before navigating to capture the initial load
+      private$resources <- ResourceLog$new(self$session)
 
       # Must subscribe to event before navigating:
       # Subscribe to load event before navigating to avoid a race
@@ -343,6 +352,44 @@ LiveHTML <- R6::R6Class(
       invisible(result$filePath)
     },
 
+    #' @description List the resources (e.g. scripts, images, and JSON
+    #'   fetched by JavaScript) that the page has loaded so far.
+    #' @param type Optionally, a character vector of resource types to keep,
+    #'   e.g. `"Document"`, `"Script"`, `"Image"`, `"XHR"`, or `"Fetch"`.
+    #' @return A tibble with one row per resource.
+    resource_list = function(type = NULL) {
+      check_character(type, allow_null = TRUE)
+      private$resources$list(type)
+    },
+
+    #' @description Get the body of a resource that the page has loaded.
+    #'   This never makes a new request; it returns what the browser has
+    #'   already downloaded. Bodies are only kept for a limited time, so
+    #'   they may not be available for resources loaded by earlier pages.
+    #' @param url A regular expression matched against resource URLs. If
+    #'   multiple resources match, the most recent is used.
+    #' @param wait Number of seconds to wait for a matching resource to
+    #'   finish loading. Useful after an action, like `$click()`, that causes
+    #'   the page to load more data.
+    #' @return A string, or a raw vector for binary resources.
+    resource_get = function(url, wait = 0) {
+      check_string(url)
+      check_number_decimal(wait, min = 0)
+      private$resources$get(url, wait)
+    },
+
+    #' @description Get the body of a resource and parse it as JSON.
+    #' @param url,wait As for `$resource_get()`.
+    #' @param ... Passed on to [jsonlite::fromJSON()].
+    resource_get_json = function(url, wait = 0, ...) {
+      check_installed("jsonlite")
+      body <- self$resource_get(url, wait = wait)
+      if (is.raw(body)) {
+        body <- rawToChar(body)
+      }
+      jsonlite::fromJSON(body, ...)
+    },
+
     #' @description Get the current scroll position.
     get_scroll_position = function() {
       private$check_active()
@@ -474,6 +521,7 @@ LiveHTML <- R6::R6Class(
 
   private = list(
     document = NULL,
+    resources = NULL,
 
     finalize = function() {
       # The browser is shared, so just close this session's tab; the
@@ -487,6 +535,7 @@ LiveHTML <- R6::R6Class(
           self$session <- self$session$respawn()
         })
         private$document <- DocumentRoot$new(self$session)
+        private$resources <- ResourceLog$new(self$session)
       }
     },
 
@@ -620,6 +669,122 @@ DocumentRoot <- R6::R6Class(
   private = list(
     session = NULL,
     root = NULL
+  )
+)
+
+# Records every network request made by the page, so that we can later
+# list them and retrieve their bodies
+ResourceLog <- R6::R6Class(
+  "ResourceLog",
+  public = list(
+    initialize = function(session) {
+      private$session <- session
+      session$Network$enable()
+
+      session$Network$requestWillBeSent(callback_ = function(event) {
+        private$log[[event$requestId]] <- list(
+          request_id = event$requestId,
+          url = event$request$url,
+          method = event$request$method,
+          type = event$type %||% NA_character_,
+          status = NA_integer_,
+          mime_type = NA_character_,
+          size = NA_real_,
+          state = "pending"
+        )
+      })
+      session$Network$responseReceived(callback_ = function(event) {
+        private$update(
+          event$requestId,
+          status = as.integer(event$response$status),
+          mime_type = event$response$mimeType
+        )
+      })
+      session$Network$loadingFinished(callback_ = function(event) {
+        private$update(
+          event$requestId,
+          size = as.double(event$encodedDataLength),
+          state = "finished"
+        )
+      })
+      session$Network$loadingFailed(callback_ = function(event) {
+        private$update(event$requestId, state = "failed")
+      })
+    },
+
+    list = function(type = NULL) {
+      later::run_now()
+      field <- function(name, ptype) {
+        vapply(private$log, \(x) x[[name]], ptype, USE.NAMES = FALSE)
+      }
+      df <- tibble::tibble(
+        url = field("url", character(1)),
+        type = field("type", character(1)),
+        method = field("method", character(1)),
+        status = field("status", integer(1)),
+        mime_type = field("mime_type", character(1)),
+        size = field("size", double(1))
+      )
+      if (!is.null(type)) {
+        df <- df[df$type %in% type, , drop = FALSE]
+      }
+      df
+    },
+
+    get = function(url, wait = 0, call = caller_env()) {
+      done <- now() + wait
+      repeat {
+        later::run_now()
+        id <- private$find(url)
+        if (!is.null(id) || now() >= done) {
+          break
+        }
+        later::run_now(0.1)
+      }
+      if (is.null(id)) {
+        cli::cli_abort(
+          "No loaded resource matches {.str {url}}.",
+          call = call
+        )
+      }
+
+      body <- tryCatch(
+        private$session$Network$getResponseBody(id),
+        error = function(cnd) {
+          cli::cli_abort(
+            c(
+              "Body of resource {.url {private$log[[id]]$url}} is not available.",
+              i = "It may have been discarded by the browser."
+            ),
+            parent = cnd,
+            call = call
+          )
+        }
+      )
+      if (isTRUE(body$base64Encoded)) {
+        jsonlite::base64_dec(body$body)
+      } else {
+        body$body
+      }
+    }
+  ),
+  private = list(
+    session = NULL,
+    log = list(),
+
+    update = function(id, ...) {
+      if (!is.null(private$log[[id]])) {
+        private$log[[id]] <- utils::modifyList(private$log[[id]], list(...))
+      }
+    },
+
+    # Most recent finished resource whose URL matches `url`
+    find = function(url) {
+      finished <- Filter(\(x) x$state == "finished", private$log)
+      urls <- map_chr(finished, \(x) x$url)
+      matches <- names(finished)[grepl(url, urls)]
+      if (length(matches) == 0) NULL else matches[[length(matches)]]
+    }
   )
 )
 

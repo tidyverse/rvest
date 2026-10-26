@@ -77,5 +77,12 @@ dynamic |> html_element("table")
 dynamic |>
   html_element("table") |>
   html_table()
+
+# Alternatively, you can skip the HTML and get the data directly from the
+# JSON file that the page downloaded. First find it:
+dynamic$resource_list(c("XHR", "Fetch"))
+# Then parse it:
+colleges <- dynamic$resource_get_json("lists-api/getListData")
+head(colleges$data)
 }
 }
