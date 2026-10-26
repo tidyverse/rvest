@@ -197,6 +197,16 @@ test_that("can scroll in various ways", {
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 1208))
 })
 
+test_that("scroll_by() scrolls the page, not the element under the mouse", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("scroll-inner"))
+  sess$scroll_by(100)
+  Sys.sleep(0.2)
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 100))
+  expect_equal(eval_js(sess$session, "inner.scrollTop"), 0)
+})
+
 test_that("can type text", {
   skip_if_no_chromote()
 
@@ -316,4 +326,46 @@ test_that("read_html_live() checks timeout", {
     read_html_live("https://example.com", timeout = "x"),
     error = TRUE
   )
+})
+
+test_that("can list resources", {
+  skip_if_no_chromote()
+  app <- local_resource_app()
+
+  sess <- read_html_live(app$url())
+  sess$resource_get("data\\.json", wait = 5)
+
+  res <- sess$resource_list()
+  expect_named(res, c("url", "type", "method", "status", "mime_type", "size"))
+  expect_equal(sess$resource_list("Document")$url, app$url())
+  fetch <- sess$resource_list("Fetch")
+  expect_equal(fetch$url, app$url("/data.json?page=1"))
+  expect_equal(fetch$status, 200L)
+})
+
+test_that("can get resource body, optionally parsing json", {
+  skip_if_no_chromote()
+  app <- local_resource_app()
+
+  sess <- read_html_live(app$url())
+  expect_equal(sess$resource_get("page=1", wait = 5), '{"page":"1"}')
+  expect_equal(sess$resource_get_json("page=1"), list(page = "1"))
+})
+
+test_that("resource_get() can wait for resource loaded after action", {
+  skip_if_no_chromote()
+  app <- local_resource_app()
+
+  sess <- read_html_live(app$url())
+  sess$resource_get("page=1", wait = 5)
+  sess$click("#more")
+  expect_equal(sess$resource_get_json("page=2", wait = 5), list(page = "2"))
+})
+
+test_that("resource_get() errors when nothing matches", {
+  skip_if_no_chromote()
+  app <- local_resource_app()
+
+  sess <- read_html_live(app$url())
+  expect_snapshot(sess$resource_get("nope"), error = TRUE)
 })

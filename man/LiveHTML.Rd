@@ -46,6 +46,9 @@ sess |> html_elements(".ExResult-row") |> length()
     \item \href{#method-LiveHTML-wait_for}{\code{LiveHTML$wait_for()}}
     \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
     \item \href{#method-LiveHTML-download}{\code{LiveHTML$download()}}
+    \item \href{#method-LiveHTML-resource_list}{\code{LiveHTML$resource_list()}}
+    \item \href{#method-LiveHTML-resource_get}{\code{LiveHTML$resource_get()}}
+    \item \href{#method-LiveHTML-resource_get_json}{\code{LiveHTML$resource_get_json()}}
     \item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
     \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
     \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
@@ -206,6 +209,79 @@ complete.}
   \subsection{Returns}{
     The path to the downloaded file, invisibly. The file name is
 determined by the server.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-resource_list"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-resource_list}{}}}
+\subsection{\code{LiveHTML$resource_list()}}{
+  List the resources (e.g. scripts, images, and JSON
+fetched by JavaScript) that the page has loaded so far.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$resource_list(type = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{type}}{Optionally, a character vector of resource types to keep,
+e.g. \code{"Document"}, \code{"Script"}, \code{"Image"}, \code{"XHR"}, or \code{"Fetch"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A tibble with one row per resource.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-resource_get"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-resource_get}{}}}
+\subsection{\code{LiveHTML$resource_get()}}{
+  Get the body of a resource that the page has loaded.
+This never makes a new request; it returns what the browser has
+already downloaded. Bodies are only kept for a limited time, so
+they may not be available for resources loaded by earlier pages.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$resource_get(url, wait = 0)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{url}}{A regular expression matched against resource URLs. If
+multiple resources match, the most recent is used.}
+      \item{\code{wait}}{Number of seconds to wait for a matching resource to
+finish loading. Useful after an action, like \verb{$click()}, that causes
+the page to load more data.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A string, or a raw vector for binary resources.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-resource_get_json"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-resource_get_json}{}}}
+\subsection{\code{LiveHTML$resource_get_json()}}{
+  Get the body of a resource and parse it as JSON.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$resource_get_json(url, wait = 0, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{url, wait}}{As for \verb{$resource_get()}.}
+      \item{\code{...}}{Passed on to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}}.}
+    }
+    \if{html}{\out{</div>}}
   }
 }
 
