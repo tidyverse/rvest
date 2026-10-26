@@ -302,8 +302,16 @@ LiveHTML <- R6::R6Class(
       check_number_decimal(timeout, min = 0)
 
       dir.create(dir, showWarnings = FALSE, recursive = TRUE)
+
+      # The browser is shared, so scope download behavior to this session's
+      # browser context and only track downloads started from this tab
+      target_id <- self$session$get_target_id()
+      context_id <- self$session$Target$getTargetInfo(
+        target_id
+      )$targetInfo$browserContextId
       self$session$Browser$setDownloadBehavior(
         behavior = "allow",
+        browserContextId = context_id,
         downloadPath = normalizePath(dir),
         eventsEnabled = TRUE
       )
@@ -312,7 +320,9 @@ LiveHTML <- R6::R6Class(
       result <- NULL
       unbegin <- self$session$Browser$downloadWillBegin(
         callback_ = function(event) {
-          guid <<- guid %||% event$guid
+          if (identical(event$frameId, target_id)) {
+            guid <<- guid %||% event$guid
+          }
         }
       )
       unprogress <- self$session$Browser$downloadProgress(
@@ -325,6 +335,10 @@ LiveHTML <- R6::R6Class(
       on.exit({
         unbegin()
         unprogress()
+        self$session$Browser$setDownloadBehavior(
+          behavior = "default",
+          browserContextId = context_id
+        )
       })
 
       self$click(css)
