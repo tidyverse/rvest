@@ -164,7 +164,7 @@ page load.
   Simulate a click on an HTML element.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$click(css, n_clicks = 1, method = c("mouse", "js"))}
+    \preformatted{LiveHTML$click(css, n_clicks = 1, method = c("mouse", "js"), timeout = 5)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -177,6 +177,8 @@ requires the element to be visible on the page. \code{"js"} calls
 JavaScript's \code{element.click()} directly, which works even for hidden
 or off-screen elements, but only fires the \code{click} event (no
 \code{mousedown}, \code{mouseup}, or hover events).}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear.}
     }
     \if{html}{\out{</div>}}
   }
@@ -198,8 +200,8 @@ for the download to complete.
     \describe{
       \item{\code{css}}{CSS selector.}
       \item{\code{dir}}{Directory to save the file in. Will be created if needed.}
-      \item{\code{timeout}}{Maximum number of seconds to wait for the download to
-complete.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear and then for the download to complete.}
     }
     \if{html}{\out{</div>}}
   }
@@ -228,13 +230,15 @@ determined by the server.
   Scroll selected element into view.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$scroll_into_view(css)}
+    \preformatted{LiveHTML$scroll_into_view(css, timeout = 5)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{css}}{CSS selector.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear.}
     }
     \if{html}{\out{</div>}}
   }
@@ -286,7 +290,7 @@ respectively.}
   Type text in the selected element
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$type(css, text)}
+    \preformatted{LiveHTML$type(css, text, timeout = 5)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -294,6 +298,8 @@ respectively.}
     \describe{
       \item{\code{css}}{CSS selector.}
       \item{\code{text}}{A single string containing the text to type.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear.}
     }
     \if{html}{\out{</div>}}
   }
@@ -306,7 +312,7 @@ respectively.}
   Select an option in a \verb{<select>} element.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$select(css, value, text)}
+    \preformatted{LiveHTML$select(css, value, text, timeout = 5)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -315,6 +321,8 @@ respectively.}
       \item{\code{css}}{CSS selector.}
       \item{\code{value, text}}{A single string giving the value or the visible text
 of the option to select. Supply exactly one.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear.}
     }
     \if{html}{\out{</div>}}
   }
@@ -327,7 +335,7 @@ of the option to select. Supply exactly one.}
   Simulate pressing a single key (including special keys).
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{LiveHTML$press(css, key_code, modifiers = character())}
+    \preformatted{LiveHTML$press(css, key_code, modifiers = character(), timeout = 5)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -338,6 +346,8 @@ of the option to select. Supply exactly one.}
 keys at \url{https://pptr.dev/api/puppeteer.keyinput}.}
       \item{\code{modifiers}}{A character vector of modifiers. Must be one or more
 of \verb{"Shift}, \code{"Control"}, \code{"Alt"}, or \code{"Meta"}.}
+      \item{\code{timeout}}{Maximum number of seconds to wait for the element to
+appear.}
     }
     \if{html}{\out{</div>}}
   }

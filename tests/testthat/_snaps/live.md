@@ -60,6 +60,24 @@
       Error in `sess$wait_for()`:
       ! Failed to find selector "#nope" in 0.2 seconds.
 
+# interaction methods respect timeout
+
+    Code
+      sess$click("#nope", timeout = 0.2)
+    Condition
+      Error in `sess$click()`:
+      ! Failed to find selector "#nope" in 0.2 seconds.
+    Code
+      sess$type("#nope", "x", timeout = 0.2)
+    Condition
+      Error in `sess$type()`:
+      ! Failed to find selector "#nope" in 0.2 seconds.
+    Code
+      sess$click("#nope", timeout = -1)
+    Condition
+      Error in `sess$click()`:
+      ! `timeout` must be a number larger than or equal to 0, not the number -1.
+
 # mouse click on hidden element errors helpfully
 
     Code
