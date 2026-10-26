@@ -502,7 +502,10 @@ LiveHTML <- R6::R6Class(
           )
         })
 
-      self$session$wait_for(page_loaded)
+      withCallingHandlers(
+        self$session$wait_for(page_loaded),
+        error = function(cnd) try(self$session$close(), silent = TRUE)
+      )
     },
 
     finalize = function() {
