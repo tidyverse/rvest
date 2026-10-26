@@ -382,14 +382,8 @@ LiveHTML <- R6::R6Class(
       check_number_whole(top)
       check_number_whole(left)
 
-      # https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchMouseEvent
-      self$session$Input$dispatchMouseEvent(
-        type = "mouseWheel",
-        x = 0,
-        y = 0,
-        deltaX = left,
-        deltaY = top
-      )
+      # https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
+      eval_js(self$session, paste0("window.scrollBy(", left, ", ", top, ")"))
       invisible(self)
     },
 

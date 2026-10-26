@@ -197,6 +197,16 @@ test_that("can scroll in various ways", {
   expect_equal(sess$get_scroll_position(), list(x = 0, y = 1208))
 })
 
+test_that("scroll_by() scrolls the page, not the element under the mouse", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("scroll-inner"))
+  sess$scroll_by(100)
+  Sys.sleep(0.2)
+  expect_equal(sess$get_scroll_position(), list(x = 0, y = 100))
+  expect_equal(eval_js(sess$session, "inner.scrollTop"), 0)
+})
+
 test_that("can type text", {
   skip_if_no_chromote()
 
