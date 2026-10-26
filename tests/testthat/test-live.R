@@ -28,6 +28,24 @@ test_that("has print method", {
   expect_snapshot(bullets)
 })
 
+test_that("can close a session", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("bullets"))
+  session <- sess$session
+  sess$close()
+  expect_equal(session$is_active(), FALSE)
+
+  # Closing twice is harmless
+  sess$close()
+
+  expect_snapshot(error = TRUE, {
+    sess
+    sess$click("li")
+    html_elements(sess, "li")
+  })
+})
+
 test_that("can find multiple elements", {
   skip_if_no_chromote()
 
