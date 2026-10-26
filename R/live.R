@@ -213,17 +213,24 @@ LiveHTML <- R6::R6Class(
     #' @description Simulate a click on an HTML element.
     #' @param css CSS selector.
     #' @param n_clicks Number of clicks
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear.
     #' @param method Click method. `"mouse"` simulates a real mouse click and
     #'   requires the element to be visible on the page. `"js"` calls
     #'   JavaScript's `element.click()` directly, which works even for hidden
     #'   or off-screen elements, but only fires the `click` event (no
     #'   `mousedown`, `mouseup`, or hover events).
-    click = function(css, n_clicks = 1, method = c("mouse", "js")) {
+    click = function(
+      css,
+      n_clicks = 1,
+      method = c("mouse", "js"),
+      timeout = 5
+    ) {
       private$check_active()
       check_number_whole(n_clicks, min = 1)
       method <- arg_match(method)
 
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, timeout)
 
       if (method == "js") {
         if (n_clicks != 1) {
@@ -292,8 +299,8 @@ LiveHTML <- R6::R6Class(
     #'   for the download to complete.
     #' @param css CSS selector.
     #' @param dir Directory to save the file in. Will be created if needed.
-    #' @param timeout Maximum number of seconds to wait for the download to
-    #'   complete.
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear and then for the download to complete.
     #' @return The path to the downloaded file, invisibly. The file name is
     #'   determined by the server.
     download = function(css, dir = tempdir(), timeout = 30) {
@@ -327,7 +334,7 @@ LiveHTML <- R6::R6Class(
         unprogress()
       })
 
-      self$click(css)
+      self$click(css, timeout = timeout)
 
       done <- now() + timeout
       while (is.null(result) && now() < done) {
@@ -351,9 +358,11 @@ LiveHTML <- R6::R6Class(
 
     #' @description Scroll selected element into view.
     #' @param css CSS selector.
-    scroll_into_view = function(css) {
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear.
+    scroll_into_view = function(css, timeout = 5) {
       private$check_active()
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, timeout)
       self$session$DOM$scrollIntoViewIfNeeded(node)
 
       invisible(self)
@@ -396,11 +405,13 @@ LiveHTML <- R6::R6Class(
     #' @description Type text in the selected element
     #' @param css CSS selector.
     #' @param text A single string containing the text to type.
-    type = function(css, text) {
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear.
+    type = function(css, text, timeout = 5) {
       private$check_active()
       check_string(text)
 
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, timeout)
       self$session$DOM$focus(node)
       self$session$Input$insertText(text)
 
@@ -411,11 +422,13 @@ LiveHTML <- R6::R6Class(
     #' @param css CSS selector.
     #' @param value,text A single string giving the value or the visible text
     #'   of the option to select. Supply exactly one.
-    select = function(css, value, text) {
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear.
+    select = function(css, value, text, timeout = 5) {
       private$check_active()
       check_exclusive(value, text)
 
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, timeout)
       if (!missing(value)) {
         check_string(value)
         by <- "value"
@@ -467,11 +480,13 @@ LiveHTML <- R6::R6Class(
     #'   keys at <https://pptr.dev/api/puppeteer.keyinput>.
     #' @param modifiers A character vector of modifiers. Must be one or more
     #'   of `"Shift`, `"Control"`, `"Alt"`, or `"Meta"`.
-    press = function(css, key_code, modifiers = character()) {
+    #' @param timeout Maximum number of seconds to wait for the element to
+    #'   appear.
+    press = function(css, key_code, modifiers = character(), timeout = 5) {
       private$check_active()
       desc <- as_key_desc(key_code, modifiers)
 
-      node <- private$wait_for_selector(css)
+      node <- private$wait_for_selector(css, timeout)
       self$session$DOM$focus(node)
 
       exec(self$session$Input$dispatchKeyEvent, type = "keyDown", !!!desc)
@@ -500,6 +515,7 @@ LiveHTML <- R6::R6Class(
     },
 
     wait_for_selector = function(css, timeout = 5, call = caller_env()) {
+      check_number_decimal(timeout, min = 0, call = call)
       js <- glue::glue(
         "
         new Promise(resolve => {{

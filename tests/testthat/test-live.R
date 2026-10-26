@@ -118,6 +118,17 @@ test_that("wait_for errors when element never appears", {
   expect_snapshot(sess$wait_for("#nope", timeout = 0.2), error = TRUE)
 })
 
+test_that("interaction methods respect timeout", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("dynamic"))
+  expect_snapshot(error = TRUE, {
+    sess$click("#nope", timeout = 0.2)
+    sess$type("#nope", "x", timeout = 0.2)
+    sess$click("#nope", timeout = -1)
+  })
+})
+
 test_that("can click a button", {
   skip_if_no_chromote()
 
