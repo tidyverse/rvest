@@ -182,21 +182,13 @@ LiveHTML <- R6::R6Class(
     #' @param css,xpath CSS selector or xpath expression.
     html_elements = function(css, xpath) {
       private$check_active()
-      nodes <- private$find_nodes(css, xpath)
-
-      elements <- lapply(nodes, function(node_id) {
-        json <- private$call_node_js(
-          node_id,
-          "function() { return [this.localName, this.outerHTML] }"
-        )
-
-        # Parse the outerHTML of a single element. libxml2 adds implicit <html> and
-        # <body> wrappers as needed, so we find the element by its tag name rather
-        # than assuming a fixed depth.
-        doc <- xml2::read_html(json[[2]])
-        xml2::xml_find_first(doc, paste0("descendant-or-self::", json[[1]]))
-      })
-      structure(elements, class = "xml_nodeset")
+      check_exclusive(css, xpath)
+      if (!missing(css)) {
+        # Unlike `.//`, this can also match the root <html> element
+        check_string(css)
+        xpath <- selectr::css_to_xpath(css, prefix = "descendant-or-self::")
+      }
+      xml2::xml_find_all(private$snapshot(), xpath)
     },
 
     #' @description Wait for an element to appear on the page.
@@ -530,53 +522,26 @@ LiveHTML <- R6::R6Class(
           call = call
         )
       }
-      private$find_nodes(css)[[1]]
+      private$find_node(css)
     },
 
-    find_nodes = function(css, xpath) {
-      check_exclusive(css, xpath)
-      if (!missing(css)) {
-        query <- function() {
-          self$session$DOM$querySelectorAll(private$document$id(), css)$nodeIds
-        }
-        # Cached root may be stale if the page navigated before the
-        # documentUpdated event was processed; refresh and retry once
-        ids <- tryCatch(query(), error = function(cnd) {
-          private$document$reset()
-          query()
-        })
-        unlist(ids)
-      } else {
-        # Ensure DOM agent has loaded the document before requesting nodes
-        private$document$id()
+    # Parse the current state of the page into a static xml2 document
+    snapshot = function() {
+      html <- eval_js(self$session, "document.documentElement.outerHTML")
+      xml2::read_html(html)
+    },
 
-        search <- glue::glue(
-          "
-          (function() {{
-          const xpathResult = document.evaluate({js_string(xpath)}, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-          const nodes = [];
-          for (let i = 0; i < xpathResult.snapshotLength; i++) {{
-              nodes.push(xpathResult.snapshotItem(i));
-          }}
-          return(nodes);
-          }})();
-        "
-        )
-
-        object_id <- self$session$Runtime$evaluate(search)$result$objectId
-        props <- self$session$Runtime$getProperties(
-          object_id,
-          ownProperties = TRUE
-        )
-
-        ids <- map_chr(props$result, function(prop) {
-          prop$value$objectId %||% NA_character_
-        })
-        # Drop non-nodes
-        ids <- ids[!is.na(ids)]
-
-        unlist(map(ids, self$session$DOM$requestNode), use.names = FALSE)
+    # Return the node id of the first element matching `css`
+    find_node = function(css) {
+      query <- function() {
+        self$session$DOM$querySelector(private$document$id(), css)$nodeId
       }
+      # Cached root may be stale if the page navigated before the
+      # documentUpdated event was processed; refresh and retry once
+      tryCatch(query(), error = function(cnd) {
+        private$document$reset()
+        query()
+      })
     },
 
     # Inspired by https://github.com/rstudio/shinytest2/blob/v1/R/chromote-methods.R

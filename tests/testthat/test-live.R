@@ -45,6 +45,15 @@ test_that("can find multiple elements", {
   expect_length(li, 4)
 })
 
+test_that("elements are connected to the rest of the page", {
+  skip_if_no_chromote()
+
+  bullets <- read_html_live(html_test_path("bullets"))
+  li <- html_elements(bullets, "li")
+  expect_equal(html_name(xml2::xml_parent(li[[1]])), "ul")
+  expect_length(xml2::xml_siblings(li[[1]]), 3)
+})
+
 test_that("can select html, head, and body elements", {
   skip_if_no_chromote()
 
