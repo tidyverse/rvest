@@ -60,6 +60,27 @@
       Error in `sess$wait_for()`:
       ! Failed to find selector "#nope" in 0.2 seconds.
 
+# screenshot() validates inputs
+
+    Code
+      sess$screenshot("x.gif")
+    Condition
+      Error in `sess$screenshot()`:
+      ! `path` must end in ".png", ".jpeg", ".jpg", or ".webp".
+    Code
+      sess$screenshot("x.png", css = "li", full_page = TRUE)
+    Condition
+      Error in `sess$screenshot()`:
+      ! Can't supply both `css` and `full_page = TRUE`.
+
+# can save pdf
+
+    Code
+      sess$save_pdf(path, paper = 1)
+    Condition
+      Error in `sess$save_pdf()`:
+      ! `paper` must be two positive numbers giving width and height.
+
 # mouse click on hidden element errors helpfully
 
     Code

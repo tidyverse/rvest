@@ -141,6 +141,66 @@ test_that("can download a file", {
   expect_equal(readLines(path, warn = FALSE), "hello")
 })
 
+test_that("can save screenshots", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("scroll"))
+  png <- tempfile(fileext = ".png")
+  jpg <- tempfile(fileext = ".jpg")
+
+  expect_equal(sess$screenshot(png), png)
+  expect_equal(readBin(png, "raw", 4), as.raw(c(0x89, 0x50, 0x4e, 0x47)))
+  viewport_size <- file.size(png)
+
+  sess$screenshot(png, full_page = TRUE)
+  expect_gt(file.size(png), viewport_size)
+
+  sess$screenshot(jpg, css = "body")
+  expect_equal(readBin(jpg, "raw", 2), as.raw(c(0xff, 0xd8)))
+})
+
+test_that("screenshot() validates inputs", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("bullets"))
+  expect_snapshot(error = TRUE, {
+    sess$screenshot("x.gif")
+    sess$screenshot("x.png", css = "li", full_page = TRUE)
+  })
+})
+
+test_that("can save pdf", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("bullets"))
+  path <- tempfile(fileext = ".pdf")
+  expect_equal(sess$save_pdf(path, paper = "a4", landscape = TRUE), path)
+  expect_equal(readBin(path, "raw", 4), charToRaw("%PDF"))
+
+  expect_snapshot(sess$save_pdf(path, paper = 1), error = TRUE)
+})
+
+test_that("save_html() saves static render with form state", {
+  skip_if_no_chromote()
+
+  sess <- read_html_live(html_test_path("type"))
+  sess$type("#inputText", "hello")
+  path <- tempfile(fileext = ".html")
+  expect_equal(sess$save_html(path), path)
+
+  html <- read_html(path)
+  expect_length(html_elements(html, "script"), 0)
+  expect_equal(html_attr(html_element(html, "#inputText"), "value"), "hello")
+  expect_equal(html_text(html_element(html, "#replicatedText")), "hello")
+  expect_equal(
+    html_attr(html_element(html, "base"), "href"),
+    html_test_path("type")
+  )
+
+  sess$save_html(path, base = FALSE)
+  expect_length(html_elements(read_html(path), "base"), 0)
+})
+
 test_that("can click hidden element with js method", {
   skip_if_no_chromote()
 

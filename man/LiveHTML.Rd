@@ -46,6 +46,9 @@ sess |> html_elements(".ExResult-row") |> length()
     \item \href{#method-LiveHTML-wait_for}{\code{LiveHTML$wait_for()}}
     \item \href{#method-LiveHTML-click}{\code{LiveHTML$click()}}
     \item \href{#method-LiveHTML-download}{\code{LiveHTML$download()}}
+    \item \href{#method-LiveHTML-screenshot}{\code{LiveHTML$screenshot()}}
+    \item \href{#method-LiveHTML-save_pdf}{\code{LiveHTML$save_pdf()}}
+    \item \href{#method-LiveHTML-save_html}{\code{LiveHTML$save_html()}}
     \item \href{#method-LiveHTML-get_scroll_position}{\code{LiveHTML$get_scroll_position()}}
     \item \href{#method-LiveHTML-scroll_into_view}{\code{LiveHTML$scroll_into_view()}}
     \item \href{#method-LiveHTML-scroll_to}{\code{LiveHTML$scroll_to()}}
@@ -206,6 +209,97 @@ complete.}
   \subsection{Returns}{
     The path to the downloaded file, invisibly. The file name is
 determined by the server.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-screenshot"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-screenshot}{}}}
+\subsection{\code{LiveHTML$screenshot()}}{
+  Save a screenshot of the page or of a single element.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$screenshot(path, css = NULL, full_page = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{path}}{Path to save the image to. The format is determined by the
+extension, which must be \code{.png}, \code{.jpeg}/\code{.jpg}, or \code{.webp}.}
+      \item{\code{css}}{CSS selector. If supplied, only the first matching element
+is captured.}
+      \item{\code{full_page}}{If \code{TRUE}, captures the full scrollable page, not just
+the part that is currently visible. Can't be used with \code{css}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{path}, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-save_pdf"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-save_pdf}{}}}
+\subsection{\code{LiveHTML$save_pdf()}}{
+  Save the page as a PDF, as if printed from the browser.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$save_pdf(
+  path,
+  paper = c("letter", "a4"),
+  landscape = FALSE,
+  background = TRUE
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{path}}{Path to save the PDF to.}
+      \item{\code{paper}}{Paper size: either \code{"letter"}, \code{"a4"}, or a numeric
+vector giving the width and height in inches.}
+      \item{\code{landscape}}{If \code{TRUE}, uses landscape orientation.}
+      \item{\code{background}}{If \code{TRUE}, prints background colors and images.
+Chrome doesn't print backgrounds by default, but most modern sites
+look mostly blank without them.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{path}, invisibly.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LiveHTML-save_html"></a>}}
+\if{latex}{\out{\hypertarget{method-LiveHTML-save_html}{}}}
+\subsection{\code{LiveHTML$save_html()}}{
+  Save the current state of the page as an HTML file.
+
+This is a static render of the page: it captures the DOM as it is
+right now (including the current values of form inputs), but removes
+all \verb{<script>} elements so that the page doesn't re-render or change
+when you open it. Other resources (like images and stylesheets) are
+not saved, so the file needs internet access to display correctly.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LiveHTML$save_html(path, base = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{path}}{Path to save the HTML to.}
+      \item{\code{base}}{If \code{TRUE}, adds a \verb{<base>} element pointing to the current
+URL so that relative links, images, and stylesheets continue to work
+from the saved file. Ignored if the page already has a \verb{<base>}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{path}, invisibly.
   }
 }
 
