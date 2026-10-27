@@ -267,6 +267,36 @@ test_that("hides automated browser tells", {
   ))
 })
 
+test_that("user_data_dir persists cookies across browser restarts", {
+  skip_if_no_chromote()
+
+  app <- local_test_app()
+  dir <- tempfile()
+  dir.create(dir)
+  on.exit(unlink(dir, recursive = TRUE), add = TRUE)
+  key <- live_browser_key("headless", normalizePath(dir))
+  on.exit(close_live_browser(key), add = TRUE)
+
+  sess <- read_html_live(app$url(), user_data_dir = dir)
+  eval_js(sess$session, "document.cookie = 'x=1; max-age=3600'")
+  close_live_browser(key)
+  expect_true(file.exists(file.path(dir, "Default")))
+
+  sess <- read_html_live(app$url(), user_data_dir = dir)
+  expect_equal(eval_js(sess$session, "document.cookie"), "x=1")
+  # webfakes serves one connection at a time, so release the keep-alive
+  close_live_browser(key)
+
+  sess <- read_html_live(app$url())
+  expect_equal(eval_js(sess$session, "document.cookie"), "")
+})
+
+test_that("user_data_dir can't be used with browser", {
+  expect_snapshot(error = TRUE, {
+    stealth_session(browser = "x", user_data_dir = "y")
+  })
+})
+
 test_that("view controls viewport size", {
   skip_if_no_chromote()
 

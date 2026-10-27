@@ -121,6 +121,14 @@
       Error in `sess$select()`:
       ! "p" selects a `<p>` element, not a `<select>`.
 
+# user_data_dir can't be used with browser
+
+    Code
+      stealth_session(browser = "x", user_data_dir = "y")
+    Condition
+      Error:
+      ! Can't supply both `browser` and `user_data_dir`.
+
 # gracefully errors on bad inputs
 
     Code

@@ -38,6 +38,18 @@
 #'   is launched on first use and closed when the package is unloaded; each
 #'   session gets its own tab. Supply your own browser if you need full
 #'   control over its lifecycle.
+#' @param user_data_dir Path to a directory where Chrome stores its profile
+#'   (cookies, local storage, cache, etc.). Supply this to persist state
+#'   across sessions: for example, log in once with `mode = "visible"`, then
+#'   reuse the login when scraping with `mode = "headless"`. The directory is
+#'   created if it doesn't exist. By default, Chrome uses a temporary profile
+#'   that is discarded when the browser closes.
+#'
+#'   Chrome can only use a profile from one process at a time, so switching
+#'   `mode` for the same `user_data_dir` closes the browser (and all its
+#'   sessions) that was using the other mode. Cookies are only written to
+#'   disk when the browser closes, which happens automatically when rvest is
+#'   unloaded or when you switch modes. Can't be used with `browser`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -65,7 +77,8 @@ read_html_live <- function(
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
   browser = NULL,
-  timeout = 10
+  timeout = 10,
+  user_data_dir = NULL
 ) {
   check_installed(c("chromote", "R6"))
   check_string(url, allow_empty = FALSE)
@@ -76,6 +89,7 @@ read_html_live <- function(
     view = view,
     browser = browser,
     timeout = timeout,
+    user_data_dir = user_data_dir,
     error = current_env()
   )
 }
@@ -117,7 +131,8 @@ LiveHTML <- R6::R6Class(
 
     #' @description initialize the object
     #' @param url URL to page.
-    #' @param mode,view,browser As described in [read_html_live()].
+    #' @param mode,view,browser,user_data_dir As described in
+    #'   [read_html_live()].
     #' @param timeout Number of seconds to wait for the page to load.
     #' @param error Execution environment used for error messages.
     initialize = function(
@@ -126,6 +141,7 @@ LiveHTML <- R6::R6Class(
       view = c("desktop", "mobile"),
       browser = NULL,
       timeout = 10,
+      user_data_dir = NULL,
       error = caller_env()
     ) {
       check_installed("chromote")
@@ -133,6 +149,7 @@ LiveHTML <- R6::R6Class(
         mode = mode,
         view = view,
         browser = browser,
+        user_data_dir = user_data_dir,
         error = error
       )
       private$document <- DocumentRoot$new(self$session)
@@ -691,12 +708,25 @@ stealth_session <- function(
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
   browser = NULL,
+  user_data_dir = NULL,
   error = caller_env()
 ) {
   mode <- arg_match(mode, error_call = error)
   view <- arg_match(view, error_call = error)
+  check_string(
+    user_data_dir,
+    allow_empty = FALSE,
+    allow_null = TRUE,
+    call = error
+  )
+  if (!is.null(browser) && !is.null(user_data_dir)) {
+    cli::cli_abort(
+      "Can't supply both {.arg browser} and {.arg user_data_dir}.",
+      call = error
+    )
+  }
 
-  browser <- browser %||% default_live_browser(mode)
+  browser <- browser %||% default_live_browser(mode, user_data_dir)
   session <- chromote::ChromoteSession$new(
     parent = browser,
     mobile = view == "mobile",
@@ -714,39 +744,58 @@ stealth_session <- function(
   session
 }
 
-# Package-wide browsers (one per mode) shared by all read_html_live()
-# calls, so we don't pay the cost of launching Chrome for every session.
-# Closed when the package is unloaded.
-default_live_browser <- function(mode) {
-  key <- paste0("live_browser_", mode)
-  browser <- the[[key]]
+# Package-wide browsers shared by all read_html_live() calls, so we don't
+# pay the cost of launching Chrome for every session. There's one browser
+# per mode and profile. Closed when the package is unloaded.
+default_live_browser <- function(mode, user_data_dir = NULL) {
+  if (!is.null(user_data_dir)) {
+    dir.create(user_data_dir, showWarnings = FALSE, recursive = TRUE)
+    user_data_dir <- normalizePath(user_data_dir)
+
+    # Chrome locks the profile, so release it from the other mode first
+    other <- setdiff(c("headless", "visible"), mode)
+    close_live_browser(live_browser_key(other, user_data_dir))
+  }
+
+  key <- live_browser_key(mode, user_data_dir)
+  browser <- the$live_browsers[[key]]
   if (is.null(browser) || !browser$is_active()) {
     headless <- if (mode == "headless") "new" else "false"
     local_options(chromote.headless = headless)
-    browser <- new_stealth_browser()
-    the[[key]] <- browser
+    browser <- new_stealth_browser(user_data_dir)
+    the$live_browsers[[key]] <- browser
   }
   browser
 }
 
+live_browser_key <- function(mode, user_data_dir = NULL) {
+  paste0(mode, ":", user_data_dir %||% "")
+}
+
+close_live_browser <- function(key) {
+  browser <- the$live_browsers[[key]]
+  if (!is.null(browser)) {
+    try(browser$close(), silent = TRUE)
+    the$live_browsers[[key]] <- NULL
+  }
+}
+
 close_live_browsers <- function() {
-  for (mode in c("headless", "visible")) {
-    browser <- the[[paste0("live_browser_", mode)]]
-    if (!is.null(browser)) {
-      try(browser$close(), silent = TRUE)
-    }
+  for (key in names(the$live_browsers)) {
+    close_live_browser(key)
   }
 }
 
 # Launch a browser with automation tells disabled (#407). If you create one
 # yourself, you are responsible for closing it.
-new_stealth_browser <- function() {
+new_stealth_browser <- function(user_data_dir = NULL) {
   check_installed("chromote")
   chromote::Chromote$new(
     browser = chromote::Chrome$new(
       args = c(
         chromote::default_chrome_args(),
-        "--disable-blink-features=AutomationControlled"
+        "--disable-blink-features=AutomationControlled",
+        if (!is.null(user_data_dir)) paste0("--user-data-dir=", user_data_dir)
       )
     )
   )

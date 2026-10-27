@@ -17,6 +17,7 @@
 * `read_html_live()` gains a `timeout` argument to control how long to wait for the initial page load, which is useful when using slow proxies (#427).
 * `read_html_live()` gains `mode` and `view` arguments to optionally run Chrome with a visible window or with a mobile viewport, and headless mode now defaults to `--headless=new` (#407, #438).
 * `read_html_live()` now hides common tells of an automated browser (e.g. `navigator.webdriver` and the `HeadlessChrome` user agent), making it less likely to be blocked by bot detection (#407).
+* `read_html_live()` gains a `user_data_dir` argument to persist Chrome's profile (cookies, local storage, etc.) across sessions, so you can log in once with `mode = "visible"` and then scrape with `mode = "headless"`.
 * `read_html_live()` now shares a single browser across all sessions (one per `mode`), so repeated calls no longer pay the cost of launching Chrome each time; use the new `browser` argument to supply your own browser instead.
 * `read_html_live()` now correctly handles `xpath` expressions containing single quotes (#435).
 * `read_html_live()` now errors immediately if the page fails to load (e.g. the domain doesn't exist) instead of hanging.
