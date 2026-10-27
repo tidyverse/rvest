@@ -9,7 +9,8 @@ read_html_live(
   mode = c("headless", "visible"),
   view = c("desktop", "mobile"),
   browser = NULL,
-  timeout = 10
+  timeout = 10,
+  user_data_dir = NULL
 )
 }
 \arguments{
@@ -30,6 +31,19 @@ control over its lifecycle.}
 
 \item{timeout}{Number of seconds to wait for the page to finish loading.
 You may need to increase this if you're using a slow proxy.}
+
+\item{user_data_dir}{Path to a directory where Chrome stores its profile
+(cookies, local storage, cache, etc.). Supply this to persist state
+across sessions: for example, log in once with \code{mode = "visible"}, then
+reuse the login when scraping with \code{mode = "headless"}. The directory is
+created if it doesn't exist. By default, Chrome uses a temporary profile
+that is discarded when the browser closes.
+
+Chrome can only use a profile from one process at a time, so switching
+\code{mode} for the same \code{user_data_dir} closes the browser (and all its
+sessions) that was using the other mode. Cookies are only written to
+disk when the browser closes, which happens automatically when rvest is
+unloaded or when you switch modes. Can't be used with \code{browser}.}
 }
 \value{
 \code{read_html_live()} returns an R6 \link{LiveHTML} object. You can interact
