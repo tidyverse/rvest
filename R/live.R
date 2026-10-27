@@ -343,6 +343,186 @@ LiveHTML <- R6::R6Class(
       invisible(result$filePath)
     },
 
+    #' @description Save a screenshot of the page or of a single element.
+    #' @param path Path to save the image to. The format is determined by the
+    #'   extension, which must be `.png`, `.jpeg`/`.jpg`, or `.webp`.
+    #' @param css CSS selector. If supplied, only the first matching element
+    #'   is captured.
+    #' @param full_page If `TRUE`, captures the full scrollable page, not just
+    #'   the part that is currently visible. Can't be used with `css`.
+    #' @return `path`, invisibly.
+    screenshot = function(path, css = NULL, full_page = FALSE) {
+      private$check_active()
+      check_string(path)
+      check_string(css, allow_null = TRUE)
+      check_bool(full_page)
+      if (!is.null(css) && full_page) {
+        cli::cli_abort(
+          "Can't supply both {.arg css} and {.code full_page = TRUE}."
+        )
+      }
+
+      ext <- tolower(tools::file_ext(path))
+      format <- switch(ext, png = "png", jpg = , jpeg = "jpeg", webp = "webp")
+      if (is.null(format)) {
+        cli::cli_abort(
+          "{.arg path} must end in {.val .png}, {.val .jpeg}, {.val .jpg}, or {.val .webp}."
+        )
+      }
+
+      clip <- NULL
+      if (!is.null(css)) {
+        node <- private$wait_for_selector(css)
+        self$session$DOM$scrollIntoViewIfNeeded(node)
+        box <- private$call_node_js(
+          node,
+          "function() {
+            const r = this.getBoundingClientRect();
+            return [r.x + window.scrollX, r.y + window.scrollY, r.width, r.height];
+          }"
+        )
+        if (box[[3]] == 0 || box[[4]] == 0) {
+          cli::cli_abort("Element {.str {css}} has zero size.")
+        }
+        clip <- list(
+          x = box[[1]],
+          y = box[[2]],
+          width = box[[3]],
+          height = box[[4]]
+        )
+      } else if (full_page) {
+        size <- self$session$Page$getLayoutMetrics()$cssContentSize
+        clip <- list(x = 0, y = 0, width = size$width, height = size$height)
+      }
+      if (!is.null(clip)) {
+        clip$scale <- 1
+      }
+
+      # https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-captureScreenshot
+      res <- self$session$Page$captureScreenshot(
+        format = format,
+        clip = clip,
+        captureBeyondViewport = !is.null(clip)
+      )
+      writeBin(jsonlite::base64_dec(res$data), path)
+      invisible(path)
+    },
+
+    #' @description Save the page as a PDF, as if printed from the browser.
+    #' @param path Path to save the PDF to.
+    #' @param paper Paper size: either `"letter"`, `"a4"`, or a numeric
+    #'   vector giving the width and height in inches.
+    #' @param landscape If `TRUE`, uses landscape orientation.
+    #' @param background If `TRUE`, prints background colors and images.
+    #'   Chrome doesn't print backgrounds by default, but most modern sites
+    #'   look mostly blank without them.
+    #' @return `path`, invisibly.
+    save_pdf = function(
+      path,
+      paper = c("letter", "a4"),
+      landscape = FALSE,
+      background = TRUE
+    ) {
+      private$check_active()
+      check_string(path)
+      check_bool(landscape)
+      check_bool(background)
+      if (is.numeric(paper)) {
+        if (length(paper) != 2 || anyNA(paper) || any(paper <= 0)) {
+          cli::cli_abort(
+            "{.arg paper} must be two positive numbers giving width and height."
+          )
+        }
+        size <- paper
+      } else {
+        paper <- arg_match(paper)
+        size <- switch(paper, letter = c(8.5, 11), a4 = c(8.27, 11.69))
+      }
+
+      # https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-printToPDF
+      res <- self$session$Page$printToPDF(
+        paperWidth = size[[1]],
+        paperHeight = size[[2]],
+        landscape = landscape,
+        printBackground = background
+      )
+      writeBin(jsonlite::base64_dec(res$data), path)
+      invisible(path)
+    },
+
+    #' @description Save the current state of the page as an HTML file.
+    #'
+    #' This is a static render of the page: it captures the DOM as it is
+    #' right now (including the current values of form inputs), but removes
+    #' all `<script>` elements so that the page doesn't re-render or change
+    #' when you open it. Other resources (like images and stylesheets) are
+    #' not saved, so the file needs internet access to display correctly.
+    #' @param path Path to save the HTML to.
+    #' @param base If `TRUE`, adds a `<base>` element pointing to the current
+    #'   URL so that relative links, images, and stylesheets continue to work
+    #'   from the saved file. Ignored if the page already has a `<base>`.
+    #' @return `path`, invisibly.
+    save_html = function(path, base = TRUE) {
+      private$check_active()
+      check_string(path)
+      check_bool(base)
+
+      js <- paste0(
+        "(() => {
+          const orig = document.documentElement;
+          const doc = orig.cloneNode(true);
+
+          // Sync live form state into attributes so it is serialized
+          const fields = 'input, textarea, option';
+          const from = orig.querySelectorAll(fields);
+          const to = doc.querySelectorAll(fields);
+          for (let i = 0; i < from.length; i++) {
+            const f = from[i], t = to[i];
+            if (f.localName === 'option') {
+              t.toggleAttribute('selected', f.selected);
+            } else if (f.localName === 'textarea') {
+              t.textContent = f.value;
+            } else if (f.type === 'checkbox' || f.type === 'radio') {
+              t.toggleAttribute('checked', f.checked);
+            } else if (f.type !== 'file' && f.type !== 'password') {
+              t.setAttribute('value', f.value);
+            }
+          }
+
+          doc.querySelectorAll('script').forEach(el => el.remove());
+
+          let head = doc.querySelector('head');
+          if (!head) {
+            head = document.createElement('head');
+            doc.prepend(head);
+          }
+          if (",
+        tolower(base),
+        " && !doc.querySelector('base')) {
+            const el = document.createElement('base');
+            el.setAttribute('href', document.baseURI);
+            head.prepend(el);
+          }
+          if (!doc.querySelector('meta[charset]')) {
+            const el = document.createElement('meta');
+            el.setAttribute('charset', 'utf-8');
+            head.prepend(el);
+          }
+
+          const doctype = document.doctype ?
+            new XMLSerializer().serializeToString(document.doctype) + '\\n' :
+            '';
+          return doctype + doc.outerHTML;
+        })()"
+      )
+      html <- eval_js(self$session, js)
+
+      con <- file(path, open = "wb")
+      on.exit(close(con))
+      writeLines(enc2utf8(html), con, useBytes = TRUE)
+      invisible(path)
+    },
+
     #' @description Get the current scroll position.
     get_scroll_position = function() {
       private$check_active()
